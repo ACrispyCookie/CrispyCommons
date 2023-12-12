@@ -17,7 +17,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public abstract class CrispyHologramImpl implements CrispyHologram{
+public abstract class CrispyHologramImpl implements CrispyHologram {
 
     protected final JavaPlugin plugin;
     protected final ArrayList<Player> receiverList;

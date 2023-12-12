@@ -14,6 +14,8 @@ public class SimpleHologramBuilder {
     private HologramText text;
     private Location location;
     private int tickLifetime;
+    private boolean isPublic;
+    public void onClick(Player player, int lineIndex) {}
 
     public SimpleHologramBuilder(JavaPlugin plugin) {
         this.receiverList = new ArrayList<>();
@@ -45,16 +47,25 @@ public class SimpleHologramBuilder {
         return this;
     }
 
-    public void onClick(Player player, int lineIndex) {
-        return;
+    public SimpleHologramBuilder setPublic(boolean isPublic) {
+        this.isPublic = isPublic;
+        return this;
     }
 
     public SimpleCrispyHologram build() {
-        return new SimpleCrispyHologram(plugin, receiverList, text, location, tickLifetime) {
-            @Override
-            public void onClick(Player player, int lineIndex) {
-                SimpleHologramBuilder.this.onClick(player, lineIndex);
-            }
-        };
+        if(isPublic)
+            return new SimpleCrispyHologram(plugin, receiverList, text, location, tickLifetime) {
+                @Override
+                public void onClick(Player player, int lineIndex) {
+                    SimpleHologramBuilder.this.onClick(player, lineIndex);
+                }
+            };
+        else
+            return new PublicCrispyHologram(plugin, text, location, tickLifetime) {
+                @Override
+                public void onClick(Player player, int lineIndex) {
+                    SimpleHologramBuilder.this.onClick(player, lineIndex);
+                }
+            };
     }
 }

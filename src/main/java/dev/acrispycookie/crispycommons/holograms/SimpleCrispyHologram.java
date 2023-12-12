@@ -37,7 +37,7 @@ public abstract class SimpleCrispyHologram extends CrispyHologramImpl {
         setupArmorStands(text.getCurrentLines());
     }
 
-    @Override
+     @Override
     protected void displayToPlayer(Player player) {
         spawnArmorStands(player);
     }
