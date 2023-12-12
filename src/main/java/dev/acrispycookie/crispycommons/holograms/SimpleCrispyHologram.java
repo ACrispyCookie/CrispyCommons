@@ -1,68 +1,120 @@
 package dev.acrispycookie.crispycommons.holograms;
 
+import com.mysql.jdbc.StringUtils;
+import dev.acrispycookie.crispycommons.holograms.text.AnimatedHologramText;
+import dev.acrispycookie.crispycommons.holograms.text.HologramText;
+import net.minecraft.server.v1_8_R3.EntityArmorStand;
+import net.minecraft.server.v1_8_R3.PacketPlayOutEntityDestroy;
+import net.minecraft.server.v1_8_R3.PacketPlayOutEntityMetadata;
+import net.minecraft.server.v1_8_R3.PacketPlayOutSpawnEntity;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitTask;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class SimpleCrispyHologram extends CrispyHologramImpl {
+public abstract class SimpleCrispyHologram extends CrispyHologramImpl {
 
-    private Runnable onClick;
     private int animationTask;
+    private final ArrayList<EntityArmorStand> stands = new ArrayList<>();
 
-    public SimpleCrispyHologram(JavaPlugin plugin, Collection<? extends Player> receiverList, HologramText text, Location location) {
-        super(plugin, receiverList, text, location);
-        if(text.isAnimated())
+    public SimpleCrispyHologram(JavaPlugin plugin, Collection<? extends Player> receiverList, HologramText text, Location location, int tickLifetime) {
+        super(plugin, receiverList, text, location, tickLifetime);
+        if(text instanceof AnimatedHologramText)
             setupAnimationTask();
+        setupArmorStands(text.getCurrentLines());
     }
 
-    public SimpleCrispyHologram(JavaPlugin plugin, Player receiver, HologramText text, , Location location) {
-        super(plugin, receiver, text, location);
-        if(text.isAnimated())
+    public SimpleCrispyHologram(JavaPlugin plugin, Player receiver, HologramText text, Location location, int tickLifetime) {
+        super(plugin, receiver, text, location, tickLifetime);
+        if(text instanceof AnimatedHologramText)
             setupAnimationTask();
-    }
-
-    public SimpleCrispyHologram clickable(Runnable onClick) {
-        this.onClick = onClick;
-        return this;
+        setupArmorStands(text.getCurrentLines());
     }
 
     @Override
-    protected void displayToPlayer(Player player, int tickLifetime) {
-
+    protected void displayToPlayer(Player player) {
+        spawnArmorStands(player);
     }
 
     @Override
     protected void hideFromPlayer(Player player) {
-        if(text.isAnimated())
+        if(text instanceof AnimatedHologramText)
             Bukkit.getScheduler().cancelTask(animationTask);
-
-
-    }
-
-    @Override
-    public void click(Player player) {
-        onClick.run();
+        despawnArmorStands(player);
     }
 
     @Override
     public void update() {
         String lines = text.getCurrentText();
-
+        String[] split = lines.split("\n");
+        for(int i = 0; i < split.length; i++) {
+            updateArmorStandLine(i, split[i]);
+        }
     }
 
     @Override
     public void handleTextChange() {
-        if(text.isAnimated())
-            setupAnimationTask();
         update();
+        if(animationTask != -1)
+            Bukkit.getScheduler().cancelTask(animationTask);
+        if(text instanceof AnimatedHologramText)
+            setupAnimationTask();
+    }
+
+    private void setupArmorStands(ArrayList<String> lines) {
+        for(String s : lines) {
+            if(!StringUtils.isEmptyOrWhitespaceOnly(s)) {
+                EntityArmorStand as = new EntityArmorStand(((CraftWorld) location.getWorld()).getHandle(), location.getX(), location.getY() - (stands.size() * 0.25), location.getZ());
+                as.setInvisible(true);
+                as.setGravity(false);
+                as.setCustomNameVisible(true);
+                as.setCustomName(ChatColor.translateAlternateColorCodes('&', s));
+                as.setSmall(true);
+                stands.add(as);
+            }
+            else {
+                stands.add(null);
+            }
+        }
+    }
+
+    private void spawnArmorStands(Player player) {
+        for(EntityArmorStand eas : stands) {
+            if(eas != null) {
+                PacketPlayOutSpawnEntity spawn = new PacketPlayOutSpawnEntity(eas, 78);
+                PacketPlayOutEntityMetadata metadata = new PacketPlayOutEntityMetadata(eas.getId(), eas.getDataWatcher(), true);
+                ((CraftPlayer) player).getHandle().playerConnection.sendPacket(spawn);
+                ((CraftPlayer) player).getHandle().playerConnection.sendPacket(metadata);
+            }
+        }
+    }
+
+    private void despawnArmorStands(Player player) {
+        for(EntityArmorStand eas : stands) {
+            if(eas != null) {
+                PacketPlayOutEntityDestroy spawn = new PacketPlayOutEntityDestroy(eas.getId());
+                ((CraftPlayer) player).getHandle().playerConnection.sendPacket(spawn);
+            }
+        }
+    }
+
+    private void updateArmorStandLine(int index, String text) {
+        EntityArmorStand eas = stands.get(index);
+        if(eas != null) {
+            eas.setCustomName(ChatColor.translateAlternateColorCodes('&', text));
+            PacketPlayOutEntityMetadata metadata = new PacketPlayOutEntityMetadata(eas.getId(), eas.getDataWatcher(), true);
+            receiverList.forEach(player -> ((CraftPlayer) player).getHandle().playerConnection.sendPacket(metadata));
+        }
     }
 
     private void setupAnimationTask() {
-        this.animationTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, this::update, 0L, text.getAnimationPeriod());
+        AnimatedHologramText animatedHologramText = (AnimatedHologramText) this.text;
+        this.animationTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, this::update, 0L, animatedHologramText.getAnimationPeriod());
     }
 }

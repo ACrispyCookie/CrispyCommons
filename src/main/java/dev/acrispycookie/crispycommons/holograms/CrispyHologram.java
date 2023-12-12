@@ -5,8 +5,7 @@ import org.bukkit.entity.Player;
 public interface CrispyHologram {
 
     void display();
-    void display(int tickLifetime);
     void update();
     void destroy();
-    void click(Player p);
+    void onClick(Player player, int lineIndex);
 }

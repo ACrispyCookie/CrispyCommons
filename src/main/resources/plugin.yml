@@ -1,3 +1,0 @@
-name: CrispyCommons
-version: '${project.version}'
-main: dev.acrispycookie.crispycommons.CrispyCommons
