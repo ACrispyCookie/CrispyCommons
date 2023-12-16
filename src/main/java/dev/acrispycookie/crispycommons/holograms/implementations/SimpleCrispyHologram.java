@@ -1,6 +1,7 @@
-package dev.acrispycookie.crispycommons.holograms;
+package dev.acrispycookie.crispycommons.holograms.implementations;
 
 import com.mysql.jdbc.StringUtils;
+import dev.acrispycookie.crispycommons.holograms.AbstractCrispyHologram;
 import dev.acrispycookie.crispycommons.text.AnimatedText;
 import dev.acrispycookie.crispycommons.text.CrispyText;
 import net.minecraft.server.v1_8_R3.EntityArmorStand;
@@ -18,7 +19,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public abstract class SimpleCrispyHologram extends CrispyHologramImpl {
+public abstract class SimpleCrispyHologram extends AbstractCrispyHologram {
 
     private int animationTask;
     private final ArrayList<EntityArmorStand> stands = new ArrayList<>();

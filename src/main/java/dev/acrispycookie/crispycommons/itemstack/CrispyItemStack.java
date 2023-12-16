@@ -1,5 +1,6 @@
 package dev.acrispycookie.crispycommons.itemstack;
 
+import dev.acrispycookie.crispycommons.utility.ItemStackNBT;
 import net.minecraft.server.v1_8_R3.NBTBase;
 import net.minecraft.server.v1_8_R3.NBTTagList;
 import org.bukkit.ChatColor;
@@ -11,7 +12,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 
-public class CrispyItemStack extends ItemStack {
+public class CrispyItemStack extends ItemStack implements CrispyItem {
 
     public CrispyItemStack(ItemStack itemStack) {
         super(itemStack);
@@ -82,10 +83,6 @@ public class CrispyItemStack extends ItemStack {
         return this;
     }
 
-    public boolean hasFlag(ItemFlag flag) {
-        return this.getItemMeta().hasItemFlag(flag);
-    }
-
 
     public CrispyItemStack unbreakable(boolean unb) {
         ItemMeta meta = this.getItemMeta();
@@ -118,6 +115,10 @@ public class CrispyItemStack extends ItemStack {
     public CrispyItemStack removeTag(String identifier) {
         ItemStackNBT.removeTag(this, identifier);
         return this;
+    }
+
+    public boolean hasFlag(ItemFlag flag) {
+        return this.getItemMeta().hasItemFlag(flag);
     }
 
     public NBTBase getTag(String identifier) {

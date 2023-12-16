@@ -9,7 +9,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public abstract class CrispyHologramImpl implements CrispyHologram {
+public abstract class AbstractCrispyHologram implements CrispyHologram {
 
     protected final JavaPlugin plugin;
     protected final ArrayList<Player> receiverList;
@@ -21,7 +21,7 @@ public abstract class CrispyHologramImpl implements CrispyHologram {
     protected abstract void handleTextChange();
     public abstract void onClick(Player player, int lineIndex);
 
-    public CrispyHologramImpl(JavaPlugin plugin, Collection<? extends Player> receiverList, CrispyText text, Location location, int tickLifetime) {
+    public AbstractCrispyHologram(JavaPlugin plugin, Collection<? extends Player> receiverList, CrispyText text, Location location, int tickLifetime) {
         this.plugin = plugin;
         this.receiverList = new ArrayList<>(receiverList);
         this.text = text;
@@ -33,7 +33,7 @@ public abstract class CrispyHologramImpl implements CrispyHologram {
         }
     }
 
-    public CrispyHologramImpl(JavaPlugin plugin, Player receiver, CrispyText text, Location location, int tickLifetime) {
+    public AbstractCrispyHologram(JavaPlugin plugin, Player receiver, CrispyText text, Location location, int tickLifetime) {
         this.plugin = plugin;
         this.receiverList = new ArrayList<>();
         this.receiverList.add(receiver);

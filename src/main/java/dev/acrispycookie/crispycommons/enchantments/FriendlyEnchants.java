@@ -1,6 +1,5 @@
 package dev.acrispycookie.crispycommons.enchantments;
 
-import dev.acrispycookie.crispycommons.holograms.SimpleHologramBuilder;
 import org.bukkit.enchantments.Enchantment;
 
 public enum FriendlyEnchants {

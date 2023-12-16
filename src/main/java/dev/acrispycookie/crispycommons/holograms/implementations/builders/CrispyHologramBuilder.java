@@ -1,5 +1,7 @@
-package dev.acrispycookie.crispycommons.holograms;
+package dev.acrispycookie.crispycommons.holograms.implementations.builders;
 
+import dev.acrispycookie.crispycommons.holograms.implementations.PublicCrispyHologram;
+import dev.acrispycookie.crispycommons.holograms.implementations.SimpleCrispyHologram;
 import dev.acrispycookie.crispycommons.text.CrispyText;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -8,7 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class SimpleHologramBuilder {
+public class CrispyHologramBuilder {
     private final JavaPlugin plugin;
     private final ArrayList<Player> receiverList;
     private CrispyText text;
@@ -17,37 +19,37 @@ public class SimpleHologramBuilder {
     private boolean isPublic;
     public void onClick(Player player, int lineIndex) {}
 
-    public SimpleHologramBuilder(JavaPlugin plugin) {
+    public CrispyHologramBuilder(JavaPlugin plugin) {
         this.receiverList = new ArrayList<>();
         this.plugin = plugin;
     }
 
-    public SimpleHologramBuilder addPlayer(Player player) {
+    public CrispyHologramBuilder addPlayer(Player player) {
         receiverList.add(player);
         return this;
     }
 
-    public SimpleHologramBuilder addPlayers(Collection<? extends Player> players) {
+    public CrispyHologramBuilder addPlayers(Collection<? extends Player> players) {
         receiverList.addAll(players);
         return this;
     }
 
-    public SimpleHologramBuilder text(CrispyText text) {
+    public CrispyHologramBuilder text(CrispyText text) {
         this.text = text;
         return this;
     }
 
-    public SimpleHologramBuilder location(Location location) {
+    public CrispyHologramBuilder location(Location location) {
         this.location = location;
         return this;
     }
 
-    public SimpleHologramBuilder tickLifetime(int tickLifetime) {
+    public CrispyHologramBuilder tickLifetime(int tickLifetime) {
         this.tickLifetime = tickLifetime;
         return this;
     }
 
-    public SimpleHologramBuilder setPublic(boolean isPublic) {
+    public CrispyHologramBuilder setPublic(boolean isPublic) {
         this.isPublic = isPublic;
         return this;
     }
@@ -57,14 +59,14 @@ public class SimpleHologramBuilder {
             return new SimpleCrispyHologram(plugin, receiverList, text, location, tickLifetime) {
                 @Override
                 public void onClick(Player player, int lineIndex) {
-                    SimpleHologramBuilder.this.onClick(player, lineIndex);
+                    CrispyHologramBuilder.this.onClick(player, lineIndex);
                 }
             };
         else
             return new PublicCrispyHologram(plugin, text, location, tickLifetime) {
                 @Override
                 public void onClick(Player player, int lineIndex) {
-                    SimpleHologramBuilder.this.onClick(player, lineIndex);
+                    CrispyHologramBuilder.this.onClick(player, lineIndex);
                 }
             };
     }

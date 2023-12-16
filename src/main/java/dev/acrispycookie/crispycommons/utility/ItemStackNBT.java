@@ -1,4 +1,4 @@
-package dev.acrispycookie.crispycommons.itemstack;
+package dev.acrispycookie.crispycommons.utility;
 
 import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.Material;
@@ -7,7 +7,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class ItemStackNBT {
 	
-	protected static ItemStack addTag(ItemStack i, String identifier, NBTBase value) {
+	public static ItemStack addTag(ItemStack i, String identifier, NBTBase value) {
 		net.minecraft.server.v1_8_R3.ItemStack nmsItem = CraftItemStack.asNMSCopy(i);
 		NBTTagCompound tag = nmsItem.hasTag() ? nmsItem.getTag() : new NBTTagCompound();
 		tag.set(identifier, value);
@@ -15,7 +15,7 @@ public class ItemStackNBT {
 		return CraftItemStack.asBukkitCopy(nmsItem);
 	}
 
-	protected static ItemStack removeTag(ItemStack i, String identifier) {
+	public static ItemStack removeTag(ItemStack i, String identifier) {
 		net.minecraft.server.v1_8_R3.ItemStack nmsItem = CraftItemStack.asNMSCopy(i);
 		NBTTagCompound tag = nmsItem.hasTag() ? nmsItem.getTag() : new NBTTagCompound();
 		tag.remove(identifier);
@@ -23,7 +23,7 @@ public class ItemStackNBT {
 		return CraftItemStack.asBukkitCopy(nmsItem);
 	}
 
-	protected static NBTBase getTag(ItemStack i, String identifier) {
+	public static NBTBase getTag(ItemStack i, String identifier) {
 		net.minecraft.server.v1_8_R3.ItemStack nmsItem = CraftItemStack.asNMSCopy(i);
 		if(nmsItem.hasTag() && nmsItem.getTag().hasKey(identifier)) {
 			return nmsItem.getTag().get(identifier);
@@ -31,7 +31,7 @@ public class ItemStackNBT {
 		return null;
 	}
 
-	protected static boolean hasTag(ItemStack i, String identifier) {
+	public static boolean hasTag(ItemStack i, String identifier) {
 		net.minecraft.server.v1_8_R3.ItemStack nmsItem = CraftItemStack.asNMSCopy(i);
 		if(i != null && i.getType() != Material.AIR && i.getItemMeta() != null && nmsItem.hasTag()) {
 			return nmsItem.getTag().hasKey(identifier);
@@ -39,7 +39,7 @@ public class ItemStackNBT {
 		return false;
 	}
 
-	protected static int getInt(ItemStack i, String identifier) {
+	public static int getInt(ItemStack i, String identifier) {
 		net.minecraft.server.v1_8_R3.ItemStack nmsItem = CraftItemStack.asNMSCopy(i);
 		if(nmsItem.hasTag() && nmsItem.getTag().hasKey(identifier) && nmsItem.getTag().get(identifier).getTypeId() == 3) {
 			return ((NBTTagInt) nmsItem.getTag().get(identifier)).d();
@@ -47,7 +47,7 @@ public class ItemStackNBT {
 		return 0;
 	}
 
-	protected static double getDouble(ItemStack i, String identifier) {
+	public static double getDouble(ItemStack i, String identifier) {
 		net.minecraft.server.v1_8_R3.ItemStack nmsItem = CraftItemStack.asNMSCopy(i);
 		if(nmsItem.hasTag() && nmsItem.getTag().hasKey(identifier) && nmsItem.getTag().get(identifier).getTypeId() == 6) {
 			return ((NBTTagDouble) nmsItem.getTag().get(identifier)).g();
@@ -55,7 +55,7 @@ public class ItemStackNBT {
 		return 0;
 	}
 
-	protected static long getLong(ItemStack i, String identifier) {
+	public static long getLong(ItemStack i, String identifier) {
 		net.minecraft.server.v1_8_R3.ItemStack nmsItem = CraftItemStack.asNMSCopy(i);
 		if(nmsItem.hasTag() && nmsItem.getTag().hasKey(identifier) && nmsItem.getTag().get(identifier).getTypeId() == 4) {
 			return ((NBTTagLong) nmsItem.getTag().get(identifier)).c();
@@ -63,7 +63,7 @@ public class ItemStackNBT {
 		return 0;
 	}
 
-	protected static boolean getBoolean(ItemStack i, String identifier) {
+	public static boolean getBoolean(ItemStack i, String identifier) {
 		net.minecraft.server.v1_8_R3.ItemStack nmsItem = CraftItemStack.asNMSCopy(i);
 		if(nmsItem.hasTag() && nmsItem.getTag().hasKey(identifier) && nmsItem.getTag().get(identifier).getTypeId() == 3) {
 			return ((NBTTagInt) nmsItem.getTag().get(identifier)).d() == 1;
@@ -71,7 +71,7 @@ public class ItemStackNBT {
 		return false;
 	}
 
-	protected static String getString(ItemStack i, String identifier) {
+	public static String getString(ItemStack i, String identifier) {
 		net.minecraft.server.v1_8_R3.ItemStack nmsItem = CraftItemStack.asNMSCopy(i);
 		if(nmsItem.hasTag() && nmsItem.getTag().hasKey(identifier)) {
 			return nmsItem.getTag().getString(identifier);

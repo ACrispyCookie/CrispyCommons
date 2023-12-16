@@ -1,4 +1,4 @@
-package dev.acrispycookie.crispycommons.itemstack;
+package dev.acrispycookie.crispycommons.itemstack.implementations;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -49,5 +49,19 @@ public class CrispyPlayerHeadItem extends CrispyHeadItem {
         return obj.getAsJsonArray("properties").get(0).getAsJsonObject().get("value").getAsString();
     }
 
+    private SkullMeta setSkinToBase64(SkullMeta meta, String base64) {
+        GameProfile profile = new GameProfile(UUID.randomUUID(), null);
+        profile.getProperties().put("textures", new Property("textures", base64));
+        Field profileField;
+        try {
+            profileField = meta.getClass().getDeclaredField("profile");
+            profileField.setAccessible(true);
+            profileField.set(meta, profile);
+        } catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        }
+
+        return meta;
+    }
 
 }

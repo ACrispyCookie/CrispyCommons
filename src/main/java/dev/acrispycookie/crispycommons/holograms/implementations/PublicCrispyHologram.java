@@ -1,4 +1,4 @@
-package dev.acrispycookie.crispycommons.holograms;
+package dev.acrispycookie.crispycommons.holograms.implementations;
 
 import dev.acrispycookie.crispycommons.text.CrispyText;
 import org.bukkit.Bukkit;
