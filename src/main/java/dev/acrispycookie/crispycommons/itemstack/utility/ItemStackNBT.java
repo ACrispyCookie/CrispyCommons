@@ -1,4 +1,4 @@
-package dev.acrispycookie.crispycommons.utility;
+package dev.acrispycookie.crispycommons.itemstack.utility;
 
 import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.Material;

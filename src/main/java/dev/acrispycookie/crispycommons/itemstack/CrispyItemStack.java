@@ -1,6 +1,6 @@
 package dev.acrispycookie.crispycommons.itemstack;
 
-import dev.acrispycookie.crispycommons.utility.ItemStackNBT;
+import dev.acrispycookie.crispycommons.itemstack.utility.ItemStackNBT;
 import net.minecraft.server.v1_8_R3.NBTBase;
 import net.minecraft.server.v1_8_R3.NBTTagList;
 import org.bukkit.ChatColor;
