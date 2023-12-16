@@ -1,6 +1,6 @@
 package dev.acrispycookie.crispycommons.holograms;
 
-import dev.acrispycookie.crispycommons.holograms.text.HologramText;
+import dev.acrispycookie.crispycommons.text.CrispyText;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -11,7 +11,7 @@ import java.util.Collection;
 public class SimpleHologramBuilder {
     private final JavaPlugin plugin;
     private final ArrayList<Player> receiverList;
-    private HologramText text;
+    private CrispyText text;
     private Location location;
     private int tickLifetime;
     private boolean isPublic;
@@ -32,7 +32,7 @@ public class SimpleHologramBuilder {
         return this;
     }
 
-    public SimpleHologramBuilder text(HologramText text) {
+    public SimpleHologramBuilder text(CrispyText text) {
         this.text = text;
         return this;
     }

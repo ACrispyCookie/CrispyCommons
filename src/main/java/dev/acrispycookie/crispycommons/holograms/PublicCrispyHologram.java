@@ -1,6 +1,6 @@
 package dev.acrispycookie.crispycommons.holograms;
 
-import dev.acrispycookie.crispycommons.holograms.text.HologramText;
+import dev.acrispycookie.crispycommons.text.CrispyText;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
@@ -12,7 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public abstract class PublicCrispyHologram extends SimpleCrispyHologram implements Listener {
 
-    public PublicCrispyHologram(JavaPlugin plugin, HologramText text, Location location, int tickLifetime) {
+    public PublicCrispyHologram(JavaPlugin plugin, CrispyText text, Location location, int tickLifetime) {
         super(plugin, Bukkit.getOnlinePlayers(), text, location, tickLifetime);
         Bukkit.getPluginManager().registerEvents(this, plugin);
     }

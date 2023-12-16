@@ -1,4 +1,4 @@
-package dev.acrispycookie.crispycommons.holograms.text;
+package dev.acrispycookie.crispycommons.text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,7 +31,7 @@ public class SimpleTextBuilder {
         return this;
     }
 
-    public SimpleHologramText build() {
-        return new SimpleHologramText(lines);
+    public SimpleCrispyText build() {
+        return new SimpleCrispyText(lines);
     }
 }

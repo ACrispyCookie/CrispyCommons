@@ -1,11 +1,11 @@
-package dev.acrispycookie.crispycommons.holograms.text;
+package dev.acrispycookie.crispycommons.text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class AnimatedTextBuilder {
 
-    private final ArrayList<SimpleHologramText> frames = new ArrayList<>();
+    private final ArrayList<SimpleCrispyText> frames = new ArrayList<>();
     private int animationPeriod = 1;
 
     public AnimatedTextBuilder setAnimationPeriod(int animationPeriod) {
@@ -13,14 +13,14 @@ public class AnimatedTextBuilder {
         return this;
     }
 
-    public AnimatedTextBuilder addFrame(SimpleHologramText frame) {
+    public AnimatedTextBuilder addFrame(SimpleCrispyText frame) {
         frames.add(frame);
         return this;
     }
 
-    public AnimatedHologramText addFrames(SimpleHologramText... frames) {
+    public AnimatedText addFrames(SimpleCrispyText... frames) {
         this.frames.addAll(Arrays.asList(frames));
-        return new AnimatedHologramText(this.frames, 1);
+        return new AnimatedText(this.frames, 1);
     }
 
     public AnimatedTextBuilder removeFrame(int frame) {
@@ -28,12 +28,12 @@ public class AnimatedTextBuilder {
         return this;
     }
 
-    public AnimatedTextBuilder setFrame(int frame, SimpleHologramText text) {
+    public AnimatedTextBuilder setFrame(int frame, SimpleCrispyText text) {
         frames.set(frame, text);
         return this;
     }
 
-    public AnimatedHologramText build() {
-        return new AnimatedHologramText(frames, animationPeriod);
+    public AnimatedText build() {
+        return new AnimatedText(frames, animationPeriod);
     }
 }

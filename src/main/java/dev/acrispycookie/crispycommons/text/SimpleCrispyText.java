@@ -1,17 +1,17 @@
-package dev.acrispycookie.crispycommons.holograms.text;
+package dev.acrispycookie.crispycommons.text;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class SimpleHologramText extends HologramText {
+public class SimpleCrispyText extends CrispyText {
 
-    public SimpleHologramText(String text) {
+    public SimpleCrispyText(String text) {
         ArrayList<String> lines = new ArrayList<>();
         Collections.addAll(lines, text.split("\n"));
         this.currentText = lines;
     }
 
-    public SimpleHologramText(ArrayList<String> text) {
+    public SimpleCrispyText(ArrayList<String> text) {
         this.currentText = text;
     }
 
@@ -25,17 +25,17 @@ public class SimpleHologramText extends HologramText {
         return currentText;
     }
 
-    public SimpleHologramText addLine(String line) {
+    public SimpleCrispyText addLine(String line) {
         currentText.add(line);
         return this;
     }
 
-    public SimpleHologramText removeLine(int line) {
+    public SimpleCrispyText removeLine(int line) {
         currentText.remove(line);
         return this;
     }
 
-    public SimpleHologramText setLine(int line, String text) {
+    public SimpleCrispyText setLine(int line, String text) {
         currentText.set(line, text);
         return this;
     }

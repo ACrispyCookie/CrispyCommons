@@ -1,16 +1,8 @@
 package dev.acrispycookie.crispycommons.holograms;
 
-import com.mysql.jdbc.StringUtils;
-import dev.acrispycookie.crispycommons.holograms.text.HologramText;
-import net.minecraft.server.v1_8_R3.EntityArmorStand;
-import net.minecraft.server.v1_8_R3.PacketPlayOutEntityDestroy;
-import net.minecraft.server.v1_8_R3.PacketPlayOutEntityMetadata;
-import net.minecraft.server.v1_8_R3.PacketPlayOutSpawnEntity;
+import dev.acrispycookie.crispycommons.text.CrispyText;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -21,7 +13,7 @@ public abstract class CrispyHologramImpl implements CrispyHologram {
 
     protected final JavaPlugin plugin;
     protected final ArrayList<Player> receiverList;
-    protected HologramText text;
+    protected CrispyText text;
     protected int tickLifetime;
     protected final Location location;
     protected abstract void displayToPlayer(Player player);
@@ -29,7 +21,7 @@ public abstract class CrispyHologramImpl implements CrispyHologram {
     protected abstract void handleTextChange();
     public abstract void onClick(Player player, int lineIndex);
 
-    public CrispyHologramImpl(JavaPlugin plugin, Collection<? extends Player> receiverList, HologramText text, Location location, int tickLifetime) {
+    public CrispyHologramImpl(JavaPlugin plugin, Collection<? extends Player> receiverList, CrispyText text, Location location, int tickLifetime) {
         this.plugin = plugin;
         this.receiverList = new ArrayList<>(receiverList);
         this.text = text;
@@ -41,7 +33,7 @@ public abstract class CrispyHologramImpl implements CrispyHologram {
         }
     }
 
-    public CrispyHologramImpl(JavaPlugin plugin, Player receiver, HologramText text, Location location, int tickLifetime) {
+    public CrispyHologramImpl(JavaPlugin plugin, Player receiver, CrispyText text, Location location, int tickLifetime) {
         this.plugin = plugin;
         this.receiverList = new ArrayList<>();
         this.receiverList.add(receiver);
@@ -65,7 +57,7 @@ public abstract class CrispyHologramImpl implements CrispyHologram {
         receiverList.forEach(this::hideFromPlayer);
     }
 
-    public void changeText(HologramText text) {
+    public void changeText(CrispyText text) {
         this.text = text;
         handleTextChange();
     }

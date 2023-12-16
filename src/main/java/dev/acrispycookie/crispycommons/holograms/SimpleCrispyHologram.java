@@ -1,8 +1,8 @@
 package dev.acrispycookie.crispycommons.holograms;
 
 import com.mysql.jdbc.StringUtils;
-import dev.acrispycookie.crispycommons.holograms.text.AnimatedHologramText;
-import dev.acrispycookie.crispycommons.holograms.text.HologramText;
+import dev.acrispycookie.crispycommons.text.AnimatedText;
+import dev.acrispycookie.crispycommons.text.CrispyText;
 import net.minecraft.server.v1_8_R3.EntityArmorStand;
 import net.minecraft.server.v1_8_R3.PacketPlayOutEntityDestroy;
 import net.minecraft.server.v1_8_R3.PacketPlayOutEntityMetadata;
@@ -23,16 +23,16 @@ public abstract class SimpleCrispyHologram extends CrispyHologramImpl {
     private int animationTask;
     private final ArrayList<EntityArmorStand> stands = new ArrayList<>();
 
-    public SimpleCrispyHologram(JavaPlugin plugin, Collection<? extends Player> receiverList, HologramText text, Location location, int tickLifetime) {
+    public SimpleCrispyHologram(JavaPlugin plugin, Collection<? extends Player> receiverList, CrispyText text, Location location, int tickLifetime) {
         super(plugin, receiverList, text, location, tickLifetime);
-        if(text instanceof AnimatedHologramText)
+        if(text instanceof AnimatedText)
             setupAnimationTask();
         setupArmorStands(text.getCurrentLines());
     }
 
-    public SimpleCrispyHologram(JavaPlugin plugin, Player receiver, HologramText text, Location location, int tickLifetime) {
+    public SimpleCrispyHologram(JavaPlugin plugin, Player receiver, CrispyText text, Location location, int tickLifetime) {
         super(plugin, receiver, text, location, tickLifetime);
-        if(text instanceof AnimatedHologramText)
+        if(text instanceof AnimatedText)
             setupAnimationTask();
         setupArmorStands(text.getCurrentLines());
     }
@@ -44,7 +44,7 @@ public abstract class SimpleCrispyHologram extends CrispyHologramImpl {
 
     @Override
     protected void hideFromPlayer(Player player) {
-        if(text instanceof AnimatedHologramText)
+        if(text instanceof AnimatedText)
             Bukkit.getScheduler().cancelTask(animationTask);
         despawnArmorStands(player);
     }
@@ -63,7 +63,7 @@ public abstract class SimpleCrispyHologram extends CrispyHologramImpl {
         update();
         if(animationTask != -1)
             Bukkit.getScheduler().cancelTask(animationTask);
-        if(text instanceof AnimatedHologramText)
+        if(text instanceof AnimatedText)
             setupAnimationTask();
     }
 
@@ -114,7 +114,7 @@ public abstract class SimpleCrispyHologram extends CrispyHologramImpl {
     }
 
     private void setupAnimationTask() {
-        AnimatedHologramText animatedHologramText = (AnimatedHologramText) this.text;
-        this.animationTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, this::update, 0L, animatedHologramText.getAnimationPeriod());
+        AnimatedText animatedText = (AnimatedText) this.text;
+        this.animationTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, this::update, 0L, animatedText.getAnimationPeriod());
     }
 }

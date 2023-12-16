@@ -1,14 +1,14 @@
-package dev.acrispycookie.crispycommons.holograms.text;
+package dev.acrispycookie.crispycommons.text;
 
 import java.util.ArrayList;
 
-public class AnimatedHologramText extends HologramText {
+public class AnimatedText extends CrispyText {
 
-    private final ArrayList<SimpleHologramText> animation;
+    private final ArrayList<SimpleCrispyText> animation;
     private final int animationPeriod;
     private int animationPhase = 0;
 
-    public AnimatedHologramText(ArrayList<SimpleHologramText> animation, int animationPeriod) {
+    public AnimatedText(ArrayList<SimpleCrispyText> animation, int animationPeriod) {
         this.animation = animation;
         this.animationPeriod = animationPeriod;
     }
@@ -25,17 +25,22 @@ public class AnimatedHologramText extends HologramText {
         return animation.get(animationPhase).getCurrentLines();
     }
 
-    public AnimatedHologramText addFrame(SimpleHologramText frame) {
+    public AnimatedText addFrame(String str) {
+        animation.add(new SimpleCrispyText(str));
+        return this;
+    }
+
+    public AnimatedText addFrame(SimpleCrispyText frame) {
         animation.add(frame);
         return this;
     }
 
-    public AnimatedHologramText removeFrame(int frame) {
+    public AnimatedText removeFrame(int frame) {
         animation.remove(frame);
         return this;
     }
 
-    public AnimatedHologramText setFrame(int frame, SimpleHologramText text) {
+    public AnimatedText setFrame(int frame, SimpleCrispyText text) {
         animation.set(frame, text);
         return this;
     }
