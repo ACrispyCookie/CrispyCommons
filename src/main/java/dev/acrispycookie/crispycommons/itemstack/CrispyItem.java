@@ -7,7 +7,7 @@ import org.bukkit.inventory.ItemFlag;
 
 public interface CrispyItem {
 
-    CrispyItem name(String s);
+    CrispyItem name(String newName);
     CrispyItem amount(int amount);
     CrispyItem material(Material mat);
     CrispyItem durability(short dur);

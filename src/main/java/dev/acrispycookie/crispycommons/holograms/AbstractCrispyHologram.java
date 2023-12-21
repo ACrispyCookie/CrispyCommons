@@ -19,7 +19,6 @@ public abstract class AbstractCrispyHologram implements CrispyHologram {
     protected abstract void displayToPlayer(Player player);
     protected abstract void hideFromPlayer(Player player);
     protected abstract void handleTextChange();
-    public abstract void onClick(Player player, int lineIndex);
 
     public AbstractCrispyHologram(JavaPlugin plugin, Collection<? extends Player> receiverList, ArrayList<CrispyHologramLine> text, Location location, int tickLifetime) {
         this.plugin = plugin;

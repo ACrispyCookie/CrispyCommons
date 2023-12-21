@@ -84,18 +84,8 @@ public class CrispyHologramBuilder {
 
     public SimpleCrispyHologram build() {
         if(isPublic)
-            return new SimpleCrispyHologram(plugin, receiverList, text, location, tickLifetime) {
-                @Override
-                public void onClick(Player player, int lineIndex) {
-                    CrispyHologramBuilder.this.onClick(player, lineIndex);
-                }
-            };
+            return new SimpleCrispyHologram(plugin, receiverList, text, location, tickLifetime);
         else
-            return new PublicCrispyHologram(plugin, text, location, tickLifetime) {
-                @Override
-                public void onClick(Player player, int lineIndex) {
-                    CrispyHologramBuilder.this.onClick(player, lineIndex);
-                }
-            };
+            return new PublicCrispyHologram(plugin, text, location, tickLifetime);
     }
 }

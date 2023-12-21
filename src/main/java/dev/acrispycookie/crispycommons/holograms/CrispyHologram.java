@@ -13,5 +13,4 @@ public interface CrispyHologram {
     void removeLine(int index);
     void removeLine(CrispyHologramLine line);
     void setLine(int index, CrispyHologramLine line);
-    void onClick(Player player, int lineIndex);
 }

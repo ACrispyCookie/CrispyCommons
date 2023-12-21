@@ -12,7 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
 
-public abstract class PublicCrispyHologram extends SimpleCrispyHologram implements Listener {
+public class PublicCrispyHologram extends SimpleCrispyHologram implements Listener {
 
     public PublicCrispyHologram(JavaPlugin plugin, ArrayList<CrispyHologramLine> text, Location location, int tickLifetime) {
         super(plugin, Bukkit.getOnlinePlayers(), text, location, tickLifetime);

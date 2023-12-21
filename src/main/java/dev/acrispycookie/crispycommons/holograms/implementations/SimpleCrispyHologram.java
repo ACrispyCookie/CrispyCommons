@@ -9,7 +9,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public abstract class SimpleCrispyHologram extends AbstractCrispyHologram {
+public class SimpleCrispyHologram extends AbstractCrispyHologram {
 
     public SimpleCrispyHologram(JavaPlugin plugin, Collection<? extends Player> receiverList, ArrayList<CrispyHologramLine> text, Location location, int tickLifetime) {
         super(plugin, receiverList, text, location, tickLifetime);
