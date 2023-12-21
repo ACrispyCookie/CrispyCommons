@@ -14,20 +14,17 @@ import java.nio.charset.StandardCharsets;
 
 public abstract class CrispyHeadItem extends CrispyItemStack {
 
-    protected final JavaPlugin plugin;
     public abstract CrispyHeadItem update();
 
-    public CrispyHeadItem(ItemStack itemStack, JavaPlugin plugin) {
+    public CrispyHeadItem(ItemStack itemStack) {
         super(itemStack);
-        this.plugin = plugin;
     }
 
-    public CrispyHeadItem(JavaPlugin plugin) {
+    public CrispyHeadItem() {
         super(Material.SKULL_ITEM, 1, (short) 3);
-        this.plugin = plugin;
     }
 
-    public CrispyHeadItem updateAsync() {
+    public CrispyHeadItem updateAsync(JavaPlugin plugin) {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, this::update);
         return this;
     }

@@ -13,8 +13,7 @@ public class CrispyUrlHeadItem extends CrispyHeadItem {
 
     private final String url;
 
-    public CrispyUrlHeadItem(String url, JavaPlugin plugin) {
-        super(plugin);
+    public CrispyUrlHeadItem(String url) {
         this.url = url;
     }
 
@@ -31,7 +30,7 @@ public class CrispyUrlHeadItem extends CrispyHeadItem {
     }
 
     @Override
-    public CrispyUrlHeadItem updateAsync() {
+    public CrispyUrlHeadItem updateAsync(JavaPlugin plugin) {
         update();
         return this;
     }

@@ -1,19 +1,21 @@
 package dev.acrispycookie.crispycommons.holograms.implementations.builders;
 
+import dev.acrispycookie.crispycommons.holograms.CrispyHologram;
 import dev.acrispycookie.crispycommons.holograms.implementations.PublicCrispyHologram;
 import dev.acrispycookie.crispycommons.holograms.implementations.SimpleCrispyHologram;
-import dev.acrispycookie.crispycommons.text.CrispyText;
+import dev.acrispycookie.crispycommons.holograms.lines.CrispyHologramLine;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class CrispyHologramBuilder {
     private final JavaPlugin plugin;
     private final ArrayList<Player> receiverList;
-    private CrispyText text;
+    private final ArrayList<CrispyHologramLine> text;
     private Location location;
     private int tickLifetime;
     private boolean isPublic;
@@ -22,6 +24,7 @@ public class CrispyHologramBuilder {
     public CrispyHologramBuilder(JavaPlugin plugin) {
         this.receiverList = new ArrayList<>();
         this.plugin = plugin;
+        this.text = new ArrayList<>();
     }
 
     public CrispyHologramBuilder addPlayer(Player player) {
@@ -34,8 +37,33 @@ public class CrispyHologramBuilder {
         return this;
     }
 
-    public CrispyHologramBuilder text(CrispyText text) {
-        this.text = text;
+    public CrispyHologramBuilder addLine(CrispyHologramLine line) {
+        this.text.add(line);
+        return this;
+    }
+
+    public CrispyHologramBuilder addLine(int index, CrispyHologramLine line) {
+        this.text.add(index, line);
+        return this;
+    }
+
+    public CrispyHologramBuilder addLines(ArrayList<CrispyHologramLine> line) {
+        this.text.addAll(line);
+        return this;
+    }
+
+    public CrispyHologramBuilder addLines(int index, ArrayList<CrispyHologramLine> line) {
+        this.text.addAll(index, line);
+        return this;
+    }
+
+    public CrispyHologramBuilder removeLine(int index) {
+        this.text.remove(index);
+        return this;
+    }
+
+    public CrispyHologramBuilder removeLine(CrispyHologramLine line) {
+        this.text.remove(line);
         return this;
     }
 

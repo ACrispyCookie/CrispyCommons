@@ -1,6 +1,6 @@
 package dev.acrispycookie.crispycommons.holograms;
 
-import dev.acrispycookie.crispycommons.text.CrispyText;
+import dev.acrispycookie.crispycommons.holograms.lines.CrispyHologramLine;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -13,7 +13,7 @@ public abstract class AbstractCrispyHologram implements CrispyHologram {
 
     protected final JavaPlugin plugin;
     protected final ArrayList<Player> receiverList;
-    protected CrispyText text;
+    protected ArrayList<CrispyHologramLine> text;
     protected int tickLifetime;
     protected final Location location;
     protected abstract void displayToPlayer(Player player);
@@ -21,7 +21,7 @@ public abstract class AbstractCrispyHologram implements CrispyHologram {
     protected abstract void handleTextChange();
     public abstract void onClick(Player player, int lineIndex);
 
-    public AbstractCrispyHologram(JavaPlugin plugin, Collection<? extends Player> receiverList, CrispyText text, Location location, int tickLifetime) {
+    public AbstractCrispyHologram(JavaPlugin plugin, Collection<? extends Player> receiverList, ArrayList<CrispyHologramLine> text, Location location, int tickLifetime) {
         this.plugin = plugin;
         this.receiverList = new ArrayList<>(receiverList);
         this.text = text;
@@ -33,7 +33,7 @@ public abstract class AbstractCrispyHologram implements CrispyHologram {
         }
     }
 
-    public AbstractCrispyHologram(JavaPlugin plugin, Player receiver, CrispyText text, Location location, int tickLifetime) {
+    public AbstractCrispyHologram(JavaPlugin plugin, Player receiver, ArrayList<CrispyHologramLine> text, Location location, int tickLifetime) {
         this.plugin = plugin;
         this.receiverList = new ArrayList<>();
         this.receiverList.add(receiver);
@@ -46,7 +46,6 @@ public abstract class AbstractCrispyHologram implements CrispyHologram {
         }
     }
 
-
     @Override
     public void display() {
         receiverList.forEach(this::displayToPlayer);
@@ -57,8 +56,33 @@ public abstract class AbstractCrispyHologram implements CrispyHologram {
         receiverList.forEach(this::hideFromPlayer);
     }
 
-    public void changeText(CrispyText text) {
+    public void changeText(ArrayList<CrispyHologramLine> text) {
         this.text = text;
+        handleTextChange();
+    }
+
+    public void addLine(CrispyHologramLine line) {
+        text.add(line);
+        handleTextChange();
+    }
+
+    public void addLine(int index, CrispyHologramLine line) {
+        text.add(index, line);
+        handleTextChange();
+    }
+
+    public void removeLine(CrispyHologramLine line) {
+        text.remove(line);
+        handleTextChange();
+    }
+
+    public void removeLine(int index) {
+        text.remove(index);
+        handleTextChange();
+    }
+
+    public void setLine(int index, CrispyHologramLine line) {
+        text.set(index, line);
         handleTextChange();
     }
 

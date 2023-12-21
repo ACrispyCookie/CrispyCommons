@@ -15,8 +15,7 @@ public class CrispyPlayerHeadItem extends CrispyHeadItem {
 
     private final UUID uuid;
 
-    public CrispyPlayerHeadItem(UUID uuid, JavaPlugin plugin) {
-        super(plugin);
+    public CrispyPlayerHeadItem(UUID uuid) {
         this.uuid = uuid;
     }
 
@@ -37,7 +36,7 @@ public class CrispyPlayerHeadItem extends CrispyHeadItem {
     }
 
     @Override
-    public CrispyPlayerHeadItem updateAsync() {
+    public CrispyPlayerHeadItem updateAsync(JavaPlugin plugin) {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, this::update);
         return this;
     }
