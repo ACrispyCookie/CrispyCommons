@@ -1,5 +1,6 @@
 package dev.acrispycookie.crispycommons.implementations.holograms.lines;
 
+import dev.acrispycookie.crispycommons.implementations.holograms.CrispyHologram;
 import dev.acrispycookie.crispycommons.utility.elements.CrispyElement;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -10,14 +11,15 @@ public abstract class AbstractHologramLine<T extends CrispyElement<K>, K> implem
 
     protected T element;
     protected boolean isDisplayed;
-    protected Location location;
+    protected CrispyHologram hologram;
     protected final Set<Player> receivers = new HashSet<>();
     protected abstract void display(Player player);
     protected abstract void destroy(Player player);
     protected abstract void update(Player player);
 
-    public AbstractHologramLine(T element, List<Player> receivers) {
+    public AbstractHologramLine(T element, CrispyHologram hologram, List<Player> receivers) {
         this.element = element;
+        this.hologram = hologram;
         this.receivers.addAll(receivers);
     }
 
@@ -80,8 +82,7 @@ public abstract class AbstractHologramLine<T extends CrispyElement<K>, K> implem
     }
 
     @Override
-    public void setLocation(Location location) {
-        this.location = location;
+    public void updateLocation() {
         if (isDisplayed) {
             destroy();
             display();

@@ -15,7 +15,7 @@ public class SimpleHologram extends AbstractCrispyHologram {
     }
 
     @Override
-    protected Location getLineLocation(int index) {
-        return location.clone().add(0, -index * 0.25, 0);
+    public Location getLineLocation(HologramLine<?> line) {
+        return location.clone().add(0, -lines.indexOf(line) * 0.25, 0);
     }
 }

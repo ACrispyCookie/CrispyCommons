@@ -1,5 +1,6 @@
 package dev.acrispycookie.crispycommons.implementations;
 
+import dev.acrispycookie.crispycommons.implementations.holograms.implementations.SimpleHologram;
 import dev.acrispycookie.crispycommons.implementations.holograms.lines.implementations.TextHologramLine;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -13,7 +14,9 @@ public class CrispyCommons {
     public static void init(JavaPlugin instance) {
         plugin = instance;
         ArrayList<Player> players = new ArrayList<>();
-        TextHologramLine line = new TextHologramLine("Hello World!", players);
+        SimpleHologram hologram = new SimpleHologram(players, null, 0);
+        TextHologramLine line = new TextHologramLine("Hello World", hologram, players);
+        hologram.addLine(line);
 
     }
 

@@ -1,11 +1,10 @@
 package dev.acrispycookie.crispycommons.implementations.holograms.lines;
 
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 public interface HologramLine<K> {
 
-    void setLocation(Location location);
+    void updateLocation();
     void display();
     void destroy();
     void update();

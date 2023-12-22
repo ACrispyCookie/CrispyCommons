@@ -1,6 +1,7 @@
 package dev.acrispycookie.crispycommons.implementations.holograms.lines.implementations;
 
 import com.mysql.jdbc.StringUtils;
+import dev.acrispycookie.crispycommons.implementations.holograms.CrispyHologram;
 import dev.acrispycookie.crispycommons.implementations.holograms.lines.AbstractHologramLine;
 import dev.acrispycookie.crispycommons.utility.elements.implementations.text.TextElement;
 import net.minecraft.server.v1_8_R3.EntityArmorStand;
@@ -8,6 +9,7 @@ import net.minecraft.server.v1_8_R3.PacketPlayOutEntityDestroy;
 import net.minecraft.server.v1_8_R3.PacketPlayOutEntityMetadata;
 import net.minecraft.server.v1_8_R3.PacketPlayOutSpawnEntity;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -18,12 +20,12 @@ public class TextHologramLine extends AbstractHologramLine<TextElement, String> 
 
     private EntityArmorStand as = null;
 
-    public TextHologramLine(TextElement initialLine, List<Player> receivers) {
-        super(initialLine, receivers);
+    public TextHologramLine(TextElement initialLine, CrispyHologram hologram, List<Player> receivers) {
+        super(initialLine, hologram, receivers);
     }
 
-    public TextHologramLine(String staticLine, List<Player> receivers) {
-        super(new TextElement(staticLine), receivers);
+    public TextHologramLine(String staticLine, CrispyHologram hologram, List<Player> receivers) {
+        super(new TextElement(staticLine), hologram, receivers);
     }
 
     public void display(Player player) {
@@ -33,6 +35,7 @@ public class TextHologramLine extends AbstractHologramLine<TextElement, String> 
             return;
         }
 
+        Location location = hologram.getLineLocation(this);
         as = new EntityArmorStand(((CraftWorld) location.getWorld()).getHandle(), location.getX(), location.getY(), location.getZ());
         as.setInvisible(true);
         as.setGravity(false);

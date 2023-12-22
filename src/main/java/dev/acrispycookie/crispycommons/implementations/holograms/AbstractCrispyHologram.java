@@ -17,7 +17,6 @@ public abstract class AbstractCrispyHologram implements CrispyHologram {
     protected boolean isDisplayed;
     protected Location location;
     protected int timeToLive;
-    protected abstract Location getLineLocation(int lineIndex);
 
     public AbstractCrispyHologram(ArrayList<HologramLine<?>> lines, Location location, int timeToLive) {
         this.plugin = CrispyCommons.getPlugin();
@@ -33,12 +32,7 @@ public abstract class AbstractCrispyHologram implements CrispyHologram {
         }
 
         isDisplayed = true;
-
-        for (int i = 0; i < lines.size(); i++) {
-            HologramLine<?> line = lines.get(i);
-            line.setLocation(getLineLocation(i));
-            line.display();
-        }
+        lines.forEach(HologramLine::display);
 
         if(timeToLive != -1) {
             Bukkit.getScheduler().runTaskLater(plugin, this::destroy, timeToLive);
@@ -52,12 +46,7 @@ public abstract class AbstractCrispyHologram implements CrispyHologram {
         }
 
         isDisplayed = false;
-
-        for (int i = 0; i < lines.size(); i++) {
-            HologramLine<?> line = lines.get(i);
-            line.setLocation(getLineLocation(i));
-            line.destroy();
-        }
+        lines.forEach(HologramLine::destroy);
     }
 
     @Override
@@ -69,7 +58,6 @@ public abstract class AbstractCrispyHologram implements CrispyHologram {
     public void addLine(HologramLine<?> line) {
         lines.add(line);
         if (isDisplayed) {
-            line.setLocation(getLineLocation(lines.size() - 1));
             line.display();
         }
     }
@@ -82,10 +70,7 @@ public abstract class AbstractCrispyHologram implements CrispyHologram {
             toRemove.destroy();
         }
 
-        for (int i = index; i < lines.size(); i++) {
-            HologramLine<?> line = lines.get(i);
-            line.setLocation(getLineLocation(i));
-        }
+        lines.forEach(HologramLine::updateLocation);
     }
 
     @Override
@@ -106,10 +91,7 @@ public abstract class AbstractCrispyHologram implements CrispyHologram {
     @Override
     public void setLocation(Location location) {
         this.location = location;
-        for (int i = 0; i < lines.size(); i++) {
-            HologramLine<?> line = lines.get(i);
-            line.setLocation(getLineLocation(i));
-        }
+        lines.forEach(HologramLine::updateLocation);
     }
 
     @Override
