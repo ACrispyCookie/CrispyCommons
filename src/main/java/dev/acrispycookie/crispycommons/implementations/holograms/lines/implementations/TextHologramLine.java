@@ -2,6 +2,7 @@ package dev.acrispycookie.crispycommons.implementations.holograms.lines.implemen
 
 import com.mysql.jdbc.StringUtils;
 import dev.acrispycookie.crispycommons.implementations.holograms.lines.AbstractHologramLine;
+import dev.acrispycookie.crispycommons.utility.elements.implementations.text.TextElement;
 import net.minecraft.server.v1_8_R3.EntityArmorStand;
 import net.minecraft.server.v1_8_R3.PacketPlayOutEntityDestroy;
 import net.minecraft.server.v1_8_R3.PacketPlayOutEntityMetadata;
@@ -10,31 +11,23 @@ import org.bukkit.ChatColor;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
-import sun.java2d.pipe.SpanShapeRenderer;
 
-public class SimpleHologramLine extends AbstractHologramLine {
+import java.util.List;
+
+public class TextHologramLine extends AbstractHologramLine<TextElement, String> {
 
     private EntityArmorStand as = null;
 
-    public SimpleHologramLine(String initialLine) {
-        super(initialLine);
+    public TextHologramLine(TextElement initialLine, List<Player> receivers) {
+        super(initialLine, receivers);
     }
 
-    @Override
-    public void display() {
-        receivers.forEach(this::display);
+    public TextHologramLine(String staticLine, List<Player> receivers) {
+        super(new TextElement(staticLine), receivers);
     }
-
-    @Override
-    public void destroy() {
-        receivers.forEach(this::destroy);
-    }
-
-    @Override
-    public void update() { receivers.forEach(this::update); }
 
     public void display(Player player) {
-        String text = getCurrentText();
+        String text = getCurrentElement();
 
         if (StringUtils.isEmptyOrWhitespaceOnly(text)) {
             return;
@@ -62,7 +55,7 @@ public class SimpleHologramLine extends AbstractHologramLine {
 
     public void update(Player player) {
         if(as != null) {
-            as.setCustomName(ChatColor.translateAlternateColorCodes('&', getCurrentText()));
+            as.setCustomName(ChatColor.translateAlternateColorCodes('&', getCurrentElement()));
             PacketPlayOutEntityMetadata metadata = new PacketPlayOutEntityMetadata(as.getId(), as.getDataWatcher(), true);
             ((CraftPlayer) player).getHandle().playerConnection.sendPacket(metadata);
         }

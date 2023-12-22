@@ -1,7 +1,7 @@
 package dev.acrispycookie.crispycommons.implementations.holograms;
 
-import dev.acrispycookie.crispycommons.api.holograms.CrispyHologram;
-import dev.acrispycookie.crispycommons.implementations.holograms.lines.CrispyHologramLine;
+import dev.acrispycookie.crispycommons.implementations.CrispyCommons;
+import dev.acrispycookie.crispycommons.implementations.holograms.lines.HologramLine;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -13,34 +13,33 @@ import java.util.Collection;
 public abstract class AbstractCrispyHologram implements CrispyHologram {
 
     protected final JavaPlugin plugin;
-    protected final ArrayList<Player> receiverList;
-    protected ArrayList<CrispyHologramLine> text;
+    protected ArrayList<HologramLine<?>> lines;
+    protected boolean isDisplayed;
+    protected Location location;
     protected int timeToLive;
-    protected final Location location;
-    protected abstract void displayToPlayer(Player player);
-    protected abstract void hideFromPlayer(Player player);
-    protected abstract void handleTextChange();
+    protected abstract Location getLineLocation(int lineIndex);
 
-    public AbstractCrispyHologram(JavaPlugin plugin, Collection<? extends Player> receiverList, ArrayList<CrispyHologramLine> text, Location location, int timeToLive) {
-        this.plugin = plugin;
-        this.receiverList = new ArrayList<>(receiverList);
-        this.text = text;
-        this.location = location;
-        this.timeToLive = timeToLive;
-    }
-
-    public AbstractCrispyHologram(JavaPlugin plugin, Player receiver, ArrayList<CrispyHologramLine> text, Location location, int timeToLive) {
-        this.plugin = plugin;
-        this.receiverList = new ArrayList<>();
-        this.receiverList.add(receiver);
-        this.text = text;
+    public AbstractCrispyHologram(ArrayList<HologramLine<?>> lines, Location location, int timeToLive) {
+        this.plugin = CrispyCommons.getPlugin();
+        this.lines = lines;
         this.location = location;
         this.timeToLive = timeToLive;
     }
 
     @Override
     public void display() {
-        receiverList.forEach(this::displayToPlayer);
+        if (isDisplayed) {
+            return;
+        }
+
+        isDisplayed = true;
+
+        for (int i = 0; i < lines.size(); i++) {
+            HologramLine<?> line = lines.get(i);
+            line.setLocation(getLineLocation(i));
+            line.display();
+        }
+
         if(timeToLive != -1) {
             Bukkit.getScheduler().runTaskLater(plugin, this::destroy, timeToLive);
         }
@@ -48,64 +47,78 @@ public abstract class AbstractCrispyHologram implements CrispyHologram {
 
     @Override
     public void destroy() {
-        receiverList.forEach(this::hideFromPlayer);
+        if (!isDisplayed) {
+            return;
+        }
+
+        isDisplayed = false;
+
+        for (int i = 0; i < lines.size(); i++) {
+            HologramLine<?> line = lines.get(i);
+            line.setLocation(getLineLocation(i));
+            line.destroy();
+        }
     }
 
-    public void changeText(ArrayList<CrispyHologramLine> text) {
-        this.text = text;
-        handleTextChange();
+    @Override
+    public void update() {
+        lines.forEach(HologramLine::update);
     }
 
-    public void addLine(CrispyHologramLine line) {
-        text.add(line);
-        handleTextChange();
+    @Override
+    public void addLine(HologramLine<?> line) {
+        lines.add(line);
+        if (isDisplayed) {
+            line.setLocation(getLineLocation(lines.size() - 1));
+            line.display();
+        }
     }
 
-    public void addLine(int index, CrispyHologramLine line) {
-        text.add(index, line);
-        handleTextChange();
-    }
-
-    public void removeLine(CrispyHologramLine line) {
-        text.remove(line);
-        handleTextChange();
-    }
-
+    @Override
     public void removeLine(int index) {
-        text.remove(index);
-        handleTextChange();
+        HologramLine<?> toRemove = lines.get(index);
+        lines.remove(index);
+        if (isDisplayed) {
+            toRemove.destroy();
+        }
+
+        for (int i = index; i < lines.size(); i++) {
+            HologramLine<?> line = lines.get(i);
+            line.setLocation(getLineLocation(i));
+        }
     }
 
-    public void setLine(int index, CrispyHologramLine line) {
-        text.set(index, line);
-        handleTextChange();
-    }
-
+    @Override
     public void addPlayer(Player player) {
-        receiverList.add(player);
-        displayToPlayer(player);
+        lines.forEach(line -> line.addPlayer(player));
     }
 
+    @Override
     public void removePlayer(Player player) {
-        receiverList.remove(player);
-        hideFromPlayer(player);
+        lines.forEach(line -> line.removePlayer(player));
     }
 
+    @Override
     public void setPlayers(Player... players) {
-        for (Player player : receiverList) {
-            if (!player.isOnline()) {
-                hideFromPlayer(player);
-            }
-        }
-        receiverList.clear();
+        lines.forEach(line -> line.setPlayers(players));
+    }
 
-        for(Player player : players) {
-            receiverList.add(player);
-            displayToPlayer(player);
+    @Override
+    public void setLocation(Location location) {
+        this.location = location;
+        for (int i = 0; i < lines.size(); i++) {
+            HologramLine<?> line = lines.get(i);
+            line.setLocation(getLineLocation(i));
         }
     }
 
+    @Override
     public void setTimeToLive(int timeToLive) {
         this.timeToLive = timeToLive;
+    }
+
+    @Override
+    public boolean isDisplayed() {
+        return isDisplayed;
     }
 }

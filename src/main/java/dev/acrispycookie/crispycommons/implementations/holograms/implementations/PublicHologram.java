@@ -1,6 +1,6 @@
 package dev.acrispycookie.crispycommons.implementations.holograms.implementations;
 
-import dev.acrispycookie.crispycommons.implementations.holograms.lines.CrispyHologramLine;
+import dev.acrispycookie.crispycommons.implementations.holograms.lines.HologramLine;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
@@ -12,10 +12,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
 
-public class PublicCrispyHologram extends SimpleCrispyHologram implements Listener {
+public class PublicHologram extends SimpleHologram implements Listener {
 
-    public PublicCrispyHologram(JavaPlugin plugin, ArrayList<CrispyHologramLine> text, Location location, int timeToLive) {
-        super(plugin, Bukkit.getOnlinePlayers(), text, location, timeToLive);
+    public PublicHologram(ArrayList<HologramLine<?>> text, Location location, int timeToLive) {
+        super(text, location, timeToLive);
         Bukkit.getPluginManager().registerEvents(this, plugin);
     }
 
@@ -32,6 +32,6 @@ public class PublicCrispyHologram extends SimpleCrispyHologram implements Listen
     @Override
     public void destroy() {
         HandlerList.unregisterAll(this);
-        receiverList.forEach(this::hideFromPlayer);
+        super.destroy();
     }
 }

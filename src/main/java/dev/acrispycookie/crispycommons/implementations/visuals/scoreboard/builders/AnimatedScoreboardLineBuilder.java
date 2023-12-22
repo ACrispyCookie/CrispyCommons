@@ -2,7 +2,6 @@ package dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.build
 
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.AnimatedScoreboardLine;
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.SimpleScoreboardLine;
-import dev.acrispycookie.crispycommons.utility.animation.AnimationBuilder;
 
 import java.util.ArrayList;
 

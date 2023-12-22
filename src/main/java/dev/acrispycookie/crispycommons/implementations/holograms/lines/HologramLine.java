@@ -3,13 +3,15 @@ package dev.acrispycookie.crispycommons.implementations.holograms.lines;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import java.util.List;
+public interface HologramLine<K> {
 
-public interface CrispyHologramLine {
     void setLocation(Location location);
-    void setReceivers(List<Player> receivers);
     void display();
     void destroy();
     void update();
-    String getCurrentText();
+    boolean isDisplayed();
+    void addPlayer(Player player);
+    void removePlayer(Player player);
+    void setPlayers(Player... players);
+    K getCurrentElement();
 }

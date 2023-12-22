@@ -1,4 +1,4 @@
-package dev.acrispycookie.crispycommons.api.itemstack;
+package dev.acrispycookie.crispycommons.implementations.itemstack;
 
 import net.minecraft.server.v1_8_R3.NBTBase;
 import org.bukkit.Material;

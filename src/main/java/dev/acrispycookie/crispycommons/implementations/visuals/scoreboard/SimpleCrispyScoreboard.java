@@ -9,7 +9,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.*;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class SimpleCrispyScoreboard extends AbstractCrispyScoreboard {
 

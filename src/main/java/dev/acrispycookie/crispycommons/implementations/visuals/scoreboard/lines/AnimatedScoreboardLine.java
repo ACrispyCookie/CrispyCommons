@@ -1,17 +1,17 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines;
 
-import dev.acrispycookie.crispycommons.utility.animation.Animation;
+import dev.acrispycookie.crispycommons.utility.elements.AnimatedElement;
 
 public class AnimatedScoreboardLine extends AbstractScoreboardLine {
 
-    private final Animation<SimpleScoreboardLine> animation;
+    private final AnimatedElement animatedElement;
 
-    public AnimatedScoreboardLine(Animation<SimpleScoreboardLine> animation) {
-        this.animation = animation;
+    public AnimatedScoreboardLine(AnimatedElement animatedElement) {
+        this.animatedElement = animatedElement;
     }
 
     @Override
     public String get() {
-        return animation.getCurrentFrame().get();
+        return animatedElement.getCurrentFrame().get();
     }
 }
