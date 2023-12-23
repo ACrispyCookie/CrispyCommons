@@ -3,6 +3,7 @@ package dev.acrispycookie.crispycommons.implementations.holograms.lines.implemen
 import com.mysql.jdbc.StringUtils;
 import dev.acrispycookie.crispycommons.implementations.holograms.CrispyHologram;
 import dev.acrispycookie.crispycommons.implementations.holograms.lines.AbstractHologramLine;
+import dev.acrispycookie.crispycommons.utility.elements.implementations.text.AnimatedTextElement;
 import dev.acrispycookie.crispycommons.utility.elements.implementations.text.TextElement;
 import net.minecraft.server.v1_8_R3.EntityArmorStand;
 import net.minecraft.server.v1_8_R3.PacketPlayOutEntityDestroy;
@@ -16,7 +17,7 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
-public class TextHologramLine extends AbstractHologramLine<TextElement, String> {
+public class TextHologramLine extends ClickableHologramLine<TextElement, String> {
 
     private EntityArmorStand as = null;
 
@@ -28,7 +29,7 @@ public class TextHologramLine extends AbstractHologramLine<TextElement, String> 
         super(new TextElement(staticLine), hologram, receivers);
     }
 
-    public void display(Player player) {
+    protected void display(Player player) {
         String text = getCurrentElement();
 
         if (StringUtils.isEmptyOrWhitespaceOnly(text)) {
@@ -49,14 +50,14 @@ public class TextHologramLine extends AbstractHologramLine<TextElement, String> 
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket(metadata);
     }
 
-    public void destroy(Player player) {
+    protected void destroy(Player player) {
         if(as != null) {
             PacketPlayOutEntityDestroy spawn = new PacketPlayOutEntityDestroy(as.getId());
             ((CraftPlayer) player).getHandle().playerConnection.sendPacket(spawn);
         }
     }
 
-    public void update(Player player) {
+    protected void update(Player player) {
         if(as != null) {
             as.setCustomName(ChatColor.translateAlternateColorCodes('&', getCurrentElement()));
             PacketPlayOutEntityMetadata metadata = new PacketPlayOutEntityMetadata(as.getId(), as.getDataWatcher(), true);

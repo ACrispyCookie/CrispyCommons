@@ -8,7 +8,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 public abstract class AbstractCrispyHologram implements CrispyHologram {
 
@@ -18,9 +17,9 @@ public abstract class AbstractCrispyHologram implements CrispyHologram {
     protected Location location;
     protected int timeToLive;
 
-    public AbstractCrispyHologram(ArrayList<HologramLine<?>> lines, Location location, int timeToLive) {
+    public AbstractCrispyHologram(Location location, int timeToLive) {
         this.plugin = CrispyCommons.getPlugin();
-        this.lines = lines;
+        this.lines = new ArrayList<>();
         this.location = location;
         this.timeToLive = timeToLive;
     }
@@ -51,15 +50,7 @@ public abstract class AbstractCrispyHologram implements CrispyHologram {
 
     @Override
     public void update() {
-        lines.forEach(HologramLine::update);
-    }
-
-    @Override
-    public void addLine(HologramLine<?> line) {
-        lines.add(line);
-        if (isDisplayed) {
-            line.display();
-        }
+        lines.forEach(HologramLine::updateElement);
     }
 
     @Override
@@ -70,7 +61,9 @@ public abstract class AbstractCrispyHologram implements CrispyHologram {
             toRemove.destroy();
         }
 
-        lines.forEach(HologramLine::updateLocation);
+        for (HologramLine<?> line : lines) {
+            line.updateLocation();
+        }
     }
 
     @Override
@@ -91,7 +84,10 @@ public abstract class AbstractCrispyHologram implements CrispyHologram {
     @Override
     public void setLocation(Location location) {
         this.location = location;
-        lines.forEach(HologramLine::updateLocation);
+
+        for (HologramLine<?> line : lines) {
+            line.updateLocation();
+        }
     }
 
     @Override

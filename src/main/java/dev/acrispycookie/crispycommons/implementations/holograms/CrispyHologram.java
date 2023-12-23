@@ -10,7 +10,6 @@ public interface CrispyHologram {
     void destroy();
     void update();
     Location getLineLocation(HologramLine<?> line);
-    void addLine(HologramLine<?> line);
     void removeLine(int index);
     void addPlayer(Player player);
     void removePlayer(Player player);

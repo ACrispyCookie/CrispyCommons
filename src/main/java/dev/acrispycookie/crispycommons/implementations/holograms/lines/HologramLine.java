@@ -7,7 +7,7 @@ public interface HologramLine<K> {
     void updateLocation();
     void display();
     void destroy();
-    void update();
+    void updateElement();
     boolean isDisplayed();
     void addPlayer(Player player);
     void removePlayer(Player player);

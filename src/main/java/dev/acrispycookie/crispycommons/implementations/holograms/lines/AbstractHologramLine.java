@@ -2,7 +2,6 @@ package dev.acrispycookie.crispycommons.implementations.holograms.lines;
 
 import dev.acrispycookie.crispycommons.implementations.holograms.CrispyHologram;
 import dev.acrispycookie.crispycommons.utility.elements.CrispyElement;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -49,7 +48,7 @@ public abstract class AbstractHologramLine<T extends CrispyElement<K>, K> implem
     }
 
     @Override
-    public void update() {
+    public void updateElement() {
         if (isDisplayed) {
             receivers.forEach(this::update);
         }

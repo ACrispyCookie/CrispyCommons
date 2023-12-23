@@ -5,10 +5,11 @@ import dev.acrispycookie.crispycommons.utility.elements.CrispyElement;
 
 import java.util.ArrayList;
 
-public class AnimatedElementBuilder<T extends CrispyElement<?>> {
+public abstract class AnimatedElementBuilder<T extends CrispyElement<?>> {
 
     private final ArrayList<T> frames = new ArrayList<>();
     private int period;
+    protected abstract void update(T nextFrame);
 
     public AnimatedElementBuilder<T> addFrames(ArrayList<T> frames) {
         this.frames.addAll(frames);
@@ -26,6 +27,11 @@ public class AnimatedElementBuilder<T extends CrispyElement<?>> {
     }
 
     public AnimatedElement<T> build() {
-        return new AnimatedElement<>(frames, period);
+        return new AnimatedElement<T>(frames, period) {
+            @Override
+            protected void update(T nextFrame) {
+                AnimatedElementBuilder.this.update(nextFrame);
+            }
+        };
     }
 }

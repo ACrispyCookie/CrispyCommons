@@ -1,12 +1,17 @@
 package dev.acrispycookie.crispycommons.utility.elements;
 
+import dev.acrispycookie.crispycommons.implementations.CrispyCommons;
+import org.bukkit.Bukkit;
+
 import java.util.ArrayList;
 
-public class AnimatedElement<T> extends AbstractCrispyElement<T> {
+public abstract class AnimatedElement<T> extends AbstractCrispyElement<T> {
 
     private final ArrayList<T> frames;
     private final int period;
     private int frame;
+    private int taskId;
+    protected abstract void update(T nextFrame);
 
     public AnimatedElement(ArrayList<T> frames, int period) {
         super(frames.get(0));
@@ -21,6 +26,18 @@ public class AnimatedElement<T> extends AbstractCrispyElement<T> {
         this.frames.add(frame);
         this.frame = 0;
         this.period = period;
+    }
+
+    public void start() {
+        taskId = Bukkit.getScheduler().runTaskTimer(CrispyCommons.getPlugin(), () -> {
+            this.frame = this.frame + 1 >= this.frames.size() ? 0 : this.frame + 1;
+            this.element = frames.get(frame);
+            update(this.element);
+        }, 0, period).getTaskId();
+    }
+
+    public void stop() {
+        Bukkit.getScheduler().cancelTask(taskId);
     }
 
     public void addFrame(T frame) {

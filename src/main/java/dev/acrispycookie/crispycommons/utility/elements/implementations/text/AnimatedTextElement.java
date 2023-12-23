@@ -4,13 +4,19 @@ import dev.acrispycookie.crispycommons.utility.elements.AnimatedElement;
 
 import java.util.ArrayList;
 
-public class AnimatedTextElement extends TextElement {
+public abstract class AnimatedTextElement extends TextElement {
 
     private final AnimatedElement<String> animatedElement;
+    protected abstract void update(String nextFrame);
 
     public AnimatedTextElement(ArrayList<String> frames, int period) {
         super(frames.get(0));
-        this.animatedElement = new AnimatedElement<>(frames, period);
+        this.animatedElement = new AnimatedElement<String>(frames, period) {
+            @Override
+            protected void update(String nextFrame) {
+                AnimatedTextElement.this.update(nextFrame);
+            }
+        };
     }
 
     public AnimatedElement<String> getAnimation() {

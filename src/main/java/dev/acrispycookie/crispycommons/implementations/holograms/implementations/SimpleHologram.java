@@ -3,15 +3,11 @@ package dev.acrispycookie.crispycommons.implementations.holograms.implementation
 import dev.acrispycookie.crispycommons.implementations.holograms.AbstractCrispyHologram;
 import dev.acrispycookie.crispycommons.implementations.holograms.lines.HologramLine;
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
-
-import java.util.ArrayList;
-import java.util.Collection;
 
 public class SimpleHologram extends AbstractCrispyHologram {
 
-    public SimpleHologram(ArrayList<HologramLine<?>> text, Location location, int timeToLive) {
-        super(text, location, timeToLive);
+    public SimpleHologram(Location location, int timeToLive) {
+        super(location, timeToLive);
     }
 
     @Override

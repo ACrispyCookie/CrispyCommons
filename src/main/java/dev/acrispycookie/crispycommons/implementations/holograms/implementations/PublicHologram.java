@@ -1,6 +1,5 @@
 package dev.acrispycookie.crispycommons.implementations.holograms.implementations;
 
-import dev.acrispycookie.crispycommons.implementations.holograms.lines.HologramLine;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
@@ -8,14 +7,11 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.plugin.java.JavaPlugin;
-
-import java.util.ArrayList;
 
 public class PublicHologram extends SimpleHologram implements Listener {
 
-    public PublicHologram(ArrayList<HologramLine<?>> text, Location location, int timeToLive) {
-        super(text, location, timeToLive);
+    public PublicHologram(Location location, int timeToLive) {
+        super(location, timeToLive);
         Bukkit.getPluginManager().registerEvents(this, plugin);
     }
 
