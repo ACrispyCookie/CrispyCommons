@@ -1,5 +1,6 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.scoreboard;
 
+import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.AbstractScoreboardLine;
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.ScoreboardLine;
 
 public interface CrispyScoreboard {

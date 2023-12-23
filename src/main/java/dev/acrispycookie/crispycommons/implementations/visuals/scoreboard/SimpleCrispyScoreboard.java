@@ -1,6 +1,6 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.scoreboard;
 
-import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.AnimatedScoreboardLine;
+import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.AbstractScoreboardLine;
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.ScoreboardLine;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -12,8 +12,8 @@ import java.util.ArrayList;
 
 public class SimpleCrispyScoreboard extends AbstractCrispyScoreboard {
 
-    public SimpleCrispyScoreboard(JavaPlugin plugin, Player player, String title, ArrayList<ScoreboardLine> lines, int updateInterval) {
-        super(plugin, player, title, lines, updateInterval);
+    public SimpleCrispyScoreboard(Player player, String title, ArrayList<ScoreboardLine> lines, int updateInterval) {
+        super(player, title, lines, updateInterval);
     }
 
     @Override
@@ -25,7 +25,7 @@ public class SimpleCrispyScoreboard extends AbstractCrispyScoreboard {
         o.setDisplayName(ChatColor.translateAlternateColorCodes('&', title));
         int score = 15;
         for(int i = 0; i < lines.size(); i++){
-            String line = ChatColor.translateAlternateColorCodes('&', lines.get(i).get());
+            String line = ChatColor.translateAlternateColorCodes('&', lines.get(i).getContent());
             ArrayList<String> strings = getStrings(line, i, b);
             String prefix = strings.get(0);
             String suffix = strings.get(1);
@@ -59,11 +59,7 @@ public class SimpleCrispyScoreboard extends AbstractCrispyScoreboard {
 
     private void updateLines(){
         for(int i = 0; i < lines.size(); i++){
-            ScoreboardLine line = lines.get(i);
-            if(!(line instanceof AnimatedScoreboardLine))
-                continue;
-
-            String lineString = ChatColor.translateAlternateColorCodes('&', line.get());
+            String lineString = ChatColor.translateAlternateColorCodes('&', lines.get(0).getContent());
             ArrayList<String> strings = getStrings(lineString, i, player.getScoreboard());
             String prefix = strings.get(0);
             String suffix = strings.get(1);

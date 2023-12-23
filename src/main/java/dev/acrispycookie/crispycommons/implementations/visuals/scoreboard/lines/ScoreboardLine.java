@@ -1,6 +1,7 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines;
 
-public interface ScoreboardLine {
+import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.CrispyScoreboard;
 
-    String get();
+public interface ScoreboardLine {
+    String getContent();
 }

@@ -1,5 +1,6 @@
 package dev.acrispycookie.crispycommons.implementations.holograms.lines;
 
+import dev.acrispycookie.crispycommons.implementations.holograms.CrispyHologram;
 import org.bukkit.entity.Player;
 
 public interface HologramLine<K> {
@@ -12,5 +13,6 @@ public interface HologramLine<K> {
     void addPlayer(Player player);
     void removePlayer(Player player);
     void setPlayers(Player... players);
-    K getCurrentElement();
+    void setHologram(CrispyHologram hologram);
+    K getCurrentContent();
 }

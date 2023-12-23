@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 import java.util.List;
 
 public abstract class ClickableHologramLine<T extends AnimatedElement<K>, K> extends AbstractHologramLine<T, K> {
-    public ClickableHologramLine(T element, List<Player> receivers, CrispyHologram hologram) {
-        super(element, receivers, hologram);
+    public ClickableHologramLine(T element, List<Player> receivers) {
+        super(element, receivers);
     }
 }

@@ -1,6 +1,7 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.builders;
 
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.SimpleCrispyScoreboard;
+import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.AbstractScoreboardLine;
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.ScoreboardLine;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -56,7 +57,7 @@ public class SimpleScoreboardBuilder {
     }
 
     public SimpleCrispyScoreboard build() {
-        return new SimpleCrispyScoreboard(plugin, player, title, lines, updateInterval);
+        return new SimpleCrispyScoreboard(player, title, lines, updateInterval);
     }
 
 }

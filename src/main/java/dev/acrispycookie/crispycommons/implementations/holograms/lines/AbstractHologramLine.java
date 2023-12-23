@@ -17,20 +17,20 @@ public abstract class AbstractHologramLine<T extends AnimatedElement<K>, K> impl
     protected abstract void destroy(Player player);
     protected abstract void update(Player player);
 
-    public AbstractHologramLine(T element, List<Player> receivers, CrispyHologram hologram) {
+    public AbstractHologramLine(T element, List<Player> receivers) {
         this.element = element;
+        this.hologram = null;
         this.receivers.addAll(receivers);
-        this.hologram = hologram;
     }
 
     @Override
-    public K getCurrentElement() {
+    public K getCurrentContent() {
         return element.getElement();
     }
 
     @Override
     public void display() {
-        if (isDisplayed) {
+        if (isDisplayed || hologram == null) {
             return;
         }
 
@@ -81,6 +81,11 @@ public abstract class AbstractHologramLine<T extends AnimatedElement<K>, K> impl
             destroy();
             display();
         }
+    }
+
+    @Override
+    public void setHologram(CrispyHologram hologram) {
+        this.hologram = hologram;
     }
 
     @Override

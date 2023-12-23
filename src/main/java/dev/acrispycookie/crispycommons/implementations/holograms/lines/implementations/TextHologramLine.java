@@ -1,7 +1,6 @@
 package dev.acrispycookie.crispycommons.implementations.holograms.lines.implementations;
 
 import com.mysql.jdbc.StringUtils;
-import dev.acrispycookie.crispycommons.implementations.holograms.CrispyHologram;
 import dev.acrispycookie.crispycommons.utility.elements.implementations.text.SimpleTextElement;
 import dev.acrispycookie.crispycommons.utility.elements.implementations.text.TextElement;
 import net.minecraft.server.v1_8_R3.EntityArmorStand;
@@ -21,12 +20,12 @@ public class TextHologramLine extends ClickableHologramLine<TextElement, String>
 
     private EntityArmorStand as = null;
 
-    public TextHologramLine(String staticLine, List<Player> receivers, CrispyHologram hologram) {
-        super(new SimpleTextElement(staticLine), receivers, hologram);
+    public TextHologramLine(String staticLine, List<Player> receivers) {
+        super(new SimpleTextElement(staticLine), receivers);
     }
 
-    public TextHologramLine(ArrayList<String> frames, int period, List<Player> receivers, CrispyHologram hologram) {
-        super(null, receivers, hologram);
+    public TextHologramLine(ArrayList<String> frames, int period, List<Player> receivers) {
+        super(null, receivers);
         element = new TextElement(frames, period) {
             @Override
             protected void update() {
@@ -36,7 +35,7 @@ public class TextHologramLine extends ClickableHologramLine<TextElement, String>
     }
 
     protected void display(Player player) {
-        String text = getCurrentElement();
+        String text = getCurrentContent();
 
         if (StringUtils.isEmptyOrWhitespaceOnly(text)) {
             return;
@@ -65,7 +64,7 @@ public class TextHologramLine extends ClickableHologramLine<TextElement, String>
 
     protected void update(Player player) {
         if(as != null) {
-            as.setCustomName(ChatColor.translateAlternateColorCodes('&', getCurrentElement()));
+            as.setCustomName(ChatColor.translateAlternateColorCodes('&', getCurrentContent()));
             PacketPlayOutEntityMetadata metadata = new PacketPlayOutEntityMetadata(as.getId(), as.getDataWatcher(), true);
             ((CraftPlayer) player).getHandle().playerConnection.sendPacket(metadata);
         }

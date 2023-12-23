@@ -1,5 +1,7 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.scoreboard;
 
+import dev.acrispycookie.crispycommons.implementations.CrispyCommons;
+import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.AbstractScoreboardLine;
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.ScoreboardLine;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -18,8 +20,8 @@ public abstract class AbstractCrispyScoreboard implements CrispyScoreboard {
     protected abstract void showInternal();
     protected abstract void hideInternal();
 
-    public AbstractCrispyScoreboard(JavaPlugin plugin, Player player, String title, ArrayList<ScoreboardLine> lines, int updateInterval) {
-        this.plugin = plugin;
+    public AbstractCrispyScoreboard(Player player, String title, ArrayList<ScoreboardLine> lines, int updateInterval) {
+        this.plugin = CrispyCommons.getPlugin();
         this.player = player;
         this.title = title;
         this.lines.addAll(lines);
