@@ -1,12 +1,13 @@
 package dev.acrispycookie.crispycommons.implementations.holograms.lines;
 
 import dev.acrispycookie.crispycommons.implementations.holograms.CrispyHologram;
+import dev.acrispycookie.crispycommons.utility.elements.AnimatedElement;
 import dev.acrispycookie.crispycommons.utility.elements.CrispyElement;
 import org.bukkit.entity.Player;
 
 import java.util.*;
 
-public abstract class AbstractHologramLine<T extends CrispyElement<K>, K> implements HologramLine<K> {
+public abstract class AbstractHologramLine<T extends AnimatedElement<K>, K> implements HologramLine<K> {
 
     protected T element;
     protected boolean isDisplayed;
@@ -16,10 +17,10 @@ public abstract class AbstractHologramLine<T extends CrispyElement<K>, K> implem
     protected abstract void destroy(Player player);
     protected abstract void update(Player player);
 
-    public AbstractHologramLine(T element, CrispyHologram hologram, List<Player> receivers) {
+    public AbstractHologramLine(T element, List<Player> receivers, CrispyHologram hologram) {
         this.element = element;
-        this.hologram = hologram;
         this.receivers.addAll(receivers);
+        this.hologram = hologram;
     }
 
     @Override
@@ -33,6 +34,7 @@ public abstract class AbstractHologramLine<T extends CrispyElement<K>, K> implem
             return;
         }
 
+        element.start();
         receivers.forEach(this::display);
         isDisplayed = true;
     }
@@ -43,6 +45,7 @@ public abstract class AbstractHologramLine<T extends CrispyElement<K>, K> implem
             return;
         }
 
+        element.stop();
         receivers.forEach(this::destroy);
         isDisplayed = false;
     }

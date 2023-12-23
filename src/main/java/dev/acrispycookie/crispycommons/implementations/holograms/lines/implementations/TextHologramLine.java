@@ -2,8 +2,7 @@ package dev.acrispycookie.crispycommons.implementations.holograms.lines.implemen
 
 import com.mysql.jdbc.StringUtils;
 import dev.acrispycookie.crispycommons.implementations.holograms.CrispyHologram;
-import dev.acrispycookie.crispycommons.implementations.holograms.lines.AbstractHologramLine;
-import dev.acrispycookie.crispycommons.utility.elements.implementations.text.AnimatedTextElement;
+import dev.acrispycookie.crispycommons.utility.elements.implementations.text.SimpleTextElement;
 import dev.acrispycookie.crispycommons.utility.elements.implementations.text.TextElement;
 import net.minecraft.server.v1_8_R3.EntityArmorStand;
 import net.minecraft.server.v1_8_R3.PacketPlayOutEntityDestroy;
@@ -15,18 +14,25 @@ import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TextHologramLine extends ClickableHologramLine<TextElement, String> {
 
     private EntityArmorStand as = null;
 
-    public TextHologramLine(TextElement initialLine, CrispyHologram hologram, List<Player> receivers) {
-        super(initialLine, hologram, receivers);
+    public TextHologramLine(String staticLine, List<Player> receivers, CrispyHologram hologram) {
+        super(new SimpleTextElement(staticLine), receivers, hologram);
     }
 
-    public TextHologramLine(String staticLine, CrispyHologram hologram, List<Player> receivers) {
-        super(new TextElement(staticLine), hologram, receivers);
+    public TextHologramLine(ArrayList<String> frames, int period, List<Player> receivers, CrispyHologram hologram) {
+        super(null, receivers, hologram);
+        element = new TextElement(frames, period) {
+            @Override
+            protected void update() {
+                TextHologramLine.this.updateElement();
+            }
+        };
     }
 
     protected void display(Player player) {

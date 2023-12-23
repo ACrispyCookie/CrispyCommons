@@ -1,10 +1,12 @@
 package dev.acrispycookie.crispycommons.utility.elements.implementations.text;
 
-import dev.acrispycookie.crispycommons.utility.elements.AbstractCrispyElement;
+import dev.acrispycookie.crispycommons.utility.elements.AnimatedElement;
 
-public class TextElement extends AbstractCrispyElement<String> {
+import java.util.ArrayList;
 
-    public TextElement(String text) {
-        super(text);
+public abstract class TextElement extends AnimatedElement<String> {
+
+    public TextElement(ArrayList<String> frames, int period) {
+        super(frames, period);
     }
 }

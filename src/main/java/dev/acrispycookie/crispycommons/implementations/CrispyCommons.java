@@ -1,8 +1,9 @@
 package dev.acrispycookie.crispycommons.implementations;
 
+import dev.acrispycookie.crispycommons.implementations.holograms.CrispyHologram;
 import dev.acrispycookie.crispycommons.implementations.holograms.implementations.SimpleHologram;
+import dev.acrispycookie.crispycommons.implementations.holograms.lines.implementations.ItemHologramLine;
 import dev.acrispycookie.crispycommons.implementations.holograms.lines.implementations.TextHologramLine;
-import dev.acrispycookie.crispycommons.utility.elements.implementations.text.AnimatedTextElement;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;

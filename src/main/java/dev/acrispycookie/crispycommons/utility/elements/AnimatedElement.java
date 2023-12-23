@@ -11,7 +11,7 @@ public abstract class AnimatedElement<T> extends AbstractCrispyElement<T> {
     private final int period;
     private int frame;
     private int taskId;
-    protected abstract void update(T nextFrame);
+    protected abstract void update();
 
     public AnimatedElement(ArrayList<T> frames, int period) {
         super(frames.get(0));
@@ -20,19 +20,11 @@ public abstract class AnimatedElement<T> extends AbstractCrispyElement<T> {
         this.period = period;
     }
 
-    public AnimatedElement(T frame, int period) {
-        super(frame);
-        this.frames = new ArrayList<>();
-        this.frames.add(frame);
-        this.frame = 0;
-        this.period = period;
-    }
-
     public void start() {
         taskId = Bukkit.getScheduler().runTaskTimer(CrispyCommons.getPlugin(), () -> {
             this.frame = this.frame + 1 >= this.frames.size() ? 0 : this.frame + 1;
             this.element = frames.get(frame);
-            update(this.element);
+            update();
         }, 0, period).getTaskId();
     }
 
