@@ -21,7 +21,6 @@ public interface CrispyHologram {
     boolean isDisplayed();
     Location getLocation();
     int getTimeToLive();
-    Location getLineLocation(HologramLine<?> line);
     List<HologramLine<?>> getLines();
     void setLocation(Location location);
     void setTimeToLive(int timeToLive);

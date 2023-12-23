@@ -41,7 +41,7 @@ public abstract class AnimatedElement<T> extends AbstractCrispyElement<T> {
     }
 
     @Override
-    public T getElement() {
+    public T getContent() {
         element = frames.get(frame);
         frame = frame + 1 >= frames.size() ? 0 : frame + 1;
 

@@ -23,6 +23,7 @@ public abstract class AbstractCrispyHologram implements CrispyHologram {
         this.lines = new ArrayList<>();
         this.location = location;
         this.timeToLive = timeToLive;
+        this.isDisplayed = false;
     }
 
     @Override

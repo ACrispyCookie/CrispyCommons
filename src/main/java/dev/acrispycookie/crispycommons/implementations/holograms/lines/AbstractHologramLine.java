@@ -2,7 +2,6 @@ package dev.acrispycookie.crispycommons.implementations.holograms.lines;
 
 import dev.acrispycookie.crispycommons.implementations.holograms.CrispyHologram;
 import dev.acrispycookie.crispycommons.utility.elements.AnimatedElement;
-import dev.acrispycookie.crispycommons.utility.elements.CrispyElement;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -20,12 +19,13 @@ public abstract class AbstractHologramLine<T extends AnimatedElement<K>, K> impl
     public AbstractHologramLine(T element, Collection<? extends Player> receivers) {
         this.element = element;
         this.hologram = null;
+        this.isDisplayed = false;
         this.receivers.addAll(receivers);
     }
 
     @Override
     public K getCurrentContent() {
-        return element.getElement();
+        return element.getContent();
     }
 
     @Override

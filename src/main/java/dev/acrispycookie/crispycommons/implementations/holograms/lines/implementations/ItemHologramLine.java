@@ -5,6 +5,7 @@ import dev.acrispycookie.crispycommons.implementations.itemstack.CrispyItem;
 import dev.acrispycookie.crispycommons.utility.elements.implementations.items.ItemElement;
 import dev.acrispycookie.crispycommons.utility.elements.implementations.items.SimpleItemElement;
 import net.minecraft.server.v1_8_R3.EntityItem;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -27,6 +28,14 @@ public class ItemHologramLine extends ClickableHologramLine<ItemElement, CrispyI
                 ItemHologramLine.this.updateElement();
             }
         };
+    }
+
+    @Override
+    public Location getLocation() {
+        int index = hologram.getLines().indexOf(this);
+        Location location = hologram.getLocation().clone();
+        location.subtract(0, index * 0.25, 0);
+        return location;
     }
 
     @Override

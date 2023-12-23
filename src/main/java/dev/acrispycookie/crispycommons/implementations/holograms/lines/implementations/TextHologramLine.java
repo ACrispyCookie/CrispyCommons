@@ -35,14 +35,24 @@ public class TextHologramLine extends ClickableHologramLine<TextElement, String>
         };
     }
 
+    @Override
+    public Location getLocation() {
+        int index = hologram.getLines().indexOf(this);
+        Location location = hologram.getLocation().clone();
+        location.subtract(0, index * 0.25, 0);
+        return location;
+    }
+
     protected void display(Player player) {
+        System.out.println("Displaying");
         String text = getCurrentContent();
 
         if (StringUtils.isEmptyOrWhitespaceOnly(text)) {
             return;
         }
+        System.out.println("Text: " + text);
 
-        Location location = hologram.getLineLocation(this);
+        Location location = getLocation();
         as = new EntityArmorStand(((CraftWorld) location.getWorld()).getHandle(), location.getX(), location.getY(), location.getZ());
         as.setInvisible(true);
         as.setGravity(false);

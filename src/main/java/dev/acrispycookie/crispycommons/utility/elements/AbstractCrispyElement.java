@@ -9,7 +9,7 @@ public class AbstractCrispyElement<T> implements CrispyElement<T> {
     }
 
     @Override
-    public T getElement() {
+    public T getContent() {
         return element;
     }
 }

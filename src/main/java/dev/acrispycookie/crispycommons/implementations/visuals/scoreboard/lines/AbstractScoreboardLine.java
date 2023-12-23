@@ -24,6 +24,6 @@ public class AbstractScoreboardLine implements ScoreboardLine {
 
     @Override
     public String getContent() {
-        return element.getElement();
+        return element.getContent();
     }
 }
