@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 public abstract class AbstractCrispyHologram implements CrispyHologram {
 
@@ -54,6 +55,39 @@ public abstract class AbstractCrispyHologram implements CrispyHologram {
     }
 
     @Override
+    public void addPlayer(Player player) {
+        lines.forEach(line -> line.addPlayer(player));
+    }
+
+    @Override
+    public void removePlayer(Player player) {
+        lines.forEach(line -> line.removePlayer(player));
+    }
+
+    @Override
+    public void setPlayers(Collection<? extends Player> players) {
+        lines.forEach(line -> line.setPlayers(players));
+    }
+
+    @Override
+    public void addLine(int index, HologramLine<?> line) {
+        lines.add(index, line);
+        line.setHologram(this);
+        if (isDisplayed) {
+            line.display();
+        }
+
+        for (int i = index + 1; i < lines.size(); i++) {
+            lines.get(i).updateLocation();
+        }
+    }
+
+    @Override
+    public void addLine(HologramLine<?> line) {
+        addLine(lines.size() - 1, line);
+    }
+
+    @Override
     public void removeLine(int index) {
         HologramLine<?> toRemove = lines.get(index);
         lines.remove(index);
@@ -67,18 +101,23 @@ public abstract class AbstractCrispyHologram implements CrispyHologram {
     }
 
     @Override
-    public void addPlayer(Player player) {
-        lines.forEach(line -> line.addPlayer(player));
+    public Location getLocation() {
+        return location;
     }
 
     @Override
-    public void removePlayer(Player player) {
-        lines.forEach(line -> line.removePlayer(player));
+    public int getTimeToLive() {
+        return timeToLive;
     }
 
     @Override
-    public void setPlayers(Player... players) {
-        lines.forEach(line -> line.setPlayers(players));
+    public ArrayList<HologramLine<?>> getLines() {
+        return lines;
+    }
+
+    @Override
+    public boolean isDisplayed() {
+        return isDisplayed;
     }
 
     @Override
@@ -93,10 +132,5 @@ public abstract class AbstractCrispyHologram implements CrispyHologram {
     @Override
     public void setTimeToLive(int timeToLive) {
         this.timeToLive = timeToLive;
-    }
-
-    @Override
-    public boolean isDisplayed() {
-        return isDisplayed;
     }
 }

@@ -14,17 +14,18 @@ import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class TextHologramLine extends ClickableHologramLine<TextElement, String> {
 
     private EntityArmorStand as = null;
 
-    public TextHologramLine(String staticLine, List<Player> receivers) {
+    public TextHologramLine(String staticLine, Collection<? extends Player> receivers) {
         super(new SimpleTextElement(staticLine), receivers);
     }
 
-    public TextHologramLine(ArrayList<String> frames, int period, List<Player> receivers) {
+    public TextHologramLine(Collection<? extends String> frames, int period, Collection<? extends Player> receivers) {
         super(null, receivers);
         element = new TextElement(frames, period) {
             @Override

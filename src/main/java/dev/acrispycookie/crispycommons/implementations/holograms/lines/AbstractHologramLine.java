@@ -17,7 +17,7 @@ public abstract class AbstractHologramLine<T extends AnimatedElement<K>, K> impl
     protected abstract void destroy(Player player);
     protected abstract void update(Player player);
 
-    public AbstractHologramLine(T element, List<Player> receivers) {
+    public AbstractHologramLine(T element, Collection<? extends Player> receivers) {
         this.element = element;
         this.hologram = null;
         this.receivers.addAll(receivers);
@@ -74,9 +74,9 @@ public abstract class AbstractHologramLine<T extends AnimatedElement<K>, K> impl
     }
 
     @Override
-    public void setPlayers(Player... players) {
+    public void setPlayers(Collection<? extends Player> players) {
         receivers.clear();
-        receivers.addAll(Arrays.asList(players));
+        receivers.addAll(players);
         if (isDisplayed) {
             destroy();
             display();

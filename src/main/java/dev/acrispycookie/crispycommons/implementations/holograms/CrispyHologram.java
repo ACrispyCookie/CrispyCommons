@@ -4,17 +4,25 @@ import dev.acrispycookie.crispycommons.implementations.holograms.lines.HologramL
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
+import java.util.Collection;
+import java.util.List;
+
 public interface CrispyHologram {
 
     void display();
     void destroy();
     void update();
-    Location getLineLocation(HologramLine<?> line);
-    void removeLine(int index);
     void addPlayer(Player player);
     void removePlayer(Player player);
-    void setPlayers(Player... players);
+    void setPlayers(Collection<? extends Player> players);
+    void addLine(HologramLine<?> line);
+    void addLine(int index, HologramLine<?> line);
+    void removeLine(int index);
     boolean isDisplayed();
+    Location getLocation();
+    int getTimeToLive();
+    Location getLineLocation(HologramLine<?> line);
+    List<HologramLine<?>> getLines();
     void setLocation(Location location);
     void setTimeToLive(int timeToLive);
 }

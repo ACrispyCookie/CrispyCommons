@@ -8,17 +8,18 @@ import net.minecraft.server.v1_8_R3.EntityItem;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class ItemHologramLine extends ClickableHologramLine<ItemElement, CrispyItem> {
 
     private EntityItem ei = null;
 
-    public ItemHologramLine(CrispyItem item, List<Player> receivers) {
+    public ItemHologramLine(CrispyItem item, Collection<? extends Player> receivers) {
         super(new SimpleItemElement(item), receivers);
     }
 
-    public ItemHologramLine(ArrayList<CrispyItem> items, int period, List<Player> receivers) {
+    public ItemHologramLine(Collection<? extends CrispyItem> items, int period, Collection<? extends Player> receivers) {
         super(null, receivers);
         this.element = new ItemElement(items, period) {
             @Override
