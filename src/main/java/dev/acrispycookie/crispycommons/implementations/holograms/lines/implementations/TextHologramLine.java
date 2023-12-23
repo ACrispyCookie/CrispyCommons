@@ -13,9 +13,7 @@ import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 public class TextHologramLine extends ClickableHologramLine<TextElement, String> {
 
@@ -30,7 +28,7 @@ public class TextHologramLine extends ClickableHologramLine<TextElement, String>
         element = new TextElement(frames, period) {
             @Override
             protected void update() {
-                TextHologramLine.this.updateElement();
+                TextHologramLine.this.updateContent();
             }
         };
     }

@@ -52,7 +52,7 @@ public abstract class AbstractCrispyHologram implements CrispyHologram {
 
     @Override
     public void update() {
-        lines.forEach(HologramLine::updateElement);
+        lines.forEach(HologramLine::updateContent);
     }
 
     @Override

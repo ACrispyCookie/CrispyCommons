@@ -24,6 +24,11 @@ public abstract class AbstractHologramLine<T extends AnimatedElement<K>, K> impl
     }
 
     @Override
+    public List<Player> getPlayers() {
+        return new ArrayList<>(receivers);
+    }
+
+    @Override
     public K getCurrentContent() {
         return element.getContent();
     }
@@ -51,7 +56,7 @@ public abstract class AbstractHologramLine<T extends AnimatedElement<K>, K> impl
     }
 
     @Override
-    public void updateElement() {
+    public void updateContent() {
         if (isDisplayed) {
             receivers.forEach(this::update);
         }

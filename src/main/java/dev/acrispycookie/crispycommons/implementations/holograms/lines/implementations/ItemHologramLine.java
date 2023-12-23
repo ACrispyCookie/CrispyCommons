@@ -1,6 +1,5 @@
 package dev.acrispycookie.crispycommons.implementations.holograms.lines.implementations;
 
-import dev.acrispycookie.crispycommons.implementations.holograms.CrispyHologram;
 import dev.acrispycookie.crispycommons.implementations.itemstack.CrispyItem;
 import dev.acrispycookie.crispycommons.utility.elements.implementations.items.ItemElement;
 import dev.acrispycookie.crispycommons.utility.elements.implementations.items.SimpleItemElement;
@@ -8,9 +7,7 @@ import net.minecraft.server.v1_8_R3.EntityItem;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 public class ItemHologramLine extends ClickableHologramLine<ItemElement, CrispyItem> {
 
@@ -25,7 +22,7 @@ public class ItemHologramLine extends ClickableHologramLine<ItemElement, CrispyI
         this.element = new ItemElement(items, period) {
             @Override
             protected void update() {
-                ItemHologramLine.this.updateElement();
+                ItemHologramLine.this.updateContent();
             }
         };
     }
