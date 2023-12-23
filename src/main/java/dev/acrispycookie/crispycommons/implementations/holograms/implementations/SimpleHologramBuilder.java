@@ -16,7 +16,7 @@ public class SimpleHologramBuilder {
 
     private Location location;
     private int timeToLive;
-    private boolean isPublic;
+    private boolean isPublic = false;
     private final SimpleHologram hologram;
     private final ArrayList<Player> defaultReceivers = new ArrayList<>();
     private final HashMap<HologramLine<?>, Boolean> lines = new HashMap<>();
@@ -72,14 +72,14 @@ public class SimpleHologramBuilder {
         return this;
     }
 
-    public SimpleHologramBuilder addTextLine(Collection<? extends String> frames, int period) {
+    public SimpleHologramBuilder addAnimatedTextLine(Collection<? extends String> frames, int period) {
         TextHologramLine line = new TextHologramLine(frames, period, defaultReceivers);
         line.setHologram(hologram);
         lines.put(line, true);
         return this;
     }
 
-    public SimpleHologramBuilder addTextLine(Collection<? extends String> frames, int period, Collection<? extends Player> receivers) {
+    public SimpleHologramBuilder addAnimatedTextLine(Collection<? extends String> frames, int period, Collection<? extends Player> receivers) {
         TextHologramLine line = new TextHologramLine(frames, period, receivers);
         line.setHologram(hologram);
         lines.put(line, false);
@@ -100,14 +100,14 @@ public class SimpleHologramBuilder {
         return this;
     }
 
-    public SimpleHologramBuilder addItemLine(Collection<? extends CrispyItem> frames, int period) {
+    public SimpleHologramBuilder addAnimatedItemLine(Collection<? extends CrispyItem> frames, int period) {
         ItemHologramLine line = new ItemHologramLine(frames, period, defaultReceivers);
         line.setHologram(hologram);
         lines.put(line, true);
         return this;
     }
 
-    public SimpleHologramBuilder addItemLine(Collection<? extends CrispyItem> frames, int period, Collection<? extends Player> receivers) {
+    public SimpleHologramBuilder addAnimatedItemLine(Collection<? extends CrispyItem> frames, int period, Collection<? extends Player> receivers) {
         ItemHologramLine line = new ItemHologramLine(frames, period, receivers);
         line.setHologram(hologram);
         lines.put(line, false);
