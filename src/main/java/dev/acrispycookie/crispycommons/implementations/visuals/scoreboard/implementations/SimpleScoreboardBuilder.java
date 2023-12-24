@@ -23,12 +23,21 @@ public class SimpleScoreboardBuilder {
     private final HashMap<ScoreboardLine, Boolean> lines = new HashMap<>();
 
 
-    public SimpleScoreboardBuilder() {
-        this.scoreboard = new SimpleScoreboard();
+    public SimpleScoreboardBuilder(String staticTitle) {
+        this.scoreboard = new SimpleScoreboard(new ScoreboardTitleLine(staticTitle));
     }
 
-    public SimpleScoreboardBuilder(Collection<? extends Player> defaultReceivers) {
-        this.scoreboard = new SimpleScoreboard();
+    public SimpleScoreboardBuilder(String staticTitle, Collection<? extends Player> defaultReceivers) {
+        this.scoreboard = new SimpleScoreboard(new ScoreboardTitleLine(staticTitle));
+        this.defaultReceivers.addAll(defaultReceivers);
+    }
+
+    public SimpleScoreboardBuilder(ArrayList<String> titleFrames, int period) {
+        this.scoreboard = new SimpleScoreboard(new ScoreboardTitleLine(titleFrames, period));
+    }
+
+    public SimpleScoreboardBuilder(ArrayList<String> titleFrames, int period, Collection<? extends Player> defaultReceivers) {
+        this.scoreboard = new SimpleScoreboard(new ScoreboardTitleLine(titleFrames, period));
         this.defaultReceivers.addAll(defaultReceivers);
     }
 
@@ -78,7 +87,7 @@ public class SimpleScoreboardBuilder {
 
     public SimpleScoreboard build() {
         if(isPublic) {
-            return new SimpleScoreboard(); //TODO fix
+            return new PublicScoreboard(title);
         }
 
         lines.forEach((l, b) -> {

@@ -5,18 +5,21 @@ import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.
 import dev.acrispycookie.crispycommons.utility.showable.AbstractCrispyShowable;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
 
 import java.util.*;
 
-public class AbstractCrispyScoreboard extends AbstractCrispyShowable<List<ScoreboardLine>> implements CrispyScoreboard {
+public abstract class AbstractCrispyScoreboard extends AbstractCrispyShowable<List<ScoreboardLine>> implements CrispyScoreboard {
 
     protected ScoreboardTitleLine title;
     protected final ArrayList<ScoreboardLine> lines = new ArrayList<>();
     protected final Map<Player, Scoreboard> bukkitScoreboards = new HashMap<>();
 
-    public AbstractCrispyScoreboard() {
+    public AbstractCrispyScoreboard(ScoreboardTitleLine title) {
         super(new HashSet<>());
+        this.title = title;
     }
 
     @Override
@@ -26,9 +29,30 @@ public class AbstractCrispyScoreboard extends AbstractCrispyShowable<List<Scoreb
         }
 
         isDisplayed = true;
-        getPlayers().forEach((p) -> bukkitScoreboards.put(p, Bukkit.getScoreboardManager().getNewScoreboard()));
+        getPlayers().forEach((p) -> {
+            Scoreboard scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
+            bukkitScoreboards.put(p, scoreboard);
+            scoreboard.registerNewObjective("[CrispyCommons]", "dummy").setDisplaySlot(DisplaySlot.SIDEBAR);
+        });
+        System.out.println("Building scoreboard");
         title.show();
+        System.out.println("Built title");
         lines.forEach(ScoreboardLine::show);
+        System.out.println("Built lines");
+        System.out.println("Final:");
+        getPlayers().forEach((p) -> {
+            Scoreboard scoreboard = getBukkitScoreboard(p);
+            System.out.println("Title: " + scoreboard.getObjective("[CrispyCommons]").getDisplayName());
+            for (int i = 0; i < scoreboard.getTeams().size(); i++) {
+                Team team = scoreboard.getTeam(String.valueOf(i));
+                System.out.println("Line: " + i);
+                System.out.println("  Prefix: " + team.getPrefix());
+                System.out.println("  Entry: " + team.getEntries().iterator().next());
+                System.out.println("  Suffix: " + team.getSuffix());
+            }
+            System.out.println("Showing to player:");
+            p.setScoreboard(scoreboard);
+        });
     }
 
     @Override
@@ -75,7 +99,7 @@ public class AbstractCrispyScoreboard extends AbstractCrispyShowable<List<Scoreb
 
     @Override
     public List<ScoreboardLine> getCurrentContent() {
-        return null;
+        return new ArrayList<>(lines);
     }
 
     @Override

@@ -28,7 +28,7 @@ public class ItemHologramLine extends ClickableHologramLine<ItemElement, CrispyI
     }
 
     @Override
-    public Location getLocation() {
+    public Location getLocation(Player player) {
         int index = hologram.getCurrentContent().indexOf(this);
         Location location = hologram.getLocation().clone();
         location.subtract(0, index * 0.25, 0);

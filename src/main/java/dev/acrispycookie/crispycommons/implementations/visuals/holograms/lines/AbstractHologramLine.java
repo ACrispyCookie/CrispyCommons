@@ -31,6 +31,7 @@ public abstract class AbstractHologramLine<T extends AnimatedElement<K>, K> exte
         element.start();
         receivers.forEach(this::show);
         isDisplayed = true;
+        hologram.update();
     }
 
     @Override
@@ -42,6 +43,7 @@ public abstract class AbstractHologramLine<T extends AnimatedElement<K>, K> exte
         element.stop();
         receivers.forEach(this::hide);
         isDisplayed = false;
+        hologram.update();
     }
 
     @Override
@@ -84,14 +86,6 @@ public abstract class AbstractHologramLine<T extends AnimatedElement<K>, K> exte
     @Override
     public void setHologram(CrispyHologram hologram) {
         this.hologram = hologram;
-    }
-
-    @Override
-    public void updateLocation() {
-        if (isDisplayed) {
-            hide();
-            show();
-        }
     }
 
 }

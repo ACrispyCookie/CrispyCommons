@@ -1,12 +1,10 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.holograms.lines.implementations;
 
 import com.mysql.jdbc.StringUtils;
+import dev.acrispycookie.crispycommons.implementations.visuals.holograms.lines.HologramLine;
 import dev.acrispycookie.crispycommons.utility.elements.implementations.text.SimpleTextElement;
 import dev.acrispycookie.crispycommons.utility.elements.implementations.text.TextElement;
-import net.minecraft.server.v1_8_R3.EntityArmorStand;
-import net.minecraft.server.v1_8_R3.PacketPlayOutEntityDestroy;
-import net.minecraft.server.v1_8_R3.PacketPlayOutEntityMetadata;
-import net.minecraft.server.v1_8_R3.PacketPlayOutSpawnEntity;
+import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
@@ -14,6 +12,7 @@ import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import java.util.Collection;
+import java.util.List;
 
 public class TextHologramLine extends ClickableHologramLine<TextElement, String> {
 
@@ -34,8 +33,18 @@ public class TextHologramLine extends ClickableHologramLine<TextElement, String>
     }
 
     @Override
-    public Location getLocation() {
-        int index = hologram.getCurrentContent().indexOf(this);
+    public Location getLocation(Player player) {
+        int index = 0;
+        List<HologramLine<?>> lines = hologram.getCurrentContent();
+        for (HologramLine<?> line : lines) {
+            if (line.equals(this)) {
+                break;
+            }
+            if (line.getPlayers().contains(player) && line.isDisplayed()) {
+                index++;
+            }
+        }
+
         Location location = hologram.getLocation().clone();
         location.subtract(0, index * 0.25, 0);
         return location;
@@ -48,7 +57,7 @@ public class TextHologramLine extends ClickableHologramLine<TextElement, String>
             return;
         }
 
-        Location location = getLocation();
+        Location location = getLocation(player);
         as = new EntityArmorStand(((CraftWorld) location.getWorld()).getHandle(), location.getX(), location.getY(), location.getZ());
         as.setInvisible(true);
         as.setGravity(false);
@@ -71,9 +80,13 @@ public class TextHologramLine extends ClickableHologramLine<TextElement, String>
 
     protected void update(Player player) {
         if(as != null) {
+            Location location = getLocation(player);
             as.setCustomName(ChatColor.translateAlternateColorCodes('&', getCurrentContent()));
+            as.setLocation(location.getX(), location.getY(), location.getZ(), 0, 0);
             PacketPlayOutEntityMetadata metadata = new PacketPlayOutEntityMetadata(as.getId(), as.getDataWatcher(), true);
+            PacketPlayOutEntityTeleport teleport = new PacketPlayOutEntityTeleport(as);
             ((CraftPlayer) player).getHandle().playerConnection.sendPacket(metadata);
+            ((CraftPlayer) player).getHandle().playerConnection.sendPacket(teleport);
         }
     }
 }

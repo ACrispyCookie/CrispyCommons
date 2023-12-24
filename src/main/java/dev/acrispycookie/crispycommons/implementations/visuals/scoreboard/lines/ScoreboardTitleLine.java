@@ -4,7 +4,7 @@ import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.Crispy
 import dev.acrispycookie.crispycommons.utility.elements.implementations.text.SimpleTextElement;
 import dev.acrispycookie.crispycommons.utility.elements.implementations.text.TextElement;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 
@@ -17,8 +17,8 @@ public class ScoreboardTitleLine extends AbstractScoreboardLine {
         super(new SimpleTextElement(content), new HashSet<>());
     }
 
-    public ScoreboardTitleLine(Collection<? extends String> frames, int period, Collection<? extends Player> receivers) {
-        super(null, receivers);
+    public ScoreboardTitleLine(Collection<? extends String> frames, int period) {
+        super(null, new HashSet<>());
         this.element = new TextElement(frames, period) {
             @Override
             protected void update() {

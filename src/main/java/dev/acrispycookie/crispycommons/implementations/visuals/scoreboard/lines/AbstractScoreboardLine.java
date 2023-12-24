@@ -30,6 +30,7 @@ public abstract class AbstractScoreboardLine extends AbstractCrispyShowable<Stri
         element.start();
         receivers.forEach((p) -> show(scoreboard.getBukkitScoreboard(p)));
         isDisplayed = true;
+        scoreboard.update();
     }
 
     @Override
@@ -41,12 +42,13 @@ public abstract class AbstractScoreboardLine extends AbstractCrispyShowable<Stri
         element.stop();
         receivers.forEach((p) -> hide(scoreboard.getBukkitScoreboard(p)));
         isDisplayed = false;
+        scoreboard.update();
     }
 
     @Override
     public void update() {
         if (isDisplayed) {
-            receivers.forEach((p) -> show(scoreboard.getBukkitScoreboard(p)));
+            receivers.forEach((p) -> update(scoreboard.getBukkitScoreboard(p)));
         }
     }
 

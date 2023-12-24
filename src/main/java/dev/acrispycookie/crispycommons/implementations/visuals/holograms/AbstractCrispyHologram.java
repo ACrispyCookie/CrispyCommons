@@ -91,9 +91,7 @@ public abstract class AbstractCrispyHologram extends AbstractCrispyShowable<List
             line.show();
         }
 
-        for (int i = index + 1; i < lines.size(); i++) {
-            lines.get(i).updateLocation();
-        }
+        lines.forEach(HologramLine::update);
     }
 
     @Override
@@ -109,9 +107,7 @@ public abstract class AbstractCrispyHologram extends AbstractCrispyShowable<List
             toRemove.hide();
         }
 
-        for (HologramLine<?> line : lines) {
-            line.updateLocation();
-        }
+        lines.forEach(HologramLine::update);
     }
 
     @Override
@@ -133,9 +129,7 @@ public abstract class AbstractCrispyHologram extends AbstractCrispyShowable<List
     public void setLocation(Location location) {
         this.location = location;
 
-        for (HologramLine<?> line : lines) {
-            line.updateLocation();
-        }
+        update();
     }
 
     @Override
