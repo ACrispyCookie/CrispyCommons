@@ -7,17 +7,16 @@ import org.bukkit.entity.Player;
 
 import java.util.*;
 
-public abstract class AbstractHologramLine<T extends AnimatedElement<K>, K> extends AbstractCrispyShowable implements HologramLine<K> {
+public abstract class AbstractHologramLine<T extends AnimatedElement<K>, K> extends AbstractCrispyShowable<K> implements HologramLine<K> {
 
     protected T element;
     protected CrispyHologram hologram;
-    protected final Set<Player> receivers = new HashSet<>();
-    protected abstract void display(Player player);
-    protected abstract void destroy(Player player);
+    protected abstract void show(Player player);
+    protected abstract void hide(Player player);
     protected abstract void update(Player player);
 
     public AbstractHologramLine(T element, Collection<? extends Player> receivers) {
-        super(receivers);
+        super(new HashSet<>(receivers));
         this.element = element;
         this.hologram = null;
         this.receivers.addAll(receivers);
@@ -30,7 +29,7 @@ public abstract class AbstractHologramLine<T extends AnimatedElement<K>, K> exte
         }
 
         element.start();
-        receivers.forEach(this::display);
+        receivers.forEach(this::show);
         isDisplayed = true;
     }
 
@@ -41,7 +40,7 @@ public abstract class AbstractHologramLine<T extends AnimatedElement<K>, K> exte
         }
 
         element.stop();
-        receivers.forEach(this::destroy);
+        receivers.forEach(this::hide);
         isDisplayed = false;
     }
 
@@ -54,38 +53,27 @@ public abstract class AbstractHologramLine<T extends AnimatedElement<K>, K> exte
 
     @Override
     public void addPlayer(Player player) {
-        receivers.add(player);
+        super.addPlayer(player);
         if (isDisplayed) {
-            display(player);
+            show(player);
         }
     }
 
     @Override
     public void removePlayer(Player player) {
-        receivers.remove(player);
+        super.removePlayer(player);
         if (isDisplayed) {
-            destroy(player);
+            hide(player);
         }
     }
 
     @Override
     public void setPlayers(Collection<? extends Player> players) {
-        receivers.clear();
-        receivers.addAll(players);
+        super.setPlayers(players);
         if (isDisplayed) {
             hide();
             show();
         }
-    }
-
-    @Override
-    public boolean isDisplayed() {
-        return isDisplayed;
-    }
-
-    @Override
-    public List<Player> getPlayers() {
-        return new ArrayList<>(receivers);
     }
 
     @Override

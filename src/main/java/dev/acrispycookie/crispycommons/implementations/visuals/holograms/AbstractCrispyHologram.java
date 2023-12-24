@@ -2,16 +2,15 @@ package dev.acrispycookie.crispycommons.implementations.visuals.holograms;
 
 import dev.acrispycookie.crispycommons.implementations.CrispyCommons;
 import dev.acrispycookie.crispycommons.implementations.visuals.holograms.lines.HologramLine;
+import dev.acrispycookie.crispycommons.utility.showable.AbstractCrispyShowable;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
-public abstract class AbstractCrispyHologram implements CrispyHologram {
+public abstract class AbstractCrispyHologram extends AbstractCrispyShowable<List<HologramLine<?>>> implements CrispyHologram {
 
     protected final JavaPlugin plugin;
     protected ArrayList<HologramLine<?>> lines;
@@ -20,6 +19,7 @@ public abstract class AbstractCrispyHologram implements CrispyHologram {
     protected int timeToLive;
 
     public AbstractCrispyHologram(Location location, int timeToLive) {
+        super(new HashSet<>());
         this.plugin = CrispyCommons.getPlugin();
         this.lines = new ArrayList<>();
         this.location = location;
@@ -72,8 +72,8 @@ public abstract class AbstractCrispyHologram implements CrispyHologram {
     }
 
     @Override
-    public List<Player> getPlayers() {
-        ArrayList<Player> players = new ArrayList<>();
+    public Set<Player> getPlayers() {
+        HashSet<Player> players = new HashSet<>();
         lines.forEach(line -> players.addAll(line.getPlayers()));
         return players;
     }
@@ -125,7 +125,7 @@ public abstract class AbstractCrispyHologram implements CrispyHologram {
     }
 
     @Override
-    public ArrayList<HologramLine<?>> getLines() {
+    public List<HologramLine<?>> getCurrentContent() {
         return lines;
     }
 

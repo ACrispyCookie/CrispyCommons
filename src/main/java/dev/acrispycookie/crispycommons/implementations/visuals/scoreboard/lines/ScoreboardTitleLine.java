@@ -1,13 +1,53 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines;
 
-public class ScoreboardTitleLine extends ScoreboardLine {
+import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.CrispyScoreboard;
+import dev.acrispycookie.crispycommons.utility.elements.implementations.text.SimpleTextElement;
+import dev.acrispycookie.crispycommons.utility.elements.implementations.text.TextElement;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Scoreboard;
+
+import java.util.Collection;
+import java.util.HashSet;
+
+public class ScoreboardTitleLine extends AbstractScoreboardLine {
 
     public ScoreboardTitleLine(String content) {
-        super(content);
+        super(new SimpleTextElement(content), new HashSet<>());
+    }
+
+    public ScoreboardTitleLine(Collection<? extends String> frames, int period, Collection<? extends Player> receivers) {
+        super(null, receivers);
+        this.element = new TextElement(frames, period) {
+            @Override
+            protected void update() {
+                ScoreboardTitleLine.this.update();
+            }
+        };
+    }
+
+
+    @Override
+    protected void show(Scoreboard bukkitScoreboard) {
+        Objective obj = bukkitScoreboard.getObjective("[CrispyCommons]");
+        obj.setDisplayName(ChatColor.translateAlternateColorCodes('&', getCurrentContent()));
     }
 
     @Override
-    public String getContent() {
-        return content;
+    protected void hide(Scoreboard bukkitScoreboard) {
+        Objective obj = bukkitScoreboard.getObjective("[CrispyCommons]");
+        obj.setDisplayName("");
+    }
+
+    @Override
+    protected void update(Scoreboard bukkitScoreboard) {
+        show(bukkitScoreboard);
+    }
+
+    @Override
+    public void setScoreboard(CrispyScoreboard scoreboard) {
+        super.setScoreboard(scoreboard);
+        setPlayers(scoreboard.getPlayers());
     }
 }

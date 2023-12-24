@@ -1,61 +1,92 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.implementations;
 
+import dev.acrispycookie.crispycommons.implementations.visuals.holograms.lines.HologramLine;
+import dev.acrispycookie.crispycommons.implementations.visuals.holograms.lines.implementations.ItemHologramLine;
+import dev.acrispycookie.crispycommons.implementations.visuals.holograms.lines.implementations.TextHologramLine;
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.ScoreboardLine;
+import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.ScoreboardTitleLine;
+import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.SimpleScoreboardLine;
+import dev.acrispycookie.crispycommons.implementations.wrappers.itemstack.CrispyItem;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 
 public class SimpleScoreboardBuilder {
 
-    private final JavaPlugin plugin;
-    private final Player player;
-    private String title;
-    private ArrayList<ScoreboardLine> lines = new ArrayList<>();
-    private int updateInterval;
+    private boolean isPublic = false;
+    private ScoreboardTitleLine title;
+    private final SimpleScoreboard scoreboard;
+    private final ArrayList<Player> defaultReceivers = new ArrayList<>();
+    private final HashMap<ScoreboardLine, Boolean> lines = new HashMap<>();
 
-    public SimpleScoreboardBuilder(JavaPlugin plugin, Player player) {
-        this.plugin = plugin;
-        this.player = player;
+
+    public SimpleScoreboardBuilder() {
+        this.scoreboard = new SimpleScoreboard();
     }
 
-    public SimpleScoreboardBuilder setTitle(String title) {
-        this.title = title;
+    public SimpleScoreboardBuilder(Collection<? extends Player> defaultReceivers) {
+        this.scoreboard = new SimpleScoreboard();
+        this.defaultReceivers.addAll(defaultReceivers);
+    }
+
+    public SimpleScoreboardBuilder addDefaultReceiver(Player player) {
+        defaultReceivers.add(player);
         return this;
     }
 
-    public SimpleScoreboardBuilder setLines(ArrayList<ScoreboardLine> lines) {
-        this.lines = lines;
+    public SimpleScoreboardBuilder setDefaultReceivers(Collection<? extends Player> players) {
+        defaultReceivers.clear();
+        defaultReceivers.addAll(players);
         return this;
     }
 
-    public SimpleScoreboardBuilder addLine(ScoreboardLine line) {
-        lines.add(line);
+    public SimpleScoreboardBuilder addTextLine(String text) {
+        SimpleScoreboardLine line = new SimpleScoreboardLine(text, defaultReceivers);
+        scoreboard.addLine(line);
+        lines.put(line, true);
         return this;
     }
 
-    public SimpleScoreboardBuilder addLine(int index, ScoreboardLine line) {
-        lines.add(index, line);
+    public SimpleScoreboardBuilder addTextLine(String text, Collection<? extends Player> receivers) {
+        SimpleScoreboardLine line = new SimpleScoreboardLine(text, receivers);
+        scoreboard.addLine(line);
+        lines.put(line, false);
         return this;
     }
 
-    public SimpleScoreboardBuilder removeLine(int index) {
-        lines.remove(index);
+    public SimpleScoreboardBuilder addAnimatedTextLine(Collection<? extends String> frames, int period) {
+        SimpleScoreboardLine line = new SimpleScoreboardLine(frames, period, defaultReceivers);
+        scoreboard.addLine(line);
+        lines.put(line, true);
         return this;
     }
 
-    public SimpleScoreboardBuilder removeLine(ScoreboardLine line) {
-        lines.remove(line);
+    public SimpleScoreboardBuilder addAnimatedTextLine(Collection<? extends String> frames, int period, Collection<? extends Player> receivers) {
+        SimpleScoreboardLine line = new SimpleScoreboardLine(frames, period, receivers);
+        scoreboard.addLine(line);
+        lines.put(line, false);
         return this;
     }
 
-    public SimpleScoreboardBuilder setUpdateInterval(int updateInterval) {
-        this.updateInterval = updateInterval;
+    public SimpleScoreboardBuilder setPublic(boolean isPublic) {
+        this.isPublic = isPublic;
         return this;
     }
 
-    public SimpleCrispyScoreboard build() {
-        return new SimpleCrispyScoreboard(player, title, lines, updateInterval);
+    public SimpleScoreboard build() {
+        if(isPublic) {
+            return new SimpleScoreboard(); //TODO fix
+        }
+
+        lines.forEach((l, b) -> {
+            if(b)
+                l.setPlayers(defaultReceivers);
+        });
+        return scoreboard;
     }
+
 
 }

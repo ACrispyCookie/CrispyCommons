@@ -1,49 +1,104 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.scoreboard;
 
-import dev.acrispycookie.crispycommons.implementations.CrispyCommons;
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.ScoreboardLine;
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.ScoreboardTitleLine;
+import dev.acrispycookie.crispycommons.utility.showable.AbstractCrispyShowable;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scoreboard.Scoreboard;
 
-import java.util.ArrayList;
+import java.util.*;
 
-public abstract class AbstractCrispyScoreboard implements CrispyScoreboard {
+public class AbstractCrispyScoreboard extends AbstractCrispyShowable<List<ScoreboardLine>> implements CrispyScoreboard {
 
-    protected final Player player;
     protected ScoreboardTitleLine title;
     protected final ArrayList<ScoreboardLine> lines = new ArrayList<>();
-    protected int updateInterval;
-    private int updateTaskID;
-    protected final JavaPlugin plugin;
-    protected abstract void showInternal();
-    protected abstract void hideInternal();
+    protected final Map<Player, Scoreboard> bukkitScoreboards = new HashMap<>();
 
-    public AbstractCrispyScoreboard(Player player, ScoreboardTitleLine title, ArrayList<ScoreboardLine> lines, int updateInterval) {
-        this.plugin = CrispyCommons.getPlugin();
-        this.player = player;
-        this.title = title;
-        this.lines.addAll(lines);
-        this.updateInterval = updateInterval;
-    }
-
-    @Override
-    public void update() {
-        hideInternal();
-        showInternal();
+    public AbstractCrispyScoreboard() {
+        super(new HashSet<>());
     }
 
     @Override
     public void show() {
-        updateTaskID = Bukkit.getScheduler().runTaskTimer(plugin, this::update, 0, updateInterval).getTaskId();
-        showInternal();
+        if (isDisplayed) {
+            return;
+        }
+
+        isDisplayed = true;
+        getPlayers().forEach((p) -> bukkitScoreboards.put(p, Bukkit.getScoreboardManager().getNewScoreboard()));
+        title.show();
+        lines.forEach(ScoreboardLine::show);
     }
 
     @Override
     public void hide() {
-        Bukkit.getScheduler().cancelTask(updateTaskID);
-        hideInternal();
+        if (!isDisplayed) {
+            return;
+        }
+
+        isDisplayed = false;
+        title.hide();
+        lines.forEach(ScoreboardLine::hide);
+        getPlayers().forEach((p) -> p.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard()));
+    }
+
+    @Override
+    public void update() {
+        if (isDisplayed) {
+            title.update();
+            lines.forEach(ScoreboardLine::update);
+        }
+    }
+
+    @Override
+    public void addPlayer(Player player) {
+        lines.forEach(line -> line.addPlayer(player));
+    }
+
+    @Override
+    public void removePlayer(Player player) {
+        lines.forEach(line -> line.removePlayer(player));
+    }
+
+    @Override
+    public void setPlayers(Collection<? extends Player> players) {
+        lines.forEach(line -> line.setPlayers(players));
+    }
+
+    @Override
+    public Set<Player> getPlayers() {
+        HashSet<Player> players = new HashSet<>();
+        lines.forEach(line -> players.addAll(line.getPlayers()));
+        return players;
+    }
+
+    @Override
+    public List<ScoreboardLine> getCurrentContent() {
+        return null;
+    }
+
+    @Override
+    public void addLine(int index, ScoreboardLine line) {
+        lines.add(index, line);
+        line.setScoreboard(this);
+        if (isDisplayed) {
+            line.show();
+        }
+    }
+
+    @Override
+    public void addLine(ScoreboardLine line) {
+        addLine(lines.size(), line);
+    }
+
+    @Override
+    public void removeLine(int index) {
+        ScoreboardLine toRemove = lines.get(index);
+        lines.remove(index);
+        if (isDisplayed) {
+            toRemove.hide();
+        }
     }
 
     @Override
@@ -52,17 +107,13 @@ public abstract class AbstractCrispyScoreboard implements CrispyScoreboard {
     }
 
     @Override
-    public void addLine(ScoreboardLine line) {
-        addLine(0, line);
+    public ScoreboardTitleLine getTitle() {
+        return title;
     }
 
     @Override
-    public void addLine(int index, ScoreboardLine line) {
-        lines.add(index, line);
+    public Scoreboard getBukkitScoreboard(Player player) {
+        return bukkitScoreboards.get(player);
     }
 
-    @Override
-    public void removeLine(int index) {
-        lines.remove(index);
-    }
 }

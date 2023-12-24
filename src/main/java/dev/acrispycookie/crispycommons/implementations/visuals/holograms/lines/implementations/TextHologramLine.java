@@ -35,13 +35,13 @@ public class TextHologramLine extends ClickableHologramLine<TextElement, String>
 
     @Override
     public Location getLocation() {
-        int index = hologram.getLines().indexOf(this);
+        int index = hologram.getCurrentContent().indexOf(this);
         Location location = hologram.getLocation().clone();
         location.subtract(0, index * 0.25, 0);
         return location;
     }
 
-    protected void display(Player player) {
+    protected void show(Player player) {
         String text = getCurrentContent();
 
         if (StringUtils.isEmptyOrWhitespaceOnly(text)) {
@@ -62,7 +62,7 @@ public class TextHologramLine extends ClickableHologramLine<TextElement, String>
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket(metadata);
     }
 
-    protected void destroy(Player player) {
+    protected void hide(Player player) {
         if(as != null) {
             PacketPlayOutEntityDestroy spawn = new PacketPlayOutEntityDestroy(as.getId());
             ((CraftPlayer) player).getHandle().playerConnection.sendPacket(spawn);

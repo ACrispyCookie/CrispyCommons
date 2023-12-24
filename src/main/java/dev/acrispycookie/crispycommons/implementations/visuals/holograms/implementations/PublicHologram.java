@@ -12,23 +12,11 @@ public class PublicHologram extends SimpleHologram implements Listener {
 
     public PublicHologram(Location location, int timeToLive) {
         super(location, timeToLive);
-        Bukkit.getPluginManager().registerEvents(this, plugin);
         setPlayers(Bukkit.getOnlinePlayers());
     }
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
         addPlayer(e.getPlayer());
-    }
-
-    @EventHandler
-    public void onPlayerLeave(PlayerQuitEvent e) {
-        removePlayer(e.getPlayer());
-    }
-
-    @Override
-    public void hide() {
-        HandlerList.unregisterAll(this);
-        super.hide();
     }
 }

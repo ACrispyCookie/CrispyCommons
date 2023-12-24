@@ -6,14 +6,13 @@ import org.bukkit.Location;
 
 import java.util.List;
 
-public interface CrispyHologram extends CrispyShowable {
+public interface CrispyHologram extends CrispyShowable<List<HologramLine<?>>> {
 
     void addLine(HologramLine<?> line);
     void addLine(int index, HologramLine<?> line);
     void removeLine(int index);
     Location getLocation();
     int getTimeToLive();
-    List<HologramLine<?>> getLines();
     void setLocation(Location location);
     void setTimeToLive(int timeToLive);
 }

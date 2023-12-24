@@ -4,7 +4,7 @@ import dev.acrispycookie.crispycommons.implementations.visuals.holograms.CrispyH
 import dev.acrispycookie.crispycommons.utility.showable.CrispyShowable;
 import org.bukkit.Location;
 
-public interface HologramLine<K> extends CrispyShowable {
+public interface HologramLine<K> extends CrispyShowable<K> {
 
     void updateLocation();
     Location getLocation();

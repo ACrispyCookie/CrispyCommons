@@ -2,16 +2,14 @@ package dev.acrispycookie.crispycommons.utility.showable;
 
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
-public abstract class AbstractCrispyShowable implements CrispyShowable {
+public abstract class AbstractCrispyShowable<T> implements CrispyShowable<T> {
 
-    protected final List<Player> receivers = new ArrayList<>();
+    protected final Set<Player> receivers = new HashSet<>();
     protected boolean isDisplayed = false;
 
-    public AbstractCrispyShowable(Collection<? extends Player> receivers) {
+    public AbstractCrispyShowable(Set<? extends Player> receivers) {
         this.receivers.addAll(receivers);
     }
 
@@ -32,8 +30,8 @@ public abstract class AbstractCrispyShowable implements CrispyShowable {
     }
 
     @Override
-    public List<Player> getPlayers() {
-        return new ArrayList<>(receivers);
+    public Set<Player> getPlayers() {
+        return receivers;
     }
 
     @Override
