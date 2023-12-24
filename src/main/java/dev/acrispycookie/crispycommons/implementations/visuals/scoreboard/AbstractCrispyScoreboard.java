@@ -1,8 +1,8 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.scoreboard;
 
 import dev.acrispycookie.crispycommons.implementations.CrispyCommons;
-import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.AbstractScoreboardLine;
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.ScoreboardLine;
+import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.ScoreboardTitleLine;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public abstract class AbstractCrispyScoreboard implements CrispyScoreboard {
 
     protected final Player player;
-    protected String title;
+    protected ScoreboardTitleLine title;
     protected final ArrayList<ScoreboardLine> lines = new ArrayList<>();
     protected int updateInterval;
     private int updateTaskID;
@@ -20,7 +20,7 @@ public abstract class AbstractCrispyScoreboard implements CrispyScoreboard {
     protected abstract void showInternal();
     protected abstract void hideInternal();
 
-    public AbstractCrispyScoreboard(Player player, String title, ArrayList<ScoreboardLine> lines, int updateInterval) {
+    public AbstractCrispyScoreboard(Player player, ScoreboardTitleLine title, ArrayList<ScoreboardLine> lines, int updateInterval) {
         this.plugin = CrispyCommons.getPlugin();
         this.player = player;
         this.title = title;
@@ -47,7 +47,7 @@ public abstract class AbstractCrispyScoreboard implements CrispyScoreboard {
     }
 
     @Override
-    public void setTitle(String title) {
+    public void setTitle(ScoreboardTitleLine title) {
         this.title = title;
     }
 
@@ -64,20 +64,5 @@ public abstract class AbstractCrispyScoreboard implements CrispyScoreboard {
     @Override
     public void removeLine(int index) {
         lines.remove(index);
-    }
-
-    @Override
-    public void removeLine(ScoreboardLine line) {
-        lines.remove(line);
-    }
-
-    @Override
-    public void setLine(int index, ScoreboardLine line) {
-        lines.set(index, line);
-    }
-
-    @Override
-    public void setUpdateInterval(int updateInterval) {
-        this.updateInterval = Math.max(0, updateInterval);
     }
 }

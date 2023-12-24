@@ -1,18 +1,16 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.scoreboard;
 
-import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.AbstractScoreboardLine;
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.ScoreboardLine;
+import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.ScoreboardTitleLine;
+import dev.acrispycookie.crispycommons.utility.showable.CrispyShowable;
 
-public interface CrispyScoreboard {
+import java.util.List;
 
-    void setTitle(String title);
-    void addLine(int index, ScoreboardLine line);
+public interface CrispyScoreboard extends CrispyShowable {
+
+    void setTitle(ScoreboardTitleLine title);
     void addLine(ScoreboardLine line);
+    void addLine(int index, ScoreboardLine line);
     void removeLine(int index);
-    void removeLine(ScoreboardLine line);
-    void setLine(int index, ScoreboardLine line);
-    void setUpdateInterval(int updateInterval);
-    void show();
-    void hide();
-    void update();
+    List<ScoreboardLine> getLines();
 }
