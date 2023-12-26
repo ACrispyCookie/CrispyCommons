@@ -13,12 +13,12 @@ public class ItemHologramLine extends ClickableHologramLine<ItemElement, CrispyI
 
     private EntityItem ei = null;
 
-    public ItemHologramLine(CrispyItem item, Collection<? extends Player> receivers) {
-        super(new SimpleItemElement(item), receivers);
+    public ItemHologramLine(CrispyItem item) {
+        super(new SimpleItemElement(item));
     }
 
-    public ItemHologramLine(Collection<? extends CrispyItem> items, int period, Collection<? extends Player> receivers) {
-        super(null, receivers);
+    public ItemHologramLine(Collection<? extends CrispyItem> items, int period) {
+        super(null);
         this.element = new ItemElement(items, period) {
             @Override
             protected void update() {
@@ -28,7 +28,7 @@ public class ItemHologramLine extends ClickableHologramLine<ItemElement, CrispyI
     }
 
     @Override
-    public Location getLocation(Player player) {
+    public Location getLocation() {
         int index = hologram.getCurrentContent().indexOf(this);
         Location location = hologram.getLocation().clone();
         location.subtract(0, index * 0.25, 0);
@@ -36,17 +36,17 @@ public class ItemHologramLine extends ClickableHologramLine<ItemElement, CrispyI
     }
 
     @Override
-    protected void show(Player player) {
+    public void show(Player player) {
 
     }
 
     @Override
-    protected void hide(Player player) {
+    public void hide(Player player) {
 
     }
 
     @Override
-    protected void update(Player player) {
+    public void update(Player player) {
 
     }
 }

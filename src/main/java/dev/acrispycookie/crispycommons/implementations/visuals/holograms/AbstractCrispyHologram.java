@@ -2,7 +2,8 @@ package dev.acrispycookie.crispycommons.implementations.visuals.holograms;
 
 import dev.acrispycookie.crispycommons.implementations.CrispyCommons;
 import dev.acrispycookie.crispycommons.implementations.visuals.holograms.lines.HologramLine;
-import dev.acrispycookie.crispycommons.utility.showable.AbstractCrispyShowable;
+import dev.acrispycookie.crispycommons.utility.showable.AbstractCrispyAccessibleVisual;
+import dev.acrispycookie.crispycommons.utility.showable.AbstractCrispyVisual;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -10,7 +11,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.*;
 
-public abstract class AbstractCrispyHologram extends AbstractCrispyShowable<List<HologramLine<?>>> implements CrispyHologram {
+public abstract class AbstractCrispyHologram extends AbstractCrispyAccessibleVisual<List<HologramLine<?>>> implements CrispyHologram {
 
     protected final JavaPlugin plugin;
     protected ArrayList<HologramLine<?>> lines;
@@ -18,8 +19,8 @@ public abstract class AbstractCrispyHologram extends AbstractCrispyShowable<List
     protected Location location;
     protected int timeToLive;
 
-    public AbstractCrispyHologram(Location location, int timeToLive) {
-        super(new HashSet<>());
+    public AbstractCrispyHologram(Location location, int timeToLive, Set<? extends Player> receivers) {
+        super(receivers);
         this.plugin = CrispyCommons.getPlugin();
         this.lines = new ArrayList<>();
         this.location = location;
@@ -57,31 +58,35 @@ public abstract class AbstractCrispyHologram extends AbstractCrispyShowable<List
     }
 
     @Override
+    public boolean isDisplayed() {
+        return isDisplayed;
+    }
+
+    @Override
     public void addPlayer(Player player) {
-        lines.forEach(line -> line.addPlayer(player));
+        super.addPlayer(player);
+        if(isDisplayed) {
+            lines.forEach(l -> l.show(player));
+        }
     }
 
     @Override
     public void removePlayer(Player player) {
-        lines.forEach(line -> line.removePlayer(player));
+        super.addPlayer(player);
+        if(!isDisplayed) {
+            lines.forEach(l -> l.hide(player));
+        }
     }
 
     @Override
     public void setPlayers(Collection<? extends Player> players) {
-        lines.forEach(line -> line.setPlayers(players));
+        if(isDisplayed) {
+            lines.forEach(l -> this.receivers.forEach(l::hide));
+            super.setPlayers(players);
+            lines.forEach(l -> this.receivers.forEach(l::show));
+        }
     }
 
-    @Override
-    public Set<Player> getPlayers() {
-        HashSet<Player> players = new HashSet<>();
-        lines.forEach(line -> players.addAll(line.getPlayers()));
-        return players;
-    }
-
-    @Override
-    public boolean isDisplayed() {
-        return isDisplayed;
-    }
 
     @Override
     public void addLine(int index, HologramLine<?> line) {

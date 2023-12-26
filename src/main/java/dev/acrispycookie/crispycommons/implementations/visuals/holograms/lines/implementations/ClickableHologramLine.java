@@ -9,7 +9,7 @@ import java.util.Collection;
 import java.util.List;
 
 public abstract class ClickableHologramLine<T extends AnimatedElement<K>, K> extends AbstractHologramLine<T, K> {
-    public ClickableHologramLine(T element, Collection<? extends Player> receivers) {
-        super(element, receivers);
+    public ClickableHologramLine(T element) {
+        super(element);
     }
 }

@@ -10,106 +10,70 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
 public class SimpleHologramBuilder {
 
     private Location location;
     private int timeToLive;
     private boolean isPublic = false;
-    private final SimpleHologram hologram;
-    private final ArrayList<Player> defaultReceivers = new ArrayList<>();
-    private final HashMap<HologramLine<?>, Boolean> lines = new HashMap<>();
+    private final Collection<Player> players = new ArrayList<>();
+    private final List<HologramLine<?>> lines = new ArrayList<>();
 
 
     public SimpleHologramBuilder(Location location, int timeToLive) {
         this.location = location;
         this.timeToLive = timeToLive;
-        this.hologram = new SimpleHologram(location, timeToLive);
     }
 
-    public SimpleHologramBuilder(Location location, int timeToLive, Collection<? extends Player> defaultReceivers) {
+    public SimpleHologramBuilder(Location location, int timeToLive, Collection<? extends Player> receivers) {
         this.location = location;
         this.timeToLive = timeToLive;
-        this.hologram = new SimpleHologram(location, timeToLive);
-        this.defaultReceivers.addAll(defaultReceivers);
+        this.players.addAll(receivers);
     }
 
-    public SimpleHologramBuilder addDefaultReceiver(Player player) {
-        defaultReceivers.add(player);
+    public SimpleHologramBuilder addPlayer(Player player) {
+        players.add(player);
         return this;
     }
 
-    public SimpleHologramBuilder setDefaultReceivers(Collection<? extends Player> players) {
-        defaultReceivers.clear();
-        defaultReceivers.addAll(players);
+    public SimpleHologramBuilder setPlayers(Collection<? extends Player> players) {
+        this.players.clear();
+        this.players.addAll(players);
         return this;
     }
 
     public SimpleHologramBuilder setLocation(Location location) {
         this.location = location;
-        hologram.setLocation(this.location);
         return this;
     }
 
     public SimpleHologramBuilder setTimeToLive(int timeToLive) {
         this.timeToLive = timeToLive;
-        hologram.setTimeToLive(this.timeToLive);
         return this;
     }
 
     public SimpleHologramBuilder addTextLine(String text) {
-        TextHologramLine line = new TextHologramLine(text, defaultReceivers);
-        hologram.addLine(line);
-        lines.put(line, true);
-        return this;
-    }
-
-    public SimpleHologramBuilder addTextLine(String text, Collection<? extends Player> receivers) {
-        TextHologramLine line = new TextHologramLine(text, receivers);
-        hologram.addLine(line);
-        lines.put(line, false);
+        TextHologramLine line = new TextHologramLine(text);
+        lines.add(line);
         return this;
     }
 
     public SimpleHologramBuilder addAnimatedTextLine(Collection<? extends String> frames, int period) {
-        TextHologramLine line = new TextHologramLine(frames, period, defaultReceivers);
-        hologram.addLine(line);
-        lines.put(line, true);
-        return this;
-    }
-
-    public SimpleHologramBuilder addAnimatedTextLine(Collection<? extends String> frames, int period, Collection<? extends Player> receivers) {
-        TextHologramLine line = new TextHologramLine(frames, period, receivers);
-        hologram.addLine(line);
-        lines.put(line, false);
+        TextHologramLine line = new TextHologramLine(frames, period);
+        lines.add(line);
         return this;
     }
 
     public SimpleHologramBuilder addItemLine(CrispyItem item) {
-        ItemHologramLine line = new ItemHologramLine(item, defaultReceivers);
-        hologram.addLine(line);
-        lines.put(line, true);
-        return this;
-    }
-
-    public SimpleHologramBuilder addItemLine(CrispyItem item, Collection<? extends Player> receivers) {
-        ItemHologramLine line = new ItemHologramLine(item, receivers);
-        hologram.addLine(line);
-        lines.put(line, false);
+        ItemHologramLine line = new ItemHologramLine(item);
+        lines.add(line);
         return this;
     }
 
     public SimpleHologramBuilder addAnimatedItemLine(Collection<? extends CrispyItem> frames, int period) {
-        ItemHologramLine line = new ItemHologramLine(frames, period, defaultReceivers);
-        hologram.addLine(line);
-        lines.put(line, true);
-        return this;
-    }
-
-    public SimpleHologramBuilder addAnimatedItemLine(Collection<? extends CrispyItem> frames, int period, Collection<? extends Player> receivers) {
-        ItemHologramLine line = new ItemHologramLine(frames, period, receivers);
-        hologram.addLine(line);
-        lines.put(line, false);
+        ItemHologramLine line = new ItemHologramLine(frames, period);
+        lines.add(line);
         return this;
     }
 
@@ -119,14 +83,15 @@ public class SimpleHologramBuilder {
     }
 
     public SimpleHologram build() {
-        if(isPublic) {
-            return new PublicHologram(location, timeToLive);
-        }
+        SimpleHologram hologram;
 
-        lines.forEach((l, b) -> {
-            if(b)
-                l.setPlayers(defaultReceivers);
-        });
+        if(isPublic) {
+            hologram = new PublicHologram(location, timeToLive, players);
+        } else {
+            hologram = new SimpleHologram(location, timeToLive, players);
+        }
+        lines.forEach(hologram::addLine);
+
         return hologram;
     }
 

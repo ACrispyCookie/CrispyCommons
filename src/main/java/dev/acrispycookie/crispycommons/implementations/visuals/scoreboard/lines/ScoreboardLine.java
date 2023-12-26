@@ -1,11 +1,13 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines;
 
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.CrispyScoreboard;
-import dev.acrispycookie.crispycommons.utility.showable.CrispyShowable;
+import dev.acrispycookie.crispycommons.utility.showable.CrispyVisual;
 
-public interface ScoreboardLine extends CrispyShowable<String> {
+public interface ScoreboardLine extends CrispyVisual<String> {
 
-    void updatePosition();
+    int getNewPosition();
+    int getPosition();
+    void setPosition(int index);
     void setScoreboard(CrispyScoreboard scoreboard);
     CrispyScoreboard getScoreboard();
     String getCurrentContent();

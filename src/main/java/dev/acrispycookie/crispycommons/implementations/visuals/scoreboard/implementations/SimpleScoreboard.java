@@ -11,11 +11,14 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scoreboard.*;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 public class SimpleScoreboard extends AbstractCrispyScoreboard implements Listener {
 
-    public SimpleScoreboard(ScoreboardTitleLine title) {
-        super(title);
+    public SimpleScoreboard(ScoreboardTitleLine title, Collection<? extends Player> receivers) {
+        super(title, new HashSet<>(receivers));
     }
 
     @EventHandler

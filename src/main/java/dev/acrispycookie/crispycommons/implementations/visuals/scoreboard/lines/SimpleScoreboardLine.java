@@ -12,12 +12,12 @@ import java.util.Collection;
 
 public class SimpleScoreboardLine extends AbstractScoreboardLine {
 
-    public SimpleScoreboardLine(String staticLine, Collection<? extends Player> receivers) {
-        super(new SimpleTextElement(staticLine), receivers);
+    public SimpleScoreboardLine(String staticLine) {
+        super(new SimpleTextElement(staticLine));
     }
 
-    public SimpleScoreboardLine(Collection<? extends String> frames, int period, Collection<? extends Player> receivers) {
-        super(null, receivers);
+    public SimpleScoreboardLine(Collection<? extends String> frames, int period) {
+        super(null);
         this.element = new TextElement(frames, period) {
             @Override
             protected void update() {
@@ -27,45 +27,35 @@ public class SimpleScoreboardLine extends AbstractScoreboardLine {
     }
 
     @Override
-    protected void show(Player player) {
-        Scoreboard bukkitScoreboard = scoreboard.getBukkitScoreboard(player);
+    protected void showInternal() {
+        Scoreboard bukkitScoreboard = scoreboard.getBukkitScoreboard();
         Objective obj = bukkitScoreboard.getObjective("[CrispyCommons]");
 
         String line = ChatColor.translateAlternateColorCodes('&', getCurrentContent());
         String teamEntry = getEntry(line, bukkitScoreboard);
-        Team team = bukkitScoreboard.registerNewTeam(String.valueOf(index));
+        Team team = bukkitScoreboard.registerNewTeam(String.valueOf(position));
         team.addEntry(teamEntry);
         team.setPrefix(getPrefix(line));
         team.setSuffix(getSuffix(line));
-        obj.getScore(teamEntry).setScore(15 - index);
+        obj.getScore(teamEntry).setScore(15 - position);
     }
 
     @Override
-    protected void hide(Player player) {
-        Scoreboard bukkitScoreboard = scoreboard.getBukkitScoreboard(player);
-        bukkitScoreboard.getTeam(String.valueOf(index)).unregister();
+    protected void hideInternal() {
+        Scoreboard bukkitScoreboard = scoreboard.getBukkitScoreboard();
+        bukkitScoreboard.getTeam(String.valueOf(position)).unregister();
     }
 
     @Override
-    protected void update(Player player) {
-        Scoreboard bukkitScoreboard = scoreboard.getBukkitScoreboard(player);
-        Team team = bukkitScoreboard.getTeam(String.valueOf(index));
+    protected void updateInternal() {
+        Scoreboard bukkitScoreboard = scoreboard.getBukkitScoreboard();
+        Team team = bukkitScoreboard.getTeam(String.valueOf(position));
         String line = ChatColor.translateAlternateColorCodes('&', getCurrentContent());
         String teamEntry = getEntry(line, bukkitScoreboard);
         team.getEntries().iterator().forEachRemaining(team::removeEntry);
         team.addEntry(teamEntry);
         team.setPrefix(getPrefix(line));
         team.setSuffix(getSuffix(line));
-    }
-
-    @Override
-    protected void updatePosition(Player player) {
-        int index = getLineIndex(player);
-        if(this.index != index) {
-            SimpleScoreboardLine.this.hide(player);
-            this.index = index;
-            SimpleScoreboardLine.this.show(player);
-        }
     }
 
     private String getPrefix(String line) {

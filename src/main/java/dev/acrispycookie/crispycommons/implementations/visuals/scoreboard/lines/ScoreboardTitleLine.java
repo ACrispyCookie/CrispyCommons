@@ -14,11 +14,11 @@ import java.util.HashSet;
 public class ScoreboardTitleLine extends AbstractScoreboardLine {
 
     public ScoreboardTitleLine(String content) {
-        super(new SimpleTextElement(content), new HashSet<>());
+        super(new SimpleTextElement(content));
     }
 
     public ScoreboardTitleLine(Collection<? extends String> frames, int period) {
-        super(null, new HashSet<>());
+        super(null);
         this.element = new TextElement(frames, period) {
             @Override
             protected void update() {
@@ -29,32 +29,21 @@ public class ScoreboardTitleLine extends AbstractScoreboardLine {
 
 
     @Override
-    protected void show(Player player) {
-        Scoreboard bukkitScoreboard = scoreboard.getBukkitScoreboard(player);
+    protected void showInternal() {
+        Scoreboard bukkitScoreboard = scoreboard.getBukkitScoreboard();
         Objective obj = bukkitScoreboard.getObjective("[CrispyCommons]");
         obj.setDisplayName(ChatColor.translateAlternateColorCodes('&', getCurrentContent()));
     }
 
     @Override
-    protected void hide(Player player) {
-        Scoreboard bukkitScoreboard = scoreboard.getBukkitScoreboard(player);
+    protected void hideInternal() {
+        Scoreboard bukkitScoreboard = scoreboard.getBukkitScoreboard();
         Objective obj = bukkitScoreboard.getObjective("[CrispyCommons]");
         obj.setDisplayName("");
     }
 
     @Override
-    protected void update(Player player) {
-        show(player);
-    }
-
-    @Override
-    protected void updatePosition(Player player) {
-
-    }
-
-    @Override
-    public void setScoreboard(CrispyScoreboard scoreboard) {
-        super.setScoreboard(scoreboard);
-        setPlayers(scoreboard.getPlayers());
+    protected void updateInternal() {
+        show();
     }
 }

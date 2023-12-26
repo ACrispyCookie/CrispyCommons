@@ -2,64 +2,49 @@ package dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines
 
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.CrispyScoreboard;
 import dev.acrispycookie.crispycommons.utility.elements.implementations.text.TextElement;
-import dev.acrispycookie.crispycommons.utility.showable.AbstractCrispyShowable;
-import org.bukkit.entity.Player;
-import org.bukkit.scoreboard.Scoreboard;
+import dev.acrispycookie.crispycommons.utility.showable.AbstractCrispyVisual;
 
 import java.util.*;
 
-public abstract class AbstractScoreboardLine extends AbstractCrispyShowable<String> implements ScoreboardLine {
+public abstract class AbstractScoreboardLine extends AbstractCrispyVisual<String> implements ScoreboardLine {
 
-    protected int index;
     protected TextElement element;
     protected CrispyScoreboard scoreboard;
-    protected abstract void show(Player player);
-    protected abstract void hide(Player player);
-    protected abstract void update(Player player);
-    protected abstract void updatePosition(Player player);
+    protected int position;
+    protected abstract void showInternal();
+    protected abstract void hideInternal();
+    protected abstract void updateInternal();
 
-    public AbstractScoreboardLine(TextElement element, Collection<? extends Player> receivers) {
-        super(new HashSet<>(receivers));
+    public AbstractScoreboardLine(TextElement element) {
         this.element = element;
     }
 
-    @Override
     public void show() {
         if (isDisplayed || scoreboard == null) {
             return;
         }
 
         element.start();
-        receivers.forEach(this::show);
+        showInternal();
         isDisplayed = true;
         if (scoreboard.isDisplayed())
             scoreboard.updateLinePosition();
     }
 
-    @Override
     public void hide() {
-        if (!isDisplayed) {
+        if (!isDisplayed || !scoreboard.isDisplayed()) {
             return;
         }
 
         element.stop();
-        receivers.forEach(this::hide);
+        hideInternal();
         isDisplayed = false;
-        if (scoreboard.isDisplayed())
-            scoreboard.updateLinePosition();
+        scoreboard.updateLinePosition();
     }
 
-    @Override
     public void update() {
         if (isDisplayed) {
-            receivers.forEach(this::update);
-        }
-    }
-
-    @Override
-    public void updatePosition() {
-        if (isDisplayed) {
-            receivers.forEach(this::updatePosition);
+            updateInternal();
         }
     }
 
@@ -78,14 +63,31 @@ public abstract class AbstractScoreboardLine extends AbstractCrispyShowable<Stri
         return scoreboard;
     }
 
-    protected int getLineIndex(Player player) {
+    @Override
+    public int getPosition() {
+        return position;
+    }
+
+    @Override
+    public void setPosition(int position) {
+        if(isDisplayed) {
+            hideInternal();
+            this.position = position;
+            showInternal();
+        } else {
+            this.position = position;
+        }
+    }
+
+    @Override
+    public int getNewPosition() {
         int index = 0;
 
         for(ScoreboardLine line : scoreboard.getCurrentContent()) {
             if(line.equals(this)) {
                 break;
             }
-            if(line.isDisplayed() && line.getPlayers().contains(player)) {
+            if(line.isDisplayed()) {
                 index++;
             }
         }

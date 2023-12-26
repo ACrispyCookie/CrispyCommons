@@ -18,12 +18,12 @@ public class TextHologramLine extends ClickableHologramLine<TextElement, String>
 
     private EntityArmorStand as = null;
 
-    public TextHologramLine(String staticLine, Collection<? extends Player> receivers) {
-        super(new SimpleTextElement(staticLine), receivers);
+    public TextHologramLine(String staticLine) {
+        super(new SimpleTextElement(staticLine));
     }
 
-    public TextHologramLine(Collection<? extends String> frames, int period, Collection<? extends Player> receivers) {
-        super(null, receivers);
+    public TextHologramLine(Collection<? extends String> frames, int period) {
+        super(null);
         element = new TextElement(frames, period) {
             @Override
             protected void update() {
@@ -33,14 +33,14 @@ public class TextHologramLine extends ClickableHologramLine<TextElement, String>
     }
 
     @Override
-    public Location getLocation(Player player) {
+    public Location getLocation() {
         int index = 0;
         List<HologramLine<?>> lines = hologram.getCurrentContent();
         for (HologramLine<?> line : lines) {
             if (line.equals(this)) {
                 break;
             }
-            if (line.getPlayers().contains(player) && line.isDisplayed()) {
+            if (line.isDisplayed()) {
                 index++;
             }
         }
@@ -50,14 +50,14 @@ public class TextHologramLine extends ClickableHologramLine<TextElement, String>
         return location;
     }
 
-    protected void show(Player player) {
+    public void show(Player player) {
         String text = getCurrentContent();
 
         if (StringUtils.isEmptyOrWhitespaceOnly(text)) {
             return;
         }
 
-        Location location = getLocation(player);
+        Location location = getLocation();
         as = new EntityArmorStand(((CraftWorld) location.getWorld()).getHandle(), location.getX(), location.getY(), location.getZ());
         as.setInvisible(true);
         as.setGravity(false);
@@ -71,16 +71,16 @@ public class TextHologramLine extends ClickableHologramLine<TextElement, String>
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket(metadata);
     }
 
-    protected void hide(Player player) {
+    public void hide(Player player) {
         if(as != null) {
             PacketPlayOutEntityDestroy spawn = new PacketPlayOutEntityDestroy(as.getId());
             ((CraftPlayer) player).getHandle().playerConnection.sendPacket(spawn);
         }
     }
 
-    protected void update(Player player) {
+    public void update(Player player) {
         if(as != null) {
-            Location location = getLocation(player);
+            Location location = getLocation();
             as.setCustomName(ChatColor.translateAlternateColorCodes('&', getCurrentContent()));
             as.setLocation(location.getX(), location.getY(), location.getZ(), 0, 0);
             PacketPlayOutEntityMetadata metadata = new PacketPlayOutEntityMetadata(as.getId(), as.getDataWatcher(), true);

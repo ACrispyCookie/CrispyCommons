@@ -2,12 +2,17 @@ package dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.imple
 
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.ScoreboardTitleLine;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
 public class PublicScoreboard extends SimpleScoreboard {
-    public PublicScoreboard(ScoreboardTitleLine title) {
-        super(title);
+    public PublicScoreboard(ScoreboardTitleLine title, Collection<? extends Player> receivers) {
+        super(title, new HashSet<>(receivers));
         setPlayers(Bukkit.getOnlinePlayers());
     }
 

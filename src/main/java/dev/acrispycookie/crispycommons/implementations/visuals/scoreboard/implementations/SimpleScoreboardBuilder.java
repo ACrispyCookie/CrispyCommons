@@ -3,6 +3,7 @@ package dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.imple
 import dev.acrispycookie.crispycommons.implementations.visuals.holograms.lines.HologramLine;
 import dev.acrispycookie.crispycommons.implementations.visuals.holograms.lines.implementations.ItemHologramLine;
 import dev.acrispycookie.crispycommons.implementations.visuals.holograms.lines.implementations.TextHologramLine;
+import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.AbstractScoreboardLine;
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.ScoreboardLine;
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.ScoreboardTitleLine;
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.SimpleScoreboardLine;
@@ -10,73 +11,53 @@ import dev.acrispycookie.crispycommons.implementations.wrappers.itemstack.Crispy
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
+import java.util.*;
 
 public class SimpleScoreboardBuilder {
 
     private boolean isPublic = false;
     private ScoreboardTitleLine title;
-    private final SimpleScoreboard scoreboard;
-    private final ArrayList<Player> defaultReceivers = new ArrayList<>();
-    private final HashMap<ScoreboardLine, Boolean> lines = new HashMap<>();
+    private final Collection<AbstractScoreboardLine> lines = new ArrayList<>();
+    private final Collection<Player> players = new ArrayList<>();
 
 
     public SimpleScoreboardBuilder(String staticTitle) {
-        this.scoreboard = new SimpleScoreboard(new ScoreboardTitleLine(staticTitle));
+        title = new ScoreboardTitleLine(staticTitle);
     }
 
-    public SimpleScoreboardBuilder(String staticTitle, Collection<? extends Player> defaultReceivers) {
-        this.scoreboard = new SimpleScoreboard(new ScoreboardTitleLine(staticTitle));
-        this.defaultReceivers.addAll(defaultReceivers);
+    public SimpleScoreboardBuilder(String staticTitle, Collection<? extends Player> players) {
+        title = new ScoreboardTitleLine(staticTitle);
+        this.players.addAll(players);
     }
 
     public SimpleScoreboardBuilder(ArrayList<String> titleFrames, int period) {
-        this.scoreboard = new SimpleScoreboard(new ScoreboardTitleLine(titleFrames, period));
+        title = new ScoreboardTitleLine(titleFrames, period);
     }
 
-    public SimpleScoreboardBuilder(ArrayList<String> titleFrames, int period, Collection<? extends Player> defaultReceivers) {
-        this.scoreboard = new SimpleScoreboard(new ScoreboardTitleLine(titleFrames, period));
-        this.defaultReceivers.addAll(defaultReceivers);
+    public SimpleScoreboardBuilder(ArrayList<String> titleFrames, int period, Collection<? extends Player> players) {
+        title = new ScoreboardTitleLine(titleFrames, period);
+        this.players.addAll(players);
     }
 
-    public SimpleScoreboardBuilder addDefaultReceiver(Player player) {
-        defaultReceivers.add(player);
+    public SimpleScoreboardBuilder addPlayer(Player player) {
+        players.add(player);
         return this;
     }
 
-    public SimpleScoreboardBuilder setDefaultReceivers(Collection<? extends Player> players) {
-        defaultReceivers.clear();
-        defaultReceivers.addAll(players);
+    public SimpleScoreboardBuilder setPlayers(Collection<? extends Player> players) {
+        this.players.addAll(players);
         return this;
     }
 
     public SimpleScoreboardBuilder addTextLine(String text) {
-        SimpleScoreboardLine line = new SimpleScoreboardLine(text, defaultReceivers);
-        scoreboard.addLine(line);
-        lines.put(line, true);
-        return this;
-    }
-
-    public SimpleScoreboardBuilder addTextLine(String text, Collection<? extends Player> receivers) {
-        SimpleScoreboardLine line = new SimpleScoreboardLine(text, receivers);
-        scoreboard.addLine(line);
-        lines.put(line, false);
+        SimpleScoreboardLine line = new SimpleScoreboardLine(text);
+        lines.add(line);
         return this;
     }
 
     public SimpleScoreboardBuilder addAnimatedTextLine(Collection<? extends String> frames, int period) {
-        SimpleScoreboardLine line = new SimpleScoreboardLine(frames, period, defaultReceivers);
-        scoreboard.addLine(line);
-        lines.put(line, true);
-        return this;
-    }
-
-    public SimpleScoreboardBuilder addAnimatedTextLine(Collection<? extends String> frames, int period, Collection<? extends Player> receivers) {
-        SimpleScoreboardLine line = new SimpleScoreboardLine(frames, period, receivers);
-        scoreboard.addLine(line);
-        lines.put(line, false);
+        SimpleScoreboardLine line = new SimpleScoreboardLine(frames, period);
+        lines.add(line);
         return this;
     }
 
@@ -86,14 +67,15 @@ public class SimpleScoreboardBuilder {
     }
 
     public SimpleScoreboard build() {
-        if(isPublic) {
-            return new PublicScoreboard(title);
-        }
+        SimpleScoreboard scoreboard;
 
-        lines.forEach((l, b) -> {
-            if(b)
-                l.setPlayers(defaultReceivers);
-        });
+        if(isPublic) {
+            scoreboard = new PublicScoreboard(title, players);
+        } else {
+            scoreboard = new SimpleScoreboard(title, players);
+        }
+        lines.forEach(scoreboard::addLine);
+
         return scoreboard;
     }
 

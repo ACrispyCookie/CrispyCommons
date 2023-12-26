@@ -9,10 +9,13 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+import java.util.Collection;
+import java.util.HashSet;
+
 public class SimpleHologram extends AbstractCrispyHologram implements Listener {
 
-    public SimpleHologram(Location location, int timeToLive) {
-        super(location, timeToLive);
+    public SimpleHologram(Location location, int timeToLive, Collection<? extends Player> receivers) {
+        super(location, timeToLive, new HashSet<>(receivers));
         Bukkit.getPluginManager().registerEvents(this, plugin);
     }
 
