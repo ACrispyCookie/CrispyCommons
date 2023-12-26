@@ -8,7 +8,6 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 public class SimpleScoreboardLine extends AbstractScoreboardLine {
@@ -28,8 +27,8 @@ public class SimpleScoreboardLine extends AbstractScoreboardLine {
     }
 
     @Override
-    protected void show(Scoreboard bukkitScoreboard) {
-        int index = getLineIndex();
+    protected void show(Player player) {
+        Scoreboard bukkitScoreboard = scoreboard.getBukkitScoreboard(player);
         Objective obj = bukkitScoreboard.getObjective("[CrispyCommons]");
 
         String line = ChatColor.translateAlternateColorCodes('&', getCurrentContent());
@@ -42,22 +41,31 @@ public class SimpleScoreboardLine extends AbstractScoreboardLine {
     }
 
     @Override
-    protected void hide(Scoreboard bukkitScoreboard) {
-        int index = getLineIndex();
-
+    protected void hide(Player player) {
+        Scoreboard bukkitScoreboard = scoreboard.getBukkitScoreboard(player);
         bukkitScoreboard.getTeam(String.valueOf(index)).unregister();
     }
 
     @Override
-    protected void update(Scoreboard bukkitScoreboard) {
-        int index = getLineIndex();
-
-        String line = ChatColor.translateAlternateColorCodes('&', getCurrentContent());
+    protected void update(Player player) {
+        Scoreboard bukkitScoreboard = scoreboard.getBukkitScoreboard(player);
         Team team = bukkitScoreboard.getTeam(String.valueOf(index));
+        String line = ChatColor.translateAlternateColorCodes('&', getCurrentContent());
+        String teamEntry = getEntry(line, bukkitScoreboard);
         team.getEntries().iterator().forEachRemaining(team::removeEntry);
-        team.addEntry(getEntry(line, bukkitScoreboard));
+        team.addEntry(teamEntry);
         team.setPrefix(getPrefix(line));
         team.setSuffix(getSuffix(line));
+    }
+
+    @Override
+    protected void updatePosition(Player player) {
+        int index = getLineIndex(player);
+        if(this.index != index) {
+            SimpleScoreboardLine.this.hide(player);
+            this.index = index;
+            SimpleScoreboardLine.this.show(player);
+        }
     }
 
     private String getPrefix(String line) {
@@ -98,20 +106,5 @@ public class SimpleScoreboardLine extends AbstractScoreboardLine {
         }
 
         return finalEntry.toString();
-    }
-
-    private int getLineIndex() {
-        int index = 0;
-
-        for(ScoreboardLine line : scoreboard.getCurrentContent()) {
-            if(line.isDisplayed()) {
-               index++;
-            }
-            if(line.equals(this)) {
-                break;
-            }
-        }
-
-        return index;
     }
 }

@@ -4,7 +4,7 @@ import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.Crispy
 import dev.acrispycookie.crispycommons.utility.elements.implementations.text.SimpleTextElement;
 import dev.acrispycookie.crispycommons.utility.elements.implementations.text.TextElement;
 import org.bukkit.ChatColor;
-import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 
@@ -29,20 +29,27 @@ public class ScoreboardTitleLine extends AbstractScoreboardLine {
 
 
     @Override
-    protected void show(Scoreboard bukkitScoreboard) {
+    protected void show(Player player) {
+        Scoreboard bukkitScoreboard = scoreboard.getBukkitScoreboard(player);
         Objective obj = bukkitScoreboard.getObjective("[CrispyCommons]");
         obj.setDisplayName(ChatColor.translateAlternateColorCodes('&', getCurrentContent()));
     }
 
     @Override
-    protected void hide(Scoreboard bukkitScoreboard) {
+    protected void hide(Player player) {
+        Scoreboard bukkitScoreboard = scoreboard.getBukkitScoreboard(player);
         Objective obj = bukkitScoreboard.getObjective("[CrispyCommons]");
         obj.setDisplayName("");
     }
 
     @Override
-    protected void update(Scoreboard bukkitScoreboard) {
-        show(bukkitScoreboard);
+    protected void update(Player player) {
+        show(player);
+    }
+
+    @Override
+    protected void updatePosition(Player player) {
+
     }
 
     @Override

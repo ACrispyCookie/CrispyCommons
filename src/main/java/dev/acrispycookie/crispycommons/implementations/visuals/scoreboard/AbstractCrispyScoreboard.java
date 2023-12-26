@@ -28,7 +28,6 @@ public abstract class AbstractCrispyScoreboard extends AbstractCrispyShowable<Li
             return;
         }
 
-        isDisplayed = true;
         getPlayers().forEach((p) -> {
             Scoreboard scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
             bukkitScoreboards.put(p, scoreboard);
@@ -37,7 +36,10 @@ public abstract class AbstractCrispyScoreboard extends AbstractCrispyShowable<Li
         System.out.println("Building scoreboard");
         title.show();
         System.out.println("Built title");
-        lines.forEach(ScoreboardLine::show);
+        lines.forEach(l -> {
+            System.out.println("Showing: " + l.getCurrentContent());
+            l.show();
+        });
         System.out.println("Built lines");
         System.out.println("Final:");
         getPlayers().forEach((p) -> {
@@ -47,12 +49,13 @@ public abstract class AbstractCrispyScoreboard extends AbstractCrispyShowable<Li
                 Team team = scoreboard.getTeam(String.valueOf(i));
                 System.out.println("Line: " + i);
                 System.out.println("  Prefix: " + team.getPrefix());
-                System.out.println("  Entry: " + team.getEntries().iterator().next());
+                System.out.println("  Entry: " + (team.getEntries().iterator().hasNext() ? team.getEntries().iterator().next() : ""));
                 System.out.println("  Suffix: " + team.getSuffix());
             }
             System.out.println("Showing to player:");
             p.setScoreboard(scoreboard);
         });
+        isDisplayed = true;
     }
 
     @Override
@@ -72,6 +75,13 @@ public abstract class AbstractCrispyScoreboard extends AbstractCrispyShowable<Li
         if (isDisplayed) {
             title.update();
             lines.forEach(ScoreboardLine::update);
+        }
+    }
+
+    @Override
+    public void updateLinePosition() {
+        if (isDisplayed) {
+            lines.forEach(ScoreboardLine::updatePosition);
         }
     }
 

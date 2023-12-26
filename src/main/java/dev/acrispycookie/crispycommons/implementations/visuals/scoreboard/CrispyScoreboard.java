@@ -10,6 +10,7 @@ import java.util.List;
 
 public interface CrispyScoreboard extends CrispyShowable<List<ScoreboardLine>> {
 
+    void updateLinePosition();
     void setTitle(ScoreboardTitleLine title);
     ScoreboardTitleLine getTitle();
     Scoreboard getBukkitScoreboard(Player player);

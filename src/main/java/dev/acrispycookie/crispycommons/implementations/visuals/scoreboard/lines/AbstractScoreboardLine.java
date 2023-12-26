@@ -10,11 +10,13 @@ import java.util.*;
 
 public abstract class AbstractScoreboardLine extends AbstractCrispyShowable<String> implements ScoreboardLine {
 
+    protected int index;
     protected TextElement element;
     protected CrispyScoreboard scoreboard;
-    protected abstract void show(Scoreboard bukkitScoreboard);
-    protected abstract void hide(Scoreboard bukkitScoreboard);
-    protected abstract void update(Scoreboard bukkitScoreboard);
+    protected abstract void show(Player player);
+    protected abstract void hide(Player player);
+    protected abstract void update(Player player);
+    protected abstract void updatePosition(Player player);
 
     public AbstractScoreboardLine(TextElement element, Collection<? extends Player> receivers) {
         super(new HashSet<>(receivers));
@@ -28,9 +30,10 @@ public abstract class AbstractScoreboardLine extends AbstractCrispyShowable<Stri
         }
 
         element.start();
-        receivers.forEach((p) -> show(scoreboard.getBukkitScoreboard(p)));
+        receivers.forEach(this::show);
         isDisplayed = true;
-        scoreboard.update();
+        if (scoreboard.isDisplayed())
+            scoreboard.updateLinePosition();
     }
 
     @Override
@@ -40,15 +43,23 @@ public abstract class AbstractScoreboardLine extends AbstractCrispyShowable<Stri
         }
 
         element.stop();
-        receivers.forEach((p) -> hide(scoreboard.getBukkitScoreboard(p)));
+        receivers.forEach(this::hide);
         isDisplayed = false;
-        scoreboard.update();
+        if (scoreboard.isDisplayed())
+            scoreboard.updateLinePosition();
     }
 
     @Override
     public void update() {
         if (isDisplayed) {
-            receivers.forEach((p) -> update(scoreboard.getBukkitScoreboard(p)));
+            receivers.forEach(this::update);
+        }
+    }
+
+    @Override
+    public void updatePosition() {
+        if (isDisplayed) {
+            receivers.forEach(this::updatePosition);
         }
     }
 
@@ -65,5 +76,20 @@ public abstract class AbstractScoreboardLine extends AbstractCrispyShowable<Stri
     @Override
     public CrispyScoreboard getScoreboard() {
         return scoreboard;
+    }
+
+    protected int getLineIndex(Player player) {
+        int index = 0;
+
+        for(ScoreboardLine line : scoreboard.getCurrentContent()) {
+            if(line.equals(this)) {
+                break;
+            }
+            if(line.isDisplayed() && line.getPlayers().contains(player)) {
+                index++;
+            }
+        }
+
+        return index;
     }
 }
