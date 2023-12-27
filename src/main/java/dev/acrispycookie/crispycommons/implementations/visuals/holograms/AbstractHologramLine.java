@@ -1,52 +1,41 @@
-package dev.acrispycookie.crispycommons.implementations.visuals.holograms.lines;
+package dev.acrispycookie.crispycommons.implementations.visuals.holograms;
 
-import dev.acrispycookie.crispycommons.implementations.visuals.holograms.CrispyHologram;
 import dev.acrispycookie.crispycommons.utility.elements.AnimatedElement;
-import dev.acrispycookie.crispycommons.utility.showable.AbstractCrispyAccessibleVisual;
 import dev.acrispycookie.crispycommons.utility.showable.AbstractCrispyVisual;
 import org.bukkit.entity.Player;
-
-import java.util.*;
 
 public abstract class AbstractHologramLine<T extends AnimatedElement<K>, K> extends AbstractCrispyVisual<K> implements HologramLine<K> {
 
     protected T element;
     protected CrispyHologram hologram;
+    protected abstract void show(Player player);
+    protected abstract void hide(Player player);
+    protected abstract void update(Player player);
 
     public AbstractHologramLine(T element) {
         this.element = element;
         this.hologram = null;
     }
 
-    @Override
-    public void show() {
-        if (isDisplayed || hologram == null) {
-            return;
-        }
-
+    void show() {
         element.start();
         hologram.getPlayers().forEach(this::show);
         isDisplayed = true;
         hologram.update();
     }
 
-    @Override
-    public void hide() {
-        if (!isDisplayed) {
-            return;
-        }
-
+    void hide() {
         element.stop();
         hologram.getPlayers().forEach(this::hide);
         isDisplayed = false;
         hologram.update();
     }
 
-    @Override
-    public void update() {
-        if (isDisplayed) {
-            hologram.getPlayers().forEach(this::update);
-        }
+    protected void update() {
+        if (!isDisplayed)
+            return;
+
+        hologram.getPlayers().forEach(this::update);
     }
 
     @Override

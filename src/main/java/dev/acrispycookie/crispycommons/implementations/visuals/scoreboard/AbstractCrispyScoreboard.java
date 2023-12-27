@@ -1,7 +1,5 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.scoreboard;
 
-import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.AbstractScoreboardLine;
-import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.ScoreboardLine;
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.ScoreboardTitleLine;
 import dev.acrispycookie.crispycommons.utility.showable.AbstractCrispyAccessibleVisual;
 import org.bukkit.Bukkit;
@@ -16,11 +14,13 @@ public abstract class AbstractCrispyScoreboard extends AbstractCrispyAccessibleV
 
     protected ScoreboardTitleLine title;
     protected final ArrayList<AbstractScoreboardLine> lines = new ArrayList<>();
-    protected final Scoreboard bukkitScoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
+    protected Scoreboard bukkitScoreboard;
 
     public AbstractCrispyScoreboard(ScoreboardTitleLine title, Set<? extends Player> receivers) {
         super(receivers);
+        this.bukkitScoreboard = getNewBoard();
         this.title = title;
+        this.title.setScoreboard(this);
     }
 
     @Override
@@ -29,29 +29,12 @@ public abstract class AbstractCrispyScoreboard extends AbstractCrispyAccessibleV
             return;
         }
 
-        bukkitScoreboard.registerNewObjective("[CrispyCommons]", "dummy").setDisplaySlot(DisplaySlot.SIDEBAR);
-        System.out.println("Building scoreboard");
-        title.show();
-        System.out.println("Built title");
-        lines.forEach(l -> {
-            System.out.println("Showing: " + l.getCurrentContent());
-            l.setPosition(l.getNewPosition());
-            l.show();
-        });
-        System.out.println("Built lines");
-        System.out.println("Final:");
-        getPlayers().forEach((p) -> {
-            System.out.println("Title: " + bukkitScoreboard.getObjective("[CrispyCommons]").getDisplayName());
-            for (int i = 0; i < bukkitScoreboard.getTeams().size(); i++) {
-                Team team = bukkitScoreboard.getTeam(String.valueOf(i));
-                System.out.println("Line: " + i);
-                System.out.println("  Prefix: " + team.getPrefix());
-                System.out.println("  Entry: " + (team.getEntries().iterator().hasNext() ? team.getEntries().iterator().next() : ""));
-                System.out.println("  Suffix: " + team.getSuffix());
-            }
-            System.out.println("Showing to player:");
-            p.setScoreboard(bukkitScoreboard);
-        });
+        title.show(0);
+        for (int i = 0; i < lines.size(); i++) {
+            AbstractScoreboardLine line = lines.get(i);
+            line.show(i);
+        }
+        getPlayers().forEach(p -> p.setScoreboard(bukkitScoreboard));
         isDisplayed = true;
     }
 
@@ -61,9 +44,9 @@ public abstract class AbstractCrispyScoreboard extends AbstractCrispyAccessibleV
             return;
         }
 
-        title.hide();
         lines.forEach(AbstractScoreboardLine::hide);
         getPlayers().forEach((p) -> p.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard()));
+        bukkitScoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
         isDisplayed = false;
     }
 
@@ -75,11 +58,41 @@ public abstract class AbstractCrispyScoreboard extends AbstractCrispyAccessibleV
         }
     }
 
-    @Override
-    public void updateLinePosition() {
+    protected void updateScoreboard() {
         if (isDisplayed) {
-            lines.forEach(l -> l.setPosition(l.getNewPosition()));
+            receivers.forEach(p -> p.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard()));
+            bukkitScoreboard = getNewBoard();
+
+            title.show(0);
+            int index = 0;
+            for (AbstractScoreboardLine line : lines) {
+                if (line.isDisplayed()) {
+                    line.hide();
+                    line.show(index);
+                    index++;
+                }
+            }
+            receivers.forEach((p) -> p.setScoreboard(bukkitScoreboard));
         }
+    }
+
+    @Override
+    public void addPlayer(Player player) {
+        super.addPlayer(player);
+        player.setScoreboard(bukkitScoreboard);
+    }
+
+    @Override
+    public void removePlayer(Player player) {
+        super.removePlayer(player);
+        player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
+    }
+
+    @Override
+    public void setPlayers(Collection<? extends Player> players) {
+        players.forEach(p -> p.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard()));
+        super.setPlayers(players);
+        players.forEach(p -> p.setScoreboard(bukkitScoreboard));
     }
 
     @Override
@@ -89,10 +102,15 @@ public abstract class AbstractCrispyScoreboard extends AbstractCrispyAccessibleV
 
     @Override
     public void addLine(int index, AbstractScoreboardLine line) {
+        if (index > lines.size()) {
+            return;
+        }
+
         lines.add(index, line);
         line.setScoreboard(this);
+        line.setDisplayed(true);
         if (isDisplayed) {
-            line.show();
+            updateScoreboard();
         }
     }
 
@@ -103,10 +121,40 @@ public abstract class AbstractCrispyScoreboard extends AbstractCrispyAccessibleV
 
     @Override
     public void removeLine(int index) {
+        if(index >= lines.size())
+            return;
+
         AbstractScoreboardLine toRemove = lines.get(index);
         lines.remove(index);
-        if (isDisplayed) {
+        if (isDisplayed && toRemove.isDisplayed()) {
             toRemove.hide();
+            updateScoreboard();
+        }
+    }
+
+    @Override
+    public void showLine(int index) {
+        if (index >= lines.size()) {
+            return;
+        }
+
+        AbstractScoreboardLine line = lines.get(index);
+        if (isDisplayed && !line.isDisplayed()) {
+            line.setDisplayed(true);
+            updateScoreboard();
+        }
+    }
+
+    @Override
+    public void hideLine(int index) {
+        if (index >= lines.size()) {
+            return;
+        }
+
+        AbstractScoreboardLine line = lines.get(index);
+        if (isDisplayed && line.isDisplayed()) {
+            line.hide();
+            updateScoreboard();
         }
     }
 
@@ -123,6 +171,13 @@ public abstract class AbstractCrispyScoreboard extends AbstractCrispyAccessibleV
     @Override
     public Scoreboard getBukkitScoreboard() {
         return bukkitScoreboard;
+    }
+
+    private Scoreboard getNewBoard() {
+        Scoreboard board = Bukkit.getScoreboardManager().getNewScoreboard();
+        board.registerNewObjective("[CrispyCommons]", "dummy");
+        board.getObjective("[CrispyCommons]").setDisplaySlot(DisplaySlot.SIDEBAR);
+        return board;
     }
 
 }

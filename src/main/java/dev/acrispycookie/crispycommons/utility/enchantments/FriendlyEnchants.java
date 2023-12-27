@@ -44,8 +44,8 @@ public enum FriendlyEnchants {
     WATER_WORKER("Aqua Affinity");
 
 
-    private String friendlyName;
-    private boolean isCurse;
+    private final String friendlyName;
+    private final boolean isCurse;
 
     FriendlyEnchants(String friendlyName,boolean isCurse) {
         this.friendlyName = friendlyName;

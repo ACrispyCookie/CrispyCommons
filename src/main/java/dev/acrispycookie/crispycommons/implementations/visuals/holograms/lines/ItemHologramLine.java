@@ -1,4 +1,4 @@
-package dev.acrispycookie.crispycommons.implementations.visuals.holograms.lines.implementations;
+package dev.acrispycookie.crispycommons.implementations.visuals.holograms.lines;
 
 import dev.acrispycookie.crispycommons.implementations.wrappers.itemstack.CrispyItem;
 import dev.acrispycookie.crispycommons.utility.elements.implementations.items.ItemElement;
@@ -11,7 +11,7 @@ import java.util.Collection;
 
 public class ItemHologramLine extends ClickableHologramLine<ItemElement, CrispyItem> {
 
-    private EntityItem ei = null;
+    private final EntityItem ei = null;
 
     public ItemHologramLine(CrispyItem item) {
         super(new SimpleItemElement(item));

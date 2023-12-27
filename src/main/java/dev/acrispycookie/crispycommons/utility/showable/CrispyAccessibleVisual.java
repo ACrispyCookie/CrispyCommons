@@ -7,6 +7,9 @@ import java.util.Set;
 
 public interface CrispyAccessibleVisual<T> extends CrispyVisual<T> {
 
+    void show();
+    void hide();
+    void update();
     void addPlayer(Player player);
     void removePlayer(Player player);
     void setPlayers(Collection<? extends Player> players);

@@ -1,7 +1,7 @@
-package dev.acrispycookie.crispycommons.implementations.visuals.holograms.lines.implementations;
+package dev.acrispycookie.crispycommons.implementations.visuals.holograms.lines;
 
 import com.mysql.jdbc.StringUtils;
-import dev.acrispycookie.crispycommons.implementations.visuals.holograms.lines.HologramLine;
+import dev.acrispycookie.crispycommons.implementations.visuals.holograms.HologramLine;
 import dev.acrispycookie.crispycommons.utility.elements.implementations.text.SimpleTextElement;
 import dev.acrispycookie.crispycommons.utility.elements.implementations.text.TextElement;
 import net.minecraft.server.v1_8_R3.*;
@@ -51,6 +51,9 @@ public class TextHologramLine extends ClickableHologramLine<TextElement, String>
     }
 
     public void show(Player player) {
+        if(isDisplayed || hologram == null || !hologram.getPlayers().contains(player))
+            return;
+
         String text = getCurrentContent();
 
         if (StringUtils.isEmptyOrWhitespaceOnly(text)) {
@@ -72,6 +75,9 @@ public class TextHologramLine extends ClickableHologramLine<TextElement, String>
     }
 
     public void hide(Player player) {
+        if(!isDisplayed || hologram == null || !hologram.getPlayers().contains(player))
+            return;
+
         if(as != null) {
             PacketPlayOutEntityDestroy spawn = new PacketPlayOutEntityDestroy(as.getId());
             ((CraftPlayer) player).getHandle().playerConnection.sendPacket(spawn);
@@ -79,6 +85,9 @@ public class TextHologramLine extends ClickableHologramLine<TextElement, String>
     }
 
     public void update(Player player) {
+        if(!isDisplayed || hologram == null || !hologram.getPlayers().contains(player))
+            return;
+
         if(as != null) {
             Location location = getLocation();
             as.setCustomName(ChatColor.translateAlternateColorCodes('&', getCurrentContent()));

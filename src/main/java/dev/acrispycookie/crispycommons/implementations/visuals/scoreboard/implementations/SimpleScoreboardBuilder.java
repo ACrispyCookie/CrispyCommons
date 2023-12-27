@@ -1,14 +1,8 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.implementations;
 
-import dev.acrispycookie.crispycommons.implementations.visuals.holograms.lines.HologramLine;
-import dev.acrispycookie.crispycommons.implementations.visuals.holograms.lines.implementations.ItemHologramLine;
-import dev.acrispycookie.crispycommons.implementations.visuals.holograms.lines.implementations.TextHologramLine;
-import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.AbstractScoreboardLine;
-import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.ScoreboardLine;
+import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.AbstractScoreboardLine;
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.ScoreboardTitleLine;
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.SimpleScoreboardLine;
-import dev.acrispycookie.crispycommons.implementations.wrappers.itemstack.CrispyItem;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -16,7 +10,7 @@ import java.util.*;
 public class SimpleScoreboardBuilder {
 
     private boolean isPublic = false;
-    private ScoreboardTitleLine title;
+    private final ScoreboardTitleLine title;
     private final Collection<AbstractScoreboardLine> lines = new ArrayList<>();
     private final Collection<Player> players = new ArrayList<>();
 

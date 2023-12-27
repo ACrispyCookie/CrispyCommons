@@ -1,9 +1,9 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines;
 
+import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.AbstractScoreboardLine;
 import dev.acrispycookie.crispycommons.utility.elements.implementations.text.SimpleTextElement;
 import dev.acrispycookie.crispycommons.utility.elements.implementations.text.TextElement;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
@@ -27,7 +27,7 @@ public class SimpleScoreboardLine extends AbstractScoreboardLine {
     }
 
     @Override
-    protected void showInternal() {
+    protected void initialize() {
         Scoreboard bukkitScoreboard = scoreboard.getBukkitScoreboard();
         Objective obj = bukkitScoreboard.getObjective("[CrispyCommons]");
 
@@ -41,14 +41,9 @@ public class SimpleScoreboardLine extends AbstractScoreboardLine {
     }
 
     @Override
-    protected void hideInternal() {
-        Scoreboard bukkitScoreboard = scoreboard.getBukkitScoreboard();
-        bukkitScoreboard.getTeam(String.valueOf(position)).unregister();
-    }
-
-    @Override
     protected void updateInternal() {
         Scoreboard bukkitScoreboard = scoreboard.getBukkitScoreboard();
+        Objective obj = bukkitScoreboard.getObjective("[CrispyCommons]");
         Team team = bukkitScoreboard.getTeam(String.valueOf(position));
         String line = ChatColor.translateAlternateColorCodes('&', getCurrentContent());
         String teamEntry = getEntry(line, bukkitScoreboard);
@@ -56,6 +51,7 @@ public class SimpleScoreboardLine extends AbstractScoreboardLine {
         team.addEntry(teamEntry);
         team.setPrefix(getPrefix(line));
         team.setSuffix(getSuffix(line));
+        obj.getScore(teamEntry).setScore(15 - position);
     }
 
     private String getPrefix(String line) {

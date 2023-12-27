@@ -1,15 +1,14 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.holograms.implementations;
 
-import dev.acrispycookie.crispycommons.implementations.visuals.holograms.lines.HologramLine;
-import dev.acrispycookie.crispycommons.implementations.visuals.holograms.lines.implementations.ItemHologramLine;
-import dev.acrispycookie.crispycommons.implementations.visuals.holograms.lines.implementations.TextHologramLine;
+import dev.acrispycookie.crispycommons.implementations.visuals.holograms.AbstractHologramLine;
+import dev.acrispycookie.crispycommons.implementations.visuals.holograms.lines.ItemHologramLine;
+import dev.acrispycookie.crispycommons.implementations.visuals.holograms.lines.TextHologramLine;
 import dev.acrispycookie.crispycommons.implementations.wrappers.itemstack.CrispyItem;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 
 public class SimpleHologramBuilder {
@@ -18,7 +17,7 @@ public class SimpleHologramBuilder {
     private int timeToLive;
     private boolean isPublic = false;
     private final Collection<Player> players = new ArrayList<>();
-    private final List<HologramLine<?>> lines = new ArrayList<>();
+    private final List<AbstractHologramLine<?, ?>> lines = new ArrayList<>();
 
 
     public SimpleHologramBuilder(Location location, int timeToLive) {

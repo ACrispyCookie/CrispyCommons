@@ -1,15 +1,13 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines;
 
-import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.CrispyScoreboard;
+import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.AbstractScoreboardLine;
 import dev.acrispycookie.crispycommons.utility.elements.implementations.text.SimpleTextElement;
 import dev.acrispycookie.crispycommons.utility.elements.implementations.text.TextElement;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 
 import java.util.Collection;
-import java.util.HashSet;
 
 public class ScoreboardTitleLine extends AbstractScoreboardLine {
 
@@ -29,21 +27,14 @@ public class ScoreboardTitleLine extends AbstractScoreboardLine {
 
 
     @Override
-    protected void showInternal() {
+    protected void initialize() {
         Scoreboard bukkitScoreboard = scoreboard.getBukkitScoreboard();
         Objective obj = bukkitScoreboard.getObjective("[CrispyCommons]");
         obj.setDisplayName(ChatColor.translateAlternateColorCodes('&', getCurrentContent()));
     }
 
     @Override
-    protected void hideInternal() {
-        Scoreboard bukkitScoreboard = scoreboard.getBukkitScoreboard();
-        Objective obj = bukkitScoreboard.getObjective("[CrispyCommons]");
-        obj.setDisplayName("");
-    }
-
-    @Override
     protected void updateInternal() {
-        show();
+        show(0);
     }
 }
