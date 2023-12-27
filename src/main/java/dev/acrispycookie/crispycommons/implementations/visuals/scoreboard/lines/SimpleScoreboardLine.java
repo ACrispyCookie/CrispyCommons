@@ -42,20 +42,15 @@ public class SimpleScoreboardLine extends AbstractScoreboardLine {
 
     @Override
     protected void updateInternal() {
-        System.out.println("Updating line: " + position);
         Scoreboard bukkitScoreboard = scoreboard.getBukkitScoreboard();
         Objective obj = bukkitScoreboard.getObjective("[CrispyCommons]");
         Team team = bukkitScoreboard.getTeam(String.valueOf(position));
 
         String line = ChatColor.translateAlternateColorCodes('&', getCurrentContent());
         line = line.substring(0, Math.min(line.length(), 32));
-        System.out.println("  Line: " + line);
         String teamEntry = team.getEntries().iterator().next();
-        System.out.println("  Entry: " + teamEntry);
         String prefix = getPrefix(line);
         String suffix = getSuffix(line, teamEntry);
-        System.out.println("  Prefix: " + prefix);
-        System.out.println("  Suffix: " + suffix);
         team.setPrefix(prefix);
         team.setSuffix(suffix);
         obj.getScore(teamEntry).setScore(15 - position);
@@ -76,7 +71,7 @@ public class SimpleScoreboardLine extends AbstractScoreboardLine {
             return getUniqueEntry(ChatColor.translateAlternateColorCodes('&', "&r"), bukkitScoreboard);
         }
         if (line.charAt(15) == ChatColor.COLOR_CHAR) {
-            return getUniqueEntry(line.substring(15, 16), bukkitScoreboard);
+            return getUniqueEntry(line.substring(15, 17), bukkitScoreboard);
         }
         return getUniqueEntry(ChatColor.getLastColors(line.substring(0, 16)), bukkitScoreboard);
     }
@@ -85,12 +80,16 @@ public class SimpleScoreboardLine extends AbstractScoreboardLine {
         if (line.length() <= 16) {
             return "";
         }
-        int prefixEnd = line.charAt(15) == ChatColor.COLOR_CHAR ? 15 : 16;
-        String lastColors = ChatColor.getLastColors(line.substring(0, prefixEnd));
-        if(lastColors.equals(ChatColor.getLastColors(lastEntry))) {
+        String lastEntryColor = getStrippedColors(ChatColor.getLastColors(lastEntry));
+        String lastPrefixColor = getStrippedColors(ChatColor.getLastColors(line.substring(0, 16)));
+        if (line.charAt(15) == ChatColor.COLOR_CHAR) {
+            int startIndex = line.substring(15, 17).equals(lastEntryColor) ? 17 : 15;
+            return line.substring(startIndex);
+        } else if (lastPrefixColor.equals(lastEntryColor)) {
             return line.substring(16);
-        } else {
-            String finalString = (getLastColor(lastColors) + line.substring(16));
+        }  else {
+            String finalString = line.substring(16);
+            finalString = lastPrefixColor + finalString;
             return finalString.substring(0, Math.min(finalString.length(), 16));
         }
     }
@@ -108,11 +107,13 @@ public class SimpleScoreboardLine extends AbstractScoreboardLine {
         return finalEntry.toString();
     }
 
-    private String getLastColor(String lastColors) {
+    private String getStrippedColors(String lastColors) {
         if(lastColors.isEmpty()) {
             return "";
         }
+        int lastReset = lastColors.lastIndexOf(ChatColor.translateAlternateColorCodes('&', "&r"));
+        lastReset = lastReset == -1 ? 0 : lastReset + 2;
 
-        return lastColors.substring(lastColors.length() - 2);
+        return lastColors.substring(lastReset);
     }
 }
