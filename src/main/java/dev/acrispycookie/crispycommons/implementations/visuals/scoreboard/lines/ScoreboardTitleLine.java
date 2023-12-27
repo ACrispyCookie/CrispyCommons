@@ -17,7 +17,7 @@ public class ScoreboardTitleLine extends AbstractScoreboardLine {
 
     public ScoreboardTitleLine(Collection<? extends String> frames, int period) {
         super(null);
-        this.element = new TextElement(frames, period) {
+        this.element = new TextElement(frames, period, true) {
             @Override
             protected void update() {
                 ScoreboardTitleLine.this.update();
@@ -35,6 +35,6 @@ public class ScoreboardTitleLine extends AbstractScoreboardLine {
 
     @Override
     protected void updateInternal() {
-        show(0);
+        initialize();
     }
 }

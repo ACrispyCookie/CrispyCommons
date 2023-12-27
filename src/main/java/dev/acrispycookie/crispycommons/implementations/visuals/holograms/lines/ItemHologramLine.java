@@ -19,7 +19,7 @@ public class ItemHologramLine extends ClickableHologramLine<ItemElement, CrispyI
 
     public ItemHologramLine(Collection<? extends CrispyItem> items, int period) {
         super(null);
-        this.element = new ItemElement(items, period) {
+        this.element = new ItemElement(items, period, false) {
             @Override
             protected void update() {
                 ItemHologramLine.this.update();

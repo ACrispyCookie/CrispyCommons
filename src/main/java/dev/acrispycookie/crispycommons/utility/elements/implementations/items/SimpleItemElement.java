@@ -7,7 +7,7 @@ import java.util.Collections;
 
 public class SimpleItemElement extends ItemElement {
     public SimpleItemElement(CrispyItem item) {
-        super(new ArrayList<>(Collections.singleton(item)), -1);
+        super(new ArrayList<>(Collections.singleton(item)), -1, false);
     }
 
     @Override

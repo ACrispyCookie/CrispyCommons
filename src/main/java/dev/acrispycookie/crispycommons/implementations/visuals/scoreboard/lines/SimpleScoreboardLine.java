@@ -18,7 +18,7 @@ public class SimpleScoreboardLine extends AbstractScoreboardLine {
 
     public SimpleScoreboardLine(Collection<? extends String> frames, int period) {
         super(null);
-        this.element = new TextElement(frames, period) {
+        this.element = new TextElement(frames, period, true) {
             @Override
             protected void update() {
                 SimpleScoreboardLine.this.update();
@@ -42,20 +42,20 @@ public class SimpleScoreboardLine extends AbstractScoreboardLine {
 
     @Override
     protected void updateInternal() {
+        System.out.println("Updating line: " + position);
         Scoreboard bukkitScoreboard = scoreboard.getBukkitScoreboard();
         Objective obj = bukkitScoreboard.getObjective("[CrispyCommons]");
         Team team = bukkitScoreboard.getTeam(String.valueOf(position));
+
+        String teamEntry = team.getEntries().iterator().next();
         String line = ChatColor.translateAlternateColorCodes('&', getCurrentContent());
-        String teamEntry = getEntry(line, bukkitScoreboard);
-        team.getEntries().iterator().forEachRemaining(team::removeEntry);
-        team.addEntry(teamEntry);
         team.setPrefix(getPrefix(line));
         team.setSuffix(getSuffix(line));
         obj.getScore(teamEntry).setScore(15 - position);
     }
 
     private String getPrefix(String line) {
-        if (line.length() < 16) {
+        if (line.length() <= 16) {
             return line;
         }
         if (line.charAt(15) == ChatColor.COLOR_CHAR) {
@@ -75,7 +75,7 @@ public class SimpleScoreboardLine extends AbstractScoreboardLine {
     }
 
     private String getSuffix(String line) {
-        if (line.length() < 16) {
+        if (line.length() <= 16) {
             return "";
         }
         return line.substring(16);

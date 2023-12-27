@@ -24,7 +24,7 @@ public class TextHologramLine extends ClickableHologramLine<TextElement, String>
 
     public TextHologramLine(Collection<? extends String> frames, int period) {
         super(null);
-        element = new TextElement(frames, period) {
+        element = new TextElement(frames, period, false) {
             @Override
             protected void update() {
                 TextHologramLine.this.update();

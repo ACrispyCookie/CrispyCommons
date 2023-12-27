@@ -70,7 +70,7 @@ public abstract class AbstractCrispyHologram extends AbstractCrispyAccessibleVis
 
     @Override
     public void removePlayer(Player player) {
-        super.addPlayer(player);
+        super.removePlayer(player);
         if(!isDisplayed) {
             lines.forEach(l -> l.hide(player));
         }

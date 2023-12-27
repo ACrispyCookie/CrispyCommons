@@ -9,23 +9,34 @@ public abstract class AnimatedElement<T> extends AbstractCrispyElement<T> {
 
     private final ArrayList<T> frames;
     private final int period;
+    private final boolean async;
     private int frame;
     private int taskId;
     protected abstract void update();
 
-    public AnimatedElement(ArrayList<T> frames, int period) {
+    public AnimatedElement(ArrayList<T> frames, int period, boolean async) {
         super(frames.get(0));
         this.frames = new ArrayList<>(frames);
         this.frame = 0;
         this.period = period;
+        this.async = async;
     }
 
     public void start() {
+        if (async) {
+            taskId = Bukkit.getScheduler().runTaskTimerAsynchronously(CrispyCommons.getPlugin(), () -> {
+                this.frame = this.frame + 1 >= this.frames.size() ? 0 : this.frame + 1;
+                this.element = frames.get(frame);
+                update();
+            }, period, period).getTaskId();
+            return;
+        }
+
         taskId = Bukkit.getScheduler().runTaskTimer(CrispyCommons.getPlugin(), () -> {
             this.frame = this.frame + 1 >= this.frames.size() ? 0 : this.frame + 1;
             this.element = frames.get(frame);
             update();
-        }, 0, period).getTaskId();
+        }, period, period).getTaskId();
     }
 
     public void stop() {

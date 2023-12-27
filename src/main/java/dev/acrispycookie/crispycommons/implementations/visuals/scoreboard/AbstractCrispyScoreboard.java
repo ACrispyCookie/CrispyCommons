@@ -60,17 +60,23 @@ public abstract class AbstractCrispyScoreboard extends AbstractCrispyAccessibleV
 
     protected void updateScoreboard() {
         if (isDisplayed) {
+            title.hide();
+            ArrayList<Integer> toShow = new ArrayList<>();
+            for (int i = 0; i < lines.size(); i++) {
+                AbstractScoreboardLine l = lines.get(i);
+                if(l.isDisplayed())
+                    toShow.add(i);
+                l.hide();
+            }
             receivers.forEach(p -> p.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard()));
-            bukkitScoreboard = getNewBoard();
 
+            bukkitScoreboard = getNewBoard();
             title.show(0);
             int index = 0;
-            for (AbstractScoreboardLine line : lines) {
-                if (line.isDisplayed()) {
-                    line.hide();
-                    line.show(index);
-                    index++;
-                }
+            for (int i : toShow) {
+                AbstractScoreboardLine line = lines.get(i);
+                line.show(index);
+                index++;
             }
             receivers.forEach((p) -> p.setScoreboard(bukkitScoreboard));
         }

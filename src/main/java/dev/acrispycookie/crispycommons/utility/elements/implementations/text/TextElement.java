@@ -7,7 +7,7 @@ import java.util.Collection;
 
 public abstract class TextElement extends AnimatedElement<String> {
 
-    public TextElement(Collection<? extends String> frames, int period) {
-        super(new ArrayList<>(frames), period);
+    public TextElement(Collection<? extends String> frames, int period, boolean async) {
+        super(new ArrayList<>(frames), period, async);
     }
 }

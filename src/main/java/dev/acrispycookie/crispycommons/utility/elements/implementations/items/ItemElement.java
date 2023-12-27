@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public abstract class ItemElement extends AnimatedElement<CrispyItem> {
-    public ItemElement(Collection<? extends CrispyItem> frames, int period) {
-        super(new ArrayList<>(frames), period);
+    public ItemElement(Collection<? extends CrispyItem> frames, int period, boolean async) {
+        super(new ArrayList<>(frames), period, async);
     }
 }
