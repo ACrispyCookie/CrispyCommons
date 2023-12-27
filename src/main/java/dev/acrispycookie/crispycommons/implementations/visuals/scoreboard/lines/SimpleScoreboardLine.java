@@ -36,7 +36,7 @@ public class SimpleScoreboardLine extends AbstractScoreboardLine {
         Team team = bukkitScoreboard.registerNewTeam(String.valueOf(position));
         team.addEntry(teamEntry);
         team.setPrefix(getPrefix(line));
-        team.setSuffix(getSuffix(line));
+        team.setSuffix(getSuffix(line, teamEntry));
         obj.getScore(teamEntry).setScore(15 - position);
     }
 
@@ -47,10 +47,17 @@ public class SimpleScoreboardLine extends AbstractScoreboardLine {
         Objective obj = bukkitScoreboard.getObjective("[CrispyCommons]");
         Team team = bukkitScoreboard.getTeam(String.valueOf(position));
 
-        String teamEntry = team.getEntries().iterator().next();
         String line = ChatColor.translateAlternateColorCodes('&', getCurrentContent());
-        team.setPrefix(getPrefix(line));
-        team.setSuffix(getSuffix(line));
+        line = line.substring(0, Math.min(line.length(), 32));
+        System.out.println("  Line: " + line);
+        String teamEntry = team.getEntries().iterator().next();
+        System.out.println("  Entry: " + teamEntry);
+        String prefix = getPrefix(line);
+        String suffix = getSuffix(line, teamEntry);
+        System.out.println("  Prefix: " + prefix);
+        System.out.println("  Suffix: " + suffix);
+        team.setPrefix(prefix);
+        team.setSuffix(suffix);
         obj.getScore(teamEntry).setScore(15 - position);
     }
 
@@ -74,11 +81,18 @@ public class SimpleScoreboardLine extends AbstractScoreboardLine {
         return getUniqueEntry(ChatColor.getLastColors(line.substring(0, 16)), bukkitScoreboard);
     }
 
-    private String getSuffix(String line) {
+    private String getSuffix(String line, String lastEntry) {
         if (line.length() <= 16) {
             return "";
         }
-        return line.substring(16);
+        int prefixEnd = line.charAt(15) == ChatColor.COLOR_CHAR ? 15 : 16;
+        String lastColors = ChatColor.getLastColors(line.substring(0, prefixEnd));
+        if(lastColors.equals(ChatColor.getLastColors(lastEntry))) {
+            return line.substring(16);
+        } else {
+            String finalString = (getLastColor(lastColors) + line.substring(16));
+            return finalString.substring(0, Math.min(finalString.length(), 16));
+        }
     }
 
     private String getUniqueEntry(String suffix, Scoreboard bukkitScoreboard) {
@@ -92,5 +106,13 @@ public class SimpleScoreboardLine extends AbstractScoreboardLine {
         }
 
         return finalEntry.toString();
+    }
+
+    private String getLastColor(String lastColors) {
+        if(lastColors.isEmpty()) {
+            return "";
+        }
+
+        return lastColors.substring(lastColors.length() - 2);
     }
 }

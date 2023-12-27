@@ -6,7 +6,7 @@ import dev.acrispycookie.crispycommons.utility.showable.AbstractCrispyVisual;
 public abstract class AbstractScoreboardLine extends AbstractCrispyVisual<String> implements ScoreboardLine {
 
     protected TextElement element;
-    protected CrispyScoreboard scoreboard;
+    protected AbstractCrispyScoreboard scoreboard;
     protected int position;
     protected abstract void initialize();
     protected abstract void updateInternal();
@@ -43,7 +43,7 @@ public abstract class AbstractScoreboardLine extends AbstractCrispyVisual<String
     }
 
     @Override
-    public void setScoreboard(CrispyScoreboard scoreboard) {
+    public void setScoreboard(AbstractCrispyScoreboard scoreboard) {
         this.scoreboard = scoreboard;
     }
 
