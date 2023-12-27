@@ -8,6 +8,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.Collection;
+import java.util.function.Supplier;
 
 public class ItemHologramLine extends ClickableHologramLine<ItemElement, CrispyItem> {
 
@@ -20,6 +21,16 @@ public class ItemHologramLine extends ClickableHologramLine<ItemElement, CrispyI
     public ItemHologramLine(Collection<? extends CrispyItem> items, int period) {
         super(null);
         this.element = new ItemElement(items, period, false) {
+            @Override
+            protected void update() {
+                ItemHologramLine.this.update();
+            }
+        };
+    }
+
+    public ItemHologramLine(Supplier<CrispyItem> supplier, int period) {
+        super(null);
+        this.element = new ItemElement(supplier, period, false) {
             @Override
             protected void update() {
                 ItemHologramLine.this.update();

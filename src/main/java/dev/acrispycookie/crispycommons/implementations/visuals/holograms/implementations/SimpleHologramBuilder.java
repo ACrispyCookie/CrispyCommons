@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class SimpleHologramBuilder {
 
@@ -64,6 +65,12 @@ public class SimpleHologramBuilder {
         return this;
     }
 
+    public SimpleHologramBuilder addAnimatedTextLine(Supplier<String> supplier, int period) {
+        TextHologramLine line = new TextHologramLine(supplier, period);
+        lines.add(line);
+        return this;
+    }
+
     public SimpleHologramBuilder addItemLine(CrispyItem item) {
         ItemHologramLine line = new ItemHologramLine(item);
         lines.add(line);
@@ -72,6 +79,12 @@ public class SimpleHologramBuilder {
 
     public SimpleHologramBuilder addAnimatedItemLine(Collection<? extends CrispyItem> frames, int period) {
         ItemHologramLine line = new ItemHologramLine(frames, period);
+        lines.add(line);
+        return this;
+    }
+
+    public SimpleHologramBuilder addAnimatedItemLine(Supplier<CrispyItem> supplier, int period) {
+        ItemHologramLine line = new ItemHologramLine(supplier, period);
         lines.add(line);
         return this;
     }

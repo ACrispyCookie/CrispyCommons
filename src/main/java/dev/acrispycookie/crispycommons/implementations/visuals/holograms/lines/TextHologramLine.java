@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class TextHologramLine extends ClickableHologramLine<TextElement, String> {
 
@@ -25,6 +26,16 @@ public class TextHologramLine extends ClickableHologramLine<TextElement, String>
     public TextHologramLine(Collection<? extends String> frames, int period) {
         super(null);
         element = new TextElement(frames, period, false) {
+            @Override
+            protected void update() {
+                TextHologramLine.this.update();
+            }
+        };
+    }
+
+    public TextHologramLine(Supplier<String> supplier, int period) {
+        super(null);
+        element = new TextElement(supplier, period, false) {
             @Override
             protected void update() {
                 TextHologramLine.this.update();

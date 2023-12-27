@@ -9,6 +9,7 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
 import java.util.Collection;
+import java.util.function.Supplier;
 
 public class SimpleScoreboardLine extends AbstractScoreboardLine {
 
@@ -19,6 +20,16 @@ public class SimpleScoreboardLine extends AbstractScoreboardLine {
     public SimpleScoreboardLine(Collection<? extends String> frames, int period) {
         super(null);
         this.element = new TextElement(frames, period, true) {
+            @Override
+            protected void update() {
+                SimpleScoreboardLine.this.update();
+            }
+        };
+    }
+
+    public SimpleScoreboardLine(Supplier<String> supplier, int period) {
+        super(null);
+        this.element = new TextElement(supplier, period, true) {
             @Override
             protected void update() {
                 SimpleScoreboardLine.this.update();

@@ -6,6 +6,7 @@ import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.
 import org.bukkit.entity.Player;
 
 import java.util.*;
+import java.util.function.Supplier;
 
 public class SimpleScoreboardBuilder {
 
@@ -51,6 +52,12 @@ public class SimpleScoreboardBuilder {
 
     public SimpleScoreboardBuilder addAnimatedTextLine(Collection<? extends String> frames, int period) {
         SimpleScoreboardLine line = new SimpleScoreboardLine(frames, period);
+        lines.add(line);
+        return this;
+    }
+
+    public SimpleScoreboardBuilder addAnimatedTextLine(Supplier<String> supplier, int period) {
+        SimpleScoreboardLine line = new SimpleScoreboardLine(supplier, period);
         lines.add(line);
         return this;
     }

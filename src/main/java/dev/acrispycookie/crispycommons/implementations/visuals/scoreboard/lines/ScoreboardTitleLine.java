@@ -8,6 +8,7 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 
 import java.util.Collection;
+import java.util.function.Supplier;
 
 public class ScoreboardTitleLine extends AbstractScoreboardLine {
 
@@ -18,6 +19,16 @@ public class ScoreboardTitleLine extends AbstractScoreboardLine {
     public ScoreboardTitleLine(Collection<? extends String> frames, int period) {
         super(null);
         this.element = new TextElement(frames, period, true) {
+            @Override
+            protected void update() {
+                ScoreboardTitleLine.this.update();
+            }
+        };
+    }
+
+    public ScoreboardTitleLine(Supplier<String> supplier, int period) {
+        super(null);
+        this.element = new TextElement(supplier, period, true) {
             @Override
             protected void update() {
                 ScoreboardTitleLine.this.update();
