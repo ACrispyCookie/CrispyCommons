@@ -1,26 +1,50 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.particles.implementations;
 
 import dev.acrispycookie.crispycommons.implementations.visuals.particles.AbstractCrispyParticle;
-import org.bukkit.Effect;
-import org.bukkit.Location;
+import dev.acrispycookie.crispycommons.implementations.wrappers.particle.CrispyEffect;
+import dev.acrispycookie.crispycommons.implementations.wrappers.particle.implementations.ColoredEffect;
+import dev.acrispycookie.crispycommons.implementations.wrappers.particle.implementations.SimpleEffect;
+import dev.acrispycookie.crispycommons.utility.elements.implementations.particles.ParticleElement;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 
-public class SimpleCrispyParticle extends AbstractCrispyParticle {
+import java.util.Set;
 
-    protected final Effect effect;
-    protected final Location location;
-    protected final int data;
+public class SimpleCrispyParticle<T extends CrispyEffect> extends AbstractCrispyParticle<T> {
 
-    public SimpleCrispyParticle(JavaPlugin plugin, long duration, long period, Effect effect, Location location, int data) {
-        super(plugin, duration, period);
-        this.effect = effect;
-        this.location = location;
-        this.data = data;
+    public SimpleCrispyParticle(ParticleElement<T> effect, long duration, long period, Set<? extends Player> receivers) {
+        super(effect, duration, period, receivers);
+    }
+
+    public SimpleCrispyParticle(ParticleElement<T> effect, Set<? extends Player> receivers) {
+        super(effect, receivers);
     }
 
     @Override
     public void playOnce(Player player) {
-        player.spigot().playEffect(location, effect, data, data, 0, 0, 0, 1, 100, 160);
+        T effect = element.getContent();
+        if(effect instanceof SimpleEffect) {
+            playSimple(player, (SimpleEffect) effect);
+        } else if (effect instanceof ColoredEffect) {
+            playColored(player, (ColoredEffect) effect);
+        } else {
+            playRendered();
+        }
+    }
+
+    private void playSimple(Player player, SimpleEffect effect) {
+        player.spigot().playEffect(effect.getLocation(), effect.getEffect(), effect.getData(), effect.getData(), 0, 0, 0, 1, 100, 160);
+    }
+
+    private void playColored(Player player, ColoredEffect effect) {
+        player.spigot().playEffect(effect.getLocation(), effect.getEffect(), 0, 1, effect.getRed(), effect.getGreen(), effect.getBlue(), 1, 0, 160);
+    }
+
+    private void playRendered() {
+        //??
+    }
+
+    @Override
+    public void update() {
+
     }
 }

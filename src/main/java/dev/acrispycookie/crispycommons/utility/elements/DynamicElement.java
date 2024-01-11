@@ -7,13 +7,13 @@ import java.util.function.Supplier;
 
 public abstract class DynamicElement<T> extends AbstractCrispyElement<T> {
 
-    protected Supplier<T> supplier;
+    protected Supplier<? extends T> supplier;
     private final int period;
     private final boolean async;
     private int taskId;
     protected abstract void update();
 
-    public DynamicElement(Supplier<T> supplier, int period, boolean async) {
+    public DynamicElement(Supplier<? extends T> supplier, int period, boolean async) {
         super(supplier.get());
         this.supplier = supplier;
         this.period = period;

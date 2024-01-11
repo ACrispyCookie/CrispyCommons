@@ -1,7 +1,7 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.holograms;
 
 import dev.acrispycookie.crispycommons.utility.elements.AnimatedElement;
-import dev.acrispycookie.crispycommons.utility.showable.AbstractCrispyVisual;
+import dev.acrispycookie.crispycommons.utility.visual.AbstractCrispyVisual;
 import org.bukkit.entity.Player;
 
 public abstract class AbstractHologramLine<T extends AnimatedElement<K>, K> extends AbstractCrispyVisual<K> implements HologramLine<K> {

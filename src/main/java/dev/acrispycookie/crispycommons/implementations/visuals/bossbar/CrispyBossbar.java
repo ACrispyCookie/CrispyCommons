@@ -1,8 +1,7 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.bossbar;
 
-import org.bukkit.entity.Player;
+import dev.acrispycookie.crispycommons.utility.visual.CrispyAccessibleVisual;
 
-public interface CrispyBossbar {
+public interface CrispyBossbar extends CrispyAccessibleVisual<String> {
 
-    void display(Player player);
 }

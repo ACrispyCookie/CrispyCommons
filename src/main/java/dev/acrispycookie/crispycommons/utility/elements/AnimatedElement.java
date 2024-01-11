@@ -11,7 +11,7 @@ public abstract class AnimatedElement<T> extends DynamicElement<T> {
     private final ArrayList<T> frames;
     private int frame;
 
-    public AnimatedElement(ArrayList<T> frames, int period, boolean async) {
+    public AnimatedElement(ArrayList<? extends T> frames, int period, boolean async) {
         super(() -> null, period, async);
         this.frames = new ArrayList<>(frames);
         this.frame = 0;
@@ -23,7 +23,7 @@ public abstract class AnimatedElement<T> extends DynamicElement<T> {
         this.element = supplier.get();
     }
 
-    public AnimatedElement(Supplier<T> supplier, int period, boolean async) {
+    public AnimatedElement(Supplier<? extends T> supplier, int period, boolean async) {
         super(supplier, period, async);
         this.frames = new ArrayList<>();
         this.frame = 0;

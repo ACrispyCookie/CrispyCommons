@@ -1,4 +1,4 @@
-package dev.acrispycookie.crispycommons.utility.showable;
+package dev.acrispycookie.crispycommons.utility.visual;
 
 public abstract class AbstractCrispyVisual<T> implements CrispyVisual<T> {
 

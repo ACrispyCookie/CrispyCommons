@@ -1,7 +1,7 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.scoreboard;
 
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.ScoreboardTitleLine;
-import dev.acrispycookie.crispycommons.utility.showable.CrispyAccessibleVisual;
+import dev.acrispycookie.crispycommons.utility.visual.CrispyAccessibleVisual;
 import org.bukkit.scoreboard.Scoreboard;
 
 import java.util.List;

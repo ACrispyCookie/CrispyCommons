@@ -1,7 +1,7 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.scoreboard;
 
 import dev.acrispycookie.crispycommons.utility.elements.implementations.text.TextElement;
-import dev.acrispycookie.crispycommons.utility.showable.AbstractCrispyVisual;
+import dev.acrispycookie.crispycommons.utility.visual.AbstractCrispyVisual;
 
 public abstract class AbstractScoreboardLine extends AbstractCrispyVisual<String> implements ScoreboardLine {
 

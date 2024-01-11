@@ -1,7 +1,7 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.holograms;
 
 import dev.acrispycookie.crispycommons.implementations.CrispyCommons;
-import dev.acrispycookie.crispycommons.utility.showable.AbstractCrispyAccessibleVisual;
+import dev.acrispycookie.crispycommons.utility.visual.AbstractCrispyAccessibleVisual;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -13,7 +13,6 @@ public abstract class AbstractCrispyHologram extends AbstractCrispyAccessibleVis
 
     protected final JavaPlugin plugin;
     protected ArrayList<AbstractHologramLine<?, ?>> lines;
-    protected boolean isDisplayed;
     protected Location location;
     protected int timeToLive;
 
@@ -53,11 +52,6 @@ public abstract class AbstractCrispyHologram extends AbstractCrispyAccessibleVis
             return;
 
         lines.forEach(AbstractHologramLine::update);
-    }
-
-    @Override
-    public boolean isDisplayed() {
-        return isDisplayed;
     }
 
     @Override

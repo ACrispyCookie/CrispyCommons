@@ -1,12 +1,11 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.scoreboard;
 
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.ScoreboardTitleLine;
-import dev.acrispycookie.crispycommons.utility.showable.AbstractCrispyAccessibleVisual;
+import dev.acrispycookie.crispycommons.utility.visual.AbstractCrispyAccessibleVisual;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.Team;
 
 import java.util.*;
 

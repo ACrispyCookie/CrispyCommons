@@ -1,13 +1,12 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.particles;
 
-import org.bukkit.entity.Player;
+import dev.acrispycookie.crispycommons.implementations.wrappers.particle.CrispyEffect;
+import dev.acrispycookie.crispycommons.utility.visual.CrispyAccessibleVisual;
 
-public interface CrispyParticle {
+public interface CrispyParticle<T extends CrispyEffect> extends CrispyAccessibleVisual<CrispyEffect> {
 
-    void play(Player player);
-    void playOnce(Player player);
-    void broadcast();
-    void broadcastOnce();
-    void stop();
-
+    long getDuration();
+    void setDuration(long duration);
+    long getPeriod();
+    void setPeriod(long period);
 }

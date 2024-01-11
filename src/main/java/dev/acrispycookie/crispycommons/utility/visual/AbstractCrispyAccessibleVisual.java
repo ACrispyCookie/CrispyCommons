@@ -1,4 +1,4 @@
-package dev.acrispycookie.crispycommons.utility.showable;
+package dev.acrispycookie.crispycommons.utility.visual;
 
 import org.bukkit.entity.Player;
 

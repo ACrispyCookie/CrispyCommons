@@ -1,6 +1,6 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.holograms;
 
-import dev.acrispycookie.crispycommons.utility.showable.CrispyAccessibleVisual;
+import dev.acrispycookie.crispycommons.utility.visual.CrispyAccessibleVisual;
 import org.bukkit.Location;
 
 import java.util.List;
