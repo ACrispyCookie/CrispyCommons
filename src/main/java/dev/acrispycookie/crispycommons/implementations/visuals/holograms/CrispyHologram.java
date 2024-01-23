@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface CrispyHologram extends CrispyAccessibleVisual<List<HologramLine<?>>> {
 
-    void addLine(AbstractHologramLine<?, ?> line);
-    void addLine(int index, AbstractHologramLine<?, ?> line);
+    void addLine(AbstractHologramLine<?> line);
+    void addLine(int index, AbstractHologramLine<?> line);
     void removeLine(int index);
     void showLine(int index);
     void hideLine(int index);

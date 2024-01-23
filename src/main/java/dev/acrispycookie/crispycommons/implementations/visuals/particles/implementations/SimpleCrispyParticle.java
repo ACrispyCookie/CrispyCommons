@@ -21,7 +21,7 @@ public class SimpleCrispyParticle<T extends CrispyEffect> extends AbstractCrispy
 
     @Override
     public void playOnce(Player player) {
-        T effect = element.getContent();
+        T effect = element.getRaw();
         if(effect instanceof SimpleEffect) {
             playSimple(player, (SimpleEffect) effect);
         } else if (effect instanceof ColoredEffect) {

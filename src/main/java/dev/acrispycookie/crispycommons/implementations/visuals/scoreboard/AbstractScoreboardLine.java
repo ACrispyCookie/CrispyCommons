@@ -3,7 +3,7 @@ package dev.acrispycookie.crispycommons.implementations.visuals.scoreboard;
 import dev.acrispycookie.crispycommons.utility.elements.implementations.text.TextElement;
 import dev.acrispycookie.crispycommons.utility.visual.AbstractCrispyVisual;
 
-public abstract class AbstractScoreboardLine extends AbstractCrispyVisual<String> implements ScoreboardLine {
+public abstract class AbstractScoreboardLine extends AbstractCrispyVisual<TextElement> implements ScoreboardLine {
 
     protected TextElement element;
     protected AbstractCrispyScoreboard scoreboard;
@@ -38,8 +38,8 @@ public abstract class AbstractScoreboardLine extends AbstractCrispyVisual<String
     }
 
     @Override
-    public String getCurrentContent() {
-        return element.getContent();
+    public TextElement getCurrentContent() {
+        return element;
     }
 
     @Override

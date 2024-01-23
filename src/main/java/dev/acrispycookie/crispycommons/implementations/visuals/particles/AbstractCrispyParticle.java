@@ -13,7 +13,7 @@ import org.bukkit.scheduler.BukkitTask;
 import java.awt.*;
 import java.util.Set;
 
-public abstract class AbstractCrispyParticle<T extends CrispyEffect> extends AbstractCrispyAccessibleVisual<CrispyEffect> implements CrispyParticle<T> {
+public abstract class AbstractCrispyParticle<T extends CrispyEffect> extends AbstractCrispyAccessibleVisual<ParticleElement<T>> implements CrispyParticle<T> {
 
     protected final JavaPlugin plugin;
     protected BukkitTask bukkitTask;
@@ -101,7 +101,7 @@ public abstract class AbstractCrispyParticle<T extends CrispyEffect> extends Abs
     }
 
     @Override
-    public T getCurrentContent() {
-        return element.getContent();
+    public ParticleElement<T> getCurrentContent() {
+        return element;
     }
 }

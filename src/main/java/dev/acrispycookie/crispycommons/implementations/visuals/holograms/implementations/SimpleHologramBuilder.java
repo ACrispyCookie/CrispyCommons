@@ -18,7 +18,7 @@ public class SimpleHologramBuilder {
     private int timeToLive;
     private boolean isPublic = false;
     private final Collection<Player> players = new ArrayList<>();
-    private final List<AbstractHologramLine<?, ?>> lines = new ArrayList<>();
+    private final List<AbstractHologramLine<?>> lines = new ArrayList<>();
 
 
     public SimpleHologramBuilder(Location location, int timeToLive) {

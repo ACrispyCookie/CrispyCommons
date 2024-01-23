@@ -12,7 +12,7 @@ import java.util.*;
 public abstract class AbstractCrispyHologram extends AbstractCrispyAccessibleVisual<List<HologramLine<?>>> implements CrispyHologram {
 
     protected final JavaPlugin plugin;
-    protected ArrayList<AbstractHologramLine<?, ?>> lines;
+    protected ArrayList<AbstractHologramLine<?>> lines;
     protected Location location;
     protected int timeToLive;
 
@@ -81,7 +81,7 @@ public abstract class AbstractCrispyHologram extends AbstractCrispyAccessibleVis
 
 
     @Override
-    public void addLine(int index, AbstractHologramLine<?, ?> line) {
+    public void addLine(int index, AbstractHologramLine<?> line) {
         if (index > lines.size())
             return;
 
@@ -95,7 +95,7 @@ public abstract class AbstractCrispyHologram extends AbstractCrispyAccessibleVis
     }
 
     @Override
-    public void addLine(AbstractHologramLine<?, ?> line) {
+    public void addLine(AbstractHologramLine<?> line) {
         addLine(lines.size(), line);
     }
 
@@ -104,7 +104,7 @@ public abstract class AbstractCrispyHologram extends AbstractCrispyAccessibleVis
         if(index >= lines.size())
             return;
 
-        AbstractHologramLine<?, ?> toRemove = lines.get(index);
+        AbstractHologramLine<?> toRemove = lines.get(index);
         lines.remove(index);
         if (isDisplayed && toRemove.isDisplayed()) {
             toRemove.hide();
@@ -118,7 +118,7 @@ public abstract class AbstractCrispyHologram extends AbstractCrispyAccessibleVis
         if(index >= lines.size())
             return;
 
-        AbstractHologramLine<?, ?> line = lines.get(index);
+        AbstractHologramLine<?> line = lines.get(index);
         if(isDisplayed && !line.isDisplayed()) {
             line.show();
         }
@@ -129,7 +129,7 @@ public abstract class AbstractCrispyHologram extends AbstractCrispyAccessibleVis
         if(index >= lines.size())
             return;
 
-        AbstractHologramLine<?, ?> line = lines.get(index);
+        AbstractHologramLine<?> line = lines.get(index);
         if(isDisplayed && line.isDisplayed()) {
             line.hide();
         }

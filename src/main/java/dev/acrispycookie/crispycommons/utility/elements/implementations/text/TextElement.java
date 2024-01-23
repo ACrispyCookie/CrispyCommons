@@ -1,7 +1,6 @@
 package dev.acrispycookie.crispycommons.utility.elements.implementations.text;
 
 import dev.acrispycookie.crispycommons.utility.elements.AnimatedElement;
-import dev.acrispycookie.crispycommons.utility.elements.DynamicElement;
 
 import java.util.ArrayList;
 import java.util.Collection;

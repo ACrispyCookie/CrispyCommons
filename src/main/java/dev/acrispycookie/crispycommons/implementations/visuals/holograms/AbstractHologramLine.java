@@ -4,7 +4,7 @@ import dev.acrispycookie.crispycommons.utility.elements.AnimatedElement;
 import dev.acrispycookie.crispycommons.utility.visual.AbstractCrispyVisual;
 import org.bukkit.entity.Player;
 
-public abstract class AbstractHologramLine<T extends AnimatedElement<K>, K> extends AbstractCrispyVisual<K> implements HologramLine<K> {
+public abstract class AbstractHologramLine<T extends AnimatedElement<?>> extends AbstractCrispyVisual<T> implements HologramLine<T> {
 
     protected T element;
     protected CrispyHologram hologram;
@@ -39,8 +39,8 @@ public abstract class AbstractHologramLine<T extends AnimatedElement<K>, K> exte
     }
 
     @Override
-    public K getCurrentContent() {
-        return element.getContent();
+    public T getCurrentContent() {
+        return element;
     }
 
     @Override

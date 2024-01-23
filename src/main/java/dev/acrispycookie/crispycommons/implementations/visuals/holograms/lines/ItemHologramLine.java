@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 import java.util.Collection;
 import java.util.function.Supplier;
 
-public class ItemHologramLine extends ClickableHologramLine<ItemElement, CrispyItem> {
+public class ItemHologramLine extends ClickableHologramLine<ItemElement> {
 
     private final EntityItem ei = null;
 

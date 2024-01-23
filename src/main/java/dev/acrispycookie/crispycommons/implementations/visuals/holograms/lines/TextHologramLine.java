@@ -15,7 +15,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class TextHologramLine extends ClickableHologramLine<TextElement, String> {
+public class TextHologramLine extends ClickableHologramLine<TextElement> {
 
     private EntityArmorStand as = null;
 
@@ -65,7 +65,7 @@ public class TextHologramLine extends ClickableHologramLine<TextElement, String>
         if(isDisplayed || hologram == null || !hologram.getPlayers().contains(player))
             return;
 
-        String text = getCurrentContent();
+        String text = getCurrentContent().getRaw();
 
         if (StringUtils.isEmptyOrWhitespaceOnly(text)) {
             return;
@@ -101,7 +101,7 @@ public class TextHologramLine extends ClickableHologramLine<TextElement, String>
 
         if(as != null) {
             Location location = getLocation();
-            as.setCustomName(ChatColor.translateAlternateColorCodes('&', getCurrentContent()));
+            as.setCustomName(ChatColor.translateAlternateColorCodes('&', getCurrentContent().getRaw()));
             as.setLocation(location.getX(), location.getY(), location.getZ(), 0, 0);
             PacketPlayOutEntityMetadata metadata = new PacketPlayOutEntityMetadata(as.getId(), as.getDataWatcher(), true);
             PacketPlayOutEntityTeleport teleport = new PacketPlayOutEntityTeleport(as);

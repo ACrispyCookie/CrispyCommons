@@ -41,7 +41,7 @@ public class ScoreboardTitleLine extends AbstractScoreboardLine {
     protected void initialize() {
         Scoreboard bukkitScoreboard = scoreboard.getBukkitScoreboard();
         Objective obj = bukkitScoreboard.getObjective("[CrispyCommons]");
-        obj.setDisplayName(ChatColor.translateAlternateColorCodes('&', getCurrentContent()));
+        obj.setDisplayName(ChatColor.translateAlternateColorCodes('&', getCurrentContent().getRaw()));
     }
 
     @Override

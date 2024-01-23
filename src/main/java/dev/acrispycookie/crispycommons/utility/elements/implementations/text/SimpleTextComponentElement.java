@@ -5,9 +5,9 @@ import net.md_5.bungee.api.chat.TextComponent;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class SimpleTextElement extends TextElement {
+public class SimpleTextComponentElement extends TextComponentElement {
 
-    public SimpleTextElement(String text) {
+    public SimpleTextComponentElement(TextComponent text) {
         super(new ArrayList<>(Collections.singletonList(text)), -1, false);
     }
 
