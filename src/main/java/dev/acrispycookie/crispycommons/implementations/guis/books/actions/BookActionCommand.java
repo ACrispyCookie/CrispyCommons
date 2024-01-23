@@ -17,16 +17,20 @@ public class BookActionCommand extends BukkitCommand {
 
     @Override
     public boolean execute(CommandSender commandSender, String s, String[] strings) {
-        if (strings.length != 1 && !(commandSender instanceof Player))
-            return false;
+        if (strings.length != 1 || !(commandSender instanceof Player))
+            return true;
 
         Player p = (Player) commandSender;
-        UUID uuid = UUID.fromString(strings[0]);
-        BookAction action = BookAction.getPendingAction(uuid);
-        if(action != null) {
-            action.performAction(p);
+        try {
+            UUID uuid = UUID.fromString(strings[0]);
+            BookAction action = BookAction.getPendingAction(uuid);
+            if(action != null) {
+                action.performAction(p);
+            }
+            return true;
+        } catch (IllegalArgumentException e) {
+            return true;
         }
-        return true;
     }
 
     public static BookActionCommand getInstance() {
