@@ -3,8 +3,8 @@ package dev.acrispycookie.crispycommons.implementations.visuals.holograms.lines;
 import com.mysql.jdbc.StringUtils;
 import dev.acrispycookie.crispycommons.implementations.visuals.holograms.AbstractHologramLine;
 import dev.acrispycookie.crispycommons.implementations.visuals.holograms.HologramLine;
-import dev.acrispycookie.crispycommons.utility.elements.implementations.text.SimpleTextElement;
-import dev.acrispycookie.crispycommons.utility.elements.implementations.text.TextElement;
+import dev.acrispycookie.crispycommons.utility.elements.implementations.text.SimpleStringElement;
+import dev.acrispycookie.crispycommons.utility.elements.implementations.text.StringElement;
 import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -16,17 +16,17 @@ import java.util.Collection;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class TextHologramLine extends ClickableHologramLine<TextElement> {
+public class TextHologramLine extends ClickableHologramLine<StringElement> {
 
     private EntityArmorStand as = null;
 
     public TextHologramLine(String staticLine) {
-        super(new SimpleTextElement(staticLine));
+        super(new SimpleStringElement(staticLine));
     }
 
     public TextHologramLine(Collection<? extends String> frames, int period) {
         super(null);
-        content = new TextElement(frames, period, false) {
+        content = new StringElement(frames, period, false) {
             @Override
             protected void update() {
                 TextHologramLine.this.update();
@@ -36,7 +36,7 @@ public class TextHologramLine extends ClickableHologramLine<TextElement> {
 
     public TextHologramLine(Supplier<String> supplier, int period) {
         super(null);
-        content = new TextElement(supplier, period, false) {
+        content = new StringElement(supplier, period, false) {
             @Override
             protected void update() {
                 TextHologramLine.this.update();
@@ -66,7 +66,7 @@ public class TextHologramLine extends ClickableHologramLine<TextElement> {
         if(isDisplayed || hologram == null || !hologram.getPlayers().contains(player))
             return;
 
-        String text = getContent().getRaw();
+        String text = getContent().getRaw().toPlainText();
 
         if (StringUtils.isEmptyOrWhitespaceOnly(text)) {
             return;
@@ -102,7 +102,7 @@ public class TextHologramLine extends ClickableHologramLine<TextElement> {
 
         if(as != null) {
             Location location = getLocation();
-            as.setCustomName(ChatColor.translateAlternateColorCodes('&', getContent().getRaw()));
+            as.setCustomName(ChatColor.translateAlternateColorCodes('&', getContent().getRaw().toPlainText()));
             as.setLocation(location.getX(), location.getY(), location.getZ(), 0, 0);
             PacketPlayOutEntityMetadata metadata = new PacketPlayOutEntityMetadata(as.getId(), as.getDataWatcher(), true);
             PacketPlayOutEntityTeleport teleport = new PacketPlayOutEntityTeleport(as);

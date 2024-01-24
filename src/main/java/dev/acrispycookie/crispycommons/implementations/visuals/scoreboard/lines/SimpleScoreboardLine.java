@@ -1,8 +1,8 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines;
 
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.AbstractScoreboardLine;
-import dev.acrispycookie.crispycommons.utility.elements.implementations.text.SimpleTextElement;
-import dev.acrispycookie.crispycommons.utility.elements.implementations.text.TextElement;
+import dev.acrispycookie.crispycommons.utility.elements.implementations.text.SimpleStringElement;
+import dev.acrispycookie.crispycommons.utility.elements.implementations.text.StringElement;
 import org.bukkit.ChatColor;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
@@ -14,12 +14,12 @@ import java.util.function.Supplier;
 public class SimpleScoreboardLine extends AbstractScoreboardLine {
 
     public SimpleScoreboardLine(String staticLine) {
-        super(new SimpleTextElement(staticLine));
+        super(new SimpleStringElement(staticLine));
     }
 
     public SimpleScoreboardLine(Collection<? extends String> frames, int period) {
         super(null);
-        this.content = new TextElement(frames, period, false) {
+        this.content = new StringElement(frames, period, false) {
             @Override
             protected void update() {
                 SimpleScoreboardLine.this.update();
@@ -29,7 +29,7 @@ public class SimpleScoreboardLine extends AbstractScoreboardLine {
 
     public SimpleScoreboardLine(Supplier<String> supplier, int period) {
         super(null);
-        this.content = new TextElement(supplier, period, false) {
+        this.content = new StringElement(supplier, period, false) {
             @Override
             protected void update() {
                 SimpleScoreboardLine.this.update();
@@ -42,7 +42,7 @@ public class SimpleScoreboardLine extends AbstractScoreboardLine {
         Scoreboard bukkitScoreboard = scoreboard.getBukkitScoreboard();
         Objective obj = bukkitScoreboard.getObjective("[CrispyCommons]");
 
-        String line = ChatColor.translateAlternateColorCodes('&', getContent().getRaw());
+        String line = ChatColor.translateAlternateColorCodes('&', getContent().getRaw().toPlainText());
         String teamEntry = getEntry(line, bukkitScoreboard);
         Team team = bukkitScoreboard.registerNewTeam(String.valueOf(position));
         team.addEntry(teamEntry);
@@ -57,7 +57,7 @@ public class SimpleScoreboardLine extends AbstractScoreboardLine {
         Objective obj = bukkitScoreboard.getObjective("[CrispyCommons]");
         Team team = bukkitScoreboard.getTeam(String.valueOf(position));
 
-        String line = ChatColor.translateAlternateColorCodes('&', getContent().getRaw());
+        String line = ChatColor.translateAlternateColorCodes('&', getContent().getRaw().toPlainText());
         line = line.substring(0, Math.min(line.length(), 32));
         String teamEntry = team.getEntries().iterator().next();
         String prefix = getPrefix(line);

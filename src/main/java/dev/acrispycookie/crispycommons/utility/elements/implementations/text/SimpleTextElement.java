@@ -1,11 +1,13 @@
 package dev.acrispycookie.crispycommons.utility.elements.implementations.text;
 
+import net.md_5.bungee.api.chat.TextComponent;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class SimpleTextElement extends TextElement {
 
-    public SimpleTextElement(String text) {
+    public SimpleTextElement(TextComponent text) {
         super(new ArrayList<>(Collections.singletonList(text)), -1, false);
     }
 
