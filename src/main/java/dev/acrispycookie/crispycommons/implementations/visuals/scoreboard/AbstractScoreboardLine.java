@@ -4,26 +4,24 @@ import dev.acrispycookie.crispycommons.utility.elements.implementations.text.Tex
 import dev.acrispycookie.crispycommons.utility.visual.AbstractCrispyVisual;
 
 public abstract class AbstractScoreboardLine extends AbstractCrispyVisual<TextElement> implements ScoreboardLine {
-
-    protected TextElement element;
     protected AbstractCrispyScoreboard scoreboard;
     protected int position;
     protected abstract void initialize();
     protected abstract void updateInternal();
 
     public AbstractScoreboardLine(TextElement element) {
-        this.element = element;
+        super(element);
     }
 
     protected void show(int position) {
         this.position = position;
         initialize();
-        element.start();
+        content.start();
         isDisplayed = true;
     }
 
     protected void hide() {
-        element.stop();
+        content.stop();
         isDisplayed = false;
     }
 
@@ -35,11 +33,6 @@ public abstract class AbstractScoreboardLine extends AbstractCrispyVisual<TextEl
 
     protected void setDisplayed(boolean displayed) {
         isDisplayed = displayed;
-    }
-
-    @Override
-    public TextElement getCurrentContent() {
-        return element;
     }
 
     @Override

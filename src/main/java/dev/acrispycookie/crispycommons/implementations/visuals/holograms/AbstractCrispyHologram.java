@@ -9,20 +9,19 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.*;
 
-public abstract class AbstractCrispyHologram extends AbstractCrispyAccessibleVisual<List<HologramLine<?>>> implements CrispyHologram {
+public abstract class AbstractCrispyHologram extends AbstractCrispyAccessibleVisual<List<AbstractHologramLine<?>>> implements CrispyHologram {
 
     protected final JavaPlugin plugin;
-    protected ArrayList<AbstractHologramLine<?>> lines;
     protected Location location;
     protected int timeToLive;
 
-    public AbstractCrispyHologram(Location location, int timeToLive, Set<? extends Player> receivers) {
-        super(receivers);
+    public AbstractCrispyHologram(List<AbstractHologramLine<?>> content, Location location, int timeToLive, Set<? extends Player> receivers) {
+        super(content, receivers);
         this.plugin = CrispyCommons.getPlugin();
-        this.lines = new ArrayList<>();
         this.location = location;
         this.timeToLive = timeToLive;
         this.isDisplayed = false;
+        this.content.forEach(l -> l.setHologram(this));
     }
 
     @Override
@@ -31,7 +30,7 @@ public abstract class AbstractCrispyHologram extends AbstractCrispyAccessibleVis
             return;
 
         isDisplayed = true;
-        lines.forEach(AbstractHologramLine::show);
+        content.forEach(AbstractHologramLine::show);
         if(timeToLive != -1) {
             Bukkit.getScheduler().runTaskLater(plugin, this::hide, timeToLive);
         }
@@ -43,7 +42,7 @@ public abstract class AbstractCrispyHologram extends AbstractCrispyAccessibleVis
             return;
 
         isDisplayed = false;
-        lines.forEach(AbstractHologramLine::hide);
+        content.forEach(AbstractHologramLine::hide);
     }
 
     @Override
@@ -51,14 +50,14 @@ public abstract class AbstractCrispyHologram extends AbstractCrispyAccessibleVis
         if(!isDisplayed)
             return;
 
-        lines.forEach(AbstractHologramLine::update);
+        content.forEach(AbstractHologramLine::update);
     }
 
     @Override
     public void addPlayer(Player player) {
         super.addPlayer(player);
         if(isDisplayed) {
-            lines.forEach(l -> l.show(player));
+            content.forEach(l -> l.show(player));
         }
     }
 
@@ -66,7 +65,7 @@ public abstract class AbstractCrispyHologram extends AbstractCrispyAccessibleVis
     public void removePlayer(Player player) {
         super.removePlayer(player);
         if(!isDisplayed) {
-            lines.forEach(l -> l.hide(player));
+            content.forEach(l -> l.hide(player));
         }
     }
 
@@ -82,43 +81,43 @@ public abstract class AbstractCrispyHologram extends AbstractCrispyAccessibleVis
 
     @Override
     public void addLine(int index, AbstractHologramLine<?> line) {
-        if (index > lines.size())
+        if (index > content.size())
             return;
 
-        lines.add(index, line);
+        content.add(index, line);
         line.setHologram(this);
         if (isDisplayed) {
             line.show();
         }
 
-        lines.forEach(AbstractHologramLine::update);
+        content.forEach(AbstractHologramLine::update);
     }
 
     @Override
     public void addLine(AbstractHologramLine<?> line) {
-        addLine(lines.size(), line);
+        addLine(content.size(), line);
     }
 
     @Override
     public void removeLine(int index) {
-        if(index >= lines.size())
+        if(index >= content.size())
             return;
 
-        AbstractHologramLine<?> toRemove = lines.get(index);
-        lines.remove(index);
+        AbstractHologramLine<?> toRemove = content.get(index);
+        content.remove(index);
         if (isDisplayed && toRemove.isDisplayed()) {
             toRemove.hide();
         }
 
-        lines.forEach(AbstractHologramLine::update);
+        content.forEach(AbstractHologramLine::update);
     }
 
     @Override
     public void showLine(int index) {
-        if(index >= lines.size())
+        if(index >= content.size())
             return;
 
-        AbstractHologramLine<?> line = lines.get(index);
+        AbstractHologramLine<?> line = content.get(index);
         if(isDisplayed && !line.isDisplayed()) {
             line.show();
         }
@@ -126,10 +125,10 @@ public abstract class AbstractCrispyHologram extends AbstractCrispyAccessibleVis
 
     @Override
     public void hideLine(int index) {
-        if(index >= lines.size())
+        if(index >= content.size())
             return;
 
-        AbstractHologramLine<?> line = lines.get(index);
+        AbstractHologramLine<?> line = content.get(index);
         if(isDisplayed && line.isDisplayed()) {
             line.hide();
         }
@@ -143,11 +142,6 @@ public abstract class AbstractCrispyHologram extends AbstractCrispyAccessibleVis
     @Override
     public int getTimeToLive() {
         return timeToLive;
-    }
-
-    @Override
-    public List<HologramLine<?>> getCurrentContent() {
-        return new ArrayList<>(lines);
     }
 
     @Override

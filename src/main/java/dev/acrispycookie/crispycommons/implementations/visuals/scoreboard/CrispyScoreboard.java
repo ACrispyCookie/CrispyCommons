@@ -6,7 +6,7 @@ import org.bukkit.scoreboard.Scoreboard;
 
 import java.util.List;
 
-public interface CrispyScoreboard extends CrispyAccessibleVisual<List<ScoreboardLine>> {
+public interface CrispyScoreboard extends CrispyAccessibleVisual<List<AbstractScoreboardLine>> {
 
     Scoreboard getBukkitScoreboard();
     void setTitle(ScoreboardTitleLine title);

@@ -71,11 +71,10 @@ public class SimpleScoreboardBuilder {
         SimpleScoreboard scoreboard;
 
         if(isPublic) {
-            scoreboard = new PublicScoreboard(title, players);
+            scoreboard = new PublicScoreboard(title, lines, players);
         } else {
-            scoreboard = new SimpleScoreboard(title, players);
+            scoreboard = new SimpleScoreboard(title, lines, players);
         }
-        lines.forEach(scoreboard::addLine);
 
         return scoreboard;
     }

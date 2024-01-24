@@ -18,7 +18,7 @@ public class ScoreboardTitleLine extends AbstractScoreboardLine {
 
     public ScoreboardTitleLine(Collection<? extends String> frames, int period) {
         super(null);
-        this.element = new TextElement(frames, period, true) {
+        this.content = new TextElement(frames, period, false) {
             @Override
             protected void update() {
                 ScoreboardTitleLine.this.update();
@@ -28,7 +28,7 @@ public class ScoreboardTitleLine extends AbstractScoreboardLine {
 
     public ScoreboardTitleLine(Supplier<String> supplier, int period) {
         super(null);
-        this.element = new TextElement(supplier, period, true) {
+        this.content = new TextElement(supplier, period, false) {
             @Override
             protected void update() {
                 ScoreboardTitleLine.this.update();
@@ -41,7 +41,7 @@ public class ScoreboardTitleLine extends AbstractScoreboardLine {
     protected void initialize() {
         Scoreboard bukkitScoreboard = scoreboard.getBukkitScoreboard();
         Objective obj = bukkitScoreboard.getObjective("[CrispyCommons]");
-        obj.setDisplayName(ChatColor.translateAlternateColorCodes('&', getCurrentContent().getRaw()));
+        obj.setDisplayName(ChatColor.translateAlternateColorCodes('&', getContent().getRaw()));
     }
 
     @Override

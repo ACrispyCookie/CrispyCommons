@@ -17,25 +17,22 @@ public abstract class AbstractCrispyParticle<T extends CrispyEffect> extends Abs
 
     protected final JavaPlugin plugin;
     protected BukkitTask bukkitTask;
-    protected final ParticleElement<T> element;
     protected long duration;
     protected long period;
     protected abstract void playOnce(Player p);
 
-    protected AbstractCrispyParticle(ParticleElement<T> element, long duration, long period, Set<? extends Player> receivers) {
-        super(receivers);
+    protected AbstractCrispyParticle(ParticleElement<T> content, long duration, long period, Set<? extends Player> receivers) {
+        super(content, receivers);
         this.plugin = CrispyCommons.getPlugin();
         this.bukkitTask = null;
-        this.element = element;
         this.duration = duration < 0 ? -1 : duration;
         this.period = period < 1 ? -1 : period;
     }
 
-    protected AbstractCrispyParticle(ParticleElement<T> element, Set<? extends Player> receivers) {
-        super(receivers);
+    protected AbstractCrispyParticle(ParticleElement<T> content, Set<? extends Player> receivers) {
+        super(content, receivers);
         this.plugin = CrispyCommons.getPlugin();
         this.bukkitTask = null;
-        this.element = element;
         this.duration = -1;
         this.period = -1;
     }
@@ -98,10 +95,5 @@ public abstract class AbstractCrispyParticle<T extends CrispyEffect> extends Abs
     @Override
     public void setPeriod(long period) {
         this.period = period;
-    }
-
-    @Override
-    public ParticleElement<T> getCurrentContent() {
-        return element;
     }
 }

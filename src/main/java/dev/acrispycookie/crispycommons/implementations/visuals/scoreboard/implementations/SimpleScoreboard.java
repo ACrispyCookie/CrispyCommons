@@ -1,6 +1,7 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.implementations;
 
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.AbstractCrispyScoreboard;
+import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.AbstractScoreboardLine;
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.ScoreboardTitleLine;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -17,8 +18,8 @@ import java.util.Set;
 
 public class SimpleScoreboard extends AbstractCrispyScoreboard implements Listener {
 
-    public SimpleScoreboard(ScoreboardTitleLine title, Collection<? extends Player> receivers) {
-        super(title, new HashSet<>(receivers));
+    public SimpleScoreboard(ScoreboardTitleLine title, Collection<? extends AbstractScoreboardLine> lines, Collection<? extends Player> receivers) {
+        super(title, new ArrayList<>(lines), new HashSet<>(receivers));
     }
 
     @EventHandler

@@ -9,17 +9,17 @@ import org.bukkit.scoreboard.Scoreboard;
 
 import java.util.*;
 
-public abstract class AbstractCrispyScoreboard extends AbstractCrispyAccessibleVisual<List<ScoreboardLine>> implements CrispyScoreboard {
+public abstract class AbstractCrispyScoreboard extends AbstractCrispyAccessibleVisual<List<AbstractScoreboardLine>> implements CrispyScoreboard {
 
     protected ScoreboardTitleLine title;
-    protected final ArrayList<AbstractScoreboardLine> lines = new ArrayList<>();
     protected Scoreboard bukkitScoreboard;
 
-    public AbstractCrispyScoreboard(ScoreboardTitleLine title, Set<? extends Player> receivers) {
-        super(receivers);
+    public AbstractCrispyScoreboard(ScoreboardTitleLine title, List<AbstractScoreboardLine> content, Set<? extends Player> receivers) {
+        super(content, receivers);
         this.bukkitScoreboard = getNewBoard();
         this.title = title;
         this.title.setScoreboard(this);
+        this.content.forEach(l -> l.setScoreboard(this));
     }
 
     @Override
@@ -29,8 +29,8 @@ public abstract class AbstractCrispyScoreboard extends AbstractCrispyAccessibleV
         }
 
         title.show(0);
-        for (int i = 0; i < lines.size(); i++) {
-            AbstractScoreboardLine line = lines.get(i);
+        for (int i = 0; i < content.size(); i++) {
+            AbstractScoreboardLine line = content.get(i);
             line.show(i);
         }
         getPlayers().forEach(p -> p.setScoreboard(bukkitScoreboard));
@@ -43,7 +43,7 @@ public abstract class AbstractCrispyScoreboard extends AbstractCrispyAccessibleV
             return;
         }
 
-        lines.forEach(AbstractScoreboardLine::hide);
+        content.forEach(AbstractScoreboardLine::hide);
         getPlayers().forEach((p) -> p.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard()));
         bukkitScoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
         isDisplayed = false;
@@ -53,7 +53,7 @@ public abstract class AbstractCrispyScoreboard extends AbstractCrispyAccessibleV
     public void update() {
         if (isDisplayed) {
             title.update();
-            lines.forEach(AbstractScoreboardLine::update);
+            content.forEach(AbstractScoreboardLine::update);
         }
     }
 
@@ -61,8 +61,8 @@ public abstract class AbstractCrispyScoreboard extends AbstractCrispyAccessibleV
         if (isDisplayed) {
             title.hide();
             ArrayList<Integer> toShow = new ArrayList<>();
-            for (int i = 0; i < lines.size(); i++) {
-                AbstractScoreboardLine l = lines.get(i);
+            for (int i = 0; i < content.size(); i++) {
+                AbstractScoreboardLine l = content.get(i);
                 if(l.isDisplayed())
                     toShow.add(i);
                 l.hide();
@@ -73,7 +73,7 @@ public abstract class AbstractCrispyScoreboard extends AbstractCrispyAccessibleV
             title.show(0);
             int index = 0;
             for (int i : toShow) {
-                AbstractScoreboardLine line = lines.get(i);
+                AbstractScoreboardLine line = content.get(i);
                 line.show(index);
                 index++;
             }
@@ -101,17 +101,12 @@ public abstract class AbstractCrispyScoreboard extends AbstractCrispyAccessibleV
     }
 
     @Override
-    public List<ScoreboardLine> getCurrentContent() {
-        return new ArrayList<>(lines);
-    }
-
-    @Override
     public void addLine(int index, AbstractScoreboardLine line) {
-        if (index > lines.size()) {
+        if (index > content.size()) {
             return;
         }
 
-        lines.add(index, line);
+        content.add(index, line);
         line.setScoreboard(this);
         line.setDisplayed(true);
         if (isDisplayed) {
@@ -121,16 +116,16 @@ public abstract class AbstractCrispyScoreboard extends AbstractCrispyAccessibleV
 
     @Override
     public void addLine(AbstractScoreboardLine line) {
-        addLine(lines.size(), line);
+        addLine(content.size(), line);
     }
 
     @Override
     public void removeLine(int index) {
-        if(index >= lines.size())
+        if(index >= content.size())
             return;
 
-        AbstractScoreboardLine toRemove = lines.get(index);
-        lines.remove(index);
+        AbstractScoreboardLine toRemove = content.get(index);
+        content.remove(index);
         if (isDisplayed && toRemove.isDisplayed()) {
             toRemove.hide();
             updateScoreboard();
@@ -139,11 +134,11 @@ public abstract class AbstractCrispyScoreboard extends AbstractCrispyAccessibleV
 
     @Override
     public void showLine(int index) {
-        if (index >= lines.size()) {
+        if (index >= content.size()) {
             return;
         }
 
-        AbstractScoreboardLine line = lines.get(index);
+        AbstractScoreboardLine line = content.get(index);
         if (isDisplayed && !line.isDisplayed()) {
             line.setDisplayed(true);
             updateScoreboard();
@@ -152,11 +147,11 @@ public abstract class AbstractCrispyScoreboard extends AbstractCrispyAccessibleV
 
     @Override
     public void hideLine(int index) {
-        if (index >= lines.size()) {
+        if (index >= content.size()) {
             return;
         }
 
-        AbstractScoreboardLine line = lines.get(index);
+        AbstractScoreboardLine line = content.get(index);
         if (isDisplayed && line.isDisplayed()) {
             line.hide();
             updateScoreboard();
@@ -166,6 +161,9 @@ public abstract class AbstractCrispyScoreboard extends AbstractCrispyAccessibleV
     @Override
     public void setTitle(ScoreboardTitleLine title) {
         this.title = title;
+        if (isDisplayed) {
+            title.update();
+        }
     }
 
     @Override

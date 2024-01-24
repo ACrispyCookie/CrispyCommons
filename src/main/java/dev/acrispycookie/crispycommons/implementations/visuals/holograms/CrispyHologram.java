@@ -5,7 +5,7 @@ import org.bukkit.Location;
 
 import java.util.List;
 
-public interface CrispyHologram extends CrispyAccessibleVisual<List<HologramLine<?>>> {
+public interface CrispyHologram extends CrispyAccessibleVisual<List<AbstractHologramLine<?>>> {
 
     void addLine(AbstractHologramLine<?> line);
     void addLine(int index, AbstractHologramLine<?> line);

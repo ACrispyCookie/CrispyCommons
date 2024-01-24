@@ -8,5 +8,4 @@ public interface ScoreboardLine extends CrispyVisual<TextElement> {
     int getPosition();
     void setScoreboard(AbstractCrispyScoreboard scoreboard);
     CrispyScoreboard getScoreboard();
-    TextElement getCurrentContent();
 }

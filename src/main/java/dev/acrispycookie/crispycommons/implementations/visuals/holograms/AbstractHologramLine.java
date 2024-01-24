@@ -6,26 +6,25 @@ import org.bukkit.entity.Player;
 
 public abstract class AbstractHologramLine<T extends AnimatedElement<?>> extends AbstractCrispyVisual<T> implements HologramLine<T> {
 
-    protected T element;
     protected CrispyHologram hologram;
     protected abstract void show(Player player);
     protected abstract void hide(Player player);
     protected abstract void update(Player player);
 
     public AbstractHologramLine(T element) {
-        this.element = element;
+        super(element);
         this.hologram = null;
     }
 
     void show() {
-        element.start();
+        content.start();
         hologram.getPlayers().forEach(this::show);
         isDisplayed = true;
         hologram.update();
     }
 
     void hide() {
-        element.stop();
+        content.stop();
         hologram.getPlayers().forEach(this::hide);
         isDisplayed = false;
         hologram.update();
@@ -36,11 +35,6 @@ public abstract class AbstractHologramLine<T extends AnimatedElement<?>> extends
             return;
 
         hologram.getPlayers().forEach(this::update);
-    }
-
-    @Override
-    public T getCurrentContent() {
-        return element;
     }
 
     @Override

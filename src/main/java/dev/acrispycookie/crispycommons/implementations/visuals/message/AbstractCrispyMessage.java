@@ -10,8 +10,8 @@ public class AbstractCrispyMessage extends AbstractCrispyAccessibleVisual<String
 
     private final MessageType type;
 
-    public AbstractCrispyMessage(MessageType type, Set<? extends Player> receivers) {
-        super(receivers);
+    public AbstractCrispyMessage(MessageType type, String text, Set<? extends Player> receivers) {
+        super(text, receivers);
         this.type = type;
     }
 
@@ -48,10 +48,5 @@ public class AbstractCrispyMessage extends AbstractCrispyAccessibleVisual<String
     @Override
     public void update() {
 
-    }
-
-    @Override
-    public String getCurrentContent() {
-        return null;
     }
 }

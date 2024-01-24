@@ -98,11 +98,10 @@ public class SimpleHologramBuilder {
         SimpleHologram hologram;
 
         if(isPublic) {
-            hologram = new PublicHologram(location, timeToLive, players);
+            hologram = new PublicHologram(lines, location, timeToLive, players);
         } else {
-            hologram = new SimpleHologram(location, timeToLive, players);
+            hologram = new SimpleHologram(lines, location, timeToLive, players);
         }
-        lines.forEach(hologram::addLine);
 
         return hologram;
     }

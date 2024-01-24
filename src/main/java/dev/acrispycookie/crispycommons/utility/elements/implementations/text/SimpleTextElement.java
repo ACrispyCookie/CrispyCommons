@@ -1,7 +1,5 @@
 package dev.acrispycookie.crispycommons.utility.elements.implementations.text;
 
-import net.md_5.bungee.api.chat.TextComponent;
-
 import java.util.ArrayList;
 import java.util.Collections;
 

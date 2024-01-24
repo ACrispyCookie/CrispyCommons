@@ -36,11 +36,6 @@ public class CrispyBookImpl implements CrispyBook {
         this.bookItem = constructBookItem();
     }
 
-    public static void enableBookActions(String commandName) {
-        ((CraftServer) CrispyCommons.getPlugin().getServer()).getCommandMap().register(CrispyCommons.getPlugin().getName(),
-                new BookActionCommand(commandName));
-    }
-
     @Override
     public void open(Player p) {
         final int slot = p.getInventory().getHeldItemSlot();

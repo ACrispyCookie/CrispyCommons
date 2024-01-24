@@ -10,7 +10,8 @@ public abstract class AbstractCrispyAccessibleVisual<T> extends AbstractCrispyVi
 
     protected final Set<Player> receivers = new HashSet<>();
 
-    public AbstractCrispyAccessibleVisual(Set<? extends Player> receivers) {
+    public AbstractCrispyAccessibleVisual(T content, Set<? extends Player> receivers) {
+        super(content);
         this.receivers.addAll(receivers);
     }
 

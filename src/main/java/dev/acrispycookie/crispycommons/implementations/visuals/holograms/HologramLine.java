@@ -8,5 +8,4 @@ public interface HologramLine<T> extends CrispyVisual<T> {
     Location getLocation();
     void setHologram(CrispyHologram hologram);
     CrispyHologram getHologram();
-    T getCurrentContent();
 }

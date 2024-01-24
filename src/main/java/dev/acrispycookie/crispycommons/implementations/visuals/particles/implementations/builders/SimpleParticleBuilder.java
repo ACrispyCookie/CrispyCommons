@@ -79,6 +79,8 @@ public class SimpleParticleBuilder<T extends CrispyEffect> {
     }
 
     public SimpleCrispyParticle<T> build() {
+        if (element == null)
+            return null;
         if (duration < 0 || period < 1)
             return new SimpleCrispyParticle<>(element, receivers);
         else
