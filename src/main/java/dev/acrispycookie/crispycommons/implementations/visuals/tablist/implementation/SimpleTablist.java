@@ -1,8 +1,10 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.tablist.implementation;
 
+import dev.acrispycookie.crispycommons.implementations.CrispyCommons;
 import dev.acrispycookie.crispycommons.implementations.visuals.tablist.AbstractCrispyTablist;
 import dev.acrispycookie.crispycommons.utility.elements.AbstractCrispyElement;
 import dev.acrispycookie.crispycommons.utility.elements.implementations.text.StringElement;
+import dev.acrispycookie.crispycommons.utility.logging.CrispyLogger;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.minecraft.server.v1_8_R3.IChatBaseComponent;
 import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerListHeaderFooter;
@@ -61,7 +63,7 @@ public class SimpleTablist extends AbstractCrispyTablist {
             field.setAccessible(true);
             field.set(packet, footer);
         } catch (Exception e) {
-            Bukkit.getLogger().log(Level.SEVERE, "Couldn't display a tablist!");
+            CrispyLogger.printException(CrispyCommons.getPlugin(), e, "An error occurred while sending a tablist packet!");
         } finally {
             ((CraftPlayer)p).getHandle().playerConnection.sendPacket(packet);
         }

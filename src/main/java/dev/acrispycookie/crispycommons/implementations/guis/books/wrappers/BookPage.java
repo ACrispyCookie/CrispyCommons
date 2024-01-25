@@ -16,8 +16,7 @@ public class BookPage {
     private final IChatBaseComponent page;
 
     public BookPage(BookLine... lines) {
-        this.lines = new ArrayList<>(Arrays.asList(lines));
-        this.page = getPageComponent();
+        this(Arrays.asList(lines));
     }
 
     public BookPage(Collection<? extends BookLine> lines) {

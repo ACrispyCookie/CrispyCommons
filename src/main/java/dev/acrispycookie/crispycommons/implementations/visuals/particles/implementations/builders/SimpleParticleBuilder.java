@@ -1,7 +1,9 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.particles.implementations.builders;
 
+import dev.acrispycookie.crispycommons.implementations.visuals.particles.CrispyParticle;
 import dev.acrispycookie.crispycommons.implementations.visuals.particles.implementations.SimpleCrispyParticle;
 import dev.acrispycookie.crispycommons.implementations.wrappers.particle.CrispyEffect;
+import dev.acrispycookie.crispycommons.utility.builder.AbstractVisualBuilder;
 import dev.acrispycookie.crispycommons.utility.elements.implementations.particles.ParticleElement;
 import dev.acrispycookie.crispycommons.utility.elements.implementations.particles.SimpleParticleElement;
 import org.bukkit.entity.Player;
@@ -11,16 +13,14 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Supplier;
 
-public class SimpleParticleBuilder<T extends CrispyEffect> {
+public class SimpleParticleBuilder<T extends CrispyEffect> extends AbstractVisualBuilder<CrispyParticle<T>> {
 
     private ParticleElement<T> element;
     private long duration, period;
-    private Set<Player> receivers;
 
     public SimpleParticleBuilder() {
         this.duration = -1;
         this.period = -1;
-        this.receivers = new HashSet<>();
     }
 
     public SimpleParticleBuilder<T> effect(T effect) {
@@ -48,26 +48,6 @@ public class SimpleParticleBuilder<T extends CrispyEffect> {
         return this;
     }
 
-    public SimpleParticleBuilder<T> addPlayer(Player receiver) {
-        this.receivers.add(receiver);
-        return this;
-    }
-
-    public SimpleParticleBuilder<T> addPlayers(Set<? extends Player> receivers) {
-        this.receivers.addAll(receivers);
-        return this;
-    }
-
-    public SimpleParticleBuilder<T> removePlayer(Player receiver) {
-        this.receivers.remove(receiver);
-        return this;
-    }
-
-    public SimpleParticleBuilder<T> setPlayer(Set<Player> receivers) {
-        this.receivers = receivers;
-        return this;
-    }
-
     public SimpleParticleBuilder<T> duration(long duration) {
         this.duration = duration;
         return this;
@@ -78,7 +58,7 @@ public class SimpleParticleBuilder<T extends CrispyEffect> {
         return this;
     }
 
-    public SimpleCrispyParticle<T> build() {
+    public CrispyParticle<T> build() {
         if (element == null)
             return null;
         if (duration < 0 || period < 1)

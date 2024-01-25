@@ -5,6 +5,7 @@ import dev.acrispycookie.crispycommons.implementations.guis.books.actions.BookAc
 import dev.acrispycookie.crispycommons.implementations.guis.books.wrappers.BookPage;
 import dev.acrispycookie.crispycommons.implementations.wrappers.itemstack.CrispyItem;
 import dev.acrispycookie.crispycommons.implementations.wrappers.itemstack.CrispyItemStack;
+import dev.acrispycookie.crispycommons.utility.logging.CrispyLogger;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -59,8 +60,7 @@ public class CrispyBookImpl implements CrispyBook {
             book.setItemMeta(meta);
             return book;
         } catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
-            Bukkit.getLogger().log(Level.SEVERE, "An error has occured while trying to construct a book GUI!");
-            Bukkit.getLogger().log(Level.SEVERE, e.getMessage());
+            CrispyLogger.printException(CrispyCommons.getPlugin(), e, "An error occurred while constructing a book item!");
             return null;
         }
     }

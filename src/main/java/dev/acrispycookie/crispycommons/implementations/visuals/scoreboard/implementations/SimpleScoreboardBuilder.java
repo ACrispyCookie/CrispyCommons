@@ -1,19 +1,21 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.implementations;
 
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.AbstractScoreboardLine;
+import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.CrispyScoreboard;
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.ScoreboardTitleLine;
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.SimpleScoreboardLine;
+import dev.acrispycookie.crispycommons.utility.builder.AbstractVisualBuilder;
+import dev.acrispycookie.crispycommons.utility.builder.VisualBuilder;
 import org.bukkit.entity.Player;
 
 import java.util.*;
 import java.util.function.Supplier;
 
-public class SimpleScoreboardBuilder {
+public class SimpleScoreboardBuilder extends AbstractVisualBuilder<CrispyScoreboard> {
 
     private boolean isPublic = false;
     private final ScoreboardTitleLine title;
     private final Collection<AbstractScoreboardLine> lines = new ArrayList<>();
-    private final Collection<Player> players = new ArrayList<>();
 
 
     public SimpleScoreboardBuilder(String staticTitle) {
@@ -21,8 +23,8 @@ public class SimpleScoreboardBuilder {
     }
 
     public SimpleScoreboardBuilder(String staticTitle, Collection<? extends Player> players) {
+        super(players);
         title = new ScoreboardTitleLine(staticTitle);
-        this.players.addAll(players);
     }
 
     public SimpleScoreboardBuilder(ArrayList<String> titleFrames, int period) {
@@ -30,18 +32,8 @@ public class SimpleScoreboardBuilder {
     }
 
     public SimpleScoreboardBuilder(ArrayList<String> titleFrames, int period, Collection<? extends Player> players) {
+        super(players);
         title = new ScoreboardTitleLine(titleFrames, period);
-        this.players.addAll(players);
-    }
-
-    public SimpleScoreboardBuilder addPlayer(Player player) {
-        players.add(player);
-        return this;
-    }
-
-    public SimpleScoreboardBuilder setPlayers(Collection<? extends Player> players) {
-        this.players.addAll(players);
-        return this;
     }
 
     public SimpleScoreboardBuilder addTextLine(String text) {
@@ -67,13 +59,13 @@ public class SimpleScoreboardBuilder {
         return this;
     }
 
-    public SimpleScoreboard build() {
+    public CrispyScoreboard build() {
         SimpleScoreboard scoreboard;
 
         if(isPublic) {
-            scoreboard = new PublicScoreboard(title, lines, players);
+            scoreboard = new PublicScoreboard(title, lines, receivers);
         } else {
-            scoreboard = new SimpleScoreboard(title, lines, players);
+            scoreboard = new SimpleScoreboard(title, lines, receivers);
         }
 
         return scoreboard;

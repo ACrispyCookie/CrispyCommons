@@ -13,8 +13,7 @@ public class BookLine {
     }
 
     public BookLine(TextComponent text) {
-        text.setText(ChatColor.translateAlternateColorCodes('&', text.getText()));
-        this.text = text;
+        this(text.getText());
     }
 
     public TextComponent get() {
