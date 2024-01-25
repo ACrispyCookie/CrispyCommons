@@ -1,8 +1,8 @@
 package dev.acrispycookie.crispycommons.implementations.guis.books.builders;
 
-import dev.acrispycookie.crispycommons.implementations.guis.books.CrispyBookImpl;
-import dev.acrispycookie.crispycommons.implementations.guis.books.CrispyBook;
-import dev.acrispycookie.crispycommons.implementations.guis.books.wrappers.BookPage;
+import dev.acrispycookie.crispycommons.implementations.guis.books.SimpleCrispyBook;
+import dev.acrispycookie.crispycommons.api.guis.book.CrispyBook;
+import dev.acrispycookie.crispycommons.api.guis.book.wrappers.BookPage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +35,6 @@ public class SimpleBookBuilder {
     }
 
     public CrispyBook build() {
-        return new CrispyBookImpl(pages);
+        return new SimpleCrispyBook(pages);
     }
 }

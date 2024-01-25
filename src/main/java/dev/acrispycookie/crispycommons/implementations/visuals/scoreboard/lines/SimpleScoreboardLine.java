@@ -1,8 +1,8 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines;
 
-import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.AbstractScoreboardLine;
-import dev.acrispycookie.crispycommons.utility.elements.implementations.text.SimpleStringElement;
-import dev.acrispycookie.crispycommons.utility.elements.implementations.text.StringElement;
+import dev.acrispycookie.crispycommons.api.visuals.scoreboard.AbstractScoreboardLine;
+import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.SimpleStringElement;
+import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.StringElement;
 import org.bukkit.ChatColor;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;

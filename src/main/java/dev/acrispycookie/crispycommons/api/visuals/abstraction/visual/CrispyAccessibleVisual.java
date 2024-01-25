@@ -1,0 +1,17 @@
+package dev.acrispycookie.crispycommons.api.visuals.abstraction.visual;
+
+import org.bukkit.entity.Player;
+
+import java.util.Collection;
+import java.util.Set;
+
+public interface CrispyAccessibleVisual<T> extends CrispyVisual<T> {
+
+    void show();
+    void hide();
+    void update();
+    void addPlayer(Player player);
+    void removePlayer(Player player);
+    void setPlayers(Collection<? extends Player> players);
+    Set<Player> getPlayers();
+}

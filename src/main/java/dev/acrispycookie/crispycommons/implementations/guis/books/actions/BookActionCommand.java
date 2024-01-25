@@ -1,5 +1,6 @@
 package dev.acrispycookie.crispycommons.implementations.guis.books.actions;
 
+import dev.acrispycookie.crispycommons.api.guis.book.actions.BookAction;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
