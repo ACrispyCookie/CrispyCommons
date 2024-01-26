@@ -11,7 +11,7 @@ import java.util.Set;
 
 public abstract class AbstractBossbar extends AbstractCrispyAccessibleVisual<TextElement> implements CrispyBossbar  {
 
-    private final int timeToLive;
+    private int timeToLive;
     protected float progress;
     protected BossBar.Color color;
     protected BossBar.Overlay overlay;
@@ -81,5 +81,30 @@ public abstract class AbstractBossbar extends AbstractCrispyAccessibleVisual<Tex
     public void setOverlay(BossBar.Overlay overlay) {
         this.overlay = overlay;
         this.bossBar.overlay(overlay);
+    }
+
+    @Override
+    public void setTimeToLive(int timeToLive) {
+        this.timeToLive = timeToLive;
+    }
+
+    @Override
+    public float getProgress() {
+        return progress;
+    }
+
+    @Override
+    public BossBar.Color getColor() {
+        return color;
+    }
+
+    @Override
+    public BossBar.Overlay getOverlay() {
+        return overlay;
+    }
+
+    @Override
+    public int getTimeToLive() {
+        return timeToLive;
     }
 }

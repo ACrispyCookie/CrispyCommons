@@ -8,6 +8,7 @@ import dev.acrispycookie.crispycommons.utility.logging.CrispyLogger;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.chat.ChatType;
 import net.kyori.adventure.inventory.Book;
 import net.kyori.adventure.text.Component;
 import net.minecraft.server.v1_8_R3.IChatBaseComponent;
@@ -53,4 +54,10 @@ public class SimpleCrispyBook implements CrispyBook {
     public void setPages(BookPage... pages) {
         this.pages = Arrays.asList(pages);
     }
+
+    @Override
+    public List<BookPage> getPages() {
+        return pages;
+    }
+
 }

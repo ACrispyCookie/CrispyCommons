@@ -10,4 +10,9 @@ public interface CrispyBossbar extends CrispyAccessibleVisual<TextElement> {
     void setProgress(float progress);
     void setColor(BossBar.Color color);
     void setOverlay(BossBar.Overlay overlay);
+    void setTimeToLive(int timeToLive);
+    float getProgress();
+    BossBar.Color getColor();
+    BossBar.Overlay getOverlay();
+    int getTimeToLive();
 }

@@ -5,9 +5,11 @@ import net.md_5.bungee.api.chat.ClickEvent;
 import org.bukkit.entity.Player;
 
 import java.util.Collection;
+import java.util.List;
 
 public interface CrispyBook {
     void open(Player p);
     void setPages(Collection<BookPage> pages);
     void setPages(BookPage... pages);
+    List<BookPage> getPages();
 }

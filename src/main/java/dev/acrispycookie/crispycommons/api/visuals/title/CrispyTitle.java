@@ -11,5 +11,9 @@ public interface CrispyTitle extends CrispyAccessibleVisual<List<TextElement>> {
     void setFadeIn(int fadeIn);
     void setDuration(int duration);
     void setFadeOut(int fadeOut);
-
+    TextElement getTitle();
+    TextElement getSubtitle();
+    int getFadeIn();
+    int getDuration();
+    int getFadeOut();
 }

@@ -33,20 +33,15 @@ public class AnimatedTitle extends AbstractCrispyTitle {
             @Override
             public void run() {
                 Title toSend;
-                System.out.println("Duration: " + duration + ", i: " + i);
                 if (i > duration) {
-                    System.out.println("Cancelled");
                     cancel();
                     isDisplayed = false;
                     return;
                 } else if(i == duration) {
-                    System.out.println("Last");
                     toSend = Title.title(title.getRaw(), subtitle.getRaw(), Title.Times.times(Duration.ofMillis(0), Duration.ofMillis(period * 100L), Duration.ofMillis(fadeOut * 50L)));
                 } else if (i == 0) {
-                    System.out.println("First");
                     toSend = Title.title(title.getRaw(), subtitle.getRaw(), Title.Times.times(Duration.ofMillis(fadeIn * 50L), Duration.ofMillis(period * 100L), Duration.ofMillis(0)));
                 } else {
-                    System.out.println("Middle");
                     toSend = Title.title(title.getRaw(), subtitle.getRaw(), Title.Times.times(Duration.ofMillis(0), Duration.ofMillis(period * 100L), Duration.ofMillis(0)));
                 }
                 audience.showTitle(toSend);
@@ -65,5 +60,9 @@ public class AnimatedTitle extends AbstractCrispyTitle {
 
     public void setPeriod(int period) {
         this.period = period;
+    }
+
+    public int getPeriod() {
+        return period;
     }
 }

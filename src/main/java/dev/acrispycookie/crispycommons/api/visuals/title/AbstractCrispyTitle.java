@@ -71,4 +71,29 @@ public abstract class AbstractCrispyTitle extends AbstractCrispyAccessibleVisual
     public void setFadeOut(int fadeOut) {
         this.fadeOut = fadeOut;
     }
+
+    @Override
+    public TextElement getTitle() {
+        return this.content.get(0);
+    }
+
+    @Override
+    public TextElement getSubtitle() {
+        return this.content.get(1);
+    }
+
+    @Override
+    public int getFadeIn() {
+        return fadeIn;
+    }
+
+    @Override
+    public int getDuration() {
+        return duration;
+    }
+
+    @Override
+    public int getFadeOut() {
+        return fadeOut;
+    }
 }
