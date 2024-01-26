@@ -1,21 +1,21 @@
 package dev.acrispycookie.crispycommons.api.visuals.tablist;
 
-import dev.acrispycookie.crispycommons.api.visuals.tablist.CrispyTablist;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.DynamicElement;
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.StringElement;
+import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.TextElement;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractCrispyAccessibleVisual;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.util.List;
 import java.util.Set;
 
-public abstract class AbstractCrispyTablist extends AbstractCrispyAccessibleVisual<List<List<StringElement>>> implements CrispyTablist {
+public abstract class AbstractCrispyTablist extends AbstractCrispyAccessibleVisual<List<List<TextElement>>> implements CrispyTablist {
 
     protected abstract void show(Player p);
     protected abstract void hide(Player p);
     protected abstract void update(Player p);
 
-    public AbstractCrispyTablist(List<List<StringElement>> content, Set<? extends Player> receivers) {
+    public AbstractCrispyTablist(List<List<TextElement>> content, Set<? extends Player> receivers) {
         super(content, receivers);
     }
 
@@ -25,7 +25,7 @@ public abstract class AbstractCrispyTablist extends AbstractCrispyAccessibleVisu
             return;
 
         this.isDisplayed = true;
-        receivers.forEach(this::show);
+        receivers.stream().filter(OfflinePlayer::isOnline).forEach(this::show);
         content.forEach(l -> l.forEach(DynamicElement::start));
     }
 
@@ -35,7 +35,7 @@ public abstract class AbstractCrispyTablist extends AbstractCrispyAccessibleVisu
             return;
 
         this.isDisplayed = false;
-        receivers.forEach(this::hide);
+        receivers.stream().filter(OfflinePlayer::isOnline).forEach(this::hide);
         content.forEach(l -> l.forEach(DynamicElement::stop));
     }
 
@@ -44,24 +44,24 @@ public abstract class AbstractCrispyTablist extends AbstractCrispyAccessibleVisu
         if(!isDisplayed)
             return;
 
-        receivers.forEach(this::update);
+        receivers.stream().filter(OfflinePlayer::isOnline).forEach(this::update);
     }
 
     @Override
-    public void setHeader(List<StringElement> element) {
+    public void setHeader(List<TextElement> element) {
         this.content.set(0, element);
     }
 
     @Override
-    public void setFooter(List<StringElement> element) {
+    public void setFooter(List<TextElement> element) {
         this.content.set(1, element);
     }
 
-    public List<StringElement> getHeader() {
+    public List<TextElement> getHeader() {
         return this.content.get(0);
     }
 
-    public List<StringElement> getFooter() {
+    public List<TextElement> getFooter() {
         return this.content.get(1);
     }
 }

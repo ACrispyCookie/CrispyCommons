@@ -1,14 +1,14 @@
 package dev.acrispycookie.crispycommons.api.visuals.tablist;
 
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.StringElement;
+import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.TextElement;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.CrispyAccessibleVisual;
 
 import java.util.List;
 
-public interface CrispyTablist extends CrispyAccessibleVisual<List<List<StringElement>>> {
+public interface CrispyTablist extends CrispyAccessibleVisual<List<List<TextElement>>> {
 
-    void setHeader(List<StringElement> element);
-    void setFooter(List<StringElement> element);
-    List<StringElement> getHeader();
-    List<StringElement> getFooter();
+    void setHeader(List<TextElement> element);
+    void setFooter(List<TextElement> element);
+    List<TextElement> getHeader();
+    List<TextElement> getFooter();
 }

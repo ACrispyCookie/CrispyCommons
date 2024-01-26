@@ -4,6 +4,7 @@ import dev.acrispycookie.crispycommons.api.visuals.hologram.CrispyHologram;
 import dev.acrispycookie.crispycommons.api.visuals.hologram.HologramLine;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.AnimatedElement;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractCrispyVisual;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 public abstract class AbstractHologramLine<T extends AnimatedElement<?>> extends AbstractCrispyVisual<T> implements HologramLine<T> {
@@ -20,14 +21,14 @@ public abstract class AbstractHologramLine<T extends AnimatedElement<?>> extends
 
     void show() {
         content.start();
-        hologram.getPlayers().forEach(this::show);
+        hologram.getPlayers().stream().filter(OfflinePlayer::isOnline).forEach(this::show);
         isDisplayed = true;
         hologram.update();
     }
 
     void hide() {
         content.stop();
-        hologram.getPlayers().forEach(this::hide);
+        hologram.getPlayers().stream().filter(OfflinePlayer::isOnline).forEach(this::hide);
         isDisplayed = false;
         hologram.update();
     }
@@ -36,7 +37,7 @@ public abstract class AbstractHologramLine<T extends AnimatedElement<?>> extends
         if (!isDisplayed)
             return;
 
-        hologram.getPlayers().forEach(this::update);
+        hologram.getPlayers().stream().filter(OfflinePlayer::isOnline).forEach(this::update);
     }
 
     @Override

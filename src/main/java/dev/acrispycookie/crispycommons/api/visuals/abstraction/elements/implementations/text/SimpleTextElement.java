@@ -7,7 +7,7 @@ import java.util.Collections;
 
 public class SimpleTextElement extends TextElement {
 
-    public SimpleTextElement(TextComponent text) {
+    public SimpleTextElement(String text) {
         super(new ArrayList<>(Collections.singletonList(text)), -1, false);
     }
 

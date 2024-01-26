@@ -1,5 +1,6 @@
 package dev.acrispycookie.crispycommons.api.guis.book.wrappers;
 
+import net.kyori.adventure.text.Component;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.chat.ComponentSerializer;
@@ -13,7 +14,6 @@ import java.util.List;
 public class BookPage {
 
     private final List<BookLine> lines;
-    private final IChatBaseComponent page;
 
     public BookPage(BookLine... lines) {
         this(Arrays.asList(lines));
@@ -21,20 +21,16 @@ public class BookPage {
 
     public BookPage(Collection<? extends BookLine> lines) {
         this.lines = new ArrayList<>(lines);
-        this.page = getPageComponent();
     }
 
-    public IChatBaseComponent getBukkitComponent() {
-        return page;
-    }
-
-    private IChatBaseComponent getPageComponent() {
-        TextComponent text = new TextComponent(lines.get(0).get());
-        for (int i = 1; i < lines.size(); i++) {
-            text.addExtra("\n");
-            text.addExtra(lines.get(i).get());
+    public Component getComponent() {
+        Component text = Component.empty();
+        for (int i = 0; i < lines.size(); i++) {
+            text = text.append(lines.get(i).get());
+            if (i != lines.size() - 1) {
+                text = text.append(Component.newline());
+            }
         }
-
-        return IChatBaseComponent.ChatSerializer.a(ComponentSerializer.toString(new BaseComponent[]{text}));
+        return text;
     }
 }

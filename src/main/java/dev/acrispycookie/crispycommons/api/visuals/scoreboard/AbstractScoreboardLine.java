@@ -1,15 +1,15 @@
 package dev.acrispycookie.crispycommons.api.visuals.scoreboard;
 
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.StringElement;
+import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.TextElement;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractCrispyVisual;
 
-public abstract class AbstractScoreboardLine extends AbstractCrispyVisual<StringElement> implements ScoreboardLine {
+public abstract class AbstractScoreboardLine extends AbstractCrispyVisual<TextElement> implements ScoreboardLine {
     protected AbstractCrispyScoreboard scoreboard;
     protected int position;
     protected abstract void initialize();
     protected abstract void updateInternal();
 
-    public AbstractScoreboardLine(StringElement element) {
+    public AbstractScoreboardLine(TextElement element) {
         super(element);
     }
 

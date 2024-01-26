@@ -1,10 +1,11 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.hologram.lines;
 
 import com.mysql.jdbc.StringUtils;
+import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.SimpleTextElement;
+import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.TextElement;
 import dev.acrispycookie.crispycommons.api.visuals.hologram.AbstractHologramLine;
 import dev.acrispycookie.crispycommons.api.visuals.hologram.HologramLine;
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.SimpleStringElement;
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.StringElement;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -12,21 +13,22 @@ import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class TextHologramLine extends ClickableHologramLine<StringElement> {
+public class TextHologramLine extends ClickableHologramLine<TextElement> {
 
     private EntityArmorStand as = null;
 
     public TextHologramLine(String staticLine) {
-        super(new SimpleStringElement(staticLine));
+        super(new SimpleTextElement(staticLine));
     }
 
     public TextHologramLine(Collection<? extends String> frames, int period) {
         super(null);
-        content = new StringElement(frames, period, false) {
+        content = new TextElement(frames, period, false) {
             @Override
             protected void update() {
                 TextHologramLine.this.update();
@@ -36,7 +38,7 @@ public class TextHologramLine extends ClickableHologramLine<StringElement> {
 
     public TextHologramLine(Supplier<String> supplier, int period) {
         super(null);
-        content = new StringElement(supplier, period, false) {
+        content = new TextElement(supplier, period, false) {
             @Override
             protected void update() {
                 TextHologramLine.this.update();
@@ -66,7 +68,7 @@ public class TextHologramLine extends ClickableHologramLine<StringElement> {
         if(isDisplayed || hologram == null || !hologram.getPlayers().contains(player))
             return;
 
-        String text = getContent().getRaw().toPlainText();
+        String text = LegacyComponentSerializer.legacyAmpersand().serialize(getContent().getRaw());
 
         if (StringUtils.isEmptyOrWhitespaceOnly(text)) {
             return;
@@ -102,7 +104,7 @@ public class TextHologramLine extends ClickableHologramLine<StringElement> {
 
         if(as != null) {
             Location location = getLocation();
-            as.setCustomName(ChatColor.translateAlternateColorCodes('&', getContent().getRaw().toPlainText()));
+            as.setCustomName(ChatColor.translateAlternateColorCodes('&', LegacyComponentSerializer.legacyAmpersand().serialize(getContent().getRaw())));
             as.setLocation(location.getX(), location.getY(), location.getZ(), 0, 0);
             PacketPlayOutEntityMetadata metadata = new PacketPlayOutEntityMetadata(as.getId(), as.getDataWatcher(), true);
             PacketPlayOutEntityTeleport teleport = new PacketPlayOutEntityTeleport(as);

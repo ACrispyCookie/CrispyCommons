@@ -3,6 +3,7 @@ package dev.acrispycookie.crispycommons.api.visuals.scoreboard;
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.ScoreboardTitleLine;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractCrispyAccessibleVisual;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Scoreboard;
@@ -33,7 +34,7 @@ public abstract class AbstractCrispyScoreboard extends AbstractCrispyAccessibleV
             AbstractScoreboardLine line = content.get(i);
             line.show(i);
         }
-        getPlayers().forEach(p -> p.setScoreboard(bukkitScoreboard));
+        receivers.stream().filter(OfflinePlayer::isOnline).forEach(p -> p.setScoreboard(bukkitScoreboard));
         isDisplayed = true;
     }
 
@@ -44,7 +45,7 @@ public abstract class AbstractCrispyScoreboard extends AbstractCrispyAccessibleV
         }
 
         content.forEach(AbstractScoreboardLine::hide);
-        getPlayers().forEach((p) -> p.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard()));
+        receivers.stream().filter(OfflinePlayer::isOnline).forEach((p) -> p.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard()));
         bukkitScoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
         isDisplayed = false;
     }
@@ -67,7 +68,7 @@ public abstract class AbstractCrispyScoreboard extends AbstractCrispyAccessibleV
                     toShow.add(i);
                 l.hide();
             }
-            receivers.forEach(p -> p.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard()));
+            receivers.stream().filter(OfflinePlayer::isOnline).forEach(p -> p.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard()));
 
             bukkitScoreboard = getNewBoard();
             title.show(0);
@@ -77,7 +78,7 @@ public abstract class AbstractCrispyScoreboard extends AbstractCrispyAccessibleV
                 line.show(index);
                 index++;
             }
-            receivers.forEach((p) -> p.setScoreboard(bukkitScoreboard));
+            receivers.stream().filter(OfflinePlayer::isOnline).forEach((p) -> p.setScoreboard(bukkitScoreboard));
         }
     }
 
@@ -95,9 +96,9 @@ public abstract class AbstractCrispyScoreboard extends AbstractCrispyAccessibleV
 
     @Override
     public void setPlayers(Collection<? extends Player> players) {
-        players.forEach(p -> p.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard()));
+        players.stream().filter(OfflinePlayer::isOnline).forEach(p -> p.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard()));
         super.setPlayers(players);
-        players.forEach(p -> p.setScoreboard(bukkitScoreboard));
+        players.stream().filter(OfflinePlayer::isOnline).forEach(p -> p.setScoreboard(bukkitScoreboard));
     }
 
     @Override

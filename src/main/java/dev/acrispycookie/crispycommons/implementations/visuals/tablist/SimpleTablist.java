@@ -1,69 +1,56 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.tablist;
 
 import dev.acrispycookie.crispycommons.CrispyCommons;
+import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.TextElement;
 import dev.acrispycookie.crispycommons.api.visuals.tablist.AbstractCrispyTablist;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.AbstractCrispyElement;
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.StringElement;
-import dev.acrispycookie.crispycommons.utility.logging.CrispyLogger;
+import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.md_5.bungee.api.chat.TextComponent;
-import net.minecraft.server.v1_8_R3.IChatBaseComponent;
-import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerListHeaderFooter;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
-import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class SimpleTablist extends AbstractCrispyTablist {
 
-    public SimpleTablist(List<List<StringElement>> content, Set<? extends Player> receivers) {
+    public SimpleTablist(List<List<TextElement>> content, Set<? extends Player> receivers) {
         super(content, receivers);
     }
 
     @Override
     protected void show(Player p) {
-        String headerText = getHeader()
-                .stream()
-                .map((AbstractCrispyElement::getRaw))
-                .map((TextComponent::getText))
-                .collect(Collectors.joining("\n"));
-        String footerText = getFooter()
-                .stream()
-                .map((AbstractCrispyElement::getRaw))
-                .map((TextComponent::getText))
-                .collect(Collectors.joining("\n"));
-        IChatBaseComponent header = IChatBaseComponent.ChatSerializer.a("{\"text\":\"" + headerText + "\"}");
-        IChatBaseComponent footer = IChatBaseComponent.ChatSerializer.a("{\"text\":\"" + footerText + "\"}");
-
-        sendTablistPacket(p, header, footer);
+        Audience audience = CrispyCommons.getBukkitAudiences().filter(cs -> (cs instanceof Player && receivers.contains(((Player) cs))));
+        Component header = Component.empty();
+        Component footer = Component.empty();
+        for (int i = 0; i < getHeader().size(); i++) {
+            TextElement t = getHeader().get(i);
+            header = header.append(t.getRaw());
+            if (i != getHeader().size() - 1) {
+                header = header.appendNewline();
+            }
+        }
+        for (int i = 0; i < getFooter().size(); i++) {
+            TextElement t = getFooter().get(i);
+            footer = footer.append(t.getRaw());
+            if (i != getFooter().size() - 1) {
+                footer = footer.appendNewline();
+            }
+        }
+        audience.sendPlayerListHeaderAndFooter(header, footer);
     }
 
     @Override
     protected void hide(Player p) {
-        IChatBaseComponent header = IChatBaseComponent.ChatSerializer.a("{\"text\":\"\"}");
-        IChatBaseComponent footer = IChatBaseComponent.ChatSerializer.a("{\"text\":\"\"}");
-
-        sendTablistPacket(p, header, footer);
+        Audience audience = CrispyCommons.getBukkitAudiences().filter(cs -> (cs instanceof Player && receivers.contains(((Player) cs))));
+        Component header = Component.empty();
+        Component footer = Component.empty();
+        audience.sendPlayerListHeaderAndFooter(header, footer);
     }
 
     @Override
     protected void update(Player p) {
         show(p);
-    }
-
-    private void sendTablistPacket(Player p, IChatBaseComponent header, IChatBaseComponent footer) {
-        PacketPlayOutPlayerListHeaderFooter packet = new PacketPlayOutPlayerListHeaderFooter(header);
-
-        try {
-            Field field = packet.getClass().getDeclaredField("b");
-            field.setAccessible(true);
-            field.set(packet, footer);
-        } catch (Exception e) {
-            CrispyLogger.printException(CrispyCommons.getPlugin(), e, "An error occurred while sending a tablist packet!");
-        } finally {
-            ((CraftPlayer)p).getHandle().playerConnection.sendPacket(packet);
-        }
     }
 }

@@ -2,8 +2,8 @@ package dev.acrispycookie.crispycommons.api.guis.book.wrappers;
 
 import dev.acrispycookie.crispycommons.api.guis.book.actions.BookAction;
 import dev.acrispycookie.crispycommons.implementations.guis.books.actions.BookActionCommand;
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.TextComponent;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.ClickEvent;
 import org.bukkit.entity.Player;
 
 public abstract class BookActionLine extends BookLine {
@@ -19,11 +19,10 @@ public abstract class BookActionLine extends BookLine {
                 onAction(p);
             }
         };
-        this.text.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,
-                "/" + BookActionCommand.getInstance().getName() + " " + action.getUuid().toString()));
+        this.text = this.text.clickEvent(ClickEvent.clickEvent(ClickEvent.Action.RUN_COMMAND, "/" + BookActionCommand.getInstance().getName() + " " + action.getUuid().toString()));
     }
 
-    public BookActionLine(TextComponent text) {
+    public BookActionLine(Component text) {
         super(text);
         action = new BookAction() {
             @Override
@@ -31,8 +30,7 @@ public abstract class BookActionLine extends BookLine {
                 onAction(p);
             }
         };
-        this.text.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,
-                "/" + BookActionCommand.getInstance().getName() + " " + action.getUuid().toString()));
+        this.text = this.text.clickEvent(ClickEvent.clickEvent(ClickEvent.Action.RUN_COMMAND, "/" + BookActionCommand.getInstance().getName() + " " + action.getUuid().toString()));
     }
 
 

@@ -1,28 +1,26 @@
 package dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text;
 
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.AnimatedElement;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-public abstract class TextElement extends AnimatedElement<TextComponent> {
+public abstract class TextElement extends AnimatedElement<Component> {
 
-    public TextElement(ArrayList<? extends TextComponent> frames, int period, boolean async) {
+    public TextElement(Collection<? extends String> frames, int period, boolean async) {
         super(new ArrayList<>(frames
                 .stream()
-                .map(t -> new TextComponent(
-                        ChatColor.translateAlternateColorCodes('&', t.toPlainText()
-                        )
-                )).collect(Collectors.toList())), period, async);
+                .map(t -> LegacyComponentSerializer.legacyAmpersand().deserialize(t))
+                .collect(Collectors.toList())), period, async);
     }
 
-    public TextElement(Supplier<? extends TextComponent> supplier, int period, boolean async) {
-        super(() -> new TextComponent(
-                ChatColor.translateAlternateColorCodes('&',
-                        supplier.get().toPlainText()
-                )), period, async);
+    public TextElement(Supplier<? extends String> supplier, int period, boolean async) {
+        super(() -> LegacyComponentSerializer.legacySection().deserialize(supplier.get()), period, async);
     }
 }

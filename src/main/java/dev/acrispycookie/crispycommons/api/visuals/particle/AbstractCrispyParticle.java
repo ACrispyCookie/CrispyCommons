@@ -4,6 +4,7 @@ import dev.acrispycookie.crispycommons.CrispyCommons;
 import dev.acrispycookie.crispycommons.api.wrappers.particle.CrispyEffect;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.particles.ParticleElement;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractCrispyAccessibleVisual;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -41,7 +42,7 @@ public abstract class AbstractCrispyParticle<T extends CrispyEffect> extends Abs
             return;
 
         if (duration == -1 || period == -1) {
-            receivers.forEach(this::playOnce);
+            receivers.stream().filter(OfflinePlayer::isOnline).forEach(this::playOnce);
             isDisplayed = false;
             return;
         }
@@ -57,7 +58,7 @@ public abstract class AbstractCrispyParticle<T extends CrispyEffect> extends Abs
                     isDisplayed = false;
                     return;
                 }
-                receivers.forEach(AbstractCrispyParticle.this::playOnce);
+                receivers.stream().filter(OfflinePlayer::isOnline).forEach(AbstractCrispyParticle.this::playOnce);
                 i += period;
             }
         }.runTaskTimer(plugin, 0, period);
