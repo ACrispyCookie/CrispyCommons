@@ -107,13 +107,11 @@ public class CrispyItemStack extends ItemStack implements CrispyItem {
     }
 
     public CrispyItemStack addTag(String identifier, NBTBase value) {
-        ItemStackNBT.addTag(this, identifier, value);
-        return this;
+        return new CrispyItemStack(ItemStackNBT.addTag(this, identifier, value));
     }
 
     public CrispyItemStack removeTag(String identifier) {
-        ItemStackNBT.removeTag(this, identifier);
-        return this;
+        return new CrispyItemStack(ItemStackNBT.removeTag(this, identifier));
     }
 
     public boolean hasFlag(ItemFlag flag) {
