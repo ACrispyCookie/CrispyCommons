@@ -21,13 +21,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class SimpleCrispyBook implements CrispyBook {
 
-    private final List<BookPage> pages;
+    private List<BookPage> pages;
 
     public SimpleCrispyBook(Collection<? extends BookPage> pages) {
         this.pages = new ArrayList<>(pages);
@@ -41,5 +42,15 @@ public class SimpleCrispyBook implements CrispyBook {
                 .map(BookPage::getComponent)
                 .collect(Collectors.toList()));
         player.openBook(book);
+    }
+
+    @Override
+    public void setPages(Collection<BookPage> pages) {
+        this.pages = new ArrayList<>(pages);
+    }
+
+    @Override
+    public void setPages(BookPage... pages) {
+        this.pages = Arrays.asList(pages);
     }
 }
