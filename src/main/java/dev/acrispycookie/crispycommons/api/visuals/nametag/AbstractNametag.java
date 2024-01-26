@@ -3,11 +3,16 @@ package dev.acrispycookie.crispycommons.api.visuals.nametag;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.TextElement;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractAccessibleVisual;
 import dev.acrispycookie.crispycommons.implementations.visuals.nametag.wrappers.NameTagData;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.util.Set;
 
-public class AbstractNametag extends AbstractAccessibleVisual<NameTagData> implements CrispyNametag {
+public abstract class AbstractNametag extends AbstractAccessibleVisual<NameTagData> implements CrispyNametag {
+
+    protected abstract void showPlayer(Player p);
+    protected abstract void hidePlayer(Player p);
+    protected abstract void updatePlayer(Player p);
 
     public AbstractNametag(NameTagData data, Set<? extends Player> receivers) {
         super(data, receivers);
@@ -15,17 +20,36 @@ public class AbstractNametag extends AbstractAccessibleVisual<NameTagData> imple
 
     @Override
     public void show() {
+        if (isDisplayed)
+            return;
 
+        isDisplayed = true;
+        data.getAboveName().start();
+        data.getBelowName().start();
+        data.getPrefix().start();
+        data.getSuffix().start();
+        receivers.stream().filter(OfflinePlayer::isOnline).forEach(this::showPlayer);
     }
 
     @Override
     public void hide() {
+        if (!isDisplayed)
+            return;
 
+        isDisplayed = false;
+        data.getAboveName().stop();
+        data.getBelowName().stop();
+        data.getPrefix().stop();
+        data.getSuffix().stop();
+        receivers.stream().filter(OfflinePlayer::isOnline).forEach(this::hidePlayer);
     }
 
     @Override
     public void update() {
+        if (!isDisplayed)
+            return;
 
+        receivers.stream().filter(OfflinePlayer::isOnline).forEach(this::updatePlayer);
     }
 
     @Override

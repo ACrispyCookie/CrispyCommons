@@ -24,10 +24,10 @@ public abstract class AbstractTablist extends AbstractAccessibleVisual<TablistDa
         if(isDisplayed)
             return;
 
-        this.isDisplayed = true;
-        receivers.stream().filter(OfflinePlayer::isOnline).forEach(this::show);
+        isDisplayed = true;
         data.getHeader().forEach(TextElement::start);
         data.getFooter().forEach(TextElement::start);
+        receivers.stream().filter(OfflinePlayer::isOnline).forEach(this::show);
     }
 
     @Override
@@ -35,10 +35,10 @@ public abstract class AbstractTablist extends AbstractAccessibleVisual<TablistDa
         if(!isDisplayed)
             return;
 
-        this.isDisplayed = false;
-        receivers.stream().filter(OfflinePlayer::isOnline).forEach(this::hide);
+        isDisplayed = false;
         data.getHeader().forEach(TextElement::stop);
         data.getFooter().forEach(TextElement::stop);
+        receivers.stream().filter(OfflinePlayer::isOnline).forEach(this::hide);
     }
 
     @Override

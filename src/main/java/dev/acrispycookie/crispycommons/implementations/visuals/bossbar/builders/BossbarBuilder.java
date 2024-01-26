@@ -19,7 +19,7 @@ public class BossbarBuilder extends AbstractVisualBuilder<CrispyBossbar> {
     private BossBar.Color color;
     private BossBar.Overlay overlay;
     private int timeToLive = -1;
-    private CrispyBossbar crispyBossbar;
+    private CrispyBossbar bossbar;
 
     public BossbarBuilder(Collection<? extends Player> players) {
         super(players);
@@ -37,7 +37,7 @@ public class BossbarBuilder extends AbstractVisualBuilder<CrispyBossbar> {
         this.text = new TextElement(frames, period, false) {
             @Override
             protected void update() {
-                crispyBossbar.update();
+                bossbar.update();
             }
         };
         return this;
@@ -47,7 +47,7 @@ public class BossbarBuilder extends AbstractVisualBuilder<CrispyBossbar> {
         this.text = new TextElement(supplier, period, false) {
             @Override
             protected void update() {
-                crispyBossbar.update();
+                bossbar.update();
             }
         };
         return this;
@@ -76,7 +76,7 @@ public class BossbarBuilder extends AbstractVisualBuilder<CrispyBossbar> {
     @Override
     public CrispyBossbar build() {
         BossbarData data = new BossbarData(timeToLive, progress, color, overlay, text);
-        this.crispyBossbar = new SimpleBossbar(data, receivers);
-        return crispyBossbar;
+        this.bossbar = new SimpleBossbar(data, receivers);
+        return bossbar;
     }
 }

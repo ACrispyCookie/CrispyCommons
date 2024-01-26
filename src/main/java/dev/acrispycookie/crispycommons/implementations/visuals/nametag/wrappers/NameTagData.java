@@ -2,19 +2,33 @@ package dev.acrispycookie.crispycommons.implementations.visuals.nametag.wrappers
 
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.TextElement;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.VisualData;
+import org.bukkit.entity.Player;
+
+import java.util.HashSet;
 
 public class NameTagData implements VisualData {
 
+    private Player player;
     private TextElement prefix;
     private TextElement suffix;
     private TextElement belowName;
     private TextElement aboveName;
+    private HashSet<Player> displayingPlayers = new HashSet<>();
 
-    public NameTagData(TextElement prefix, TextElement suffix, TextElement belowName, TextElement aboveName) {
+    public NameTagData(Player player, TextElement prefix, TextElement suffix, TextElement belowName, TextElement aboveName) {
+        this.player = player;
         this.prefix = prefix;
         this.suffix = suffix;
         this.belowName = belowName;
         this.aboveName = aboveName;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 
     public TextElement getPrefix() {
