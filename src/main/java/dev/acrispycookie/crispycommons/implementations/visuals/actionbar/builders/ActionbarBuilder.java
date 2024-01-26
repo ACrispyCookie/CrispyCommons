@@ -12,26 +12,26 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.function.Supplier;
 
-public class SimpleActionbarBuilder extends AbstractVisualBuilder<CrispyActionbar> {
+public class ActionbarBuilder extends AbstractVisualBuilder<CrispyActionbar> {
 
     private SimpleActionbar actionbar;
     private TextElement text;
     private int duration;
 
-    public SimpleActionbarBuilder(Set<? extends Player> receivers) {
+    public ActionbarBuilder(Set<? extends Player> receivers) {
         super(receivers);
     }
 
-    public SimpleActionbarBuilder() {
+    public ActionbarBuilder() {
 
     }
 
-    public SimpleActionbarBuilder setText(String text) {
+    public ActionbarBuilder setText(String text) {
         this.text = new SimpleTextElement(text);
         return this;
     }
 
-    public SimpleActionbarBuilder setText(Collection<? extends String> frames, int period) {
+    public ActionbarBuilder setText(Collection<? extends String> frames, int period) {
         this.text = new TextElement(frames, period, false) {
             @Override
             protected void update() {
@@ -41,7 +41,7 @@ public class SimpleActionbarBuilder extends AbstractVisualBuilder<CrispyActionba
         return this;
     }
 
-    public SimpleActionbarBuilder setText(Supplier<? extends String> supplier, int period) {
+    public ActionbarBuilder setText(Supplier<? extends String> supplier, int period) {
         this.text = new TextElement(supplier, period, false) {
             @Override
             protected void update() {
@@ -51,7 +51,7 @@ public class SimpleActionbarBuilder extends AbstractVisualBuilder<CrispyActionba
         return this;
     }
 
-    public SimpleActionbarBuilder setDuration(int duration) {
+    public ActionbarBuilder setDuration(int duration) {
         this.duration = duration;
         return this;
     }

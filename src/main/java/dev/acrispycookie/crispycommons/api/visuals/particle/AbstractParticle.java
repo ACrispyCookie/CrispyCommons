@@ -2,7 +2,7 @@ package dev.acrispycookie.crispycommons.api.visuals.particle;
 
 import dev.acrispycookie.crispycommons.CrispyCommons;
 import dev.acrispycookie.crispycommons.api.wrappers.particle.CrispyEffect;
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractCrispyAccessibleVisual;
+import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractAccessibleVisual;
 import dev.acrispycookie.crispycommons.implementations.visuals.particle.wrappers.ParticleData;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -10,11 +10,11 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Set;
 
-public abstract class AbstractCrispyParticle<T extends CrispyEffect> extends AbstractCrispyAccessibleVisual<ParticleData<T>> implements CrispyParticle<T> {
+public abstract class AbstractParticle<T extends CrispyEffect> extends AbstractAccessibleVisual<ParticleData<T>> implements CrispyParticle<T> {
 
     protected abstract void playOnce(Player p);
 
-    protected AbstractCrispyParticle(ParticleData<T> data, Set<? extends Player> receivers) {
+    protected AbstractParticle(ParticleData<T> data, Set<? extends Player> receivers) {
         super(data, receivers);
     }
 
@@ -40,7 +40,7 @@ public abstract class AbstractCrispyParticle<T extends CrispyEffect> extends Abs
                     isDisplayed = false;
                     return;
                 }
-                receivers.stream().filter(OfflinePlayer::isOnline).forEach(AbstractCrispyParticle.this::playOnce);
+                receivers.stream().filter(OfflinePlayer::isOnline).forEach(AbstractParticle.this::playOnce);
                 i += data.getPeriod();
             }
         }.runTaskTimer(CrispyCommons.getPlugin(), 0, data.getPeriod()));

@@ -10,27 +10,27 @@ import dev.acrispycookie.crispycommons.implementations.visuals.tablist.wrappers.
 import java.util.*;
 import java.util.function.Supplier;
 
-public class SimpleTablistBuilder extends AbstractVisualBuilder<CrispyTablist> {
+public class TablistBuilder extends AbstractVisualBuilder<CrispyTablist> {
 
     private final List<TextElement> header = new ArrayList<>();
     private final List<TextElement> footer = new ArrayList<>();
     private SimpleTablist builtTablist;
 
-    public SimpleTablistBuilder(List<TextElement> initialHeader, List<TextElement> initialFooter) {
+    public TablistBuilder(List<TextElement> initialHeader, List<TextElement> initialFooter) {
         this.header.addAll(initialHeader);
         this.footer.addAll(initialFooter);
     }
 
-    public SimpleTablistBuilder() {
+    public TablistBuilder() {
 
     }
 
-    public SimpleTablistBuilder addHeaderLine(String text) {
+    public TablistBuilder addHeaderLine(String text) {
         this.header.add(new SimpleTextElement(text));
         return this;
     }
 
-    public SimpleTablistBuilder addAnimatedHeaderLine(Collection<? extends String> frames, int period) {
+    public TablistBuilder addAnimatedHeaderLine(Collection<? extends String> frames, int period) {
         this.header.add(new TextElement(frames, period, false) {
             @Override
             protected void update() {
@@ -40,7 +40,7 @@ public class SimpleTablistBuilder extends AbstractVisualBuilder<CrispyTablist> {
         return this;
     }
 
-    public SimpleTablistBuilder addAnimatedHeaderLine(Supplier<String> supplier, int period) {
+    public TablistBuilder addAnimatedHeaderLine(Supplier<String> supplier, int period) {
         this.header.add(new TextElement(supplier, period, false) {
             @Override
             protected void update() {
@@ -50,12 +50,12 @@ public class SimpleTablistBuilder extends AbstractVisualBuilder<CrispyTablist> {
         return this;
     }
 
-    public SimpleTablistBuilder addFooterLine(String text) {
+    public TablistBuilder addFooterLine(String text) {
         this.footer.add(new SimpleTextElement(text));
         return this;
     }
 
-    public SimpleTablistBuilder addAnimatedFooterLine(Collection<? extends String> frames, int period) {
+    public TablistBuilder addAnimatedFooterLine(Collection<? extends String> frames, int period) {
         this.footer.add(new TextElement(frames, period, false) {
             @Override
             protected void update() {
@@ -65,7 +65,7 @@ public class SimpleTablistBuilder extends AbstractVisualBuilder<CrispyTablist> {
         return this;
     }
 
-    public SimpleTablistBuilder addAnimatedFooterLine(Supplier<String> supplier, int period) {
+    public TablistBuilder addAnimatedFooterLine(Supplier<String> supplier, int period) {
         this.footer.add(new TextElement(supplier, period, false) {
             @Override
             protected void update() {

@@ -17,7 +17,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class SimpleHologramBuilder extends AbstractVisualBuilder<CrispyHologram> {
+public class HologramBuilder extends AbstractVisualBuilder<CrispyHologram> {
 
     private Location location;
     private int timeToLive;
@@ -25,64 +25,64 @@ public class SimpleHologramBuilder extends AbstractVisualBuilder<CrispyHologram>
     private final List<AbstractHologramLine<?>> lines = new ArrayList<>();
 
 
-    public SimpleHologramBuilder(Location location, int timeToLive) {
+    public HologramBuilder(Location location, int timeToLive) {
         this.location = location;
         this.timeToLive = timeToLive;
     }
 
-    public SimpleHologramBuilder(Location location, int timeToLive, Collection<? extends Player> receivers) {
+    public HologramBuilder(Location location, int timeToLive, Collection<? extends Player> receivers) {
         super(receivers);
         this.location = location;
         this.timeToLive = timeToLive;
     }
 
-    public SimpleHologramBuilder setLocation(Location location) {
+    public HologramBuilder setLocation(Location location) {
         this.location = location;
         return this;
     }
 
-    public SimpleHologramBuilder setTimeToLive(int timeToLive) {
+    public HologramBuilder setTimeToLive(int timeToLive) {
         this.timeToLive = timeToLive;
         return this;
     }
 
-    public SimpleHologramBuilder addTextLine(String text) {
+    public HologramBuilder addTextLine(String text) {
         TextHologramLine line = new TextHologramLine(text);
         lines.add(line);
         return this;
     }
 
-    public SimpleHologramBuilder addAnimatedTextLine(Collection<? extends String> frames, int period) {
+    public HologramBuilder addAnimatedTextLine(Collection<? extends String> frames, int period) {
         TextHologramLine line = new TextHologramLine(frames, period);
         lines.add(line);
         return this;
     }
 
-    public SimpleHologramBuilder addAnimatedTextLine(Supplier<String> supplier, int period) {
+    public HologramBuilder addAnimatedTextLine(Supplier<String> supplier, int period) {
         TextHologramLine line = new TextHologramLine(supplier, period);
         lines.add(line);
         return this;
     }
 
-    public SimpleHologramBuilder addItemLine(CrispyItem item) {
+    public HologramBuilder addItemLine(CrispyItem item) {
         ItemHologramLine line = new ItemHologramLine(item);
         lines.add(line);
         return this;
     }
 
-    public SimpleHologramBuilder addAnimatedItemLine(Collection<? extends CrispyItem> frames, int period) {
+    public HologramBuilder addAnimatedItemLine(Collection<? extends CrispyItem> frames, int period) {
         ItemHologramLine line = new ItemHologramLine(frames, period);
         lines.add(line);
         return this;
     }
 
-    public SimpleHologramBuilder addAnimatedItemLine(Supplier<CrispyItem> supplier, int period) {
+    public HologramBuilder addAnimatedItemLine(Supplier<CrispyItem> supplier, int period) {
         ItemHologramLine line = new ItemHologramLine(supplier, period);
         lines.add(line);
         return this;
     }
 
-    public SimpleHologramBuilder setPublic(boolean isPublic) {
+    public HologramBuilder setPublic(boolean isPublic) {
         this.isPublic = isPublic;
         return this;
     }

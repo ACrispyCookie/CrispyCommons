@@ -1,13 +1,13 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.particle;
 
-import dev.acrispycookie.crispycommons.api.visuals.particle.AbstractCrispyParticle;
+import dev.acrispycookie.crispycommons.api.visuals.particle.AbstractParticle;
 import dev.acrispycookie.crispycommons.implementations.visuals.particle.wrappers.ParticleData;
 import dev.acrispycookie.crispycommons.implementations.wrappers.particle.SimpleEffect;
 import org.bukkit.entity.Player;
 
 import java.util.Set;
 
-public class SimpleParticle extends AbstractCrispyParticle<SimpleEffect> {
+public class SimpleParticle extends AbstractParticle<SimpleEffect> {
 
     public SimpleParticle(ParticleData<SimpleEffect> data, Set<? extends Player> receivers) {
         super(data, receivers);

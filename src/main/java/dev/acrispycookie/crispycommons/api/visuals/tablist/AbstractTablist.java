@@ -1,7 +1,7 @@
 package dev.acrispycookie.crispycommons.api.visuals.tablist;
 
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.TextElement;
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractCrispyAccessibleVisual;
+import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractAccessibleVisual;
 import dev.acrispycookie.crispycommons.implementations.visuals.tablist.wrappers.TablistData;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -9,14 +9,14 @@ import org.bukkit.entity.Player;
 import java.util.List;
 import java.util.Set;
 
-public abstract class AbstractCrispyTablist extends AbstractCrispyAccessibleVisual<TablistData> implements CrispyTablist {
+public abstract class AbstractTablist extends AbstractAccessibleVisual<TablistData> implements CrispyTablist {
 
     protected abstract void show(Player p);
     protected abstract void hide(Player p);
     protected abstract void update(Player p);
 
-    public AbstractCrispyTablist(TablistData content, Set<? extends Player> receivers) {
-        super(content, receivers);
+    public AbstractTablist(TablistData data, Set<? extends Player> receivers) {
+        super(data, receivers);
     }
 
     @Override

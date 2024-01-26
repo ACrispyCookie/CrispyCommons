@@ -6,6 +6,6 @@ import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.wrappe
 public interface ScoreboardLine extends CrispyVisual<ScoreboardLineData> {
 
     int getPosition();
-    void setScoreboard(AbstractCrispyScoreboard scoreboard);
+    void setScoreboard(AbstractScoreboard scoreboard);
     CrispyScoreboard getScoreboard();
 }

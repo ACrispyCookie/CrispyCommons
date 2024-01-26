@@ -1,12 +1,12 @@
 package dev.acrispycookie.crispycommons.api.visuals.hologram;
 
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.AnimatedElement;
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractCrispyVisual;
+import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractVisual;
 import dev.acrispycookie.crispycommons.implementations.visuals.hologram.wrappers.HologramLineData;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
-public abstract class AbstractHologramLine<T extends AnimatedElement<?>> extends AbstractCrispyVisual<HologramLineData<T>> implements HologramLine<T> {
+public abstract class AbstractHologramLine<T extends AnimatedElement<?>> extends AbstractVisual<HologramLineData<T>> implements HologramLine<T> {
 
     protected abstract void show(Player player);
     protected abstract void hide(Player player);

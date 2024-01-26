@@ -1,18 +1,18 @@
 package dev.acrispycookie.crispycommons.api.visuals.title;
 
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.TextElement;
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractCrispyAccessibleVisual;
+import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractAccessibleVisual;
 import dev.acrispycookie.crispycommons.implementations.visuals.title.wrappers.TitleData;
 import org.bukkit.entity.Player;
 
 import java.util.Set;
 
-public abstract class AbstractCrispyTitle extends AbstractCrispyAccessibleVisual<TitleData> implements CrispyTitle {
+public abstract class AbstractTitle extends AbstractAccessibleVisual<TitleData> implements CrispyTitle {
 
     protected abstract void showInternal();
     protected abstract void hideInternal();
 
-    public AbstractCrispyTitle(TitleData data, Set<? extends Player> receivers) {
+    public AbstractTitle(TitleData data, Set<? extends Player> receivers) {
         super(data, receivers);
     }
 

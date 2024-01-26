@@ -6,12 +6,12 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-public abstract class AbstractCrispyAccessibleVisual<T extends VisualData> extends AbstractCrispyVisual<T> implements CrispyAccessibleVisual<T> {
+public abstract class AbstractAccessibleVisual<T extends VisualData> extends AbstractVisual<T> implements CrispyAccessibleVisual<T> {
 
     protected final Set<Player> receivers = new HashSet<>();
 
-    public AbstractCrispyAccessibleVisual(T content, Set<? extends Player> receivers) {
-        super(content);
+    public AbstractAccessibleVisual(T data, Set<? extends Player> receivers) {
+        super(data);
         this.receivers.addAll(receivers);
     }
 

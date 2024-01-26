@@ -5,6 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
 
+@Deprecated
 class ItemStackNBT {
 	
 	public static ItemStack addTag(ItemStack i, String identifier, NBTBase value) {

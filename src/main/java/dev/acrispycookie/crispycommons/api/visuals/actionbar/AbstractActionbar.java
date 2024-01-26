@@ -1,18 +1,18 @@
 package dev.acrispycookie.crispycommons.api.visuals.actionbar;
 
 import dev.acrispycookie.crispycommons.CrispyCommons;
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractCrispyAccessibleVisual;
+import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractAccessibleVisual;
 import dev.acrispycookie.crispycommons.implementations.visuals.actionbar.wrappers.ActionbarData;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Set;
 
-public abstract class AbstractCrispyActionbar extends AbstractCrispyAccessibleVisual<ActionbarData> implements CrispyActionbar {
+public abstract class AbstractActionbar extends AbstractAccessibleVisual<ActionbarData> implements CrispyActionbar {
 
     protected abstract void showPlayer(Player p);
 
-    public AbstractCrispyActionbar(ActionbarData data, Set<? extends Player> receivers) {
+    public AbstractActionbar(ActionbarData data, Set<? extends Player> receivers) {
         super(data, receivers);
     }
 

@@ -1,7 +1,7 @@
 package dev.acrispycookie.crispycommons.api.visuals.scoreboard;
 
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.ScoreboardTitleLine;
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractCrispyAccessibleVisual;
+import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractAccessibleVisual;
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.SimpleScoreboardLine;
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.wrappers.ScoreboardData;
 import org.bukkit.Bukkit;
@@ -12,10 +12,10 @@ import org.bukkit.scoreboard.Scoreboard;
 
 import java.util.*;
 
-public abstract class AbstractCrispyScoreboard extends AbstractCrispyAccessibleVisual<ScoreboardData> implements CrispyScoreboard {
+public abstract class AbstractScoreboard extends AbstractAccessibleVisual<ScoreboardData> implements CrispyScoreboard {
 
-    public AbstractCrispyScoreboard(ScoreboardData content, Set<? extends Player> receivers) {
-        super(content, receivers);
+    public AbstractScoreboard(ScoreboardData data, Set<? extends Player> receivers) {
+        super(data, receivers);
         this.data.setBukkitScoreboard(getNewBoard());
         this.data.getTitle().setScoreboard(this);
         this.data.getLines().forEach(l -> l.setScoreboard(this));

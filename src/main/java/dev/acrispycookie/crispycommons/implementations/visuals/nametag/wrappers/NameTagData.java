@@ -21,15 +21,31 @@ public class NameTagData implements VisualData {
         return prefix;
     }
 
+    public void setPrefix(TextElement prefix) {
+        this.prefix = prefix;
+    }
+
     public TextElement getSuffix() {
         return suffix;
+    }
+
+    public void setSuffix(TextElement suffix) {
+        this.suffix = suffix;
     }
 
     public TextElement getBelowName() {
         return belowName;
     }
 
+    public void setBelowName(TextElement belowName) {
+        this.belowName = belowName;
+    }
+
     public TextElement getAboveName() {
         return aboveName;
+    }
+
+    public void setAboveName(TextElement aboveName) {
+        this.aboveName = aboveName;
     }
 }

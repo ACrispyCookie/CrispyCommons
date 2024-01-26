@@ -2,7 +2,7 @@ package dev.acrispycookie.crispycommons.api.visuals.bossbar;
 
 import dev.acrispycookie.crispycommons.CrispyCommons;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.TextElement;
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractCrispyAccessibleVisual;
+import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractAccessibleVisual;
 import dev.acrispycookie.crispycommons.implementations.visuals.bossbar.wrappers.BossbarData;
 import net.kyori.adventure.bossbar.BossBar;
 import org.bukkit.entity.Player;
@@ -10,7 +10,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Set;
 
-public abstract class AbstractBossbar extends AbstractCrispyAccessibleVisual<BossbarData> implements CrispyBossbar  {
+public abstract class AbstractBossbar extends AbstractAccessibleVisual<BossbarData> implements CrispyBossbar  {
 
     protected abstract void showPlayer(Player p);
     protected abstract void hidePlayer(Player p);

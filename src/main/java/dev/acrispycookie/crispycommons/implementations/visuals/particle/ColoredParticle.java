@@ -1,13 +1,13 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.particle;
 
-import dev.acrispycookie.crispycommons.api.visuals.particle.AbstractCrispyParticle;
+import dev.acrispycookie.crispycommons.api.visuals.particle.AbstractParticle;
 import dev.acrispycookie.crispycommons.implementations.visuals.particle.wrappers.ParticleData;
 import dev.acrispycookie.crispycommons.implementations.wrappers.particle.ColoredEffect;
 import org.bukkit.entity.Player;
 
 import java.util.Set;
 
-public class ColoredParticle extends AbstractCrispyParticle<ColoredEffect> {
+public class ColoredParticle extends AbstractParticle<ColoredEffect> {
 
     public ColoredParticle(ParticleData<ColoredEffect> data, Set<? extends Player> receivers) {
         super(data, receivers);

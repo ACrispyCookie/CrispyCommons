@@ -1,9 +1,9 @@
 package dev.acrispycookie.crispycommons.api.visuals.scoreboard;
 
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractCrispyVisual;
+import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractVisual;
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.wrappers.ScoreboardLineData;
 
-public abstract class AbstractScoreboardLine extends AbstractCrispyVisual<ScoreboardLineData> implements ScoreboardLine {
+public abstract class AbstractScoreboardLine extends AbstractVisual<ScoreboardLineData> implements ScoreboardLine {
 
     protected abstract void initialize();
     protected abstract void updateInternal();
@@ -35,7 +35,7 @@ public abstract class AbstractScoreboardLine extends AbstractCrispyVisual<Scoreb
     }
 
     @Override
-    public void setScoreboard(AbstractCrispyScoreboard scoreboard) {
+    public void setScoreboard(AbstractScoreboard scoreboard) {
         this.data.setScoreboard(scoreboard);
     }
 

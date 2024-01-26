@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 import java.util.Collection;
 import java.util.function.Supplier;
 
-public class SimpleBossbarBuilder extends AbstractVisualBuilder<CrispyBossbar> {
+public class BossbarBuilder extends AbstractVisualBuilder<CrispyBossbar> {
 
     private TextElement text;
     private float progress;
@@ -21,19 +21,19 @@ public class SimpleBossbarBuilder extends AbstractVisualBuilder<CrispyBossbar> {
     private int timeToLive = -1;
     private CrispyBossbar crispyBossbar;
 
-    public SimpleBossbarBuilder(Collection<? extends Player> players) {
+    public BossbarBuilder(Collection<? extends Player> players) {
         super(players);
     }
 
-    public SimpleBossbarBuilder() {
+    public BossbarBuilder() {
     }
 
-    public SimpleBossbarBuilder setText(String text) {
+    public BossbarBuilder setText(String text) {
         this.text = new SimpleTextElement(text);
         return this;
     }
 
-    public SimpleBossbarBuilder setText(Collection<? extends String> frames, int period) {
+    public BossbarBuilder setText(Collection<? extends String> frames, int period) {
         this.text = new TextElement(frames, period, false) {
             @Override
             protected void update() {
@@ -43,7 +43,7 @@ public class SimpleBossbarBuilder extends AbstractVisualBuilder<CrispyBossbar> {
         return this;
     }
 
-    public SimpleBossbarBuilder setText(Supplier<? extends String> supplier, int period) {
+    public BossbarBuilder setText(Supplier<? extends String> supplier, int period) {
         this.text = new TextElement(supplier, period, false) {
             @Override
             protected void update() {
@@ -53,22 +53,22 @@ public class SimpleBossbarBuilder extends AbstractVisualBuilder<CrispyBossbar> {
         return this;
     }
 
-    public SimpleBossbarBuilder setProgress(float progress) {
+    public BossbarBuilder setProgress(float progress) {
         this.progress = progress;
         return this;
     }
 
-    public SimpleBossbarBuilder setColor(BossBar.Color color) {
+    public BossbarBuilder setColor(BossBar.Color color) {
         this.color = color;
         return this;
     }
 
-    public SimpleBossbarBuilder setOverlay(BossBar.Overlay overlay) {
+    public BossbarBuilder setOverlay(BossBar.Overlay overlay) {
         this.overlay = overlay;
         return this;
     }
 
-    public SimpleBossbarBuilder setTimeToLive(int timeToLive) {
+    public BossbarBuilder setTimeToLive(int timeToLive) {
         this.timeToLive = timeToLive;
         return this;
     }
