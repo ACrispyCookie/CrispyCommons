@@ -4,7 +4,10 @@ import dev.acrispycookie.crispycommons.api.visuals.abstraction.builder.AbstractV
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.particles.ParticleElement;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.particles.SimpleParticleElement;
 import dev.acrispycookie.crispycommons.api.visuals.particle.CrispyParticle;
+import dev.acrispycookie.crispycommons.implementations.visuals.particle.ColoredParticle;
 import dev.acrispycookie.crispycommons.implementations.visuals.particle.RenderedParticle;
+import dev.acrispycookie.crispycommons.implementations.visuals.particle.wrappers.ParticleData;
+import dev.acrispycookie.crispycommons.implementations.wrappers.particle.ColoredEffect;
 import dev.acrispycookie.crispycommons.implementations.wrappers.particle.RenderedEffect;
 
 public class RenderedParticleBuilder extends AbstractVisualBuilder<CrispyParticle<RenderedEffect>> {
@@ -35,9 +38,7 @@ public class RenderedParticleBuilder extends AbstractVisualBuilder<CrispyParticl
     public CrispyParticle<RenderedEffect> build() {
         if (element == null)
             return null;
-        if (duration < 0 || period < 1)
-            return new RenderedParticle(element, receivers);
-        else
-            return new RenderedParticle(element, duration, period, receivers);
+        ParticleData<RenderedEffect> data = new ParticleData<>(element, duration, period);
+        return new RenderedParticle(data, receivers);
     }
 }

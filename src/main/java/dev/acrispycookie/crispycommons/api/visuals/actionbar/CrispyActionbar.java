@@ -1,10 +1,8 @@
 package dev.acrispycookie.crispycommons.api.visuals.actionbar;
 
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.TextElement;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.CrispyAccessibleVisual;
+import dev.acrispycookie.crispycommons.implementations.visuals.actionbar.wrappers.ActionbarData;
 
-import java.util.List;
-
-public interface CrispyActionbar extends CrispyAccessibleVisual<TextElement> {
+public interface CrispyActionbar extends CrispyAccessibleVisual<ActionbarData> {
     void setDuration(int duration);
 }

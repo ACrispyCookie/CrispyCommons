@@ -2,27 +2,19 @@ package dev.acrispycookie.crispycommons.api.visuals.hologram;
 
 import dev.acrispycookie.crispycommons.CrispyCommons;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractCrispyAccessibleVisual;
-import org.bukkit.Bukkit;
+import dev.acrispycookie.crispycommons.implementations.visuals.hologram.wrappers.HologramData;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 
-public abstract class AbstractCrispyHologram extends AbstractCrispyAccessibleVisual<List<AbstractHologramLine<?>>> implements CrispyHologram {
+public abstract class AbstractCrispyHologram extends AbstractCrispyAccessibleVisual<HologramData> implements CrispyHologram {
 
-    protected final JavaPlugin plugin;
-    protected Location location;
-    protected int timeToLive;
 
-    public AbstractCrispyHologram(List<AbstractHologramLine<?>> content, Location location, int timeToLive, Set<? extends Player> receivers) {
-        super(content, receivers);
-        this.plugin = CrispyCommons.getPlugin();
-        this.location = location;
-        this.timeToLive = timeToLive;
-        this.isDisplayed = false;
-        this.content.forEach(l -> l.setHologram(this));
+    public AbstractCrispyHologram(HologramData data, Set<? extends Player> receivers) {
+        super(data, receivers);
+        this.data.getLines().forEach(l -> l.setHologram(this));
     }
 
     @Override
@@ -31,14 +23,14 @@ public abstract class AbstractCrispyHologram extends AbstractCrispyAccessibleVis
             return;
 
         isDisplayed = true;
-        content.forEach(AbstractHologramLine::show);
-        if(timeToLive != -1) {
+        data.getLines().forEach(AbstractHologramLine::show);
+        if(data.getTimeToLive() != -1) {
             new BukkitRunnable() {
                 @Override
                 public void run() {
                     hide();
                 }
-            }.runTaskLater(plugin, timeToLive);
+            }.runTaskLater(CrispyCommons.getPlugin(), data.getTimeToLive());
         }
     }
 
@@ -48,7 +40,7 @@ public abstract class AbstractCrispyHologram extends AbstractCrispyAccessibleVis
             return;
 
         isDisplayed = false;
-        content.forEach(AbstractHologramLine::hide);
+        data.getLines().forEach(AbstractHologramLine::hide);
     }
 
     @Override
@@ -56,14 +48,14 @@ public abstract class AbstractCrispyHologram extends AbstractCrispyAccessibleVis
         if(!isDisplayed)
             return;
 
-        content.forEach(AbstractHologramLine::update);
+        data.getLines().forEach(AbstractHologramLine::update);
     }
 
     @Override
     public void addPlayer(Player player) {
         super.addPlayer(player);
         if(isDisplayed) {
-            content.forEach(l -> l.show(player));
+            data.getLines().forEach(l -> l.show(player));
         }
     }
 
@@ -71,7 +63,7 @@ public abstract class AbstractCrispyHologram extends AbstractCrispyAccessibleVis
     public void removePlayer(Player player) {
         super.removePlayer(player);
         if(!isDisplayed) {
-            content.forEach(l -> l.hide(player));
+            data.getLines().forEach(l -> l.hide(player));
         }
     }
 
@@ -87,43 +79,47 @@ public abstract class AbstractCrispyHologram extends AbstractCrispyAccessibleVis
 
     @Override
     public void addLine(int index, AbstractHologramLine<?> line) {
-        if (index > content.size())
+        if (index > data.getLines().size())
             return;
 
-        content.add(index, line);
+        List<AbstractHologramLine<?>> newLines = data.getLines();
+        newLines.add(index, line);
+        data.setLines(newLines);
         line.setHologram(this);
         if (isDisplayed) {
             line.show();
         }
 
-        content.forEach(AbstractHologramLine::update);
+        data.getLines().forEach(AbstractHologramLine::update);
     }
 
     @Override
     public void addLine(AbstractHologramLine<?> line) {
-        addLine(content.size(), line);
+        addLine(data.getLines().size(), line);
     }
 
     @Override
     public void removeLine(int index) {
-        if(index >= content.size())
+        if(index >= data.getLines().size())
             return;
 
-        AbstractHologramLine<?> toRemove = content.get(index);
-        content.remove(index);
+        AbstractHologramLine<?> toRemove = data.getLines().get(index);
+        List<AbstractHologramLine<?>> newLines = data.getLines();
+        newLines.remove(index);
+        data.setLines(newLines);
         if (isDisplayed && toRemove.isDisplayed()) {
             toRemove.hide();
         }
 
-        content.forEach(AbstractHologramLine::update);
+        data.getLines().forEach(AbstractHologramLine::update);
     }
 
     @Override
     public void showLine(int index) {
-        if(index >= content.size())
+        if(index >= data.getLines().size())
             return;
 
-        AbstractHologramLine<?> line = content.get(index);
+        AbstractHologramLine<?> line = data.getLines().get(index);
         if(isDisplayed && !line.isDisplayed()) {
             line.show();
         }
@@ -131,10 +127,10 @@ public abstract class AbstractCrispyHologram extends AbstractCrispyAccessibleVis
 
     @Override
     public void hideLine(int index) {
-        if(index >= content.size())
+        if(index >= data.getLines().size())
             return;
 
-        AbstractHologramLine<?> line = content.get(index);
+        AbstractHologramLine<?> line = data.getLines().get(index);
         if(isDisplayed && line.isDisplayed()) {
             line.hide();
         }
@@ -142,23 +138,23 @@ public abstract class AbstractCrispyHologram extends AbstractCrispyAccessibleVis
 
     @Override
     public Location getLocation() {
-        return location;
+        return data.getLocation();
     }
 
     @Override
     public int getTimeToLive() {
-        return timeToLive;
+        return data.getTimeToLive();
     }
 
     @Override
     public void setLocation(Location location) {
-        this.location = location;
+        data.setLocation(location);
 
         update();
     }
 
     @Override
     public void setTimeToLive(int timeToLive) {
-        this.timeToLive = timeToLive;
+        data.setTimeToLive(timeToLive);
     }
 }

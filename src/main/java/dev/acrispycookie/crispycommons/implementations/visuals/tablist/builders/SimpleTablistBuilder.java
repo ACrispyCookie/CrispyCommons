@@ -5,6 +5,7 @@ import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implemen
 import dev.acrispycookie.crispycommons.api.visuals.tablist.CrispyTablist;
 import dev.acrispycookie.crispycommons.implementations.visuals.tablist.SimpleTablist;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.builder.AbstractVisualBuilder;
+import dev.acrispycookie.crispycommons.implementations.visuals.tablist.wrappers.TablistData;
 
 import java.util.*;
 import java.util.function.Supplier;
@@ -76,10 +77,8 @@ public class SimpleTablistBuilder extends AbstractVisualBuilder<CrispyTablist> {
 
     @Override
     public CrispyTablist build() {
-        ArrayList<List<TextElement>> tabList = new ArrayList<>();
-        tabList.add(header);
-        tabList.add(footer);
-        builtTablist = new SimpleTablist(tabList, receivers);
+        TablistData data = new TablistData(header, footer);
+        builtTablist = new SimpleTablist(data, receivers);
         return builtTablist;
     }
 }

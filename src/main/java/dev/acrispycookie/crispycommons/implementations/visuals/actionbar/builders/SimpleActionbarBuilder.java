@@ -4,10 +4,10 @@ import dev.acrispycookie.crispycommons.api.visuals.abstraction.builder.AbstractV
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.SimpleTextElement;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.TextElement;
 import dev.acrispycookie.crispycommons.api.visuals.actionbar.CrispyActionbar;
+import dev.acrispycookie.crispycommons.implementations.visuals.actionbar.wrappers.ActionbarData;
 import dev.acrispycookie.crispycommons.implementations.visuals.actionbar.SimpleActionbar;
 import org.bukkit.entity.Player;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Set;
 import java.util.function.Supplier;
@@ -58,7 +58,8 @@ public class SimpleActionbarBuilder extends AbstractVisualBuilder<CrispyActionba
 
     @Override
     public CrispyActionbar build() {
-        this.actionbar = new SimpleActionbar(text, receivers, duration);
+        ActionbarData data = new ActionbarData(text, duration);
+        this.actionbar = new SimpleActionbar(data, receivers);
         return actionbar;
     }
 }

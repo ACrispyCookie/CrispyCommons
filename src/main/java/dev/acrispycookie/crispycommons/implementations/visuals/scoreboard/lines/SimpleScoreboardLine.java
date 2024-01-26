@@ -3,6 +3,7 @@ package dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.SimpleTextElement;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.TextElement;
 import dev.acrispycookie.crispycommons.api.visuals.scoreboard.AbstractScoreboardLine;
+import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.wrappers.ScoreboardLineData;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.ChatColor;
 import org.bukkit.scoreboard.Objective;
@@ -14,58 +15,58 @@ import java.util.function.Supplier;
 
 public class SimpleScoreboardLine extends AbstractScoreboardLine {
 
-    public SimpleScoreboardLine(String staticLine) {
-        super(new SimpleTextElement(staticLine));
+    public SimpleScoreboardLine(String text) {
+        super(new ScoreboardLineData(new SimpleTextElement(text), 0, null));
     }
 
     public SimpleScoreboardLine(Collection<? extends String> frames, int period) {
-        super(null);
-        this.content = new TextElement(frames, period, false) {
+        super(new ScoreboardLineData(null, 0, null));
+        this.data.setElement(new TextElement(frames, period, false) {
             @Override
             protected void update() {
                 SimpleScoreboardLine.this.update();
             }
-        };
+        });
     }
 
     public SimpleScoreboardLine(Supplier<String> supplier, int period) {
-        super(null);
-        this.content = new TextElement(supplier, period, false) {
+        super(new ScoreboardLineData(null, 0, null));
+        this.data.setElement(new TextElement(supplier, period, false) {
             @Override
             protected void update() {
                 SimpleScoreboardLine.this.update();
             }
-        };
+        });
     }
 
     @Override
     protected void initialize() {
-        Scoreboard bukkitScoreboard = scoreboard.getBukkitScoreboard();
+        Scoreboard bukkitScoreboard = data.getScoreboard().getBukkitScoreboard();
         Objective obj = bukkitScoreboard.getObjective("[CrispyCommons]");
 
-        String line = ChatColor.translateAlternateColorCodes('&', LegacyComponentSerializer.legacyAmpersand().serialize(getContent().getRaw()));
+        String line = ChatColor.translateAlternateColorCodes('&', LegacyComponentSerializer.legacyAmpersand().serialize(data.getElement().getRaw()));
         String teamEntry = getEntry(line, bukkitScoreboard);
-        Team team = bukkitScoreboard.registerNewTeam(String.valueOf(position));
+        Team team = bukkitScoreboard.registerNewTeam(String.valueOf(data.getPosition()));
         team.addEntry(teamEntry);
         team.setPrefix(getPrefix(line));
         team.setSuffix(getSuffix(line, teamEntry));
-        obj.getScore(teamEntry).setScore(15 - position);
+        obj.getScore(teamEntry).setScore(15 - data.getPosition());
     }
 
     @Override
     protected void updateInternal() {
-        Scoreboard bukkitScoreboard = scoreboard.getBukkitScoreboard();
+        Scoreboard bukkitScoreboard = data.getScoreboard().getBukkitScoreboard();
         Objective obj = bukkitScoreboard.getObjective("[CrispyCommons]");
-        Team team = bukkitScoreboard.getTeam(String.valueOf(position));
+        Team team = bukkitScoreboard.getTeam(String.valueOf(data.getPosition()));
 
-        String line = ChatColor.translateAlternateColorCodes('&', LegacyComponentSerializer.legacyAmpersand().serialize(getContent().getRaw()));
+        String line = ChatColor.translateAlternateColorCodes('&', LegacyComponentSerializer.legacyAmpersand().serialize(data.getElement().getRaw()));
         line = line.substring(0, Math.min(line.length(), 32));
         String teamEntry = team.getEntries().iterator().next();
         String prefix = getPrefix(line);
         String suffix = getSuffix(line, teamEntry);
         team.setPrefix(prefix);
         team.setSuffix(suffix);
-        obj.getScore(teamEntry).setScore(15 - position);
+        obj.getScore(teamEntry).setScore(15 - data.getPosition());
     }
 
     private String getPrefix(String line) {

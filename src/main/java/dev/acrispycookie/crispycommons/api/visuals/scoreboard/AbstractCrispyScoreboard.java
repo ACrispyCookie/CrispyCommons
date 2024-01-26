@@ -2,6 +2,8 @@ package dev.acrispycookie.crispycommons.api.visuals.scoreboard;
 
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.ScoreboardTitleLine;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractCrispyAccessibleVisual;
+import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.SimpleScoreboardLine;
+import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.wrappers.ScoreboardData;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -10,17 +12,13 @@ import org.bukkit.scoreboard.Scoreboard;
 
 import java.util.*;
 
-public abstract class AbstractCrispyScoreboard extends AbstractCrispyAccessibleVisual<List<AbstractScoreboardLine>> implements CrispyScoreboard {
+public abstract class AbstractCrispyScoreboard extends AbstractCrispyAccessibleVisual<ScoreboardData> implements CrispyScoreboard {
 
-    protected ScoreboardTitleLine title;
-    protected Scoreboard bukkitScoreboard;
-
-    public AbstractCrispyScoreboard(ScoreboardTitleLine title, List<AbstractScoreboardLine> content, Set<? extends Player> receivers) {
+    public AbstractCrispyScoreboard(ScoreboardData content, Set<? extends Player> receivers) {
         super(content, receivers);
-        this.bukkitScoreboard = getNewBoard();
-        this.title = title;
-        this.title.setScoreboard(this);
-        this.content.forEach(l -> l.setScoreboard(this));
+        this.data.setBukkitScoreboard(getNewBoard());
+        this.data.getTitle().setScoreboard(this);
+        this.data.getLines().forEach(l -> l.setScoreboard(this));
     }
 
     @Override
@@ -29,12 +27,12 @@ public abstract class AbstractCrispyScoreboard extends AbstractCrispyAccessibleV
             return;
         }
 
-        title.show(0);
-        for (int i = 0; i < content.size(); i++) {
-            AbstractScoreboardLine line = content.get(i);
+        this.data.getTitle().show(0);
+        for (int i = 0; i < data.getLines().size(); i++) {
+            AbstractScoreboardLine line = data.getLines().get(i);
             line.show(i);
         }
-        receivers.stream().filter(OfflinePlayer::isOnline).forEach(p -> p.setScoreboard(bukkitScoreboard));
+        receivers.stream().filter(OfflinePlayer::isOnline).forEach(p -> p.setScoreboard(this.data.getBukkitScoreboard()));
         isDisplayed = true;
     }
 
@@ -44,48 +42,48 @@ public abstract class AbstractCrispyScoreboard extends AbstractCrispyAccessibleV
             return;
         }
 
-        content.forEach(AbstractScoreboardLine::hide);
+        data.getLines().forEach(AbstractScoreboardLine::hide);
         receivers.stream().filter(OfflinePlayer::isOnline).forEach((p) -> p.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard()));
-        bukkitScoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
+        data.setBukkitScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
         isDisplayed = false;
     }
 
     @Override
     public void update() {
         if (isDisplayed) {
-            title.update();
-            content.forEach(AbstractScoreboardLine::update);
+            data.getTitle().update();
+            data.getLines().forEach(AbstractScoreboardLine::update);
         }
     }
 
     protected void updateScoreboard() {
         if (isDisplayed) {
-            title.hide();
+            data.getTitle().hide();
             ArrayList<Integer> toShow = new ArrayList<>();
-            for (int i = 0; i < content.size(); i++) {
-                AbstractScoreboardLine l = content.get(i);
+            for (int i = 0; i < data.getLines().size(); i++) {
+                AbstractScoreboardLine l = data.getLines().get(i);
                 if(l.isDisplayed())
                     toShow.add(i);
                 l.hide();
             }
             receivers.stream().filter(OfflinePlayer::isOnline).forEach(p -> p.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard()));
 
-            bukkitScoreboard = getNewBoard();
-            title.show(0);
+            data.setBukkitScoreboard(getNewBoard());
+            data.getTitle().show(0);
             int index = 0;
             for (int i : toShow) {
-                AbstractScoreboardLine line = content.get(i);
+                AbstractScoreboardLine line = data.getLines().get(i);
                 line.show(index);
                 index++;
             }
-            receivers.stream().filter(OfflinePlayer::isOnline).forEach((p) -> p.setScoreboard(bukkitScoreboard));
+            receivers.stream().filter(OfflinePlayer::isOnline).forEach((p) -> p.setScoreboard(data.getBukkitScoreboard()));
         }
     }
 
     @Override
     public void addPlayer(Player player) {
         super.addPlayer(player);
-        player.setScoreboard(bukkitScoreboard);
+        player.setScoreboard(data.getBukkitScoreboard());
     }
 
     @Override
@@ -98,16 +96,18 @@ public abstract class AbstractCrispyScoreboard extends AbstractCrispyAccessibleV
     public void setPlayers(Collection<? extends Player> players) {
         players.stream().filter(OfflinePlayer::isOnline).forEach(p -> p.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard()));
         super.setPlayers(players);
-        players.stream().filter(OfflinePlayer::isOnline).forEach(p -> p.setScoreboard(bukkitScoreboard));
+        players.stream().filter(OfflinePlayer::isOnline).forEach(p -> p.setScoreboard(data.getBukkitScoreboard()));
     }
 
     @Override
-    public void addLine(int index, AbstractScoreboardLine line) {
-        if (index > content.size()) {
+    public void addLine(int index, SimpleScoreboardLine line) {
+        if (index > data.getLines().size()) {
             return;
         }
 
-        content.add(index, line);
+        List<SimpleScoreboardLine> newLines = data.getLines();
+        newLines.add(index, line);
+        data.setLines(newLines);
         line.setScoreboard(this);
         line.setDisplayed(true);
         if (isDisplayed) {
@@ -116,17 +116,19 @@ public abstract class AbstractCrispyScoreboard extends AbstractCrispyAccessibleV
     }
 
     @Override
-    public void addLine(AbstractScoreboardLine line) {
-        addLine(content.size(), line);
+    public void addLine(SimpleScoreboardLine line) {
+        addLine(data.getLines().size(), line);
     }
 
     @Override
     public void removeLine(int index) {
-        if(index >= content.size())
+        if(index >= data.getLines().size())
             return;
 
-        AbstractScoreboardLine toRemove = content.get(index);
-        content.remove(index);
+        SimpleScoreboardLine toRemove = data.getLines().get(index);
+        List<SimpleScoreboardLine> newLines = data.getLines();
+        newLines.remove(index);
+        data.setLines(newLines);
         if (isDisplayed && toRemove.isDisplayed()) {
             toRemove.hide();
             updateScoreboard();
@@ -135,11 +137,11 @@ public abstract class AbstractCrispyScoreboard extends AbstractCrispyAccessibleV
 
     @Override
     public void showLine(int index) {
-        if (index >= content.size()) {
+        if (index >= data.getLines().size()) {
             return;
         }
 
-        AbstractScoreboardLine line = content.get(index);
+        AbstractScoreboardLine line = data.getLines().get(index);
         if (isDisplayed && !line.isDisplayed()) {
             line.setDisplayed(true);
             updateScoreboard();
@@ -148,11 +150,11 @@ public abstract class AbstractCrispyScoreboard extends AbstractCrispyAccessibleV
 
     @Override
     public void hideLine(int index) {
-        if (index >= content.size()) {
+        if (index >= data.getLines().size()) {
             return;
         }
 
-        AbstractScoreboardLine line = content.get(index);
+        AbstractScoreboardLine line = data.getLines().get(index);
         if (isDisplayed && line.isDisplayed()) {
             line.hide();
             updateScoreboard();
@@ -161,20 +163,20 @@ public abstract class AbstractCrispyScoreboard extends AbstractCrispyAccessibleV
 
     @Override
     public void setTitle(ScoreboardTitleLine title) {
-        this.title = title;
+        data.setTitle(title);
         if (isDisplayed) {
-            title.update();
+            data.getTitle().update();
         }
     }
 
     @Override
     public ScoreboardTitleLine getTitle() {
-        return title;
+        return data.getTitle();
     }
 
     @Override
     public Scoreboard getBukkitScoreboard() {
-        return bukkitScoreboard;
+        return data.getBukkitScoreboard();
     }
 
     private Scoreboard getNewBoard() {

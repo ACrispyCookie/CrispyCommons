@@ -1,7 +1,9 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.hologram;
 
+import dev.acrispycookie.crispycommons.CrispyCommons;
 import dev.acrispycookie.crispycommons.api.visuals.hologram.AbstractCrispyHologram;
 import dev.acrispycookie.crispycommons.api.visuals.hologram.AbstractHologramLine;
+import dev.acrispycookie.crispycommons.implementations.visuals.hologram.wrappers.HologramData;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -15,9 +17,9 @@ import java.util.HashSet;
 
 public class SimpleHologram extends AbstractCrispyHologram implements Listener {
 
-    public SimpleHologram(Collection<? extends AbstractHologramLine<?>> lines, Location location, int timeToLive, Collection<? extends Player> receivers) {
-        super(new ArrayList<>(lines), location, timeToLive, new HashSet<>(receivers));
-        Bukkit.getPluginManager().registerEvents(this, plugin);
+    public SimpleHologram(HologramData data, Collection<? extends Player> receivers) {
+        super(data, new HashSet<>(receivers));
+        Bukkit.getPluginManager().registerEvents(this, CrispyCommons.getPlugin());
     }
 
     @EventHandler

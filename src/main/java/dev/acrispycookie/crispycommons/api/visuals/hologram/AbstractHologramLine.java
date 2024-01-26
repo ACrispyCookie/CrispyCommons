@@ -1,53 +1,50 @@
 package dev.acrispycookie.crispycommons.api.visuals.hologram;
 
-import dev.acrispycookie.crispycommons.api.visuals.hologram.CrispyHologram;
-import dev.acrispycookie.crispycommons.api.visuals.hologram.HologramLine;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.AnimatedElement;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractCrispyVisual;
+import dev.acrispycookie.crispycommons.implementations.visuals.hologram.wrappers.HologramLineData;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
-public abstract class AbstractHologramLine<T extends AnimatedElement<?>> extends AbstractCrispyVisual<T> implements HologramLine<T> {
+public abstract class AbstractHologramLine<T extends AnimatedElement<?>> extends AbstractCrispyVisual<HologramLineData<T>> implements HologramLine<T> {
 
-    protected CrispyHologram hologram;
     protected abstract void show(Player player);
     protected abstract void hide(Player player);
     protected abstract void update(Player player);
 
-    public AbstractHologramLine(T element) {
-        super(element);
-        this.hologram = null;
+    public AbstractHologramLine(HologramLineData<T> data) {
+        super(data);
     }
 
     void show() {
-        content.start();
-        hologram.getPlayers().stream().filter(OfflinePlayer::isOnline).forEach(this::show);
+        data.getElement().start();
+        data.getHologram().getPlayers().stream().filter(OfflinePlayer::isOnline).forEach(this::show);
         isDisplayed = true;
-        hologram.update();
+        data.getHologram().update();
     }
 
     void hide() {
-        content.stop();
-        hologram.getPlayers().stream().filter(OfflinePlayer::isOnline).forEach(this::hide);
+        data.getElement().stop();
+        data.getHologram().getPlayers().stream().filter(OfflinePlayer::isOnline).forEach(this::hide);
         isDisplayed = false;
-        hologram.update();
+        data.getHologram().update();
     }
 
     protected void update() {
         if (!isDisplayed)
             return;
 
-        hologram.getPlayers().stream().filter(OfflinePlayer::isOnline).forEach(this::update);
+        data.getHologram().getPlayers().stream().filter(OfflinePlayer::isOnline).forEach(this::update);
     }
 
     @Override
     public CrispyHologram getHologram() {
-        return hologram;
+        return data.getHologram();
     }
 
     @Override
     public void setHologram(CrispyHologram hologram) {
-        this.hologram = hologram;
+        data.setHologram(hologram);
     }
 
 }

@@ -1,27 +1,26 @@
 package dev.acrispycookie.crispycommons.api.visuals.scoreboard;
 
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.TextElement;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractCrispyVisual;
+import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.wrappers.ScoreboardLineData;
 
-public abstract class AbstractScoreboardLine extends AbstractCrispyVisual<TextElement> implements ScoreboardLine {
-    protected AbstractCrispyScoreboard scoreboard;
-    protected int position;
+public abstract class AbstractScoreboardLine extends AbstractCrispyVisual<ScoreboardLineData> implements ScoreboardLine {
+
     protected abstract void initialize();
     protected abstract void updateInternal();
 
-    public AbstractScoreboardLine(TextElement element) {
+    public AbstractScoreboardLine(ScoreboardLineData element) {
         super(element);
     }
 
     protected void show(int position) {
-        this.position = position;
+        this.data.setPosition(position);
         initialize();
-        content.start();
+        this.data.getElement().start();
         isDisplayed = true;
     }
 
     protected void hide() {
-        content.stop();
+        this.data.getElement().stop();
         isDisplayed = false;
     }
 
@@ -37,16 +36,16 @@ public abstract class AbstractScoreboardLine extends AbstractCrispyVisual<TextEl
 
     @Override
     public void setScoreboard(AbstractCrispyScoreboard scoreboard) {
-        this.scoreboard = scoreboard;
+        this.data.setScoreboard(scoreboard);
     }
 
     @Override
     public CrispyScoreboard getScoreboard() {
-        return scoreboard;
+        return this.data.getScoreboard();
     }
 
     @Override
     public int getPosition() {
-        return position;
+        return this.data.getPosition();
     }
 }

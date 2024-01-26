@@ -1,0 +1,72 @@
+package dev.acrispycookie.crispycommons.implementations.visuals.bossbar.wrappers;
+
+import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.TextElement;
+import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.VisualData;
+import net.kyori.adventure.bossbar.BossBar;
+
+public class BossbarData implements VisualData {
+
+    private int timeToLive;
+    private float progress;
+    private BossBar.Color color;
+    private BossBar.Overlay overlay;
+    private BossBar bossBar;
+    private TextElement text;
+
+    public BossbarData(int timeToLive, float progress, BossBar.Color color, BossBar.Overlay overlay, TextElement text) {
+        this.timeToLive = timeToLive;
+        this.progress = progress;
+        this.color = color;
+        this.overlay = overlay;
+        this.text = text;
+        this.bossBar = BossBar.bossBar(text.getRaw(), progress, color, overlay);
+    }
+
+    public int getTimeToLive() {
+        return timeToLive;
+    }
+
+    public void setTimeToLive(int timeToLive) {
+        this.timeToLive = timeToLive;
+    }
+
+    public float getProgress() {
+        return progress;
+    }
+
+    public void setProgress(float progress) {
+        this.progress = progress;
+    }
+
+    public BossBar.Color getColor() {
+        return color;
+    }
+
+    public void setColor(BossBar.Color color) {
+        this.color = color;
+    }
+
+    public BossBar.Overlay getOverlay() {
+        return overlay;
+    }
+
+    public void setOverlay(BossBar.Overlay overlay) {
+        this.overlay = overlay;
+    }
+
+    public BossBar getBossBar() {
+        return bossBar;
+    }
+
+    public void setBossBar(BossBar bossBar) {
+        this.bossBar = bossBar;
+    }
+
+    public TextElement getText() {
+        return text;
+    }
+
+    public void setText(TextElement text) {
+        this.text = text;
+    }
+}

@@ -4,6 +4,7 @@ import dev.acrispycookie.crispycommons.CrispyCommons;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.TextElement;
 import dev.acrispycookie.crispycommons.api.visuals.tablist.AbstractCrispyTablist;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.AbstractCrispyElement;
+import dev.acrispycookie.crispycommons.implementations.visuals.tablist.wrappers.TablistData;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
@@ -15,7 +16,7 @@ import java.util.Set;
 
 public class SimpleTablist extends AbstractCrispyTablist {
 
-    public SimpleTablist(List<List<TextElement>> content, Set<? extends Player> receivers) {
+    public SimpleTablist(TablistData content, Set<? extends Player> receivers) {
         super(content, receivers);
     }
 

@@ -1,21 +1,21 @@
 package dev.acrispycookie.crispycommons.api.visuals.tablist;
 
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.DynamicElement;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.TextElement;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractCrispyAccessibleVisual;
+import dev.acrispycookie.crispycommons.implementations.visuals.tablist.wrappers.TablistData;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.util.List;
 import java.util.Set;
 
-public abstract class AbstractCrispyTablist extends AbstractCrispyAccessibleVisual<List<List<TextElement>>> implements CrispyTablist {
+public abstract class AbstractCrispyTablist extends AbstractCrispyAccessibleVisual<TablistData> implements CrispyTablist {
 
     protected abstract void show(Player p);
     protected abstract void hide(Player p);
     protected abstract void update(Player p);
 
-    public AbstractCrispyTablist(List<List<TextElement>> content, Set<? extends Player> receivers) {
+    public AbstractCrispyTablist(TablistData content, Set<? extends Player> receivers) {
         super(content, receivers);
     }
 
@@ -26,7 +26,8 @@ public abstract class AbstractCrispyTablist extends AbstractCrispyAccessibleVisu
 
         this.isDisplayed = true;
         receivers.stream().filter(OfflinePlayer::isOnline).forEach(this::show);
-        content.forEach(l -> l.forEach(DynamicElement::start));
+        data.getHeader().forEach(TextElement::start);
+        data.getFooter().forEach(TextElement::start);
     }
 
     @Override
@@ -36,7 +37,8 @@ public abstract class AbstractCrispyTablist extends AbstractCrispyAccessibleVisu
 
         this.isDisplayed = false;
         receivers.stream().filter(OfflinePlayer::isOnline).forEach(this::hide);
-        content.forEach(l -> l.forEach(DynamicElement::stop));
+        data.getHeader().forEach(TextElement::stop);
+        data.getFooter().forEach(TextElement::stop);
     }
 
     @Override
@@ -48,20 +50,20 @@ public abstract class AbstractCrispyTablist extends AbstractCrispyAccessibleVisu
     }
 
     @Override
-    public void setHeader(List<TextElement> element) {
-        this.content.set(0, element);
+    public void setHeader(List<TextElement> elements) {
+        this.data.setHeader(elements);
     }
 
     @Override
-    public void setFooter(List<TextElement> element) {
-        this.content.set(1, element);
+    public void setFooter(List<TextElement> elements) {
+        this.data.setFooter(elements);
     }
 
     public List<TextElement> getHeader() {
-        return this.content.get(0);
+        return this.data.getHeader();
     }
 
     public List<TextElement> getFooter() {
-        return this.content.get(1);
+        return this.data.getFooter();
     }
 }

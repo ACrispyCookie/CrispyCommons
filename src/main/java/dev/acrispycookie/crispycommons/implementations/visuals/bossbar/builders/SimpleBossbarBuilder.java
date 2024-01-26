@@ -5,12 +5,11 @@ import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implemen
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.TextElement;
 import dev.acrispycookie.crispycommons.api.visuals.bossbar.CrispyBossbar;
 import dev.acrispycookie.crispycommons.implementations.visuals.bossbar.SimpleBossbar;
+import dev.acrispycookie.crispycommons.implementations.visuals.bossbar.wrappers.BossbarData;
 import net.kyori.adventure.bossbar.BossBar;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Set;
 import java.util.function.Supplier;
 
 public class SimpleBossbarBuilder extends AbstractVisualBuilder<CrispyBossbar> {
@@ -76,7 +75,8 @@ public class SimpleBossbarBuilder extends AbstractVisualBuilder<CrispyBossbar> {
 
     @Override
     public CrispyBossbar build() {
-        this.crispyBossbar = new SimpleBossbar(text, receivers, timeToLive, progress, color, overlay);
+        BossbarData data = new BossbarData(timeToLive, progress, color, overlay, text);
+        this.crispyBossbar = new SimpleBossbar(data, receivers);
         return crispyBossbar;
     }
 }

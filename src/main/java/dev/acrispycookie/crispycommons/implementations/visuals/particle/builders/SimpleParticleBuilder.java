@@ -6,6 +6,8 @@ import dev.acrispycookie.crispycommons.api.wrappers.particle.CrispyEffect;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.builder.AbstractVisualBuilder;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.particles.ParticleElement;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.particles.SimpleParticleElement;
+import dev.acrispycookie.crispycommons.implementations.visuals.particle.wrappers.ParticleData;
+import dev.acrispycookie.crispycommons.implementations.wrappers.particle.RenderedEffect;
 import dev.acrispycookie.crispycommons.implementations.wrappers.particle.SimpleEffect;
 
 import java.util.ArrayList;
@@ -59,9 +61,7 @@ public class SimpleParticleBuilder extends AbstractVisualBuilder<CrispyParticle<
     public CrispyParticle<SimpleEffect> build() {
         if (element == null)
             return null;
-        if (duration < 0 || period < 1)
-            return new SimpleParticle(element, receivers);
-        else
-            return new SimpleParticle(element, duration, period, receivers);
+        ParticleData<SimpleEffect> data = new ParticleData<>(element, duration, period);
+        return new SimpleParticle(data, receivers);
     }
 }

@@ -1,17 +1,17 @@
 package dev.acrispycookie.crispycommons.api.visuals.abstraction.visual;
 
-public abstract class AbstractCrispyVisual<T> implements CrispyVisual<T> {
+public abstract class AbstractCrispyVisual<T extends VisualData> implements CrispyVisual<T> {
 
     protected boolean isDisplayed = false;
-    protected T content;
+    protected T data;
 
-    public AbstractCrispyVisual(T content) {
-        this.content = content;
+    public AbstractCrispyVisual(T data) {
+        this.data = data;
     }
 
     @Override
-    public T getContent() {
-        return content;
+    public T getData() {
+        return data;
     }
 
     @Override

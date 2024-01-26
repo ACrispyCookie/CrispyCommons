@@ -20,28 +20,28 @@ public class ItemHologramLine extends ClickableHologramLine<ItemElement> {
 
     public ItemHologramLine(Collection<? extends CrispyItem> items, int period) {
         super(null);
-        this.content = new ItemElement(items, period) {
+        this.data.setElement(new ItemElement(items, period) {
             @Override
             protected void update() {
                 ItemHologramLine.this.update();
             }
-        };
+        });
     }
 
     public ItemHologramLine(Supplier<CrispyItem> supplier, int period) {
         super(null);
-        this.content = new ItemElement(supplier, period) {
+        this.data.setElement(new ItemElement(supplier, period) {
             @Override
             protected void update() {
                 ItemHologramLine.this.update();
             }
-        };
+        });
     }
 
     @Override
     public Location getLocation() {
-        int index = hologram.getContent().indexOf(this);
-        Location location = hologram.getLocation().clone();
+        int index = data.getHologram().getData().getLines().indexOf(this);
+        Location location = data.getHologram().getLocation().clone();
         location.subtract(0, index * 0.25, 0);
         return location;
     }

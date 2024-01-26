@@ -5,6 +5,7 @@ import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implemen
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.particles.SimpleParticleElement;
 import dev.acrispycookie.crispycommons.api.visuals.particle.CrispyParticle;
 import dev.acrispycookie.crispycommons.implementations.visuals.particle.ColoredParticle;
+import dev.acrispycookie.crispycommons.implementations.visuals.particle.wrappers.ParticleData;
 import dev.acrispycookie.crispycommons.implementations.wrappers.particle.ColoredEffect;
 import dev.acrispycookie.crispycommons.implementations.wrappers.particle.RenderedEffect;
 
@@ -59,9 +60,7 @@ public class ColoredParticleBuilder extends AbstractVisualBuilder<CrispyParticle
     public CrispyParticle<ColoredEffect> build() {
         if (element == null)
             return null;
-        if (duration < 0 || period < 1)
-            return new ColoredParticle(element, receivers);
-        else
-            return new ColoredParticle(element, duration, period, receivers);
+        ParticleData<ColoredEffect> data = new ParticleData<>(element, duration, period);
+        return new ColoredParticle(data, receivers);
     }
 }

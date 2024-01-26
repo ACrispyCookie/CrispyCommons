@@ -7,6 +7,7 @@ import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.Simple
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.ScoreboardTitleLine;
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.SimpleScoreboardLine;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.builder.AbstractVisualBuilder;
+import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.wrappers.ScoreboardData;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -16,7 +17,7 @@ public class SimpleScoreboardBuilder extends AbstractVisualBuilder<CrispyScorebo
 
     private boolean isPublic = false;
     private final ScoreboardTitleLine title;
-    private final Collection<AbstractScoreboardLine> lines = new ArrayList<>();
+    private final Collection<SimpleScoreboardLine> lines = new ArrayList<>();
 
 
     public SimpleScoreboardBuilder(String staticTitle) {
@@ -62,11 +63,12 @@ public class SimpleScoreboardBuilder extends AbstractVisualBuilder<CrispyScorebo
 
     public CrispyScoreboard build() {
         SimpleScoreboard scoreboard;
+        ScoreboardData data = new ScoreboardData(title, lines, null);
 
         if(isPublic) {
-            scoreboard = new PublicScoreboard(title, lines, receivers);
+            scoreboard = new PublicScoreboard(data, receivers);
         } else {
-            scoreboard = new SimpleScoreboard(title, lines, receivers);
+            scoreboard = new SimpleScoreboard(data, receivers);
         }
 
         return scoreboard;

@@ -1,26 +1,21 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.particle;
 
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.particles.ParticleElement;
 import dev.acrispycookie.crispycommons.api.visuals.particle.AbstractCrispyParticle;
+import dev.acrispycookie.crispycommons.implementations.visuals.particle.wrappers.ParticleData;
 import dev.acrispycookie.crispycommons.implementations.wrappers.particle.RenderedEffect;
-import dev.acrispycookie.crispycommons.implementations.wrappers.particle.SimpleEffect;
 import org.bukkit.entity.Player;
 
 import java.util.Set;
 
 public class RenderedParticle extends AbstractCrispyParticle<RenderedEffect> {
 
-    public RenderedParticle(ParticleElement<RenderedEffect> effect, long duration, long period, Set<? extends Player> receivers) {
-        super(effect, duration, period, receivers);
-    }
-
-    public RenderedParticle(ParticleElement<RenderedEffect> effect, Set<? extends Player> receivers) {
-        super(effect, receivers);
+    public RenderedParticle(ParticleData<RenderedEffect> data, Set<? extends Player> receivers) {
+        super(data, receivers);
     }
 
     @Override
     public void playOnce(Player player) {
-        RenderedEffect effect = content.getRaw();
+        RenderedEffect effect = data.getElement().getRaw();
         playRendered(player, effect);
     }
 

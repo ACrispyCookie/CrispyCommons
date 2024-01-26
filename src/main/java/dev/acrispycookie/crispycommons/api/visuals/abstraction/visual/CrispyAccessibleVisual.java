@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 import java.util.Collection;
 import java.util.Set;
 
-public interface CrispyAccessibleVisual<T> extends CrispyVisual<T> {
+public interface CrispyAccessibleVisual<T extends VisualData> extends CrispyVisual<T> {
 
     void show();
     void hide();

@@ -13,7 +13,6 @@ import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Supplier;
@@ -28,28 +27,28 @@ public class TextHologramLine extends ClickableHologramLine<TextElement> {
 
     public TextHologramLine(Collection<? extends String> frames, int period) {
         super(null);
-        content = new TextElement(frames, period, false) {
+        this.data.setElement(new TextElement(frames, period, false) {
             @Override
             protected void update() {
                 TextHologramLine.this.update();
             }
-        };
+        });
     }
 
     public TextHologramLine(Supplier<String> supplier, int period) {
         super(null);
-        content = new TextElement(supplier, period, false) {
+        this.data.setElement(new TextElement(supplier, period, false) {
             @Override
             protected void update() {
                 TextHologramLine.this.update();
             }
-        };
+        });
     }
 
     @Override
     public Location getLocation() {
         int index = 0;
-        List<AbstractHologramLine<?>> lines = hologram.getContent();
+        List<AbstractHologramLine<?>> lines = data.getHologram().getData().getLines();
         for (HologramLine<?> line : lines) {
             if (line.equals(this)) {
                 break;
@@ -59,16 +58,16 @@ public class TextHologramLine extends ClickableHologramLine<TextElement> {
             }
         }
 
-        Location location = hologram.getLocation().clone();
+        Location location = data.getHologram().getLocation().clone();
         location.subtract(0, index * 0.25, 0);
         return location;
     }
 
     public void show(Player player) {
-        if(isDisplayed || hologram == null || !hologram.getPlayers().contains(player))
+        if(isDisplayed || data.getHologram() == null || !data.getHologram().getPlayers().contains(player))
             return;
 
-        String text = LegacyComponentSerializer.legacyAmpersand().serialize(getContent().getRaw());
+        String text = LegacyComponentSerializer.legacyAmpersand().serialize(data.getElement().getRaw());
 
         if (StringUtils.isEmptyOrWhitespaceOnly(text)) {
             return;
@@ -89,7 +88,7 @@ public class TextHologramLine extends ClickableHologramLine<TextElement> {
     }
 
     public void hide(Player player) {
-        if(!isDisplayed || hologram == null || !hologram.getPlayers().contains(player))
+        if(!isDisplayed || data.getHologram() == null || !data.getHologram().getPlayers().contains(player))
             return;
 
         if(as != null) {
@@ -99,12 +98,15 @@ public class TextHologramLine extends ClickableHologramLine<TextElement> {
     }
 
     public void update(Player player) {
-        if(!isDisplayed || hologram == null || !hologram.getPlayers().contains(player))
+        if(!isDisplayed || data.getHologram() == null || !data.getHologram().getPlayers().contains(player))
             return;
+
+        String content = LegacyComponentSerializer.legacyAmpersand().serialize(this.data.getElement().getRaw());
+        String name = StringUtils.isEmptyOrWhitespaceOnly(content) ? " " : ChatColor.translateAlternateColorCodes('&', content);
 
         if(as != null) {
             Location location = getLocation();
-            as.setCustomName(ChatColor.translateAlternateColorCodes('&', LegacyComponentSerializer.legacyAmpersand().serialize(getContent().getRaw())));
+            as.setCustomName(name);
             as.setLocation(location.getX(), location.getY(), location.getZ(), 0, 0);
             PacketPlayOutEntityMetadata metadata = new PacketPlayOutEntityMetadata(as.getId(), as.getDataWatcher(), true);
             PacketPlayOutEntityTeleport teleport = new PacketPlayOutEntityTeleport(as);

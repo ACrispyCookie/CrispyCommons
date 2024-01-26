@@ -1,29 +1,28 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.bossbar;
 
 import dev.acrispycookie.crispycommons.CrispyCommons;
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.TextElement;
 import dev.acrispycookie.crispycommons.api.visuals.bossbar.AbstractBossbar;
+import dev.acrispycookie.crispycommons.implementations.visuals.bossbar.wrappers.BossbarData;
 import net.kyori.adventure.audience.Audience;
-import net.kyori.adventure.bossbar.BossBar;
 import org.bukkit.entity.Player;
 
 import java.util.Set;
 
 public class SimpleBossbar extends AbstractBossbar {
 
-    public SimpleBossbar(TextElement content, Set<? extends Player> receivers, int timeToLive, float progress, BossBar.Color color, BossBar.Overlay overlay) {
-        super(content, receivers, timeToLive, progress, color, overlay);
+    public SimpleBossbar(BossbarData data, Set<? extends Player> receivers) {
+        super(data, receivers);
     }
 
     @Override
     protected void showPlayer(Player p) {
         Audience audience = CrispyCommons.getBukkitAudiences().player(p);
-        audience.showBossBar(bossBar);
+        audience.showBossBar(data.getBossBar());
     }
 
     @Override
     protected void hidePlayer(Player p) {
         Audience audience = CrispyCommons.getBukkitAudiences().player(p);
-        audience.hideBossBar(bossBar);
+        audience.hideBossBar(data.getBossBar());
     }
 }

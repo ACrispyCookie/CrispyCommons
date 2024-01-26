@@ -2,38 +2,20 @@ package dev.acrispycookie.crispycommons.api.visuals.particle;
 
 import dev.acrispycookie.crispycommons.CrispyCommons;
 import dev.acrispycookie.crispycommons.api.wrappers.particle.CrispyEffect;
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.particles.ParticleElement;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractCrispyAccessibleVisual;
+import dev.acrispycookie.crispycommons.implementations.visuals.particle.wrappers.ParticleData;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
 
 import java.util.Set;
 
-public abstract class AbstractCrispyParticle<T extends CrispyEffect> extends AbstractCrispyAccessibleVisual<ParticleElement<T>> implements CrispyParticle<T> {
+public abstract class AbstractCrispyParticle<T extends CrispyEffect> extends AbstractCrispyAccessibleVisual<ParticleData<T>> implements CrispyParticle<T> {
 
-    protected final JavaPlugin plugin;
-    protected BukkitTask bukkitTask;
-    protected long duration;
-    protected long period;
     protected abstract void playOnce(Player p);
 
-    protected AbstractCrispyParticle(ParticleElement<T> content, long duration, long period, Set<? extends Player> receivers) {
-        super(content, receivers);
-        this.plugin = CrispyCommons.getPlugin();
-        this.bukkitTask = null;
-        this.duration = duration < 0 ? -1 : duration;
-        this.period = period < 1 ? -1 : period;
-    }
-
-    protected AbstractCrispyParticle(ParticleElement<T> content, Set<? extends Player> receivers) {
-        super(content, receivers);
-        this.plugin = CrispyCommons.getPlugin();
-        this.bukkitTask = null;
-        this.duration = -1;
-        this.period = -1;
+    protected AbstractCrispyParticle(ParticleData<T> data, Set<? extends Player> receivers) {
+        super(data, receivers);
     }
 
     @Override
@@ -41,7 +23,7 @@ public abstract class AbstractCrispyParticle<T extends CrispyEffect> extends Abs
         if (isDisplayed)
             return;
 
-        if (duration == -1 || period == -1) {
+        if (data.getDuration() == -1 || data.getPeriod() == -1) {
             receivers.stream().filter(OfflinePlayer::isOnline).forEach(this::playOnce);
             isDisplayed = false;
             return;
@@ -49,19 +31,19 @@ public abstract class AbstractCrispyParticle<T extends CrispyEffect> extends Abs
 
 
 
-        bukkitTask = new BukkitRunnable() {
+        data.setTask(new BukkitRunnable() {
             long i = 0;
             @Override
             public void run() {
-                if (i >= duration) {
+                if (i >= data.getDuration()) {
                     cancel();
                     isDisplayed = false;
                     return;
                 }
                 receivers.stream().filter(OfflinePlayer::isOnline).forEach(AbstractCrispyParticle.this::playOnce);
-                i += period;
+                i += data.getPeriod();
             }
-        }.runTaskTimer(plugin, 0, period);
+        }.runTaskTimer(CrispyCommons.getPlugin(), 0, data.getPeriod()));
         isDisplayed = true;
     }
 
@@ -71,28 +53,28 @@ public abstract class AbstractCrispyParticle<T extends CrispyEffect> extends Abs
             return;
         }
 
-        if (bukkitTask != null)
-            bukkitTask.cancel();
+        if (data.getTask() != null)
+            data.getTask().cancel();
         isDisplayed = false;
     }
 
     @Override
     public long getDuration() {
-        return duration;
+        return data.getDuration();
     }
 
     @Override
     public void setDuration(long duration) {
-        this.duration = duration;
+        data.setDuration(duration);
     }
 
     @Override
     public long getPeriod() {
-        return period;
+        return data.getPeriod();
     }
 
     @Override
     public void setPeriod(long period) {
-        this.period = period;
+        data.setPeriod(period);
     }
 }

@@ -2,24 +2,18 @@ package dev.acrispycookie.crispycommons.api.visuals.title;
 
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.TextElement;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractCrispyAccessibleVisual;
+import dev.acrispycookie.crispycommons.implementations.visuals.title.wrappers.TitleData;
 import org.bukkit.entity.Player;
 
-import java.util.List;
 import java.util.Set;
 
-public abstract class AbstractCrispyTitle extends AbstractCrispyAccessibleVisual<List<TextElement>> implements CrispyTitle {
+public abstract class AbstractCrispyTitle extends AbstractCrispyAccessibleVisual<TitleData> implements CrispyTitle {
 
     protected abstract void showInternal();
     protected abstract void hideInternal();
-    protected int fadeIn;
-    protected int duration;
-    protected int fadeOut;
 
-    public AbstractCrispyTitle(List<TextElement> text, Set<? extends Player> receivers, int fadeIn, int duration, int fadeOut) {
-        super(text, receivers);
-        this.fadeIn = fadeIn;
-        this.duration = duration;
-        this.fadeOut = fadeOut;
+    public AbstractCrispyTitle(TitleData data, Set<? extends Player> receivers) {
+        super(data, receivers);
     }
 
     @Override
@@ -28,7 +22,8 @@ public abstract class AbstractCrispyTitle extends AbstractCrispyAccessibleVisual
             return;
 
         isDisplayed = true;
-        content.forEach(TextElement::start);
+        data.getTitle().start();
+        data.getSubtitle().start();
         showInternal();
     }
 
@@ -38,7 +33,8 @@ public abstract class AbstractCrispyTitle extends AbstractCrispyAccessibleVisual
             return;
 
         isDisplayed = false;
-        content.forEach(TextElement::stop);
+        data.getTitle().stop();
+        data.getSubtitle().stop();
         hideInternal();
     }
 
@@ -49,51 +45,61 @@ public abstract class AbstractCrispyTitle extends AbstractCrispyAccessibleVisual
 
     @Override
     public void setTitle(TextElement text) {
-        this.content.set(0, text);
+        this.data.setTitle(text);
     }
 
     @Override
     public void setSubtitle(TextElement text) {
-        this.content.set(1, text);
+        this.data.setSubtitle(text);
     }
 
     @Override
     public void setFadeIn(int fadeIn) {
-        this.fadeIn = fadeIn;
+        this.data.setFadeIn(fadeIn);
     }
 
     @Override
     public void setDuration(int duration) {
-        this.duration = duration;
+        this.data.setDuration(duration);
     }
 
     @Override
     public void setFadeOut(int fadeOut) {
-        this.fadeOut = fadeOut;
+        this.data.setFadeOut(fadeOut);
+    }
+
+    @Override
+    public void setPeriod(int period) {
+        this.data.setPeriod(period);
     }
 
     @Override
     public TextElement getTitle() {
-        return this.content.get(0);
+        return this.data.getTitle();
     }
 
     @Override
     public TextElement getSubtitle() {
-        return this.content.get(1);
+        return this.data.getSubtitle();
     }
 
     @Override
     public int getFadeIn() {
-        return fadeIn;
+        return this.data.getFadeIn();
     }
 
     @Override
     public int getDuration() {
-        return duration;
+        return this.data.getDuration();
     }
 
     @Override
     public int getFadeOut() {
-        return fadeOut;
+        return this.data.getFadeOut();
+    }
+
+    @Override
+    public int getPeriod() {
+        return this.data.getPeriod();
     }
 }

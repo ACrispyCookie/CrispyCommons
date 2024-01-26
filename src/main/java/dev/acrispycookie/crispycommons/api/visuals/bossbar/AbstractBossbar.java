@@ -3,29 +3,20 @@ package dev.acrispycookie.crispycommons.api.visuals.bossbar;
 import dev.acrispycookie.crispycommons.CrispyCommons;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.TextElement;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractCrispyAccessibleVisual;
+import dev.acrispycookie.crispycommons.implementations.visuals.bossbar.wrappers.BossbarData;
 import net.kyori.adventure.bossbar.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Set;
 
-public abstract class AbstractBossbar extends AbstractCrispyAccessibleVisual<TextElement> implements CrispyBossbar  {
+public abstract class AbstractBossbar extends AbstractCrispyAccessibleVisual<BossbarData> implements CrispyBossbar  {
 
-    private int timeToLive;
-    protected float progress;
-    protected BossBar.Color color;
-    protected BossBar.Overlay overlay;
-    protected BossBar bossBar;
     protected abstract void showPlayer(Player p);
     protected abstract void hidePlayer(Player p);
 
-    public AbstractBossbar(TextElement content, Set<? extends Player> receivers, int timeToLive, float progress, BossBar.Color color, BossBar.Overlay overlay) {
-        super(content, receivers);
-        this.timeToLive = timeToLive;
-        this.progress = progress;
-        this.color = color;
-        this.overlay = overlay;
-        this.bossBar = BossBar.bossBar(content.getRaw(), progress, color, overlay);
+    public AbstractBossbar(BossbarData data, Set<? extends Player> receivers) {
+        super(data, receivers);
     }
 
     @Override
@@ -34,15 +25,15 @@ public abstract class AbstractBossbar extends AbstractCrispyAccessibleVisual<Tex
             return;
 
         isDisplayed = true;
-        content.start();
+        data.getText().start();
         receivers.stream().filter(Player::isOnline).forEach(this::showPlayer);
-        if (timeToLive != -1)
+        if (data.getTimeToLive() != -1)
             new BukkitRunnable() {
                 @Override
                 public void run() {
                     hide();
                 }
-            }.runTaskLater(CrispyCommons.getPlugin(), timeToLive);
+            }.runTaskLater(CrispyCommons.getPlugin(), data.getTimeToLive());
     }
 
     @Override
@@ -51,60 +42,60 @@ public abstract class AbstractBossbar extends AbstractCrispyAccessibleVisual<Tex
             return;
 
         isDisplayed = false;
-        content.stop();
+        data.getText().stop();
         receivers.stream().filter(Player::isOnline).forEach(this::hidePlayer);
     }
 
     @Override
     public void update() {
-        this.bossBar.name(content.getRaw());
+        data.getBossBar().name(data.getText().getRaw());
     }
 
     @Override
     public void setText(TextElement text) {
-        this.content = text;
+        data.setText(text);
     }
 
     @Override
     public void setProgress(float progress) {
-        this.progress = progress;
-        this.bossBar.progress(progress);
+        data.setProgress(progress);
+        data.getBossBar().progress(progress);
     }
 
     @Override
     public void setColor(BossBar.Color color) {
-        this.color = color;
-        this.bossBar.color(color);
+        data.setColor(color);
+        data.getBossBar().color(color);
     }
 
     @Override
     public void setOverlay(BossBar.Overlay overlay) {
-        this.overlay = overlay;
-        this.bossBar.overlay(overlay);
+        data.setOverlay(overlay);
+        data.getBossBar().overlay(overlay);
     }
 
     @Override
     public void setTimeToLive(int timeToLive) {
-        this.timeToLive = timeToLive;
+        data.setTimeToLive(timeToLive);
     }
 
     @Override
     public float getProgress() {
-        return progress;
+        return data.getProgress();
     }
 
     @Override
     public BossBar.Color getColor() {
-        return color;
+        return data.getColor();
     }
 
     @Override
     public BossBar.Overlay getOverlay() {
-        return overlay;
+        return data.getOverlay();
     }
 
     @Override
     public int getTimeToLive() {
-        return timeToLive;
+        return data.getTimeToLive();
     }
 }

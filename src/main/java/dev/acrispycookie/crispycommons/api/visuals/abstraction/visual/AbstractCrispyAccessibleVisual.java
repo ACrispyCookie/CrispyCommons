@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-public abstract class AbstractCrispyAccessibleVisual<T> extends AbstractCrispyVisual<T> implements CrispyAccessibleVisual<T> {
+public abstract class AbstractCrispyAccessibleVisual<T extends VisualData> extends AbstractCrispyVisual<T> implements CrispyAccessibleVisual<T> {
 
     protected final Set<Player> receivers = new HashSet<>();
 

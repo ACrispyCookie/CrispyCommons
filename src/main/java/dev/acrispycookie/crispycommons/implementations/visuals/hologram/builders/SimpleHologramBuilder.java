@@ -8,6 +8,7 @@ import dev.acrispycookie.crispycommons.implementations.visuals.hologram.SimpleHo
 import dev.acrispycookie.crispycommons.implementations.visuals.hologram.lines.ItemHologramLine;
 import dev.acrispycookie.crispycommons.implementations.visuals.hologram.lines.TextHologramLine;
 import dev.acrispycookie.crispycommons.api.wrappers.itemstack.CrispyItem;
+import dev.acrispycookie.crispycommons.implementations.visuals.hologram.wrappers.HologramData;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -88,11 +89,12 @@ public class SimpleHologramBuilder extends AbstractVisualBuilder<CrispyHologram>
 
     public CrispyHologram build() {
         SimpleHologram hologram;
+        HologramData data = new HologramData(lines, timeToLive, location);
 
         if(isPublic) {
-            hologram = new PublicHologram(lines, location, timeToLive, receivers);
+            hologram = new PublicHologram(data, receivers);
         } else {
-            hologram = new SimpleHologram(lines, location, timeToLive, receivers);
+            hologram = new SimpleHologram(data, receivers);
         }
 
         return hologram;

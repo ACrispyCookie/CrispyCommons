@@ -4,6 +4,7 @@ import dev.acrispycookie.crispycommons.api.visuals.abstraction.builder.AbstractV
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.SimpleTextElement;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.TextElement;
 import dev.acrispycookie.crispycommons.implementations.visuals.title.AnimatedTitle;
+import dev.acrispycookie.crispycommons.implementations.visuals.title.wrappers.TitleData;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
@@ -12,6 +13,8 @@ import java.util.Set;
 import java.util.function.Supplier;
 
 public class AnimatedTitleBuilder extends AbstractVisualBuilder<AnimatedTitle> {
+
+    private TitleData data;
     private TextElement title;
     private TextElement subtitle;
     private int fadeIn;
@@ -97,6 +100,7 @@ public class AnimatedTitleBuilder extends AbstractVisualBuilder<AnimatedTitle> {
 
     @Override
     public AnimatedTitle build() {
-        return new AnimatedTitle(Arrays.asList(title, subtitle), receivers, fadeIn, duration, fadeOut, period);
+        data = new TitleData(title, subtitle, fadeIn, duration, fadeOut, period);
+        return new AnimatedTitle(data, receivers);
     }
 }

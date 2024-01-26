@@ -1,22 +1,19 @@
 package dev.acrispycookie.crispycommons.api.visuals.actionbar;
 
 import dev.acrispycookie.crispycommons.CrispyCommons;
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.TextElement;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractCrispyAccessibleVisual;
+import dev.acrispycookie.crispycommons.implementations.visuals.actionbar.wrappers.ActionbarData;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.List;
 import java.util.Set;
 
-public abstract class AbstractCrispyActionbar extends AbstractCrispyAccessibleVisual<TextElement> implements CrispyActionbar {
+public abstract class AbstractCrispyActionbar extends AbstractCrispyAccessibleVisual<ActionbarData> implements CrispyActionbar {
 
     protected abstract void showPlayer(Player p);
-    protected int duration;
 
-    public AbstractCrispyActionbar(TextElement text, Set<? extends Player> receivers, int duration) {
-        super(text, receivers);
-        this.duration = duration;
+    public AbstractCrispyActionbar(ActionbarData data, Set<? extends Player> receivers) {
+        super(data, receivers);
     }
 
     @Override
@@ -25,15 +22,15 @@ public abstract class AbstractCrispyActionbar extends AbstractCrispyAccessibleVi
             return;
 
         isDisplayed = true;
-        content.start();
+        data.getElement().start();
         receivers.stream().filter(Player::isOnline).forEach(this::showPlayer);
-        if (duration != -1) {
+        if (data.getDuration() != -1) {
             new BukkitRunnable() {
                 @Override
                 public void run() {
                     hide();
                 }
-            }.runTaskLater(CrispyCommons.getPlugin(), duration);
+            }.runTaskLater(CrispyCommons.getPlugin(), data.getDuration());
         }
     }
 
@@ -43,7 +40,7 @@ public abstract class AbstractCrispyActionbar extends AbstractCrispyAccessibleVi
             return;
 
         isDisplayed = false;
-        content.stop();
+        data.getElement().stop();
     }
 
     @Override
@@ -56,6 +53,6 @@ public abstract class AbstractCrispyActionbar extends AbstractCrispyAccessibleVi
 
     @Override
     public void setDuration(int duration) {
-        this.duration = duration;
+        data.setDuration(duration);
     }
 }
