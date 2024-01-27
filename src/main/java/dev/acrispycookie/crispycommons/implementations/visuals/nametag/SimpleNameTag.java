@@ -1,8 +1,12 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.nametag;
 
+import com.mysql.jdbc.StringUtils;
 import dev.acrispycookie.crispycommons.CrispyCommons;
+import dev.acrispycookie.crispycommons.api.visuals.hologram.CrispyHologram;
 import dev.acrispycookie.crispycommons.api.visuals.nametag.AbstractNametag;
+import dev.acrispycookie.crispycommons.implementations.visuals.hologram.builders.HologramBuilder;
 import dev.acrispycookie.crispycommons.implementations.visuals.nametag.wrappers.NameTagData;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,10 +17,17 @@ import java.util.Set;
 
 public class SimpleNameTag extends AbstractNametag implements Listener {
 
+    private CrispyHologram mainNameHologram;
+    private CrispyHologram aboveNameHologram;
+    private CrispyHologram belowNameHologram;
+
     public SimpleNameTag(NameTagData data, Set<? extends Player> receivers) {
         super(data, receivers);
         this.receivers.addAll(Bukkit.getOnlinePlayers());
         Bukkit.getPluginManager().registerEvents(this, CrispyCommons.getPlugin());
+        if (!StringUtils.isEmptyOrWhitespaceOnly(LegacyComponentSerializer.legacyAmpersand().serialize(data.getAboveName().getRaw())))
+            //TODO: Add hologram builder
+            return;
     }
 
     @EventHandler
@@ -29,7 +40,8 @@ public class SimpleNameTag extends AbstractNametag implements Listener {
         if (!p.canSee(data.getPlayer()))
             return;
 
-
+        if (!StringUtils.isEmptyOrWhitespaceOnly(LegacyComponentSerializer.legacyAmpersand().serialize(data.getAboveName().getRaw())))
+            aboveNameHologram.addPlayer(p);
     }
 
     @Override

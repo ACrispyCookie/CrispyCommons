@@ -3,8 +3,6 @@ package dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.impleme
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.AnimatedElement;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.ChatColor;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -13,14 +11,35 @@ import java.util.stream.Collectors;
 
 public abstract class TextElement extends AnimatedElement<Component> {
 
-    public TextElement(Collection<? extends String> frames, int period, boolean async) {
+    protected TextElement(Collection<? extends String> frames, int period) {
         super(new ArrayList<>(frames
                 .stream()
                 .map(t -> LegacyComponentSerializer.legacyAmpersand().deserialize(t))
-                .collect(Collectors.toList())), period, async);
+                .collect(Collectors.toList())), period, false);
     }
 
-    public TextElement(Supplier<? extends String> supplier, int period, boolean async) {
-        super(() -> LegacyComponentSerializer.legacySection().deserialize(supplier.get()), period, async);
+    protected TextElement(Supplier<? extends String> supplier, int period) {
+        super(() -> LegacyComponentSerializer.legacyAmpersand().deserialize(supplier.get()), period, false);
+    }
+
+    protected TextElement(String text) {
+        this(() -> text, -1);
+        setUpdate(() -> {});
+    }
+
+    public void setAsync(boolean async) {
+        this.async = async;
+    }
+
+    public static TextElement simple(String text) {
+        return new TextElement(text) {};
+    }
+
+    public static TextElement animated(Collection<? extends String> frames, int period) {
+        return new TextElement(frames, period) {};
+    }
+
+    public static TextElement dynamic(Supplier<? extends String> supplier, int period) {
+        return new TextElement(supplier, period) {};
     }
 }

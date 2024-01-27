@@ -1,5 +1,6 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.builders;
 
+import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.TextElement;
 import dev.acrispycookie.crispycommons.api.visuals.scoreboard.CrispyScoreboard;
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.PublicScoreboard;
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.SimpleScoreboard;
@@ -15,42 +16,25 @@ import java.util.function.Supplier;
 public class ScoreboardBuilder extends AbstractVisualBuilder<CrispyScoreboard> {
 
     private boolean isPublic = false;
-    private final ScoreboardTitleLine title;
+    private ScoreboardTitleLine title;
     private final Collection<SimpleScoreboardLine> lines = new ArrayList<>();
 
 
-    public ScoreboardBuilder(String staticTitle) {
-        title = new ScoreboardTitleLine(staticTitle);
+    public ScoreboardBuilder() {
+
     }
 
-    public ScoreboardBuilder(String staticTitle, Collection<? extends Player> players) {
+    public ScoreboardBuilder(Collection<? extends Player> players) {
         super(players);
-        title = new ScoreboardTitleLine(staticTitle);
     }
 
-    public ScoreboardBuilder(ArrayList<String> titleFrames, int period) {
-        title = new ScoreboardTitleLine(titleFrames, period);
+    public ScoreboardBuilder setTitle(TextElement title) {
+        this.title = new ScoreboardTitleLine(title);
+        return this;
     }
 
-    public ScoreboardBuilder(ArrayList<String> titleFrames, int period, Collection<? extends Player> players) {
-        super(players);
-        title = new ScoreboardTitleLine(titleFrames, period);
-    }
-
-    public ScoreboardBuilder addTextLine(String text) {
+    public ScoreboardBuilder addTextLine(TextElement text) {
         SimpleScoreboardLine line = new SimpleScoreboardLine(text);
-        lines.add(line);
-        return this;
-    }
-
-    public ScoreboardBuilder addAnimatedTextLine(Collection<? extends String> frames, int period) {
-        SimpleScoreboardLine line = new SimpleScoreboardLine(frames, period);
-        lines.add(line);
-        return this;
-    }
-
-    public ScoreboardBuilder addAnimatedTextLine(Supplier<String> supplier, int period) {
-        SimpleScoreboardLine line = new SimpleScoreboardLine(supplier, period);
         lines.add(line);
         return this;
     }

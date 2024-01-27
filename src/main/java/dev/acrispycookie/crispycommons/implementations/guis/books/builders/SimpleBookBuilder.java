@@ -1,6 +1,6 @@
 package dev.acrispycookie.crispycommons.implementations.guis.books.builders;
 
-import dev.acrispycookie.crispycommons.implementations.guis.books.SimpleCrispyBook;
+import dev.acrispycookie.crispycommons.implementations.guis.books.SimpleBook;
 import dev.acrispycookie.crispycommons.api.guis.book.CrispyBook;
 import dev.acrispycookie.crispycommons.api.guis.book.wrappers.BookPage;
 
@@ -35,6 +35,6 @@ public class SimpleBookBuilder {
     }
 
     public CrispyBook build() {
-        return new SimpleCrispyBook(pages);
+        return new SimpleBook(pages);
     }
 }

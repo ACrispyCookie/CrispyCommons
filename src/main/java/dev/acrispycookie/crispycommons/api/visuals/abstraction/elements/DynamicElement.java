@@ -1,20 +1,22 @@
 package dev.acrispycookie.crispycommons.api.visuals.abstraction.elements;
 
 import dev.acrispycookie.crispycommons.CrispyCommons;
-import org.bukkit.Bukkit;
+import dev.acrispycookie.crispycommons.utility.logging.CrispyLogger;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.util.function.Supplier;
+import java.util.logging.Level;
 
-public abstract class DynamicElement<T> extends AbstractCrispyElement<T> {
+public abstract class DynamicElement<T> extends AbstractElement<T> {
 
     protected Supplier<? extends T> supplier;
     private final int period;
-    private final boolean async;
-    private int taskId;
-    protected abstract void update();
+    protected boolean async;
+    private BukkitTask bukkitTask;
+    protected Runnable update;
 
-    public DynamicElement(Supplier<? extends T> supplier, int period, boolean async) {
+    protected DynamicElement(Supplier<? extends T> supplier, int period, boolean async) {
         super(supplier.get());
         this.supplier = supplier;
         this.period = period;
@@ -22,28 +24,47 @@ public abstract class DynamicElement<T> extends AbstractCrispyElement<T> {
     }
 
     public void start() {
+        if(period == -1 || update == null)
+            return;
+
         if (async) {
-            taskId = new BukkitRunnable() {
+            bukkitTask = new BukkitRunnable() {
                 @Override
                 public void run() {
                     element = supplier.get();
-                    update();
+                    update.run();
+                    CrispyLogger.log(CrispyCommons.getPlugin(), Level.WARNING, "------------------------");
+                    CrispyLogger.log(CrispyCommons.getPlugin(), Level.WARNING, "Dynamic element update:");
+                    CrispyLogger.log(CrispyCommons.getPlugin(), Level.WARNING, "  - Element: " + element);
+                    CrispyLogger.log(CrispyCommons.getPlugin(), Level.WARNING, "  - Supplier: " + supplier);
+                    CrispyLogger.log(CrispyCommons.getPlugin(), Level.WARNING, "  - Period: " + period);
+                    CrispyLogger.log(CrispyCommons.getPlugin(), Level.WARNING, "  - Async: " + async);
+                    CrispyLogger.log(CrispyCommons.getPlugin(), Level.WARNING, "------------------------");
                 }
-            }.runTaskTimerAsynchronously(CrispyCommons.getPlugin(), period, period).getTaskId();
+            }.runTaskTimerAsynchronously(CrispyCommons.getPlugin(), period, period);
             return;
         }
 
-        taskId = new BukkitRunnable() {
+        bukkitTask = new BukkitRunnable() {
             @Override
             public void run() {
                 element = supplier.get();
-                update();
+                update.run();
+                CrispyLogger.log(CrispyCommons.getPlugin(), Level.WARNING, "------------------------");
+                CrispyLogger.log(CrispyCommons.getPlugin(), Level.WARNING, "Dynamic element update:");
+                CrispyLogger.log(CrispyCommons.getPlugin(), Level.WARNING, "  - Element: " + element);
+                CrispyLogger.log(CrispyCommons.getPlugin(), Level.WARNING, "  - Supplier: " + supplier);
+                CrispyLogger.log(CrispyCommons.getPlugin(), Level.WARNING, "  - Period: " + period);
+                CrispyLogger.log(CrispyCommons.getPlugin(), Level.WARNING, "  - Async: " + async);
+                CrispyLogger.log(CrispyCommons.getPlugin(), Level.WARNING, "------------------------");
             }
-        }.runTaskTimer(CrispyCommons.getPlugin(), period, period).getTaskId();
+        }.runTaskTimer(CrispyCommons.getPlugin(), period, period);
     }
 
     public void stop() {
-        Bukkit.getScheduler().cancelTask(taskId);
+        if (bukkitTask == null)
+            return;
+        bukkitTask.cancel();
     }
 
     public int getPeriod() {
@@ -52,5 +73,11 @@ public abstract class DynamicElement<T> extends AbstractCrispyElement<T> {
 
     public boolean isAsync() {
         return async;
+    }
+
+    public void setUpdate(Runnable update) {
+        if (this.update != null)
+            return;
+        this.update = update;
     }
 }

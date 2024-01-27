@@ -2,12 +2,9 @@ package dev.acrispycookie.crispycommons.implementations.visuals.particle.builder
 
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.builder.AbstractVisualBuilder;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.particles.ParticleElement;
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.particles.SimpleParticleElement;
 import dev.acrispycookie.crispycommons.api.visuals.particle.CrispyParticle;
-import dev.acrispycookie.crispycommons.implementations.visuals.particle.ColoredParticle;
 import dev.acrispycookie.crispycommons.implementations.visuals.particle.RenderedParticle;
 import dev.acrispycookie.crispycommons.implementations.visuals.particle.wrappers.ParticleData;
-import dev.acrispycookie.crispycommons.implementations.wrappers.particle.ColoredEffect;
 import dev.acrispycookie.crispycommons.implementations.wrappers.particle.RenderedEffect;
 
 public class RenderedParticleBuilder extends AbstractVisualBuilder<CrispyParticle<RenderedEffect>> {
@@ -20,17 +17,18 @@ public class RenderedParticleBuilder extends AbstractVisualBuilder<CrispyParticl
         this.period = -1;
     }
 
-    public RenderedParticleBuilder effect(RenderedEffect effect) {
-        this.element = new SimpleParticleElement<>(effect);
+    public RenderedParticleBuilder setParticle(ParticleElement<RenderedEffect> element) {
+        this.element = element;
+        this.element.setUpdate(() -> {});
         return this;
     }
 
-    public RenderedParticleBuilder duration(long duration) {
+    public RenderedParticleBuilder setDuration(long duration) {
         this.duration = duration;
         return this;
     }
 
-    public RenderedParticleBuilder period(long period) {
+    public RenderedParticleBuilder setPeriod(long period) {
         this.period = period;
         return this;
     }

@@ -1,6 +1,8 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.hologram.builders;
 
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.builder.AbstractVisualBuilder;
+import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.items.ItemElement;
+import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.TextElement;
 import dev.acrispycookie.crispycommons.api.visuals.hologram.AbstractHologramLine;
 import dev.acrispycookie.crispycommons.api.visuals.hologram.CrispyHologram;
 import dev.acrispycookie.crispycommons.implementations.visuals.hologram.PublicHologram;
@@ -25,15 +27,11 @@ public class HologramBuilder extends AbstractVisualBuilder<CrispyHologram> {
     private final List<AbstractHologramLine<?>> lines = new ArrayList<>();
 
 
-    public HologramBuilder(Location location, int timeToLive) {
-        this.location = location;
-        this.timeToLive = timeToLive;
+    public HologramBuilder() {
     }
 
-    public HologramBuilder(Location location, int timeToLive, Collection<? extends Player> receivers) {
+    public HologramBuilder(Collection<? extends Player> receivers) {
         super(receivers);
-        this.location = location;
-        this.timeToLive = timeToLive;
     }
 
     public HologramBuilder setLocation(Location location) {
@@ -46,38 +44,14 @@ public class HologramBuilder extends AbstractVisualBuilder<CrispyHologram> {
         return this;
     }
 
-    public HologramBuilder addTextLine(String text) {
+    public HologramBuilder addTextLine(TextElement text) {
         TextHologramLine line = new TextHologramLine(text);
         lines.add(line);
         return this;
     }
 
-    public HologramBuilder addAnimatedTextLine(Collection<? extends String> frames, int period) {
-        TextHologramLine line = new TextHologramLine(frames, period);
-        lines.add(line);
-        return this;
-    }
-
-    public HologramBuilder addAnimatedTextLine(Supplier<String> supplier, int period) {
-        TextHologramLine line = new TextHologramLine(supplier, period);
-        lines.add(line);
-        return this;
-    }
-
-    public HologramBuilder addItemLine(CrispyItem item) {
+    public HologramBuilder addItemLine(ItemElement item) {
         ItemHologramLine line = new ItemHologramLine(item);
-        lines.add(line);
-        return this;
-    }
-
-    public HologramBuilder addAnimatedItemLine(Collection<? extends CrispyItem> frames, int period) {
-        ItemHologramLine line = new ItemHologramLine(frames, period);
-        lines.add(line);
-        return this;
-    }
-
-    public HologramBuilder addAnimatedItemLine(Supplier<CrispyItem> supplier, int period) {
-        ItemHologramLine line = new ItemHologramLine(supplier, period);
         lines.add(line);
         return this;
     }

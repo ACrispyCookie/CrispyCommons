@@ -1,7 +1,6 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.hologram.lines;
 
 import com.mysql.jdbc.StringUtils;
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.SimpleTextElement;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.TextElement;
 import dev.acrispycookie.crispycommons.api.visuals.hologram.AbstractHologramLine;
 import dev.acrispycookie.crispycommons.api.visuals.hologram.HologramLine;
@@ -13,36 +12,15 @@ import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
-import java.util.Collection;
 import java.util.List;
-import java.util.function.Supplier;
 
 public class TextHologramLine extends ClickableHologramLine<TextElement> {
 
     private EntityArmorStand as = null;
 
-    public TextHologramLine(String staticLine) {
-        super(new SimpleTextElement(staticLine));
-    }
-
-    public TextHologramLine(Collection<? extends String> frames, int period) {
-        super(null);
-        this.data.setElement(new TextElement(frames, period, false) {
-            @Override
-            protected void update() {
-                TextHologramLine.this.update();
-            }
-        });
-    }
-
-    public TextHologramLine(Supplier<String> supplier, int period) {
-        super(null);
-        this.data.setElement(new TextElement(supplier, period, false) {
-            @Override
-            protected void update() {
-                TextHologramLine.this.update();
-            }
-        });
+    public TextHologramLine(TextElement element) {
+        super(element);
+        this.data.getElement().setUpdate(this::update);
     }
 
     @Override

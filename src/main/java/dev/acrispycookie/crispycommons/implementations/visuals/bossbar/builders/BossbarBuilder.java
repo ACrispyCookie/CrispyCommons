@@ -1,7 +1,6 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.bossbar.builders;
 
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.builder.AbstractVisualBuilder;
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.SimpleTextElement;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.TextElement;
 import dev.acrispycookie.crispycommons.api.visuals.bossbar.CrispyBossbar;
 import dev.acrispycookie.crispycommons.implementations.visuals.bossbar.SimpleBossbar;
@@ -10,7 +9,6 @@ import net.kyori.adventure.bossbar.BossBar;
 import org.bukkit.entity.Player;
 
 import java.util.Collection;
-import java.util.function.Supplier;
 
 public class BossbarBuilder extends AbstractVisualBuilder<CrispyBossbar> {
 
@@ -28,28 +26,9 @@ public class BossbarBuilder extends AbstractVisualBuilder<CrispyBossbar> {
     public BossbarBuilder() {
     }
 
-    public BossbarBuilder setText(String text) {
-        this.text = new SimpleTextElement(text);
-        return this;
-    }
-
-    public BossbarBuilder setText(Collection<? extends String> frames, int period) {
-        this.text = new TextElement(frames, period, false) {
-            @Override
-            protected void update() {
-                bossbar.update();
-            }
-        };
-        return this;
-    }
-
-    public BossbarBuilder setText(Supplier<? extends String> supplier, int period) {
-        this.text = new TextElement(supplier, period, false) {
-            @Override
-            protected void update() {
-                bossbar.update();
-            }
-        };
+    public BossbarBuilder setText(TextElement text) {
+        this.text = text;
+        this.text.setUpdate(() -> bossbar.update());
         return this;
     }
 

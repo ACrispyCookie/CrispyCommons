@@ -1,16 +1,13 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.actionbar.builders;
 
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.builder.AbstractVisualBuilder;
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.SimpleTextElement;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.TextElement;
 import dev.acrispycookie.crispycommons.api.visuals.actionbar.CrispyActionbar;
 import dev.acrispycookie.crispycommons.implementations.visuals.actionbar.wrappers.ActionbarData;
 import dev.acrispycookie.crispycommons.implementations.visuals.actionbar.SimpleActionbar;
 import org.bukkit.entity.Player;
 
-import java.util.Collection;
 import java.util.Set;
-import java.util.function.Supplier;
 
 public class ActionbarBuilder extends AbstractVisualBuilder<CrispyActionbar> {
 
@@ -26,28 +23,9 @@ public class ActionbarBuilder extends AbstractVisualBuilder<CrispyActionbar> {
 
     }
 
-    public ActionbarBuilder setText(String text) {
-        this.text = new SimpleTextElement(text);
-        return this;
-    }
-
-    public ActionbarBuilder setText(Collection<? extends String> frames, int period) {
-        this.text = new TextElement(frames, period, false) {
-            @Override
-            protected void update() {
-                actionbar.update();
-            }
-        };
-        return this;
-    }
-
-    public ActionbarBuilder setText(Supplier<? extends String> supplier, int period) {
-        this.text = new TextElement(supplier, period, false) {
-            @Override
-            protected void update() {
-                actionbar.update();
-            }
-        };
+    public ActionbarBuilder setText(TextElement element) {
+        this.text = element;
+        this.text.setUpdate(() -> actionbar.update());
         return this;
     }
 

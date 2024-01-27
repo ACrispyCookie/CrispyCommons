@@ -38,7 +38,7 @@ public class AnimatedTitle extends AbstractTitle {
                 } else if(i == data.getDuration()) {
                     toSend = Title.title(title.getRaw(), subtitle.getRaw(), Title.Times.times(Duration.ofMillis(0), Duration.ofMillis(data.getPeriod() * 100L), Duration.ofMillis(data.getFadeOut() * 50L)));
                 } else if (i == 0) {
-                    toSend = Title.title(title.getRaw(), subtitle.getRaw(), Title.Times.times(Duration.ofMillis(data.getFadeIn() * 50L), Duration.ofMillis(data.getPeriod() * 100L), Duration.ofMillis(0)));
+                    toSend = Title.title(title.getRaw(), subtitle.getRaw(), Title.Times.times(Duration.ofMillis(data.getFadeIn() * 50L), Duration.ofMillis(data.getPeriod() * 150L), Duration.ofMillis(0)));
                 } else {
                     toSend = Title.title(title.getRaw(), subtitle.getRaw(), Title.Times.times(Duration.ofMillis(0), Duration.ofMillis(data.getPeriod() * 100L), Duration.ofMillis(0)));
                 }

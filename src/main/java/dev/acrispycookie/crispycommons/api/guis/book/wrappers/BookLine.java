@@ -3,8 +3,6 @@ package dev.acrispycookie.crispycommons.api.guis.book.wrappers;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.ChatColor;
 
 public class BookLine {
 

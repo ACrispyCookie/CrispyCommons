@@ -1,21 +1,18 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.title.builders;
 
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.builder.AbstractVisualBuilder;
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.SimpleTextElement;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.TextElement;
 import dev.acrispycookie.crispycommons.implementations.visuals.title.SimpleTitle;
 import dev.acrispycookie.crispycommons.implementations.visuals.title.wrappers.TitleData;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Set;
 
 public class SimpleTitleBuilder extends AbstractVisualBuilder<SimpleTitle> {
 
     private TitleData data;
-    private SimpleTextElement title;
-    private SimpleTextElement subtitle;
+    private TextElement title;
+    private TextElement subtitle;
     private int fadeIn;
     private int duration;
     private int fadeOut;
@@ -29,12 +26,12 @@ public class SimpleTitleBuilder extends AbstractVisualBuilder<SimpleTitle> {
     }
 
     public SimpleTitleBuilder setTitle(String text) {
-        this.title = new SimpleTextElement(text);
+        this.title = TextElement.simple(text);
         return this;
     }
 
     public SimpleTitleBuilder setSubtitle(String text) {
-        this.subtitle = new SimpleTextElement(text);
+        this.subtitle = TextElement.simple(text);
         return this;
     }
 
