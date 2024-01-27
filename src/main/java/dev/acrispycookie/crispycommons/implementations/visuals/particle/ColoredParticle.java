@@ -14,8 +14,18 @@ public class ColoredParticle extends AbstractParticle<ColoredEffect> {
     }
 
     @Override
-    public void playOnce(Player player) {
+    public void show(Player player) {
         ColoredEffect effect = data.getElement().getRaw();
         player.spigot().playEffect(effect.getLocation(), effect.getEffect(), 0, 1, effect.getRed(), effect.getGreen(), effect.getBlue(), 1, 0, 160);
+    }
+
+    @Override
+    public void hide(Player player) {
+
+    }
+
+    @Override
+    public void update(Player player) {
+        show(player);
     }
 }

@@ -15,8 +15,18 @@ public class SimpleActionbar extends AbstractActionbar {
     }
 
     @Override
-    protected void showPlayer(Player p) {
+    protected void show(Player p) {
         Audience audience = CrispyCommons.getBukkitAudiences().player(p);
         audience.sendActionBar(data.getText().getRaw());
+    }
+
+    @Override
+    protected void hide(Player p) {
+
+    }
+
+    @Override
+    protected void update(Player p) {
+        show(p);
     }
 }

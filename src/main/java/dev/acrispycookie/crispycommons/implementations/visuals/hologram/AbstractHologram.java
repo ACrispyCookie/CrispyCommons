@@ -12,31 +12,23 @@ import java.util.*;
 
 public abstract class AbstractHologram extends AbstractVisual<HologramData> implements CrispyHologram {
 
-    protected abstract void init();
-    protected abstract void show(Player p);
-    protected abstract void hide(Player p);
-    protected abstract void update(Player p);
-
     AbstractHologram(HologramData data, Set<? extends OfflinePlayer> receivers, long timeToLive) {
         super(data, receivers, timeToLive);
     }
 
     @Override
-    public void onShow() {
+    public void prepareShow() {
         data.getLines().forEach(AnimatedElement::start);
-        init();
-        receivers.stream().filter(OfflinePlayer::isOnline).forEach(p -> show(p.getPlayer()));
     }
 
     @Override
-    public void onHide() {
+    public void prepareHide() {
         data.getLines().forEach(AnimatedElement::stop);
-        receivers.stream().filter(OfflinePlayer::isOnline).forEach(p -> show(p.getPlayer()));
     }
 
     @Override
-    public void onUpdate() {
-        receivers.stream().filter(OfflinePlayer::isOnline).forEach(p -> update(p.getPlayer()));
+    public void prepareUpdate() {
+
     }
 
 

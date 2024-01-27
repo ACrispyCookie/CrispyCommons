@@ -14,8 +14,18 @@ public class SimpleParticle extends AbstractParticle<SimpleEffect> {
     }
 
     @Override
-    public void playOnce(Player player) {
+    public void show(Player player) {
         SimpleEffect effect = data.getElement().getRaw();
         player.spigot().playEffect(effect.getLocation(), effect.getEffect(), effect.getData(), effect.getData(), 0, 0, 0, 1, 100, 160);
+    }
+
+    @Override
+    public void hide(Player player) {
+
+    }
+
+    @Override
+    public void update(Player player) {
+        show(player);
     }
 }

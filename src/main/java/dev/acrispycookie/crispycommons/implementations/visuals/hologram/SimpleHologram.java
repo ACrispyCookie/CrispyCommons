@@ -20,10 +20,10 @@ public class SimpleHologram extends AbstractHologram implements Listener {
     public SimpleHologram(HologramData data, Collection<? extends OfflinePlayer> receivers, long timeToLive) {
         super(data, new HashSet<>(receivers), timeToLive);
         Bukkit.getPluginManager().registerEvents(this, CrispyCommons.getPlugin());
+        init();
     }
 
-    @Override
-    public void init() {
+    private void init() {
         for (int i = 0; i < data.getLines().size(); i++) {
             Entity entity = Entity.of(data.getLines().get(i));
             entities.add(entity);

@@ -21,22 +21,20 @@ public abstract class AbstractTablist extends AbstractVisual<TablistData> implem
     }
 
     @Override
-    public void onShow() {
+    public void prepareShow() {
         data.getHeader().forEach(TextElement::start);
         data.getFooter().forEach(TextElement::start);
-        receivers.stream().filter(OfflinePlayer::isOnline).forEach(p -> show(p.getPlayer()));
     }
 
     @Override
-    public void onHide() {
+    public void prepareHide() {
         data.getHeader().forEach(TextElement::stop);
         data.getFooter().forEach(TextElement::stop);
-        receivers.stream().filter(OfflinePlayer::isOnline).forEach(p -> hide(p.getPlayer()));
     }
 
     @Override
-    public void onUpdate() {
-        receivers.stream().filter(OfflinePlayer::isOnline).forEach(p -> update(p.getPlayer()));
+    public void prepareUpdate() {
+
     }
 
     @Override

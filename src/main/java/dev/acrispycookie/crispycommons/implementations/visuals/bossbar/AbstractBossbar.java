@@ -12,27 +12,22 @@ import java.util.Set;
 
 public abstract class AbstractBossbar extends AbstractVisual<BossbarData> implements CrispyBossbar {
 
-    protected abstract void showPlayer(Player p);
-    protected abstract void hidePlayer(Player p);
-
     AbstractBossbar(BossbarData data, Set<? extends OfflinePlayer> receivers, long timeToLive) {
         super(data, receivers, timeToLive);
     }
 
     @Override
-    public void onShow() {
+    public void prepareShow() {
         data.getText().start();
-        receivers.stream().filter(OfflinePlayer::isOnline).forEach(p -> showPlayer(p.getPlayer()));
     }
 
     @Override
-    public void onHide() {
+    public void prepareHide() {
         data.getText().stop();
-        receivers.stream().filter(OfflinePlayer::isOnline).forEach(p -> hidePlayer(p.getPlayer()));
     }
 
     @Override
-    public void onUpdate() {
+    public void prepareUpdate() {
         data.getBossBar().name(data.getText().getRaw());
     }
 

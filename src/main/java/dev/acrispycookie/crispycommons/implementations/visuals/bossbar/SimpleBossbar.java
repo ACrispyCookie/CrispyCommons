@@ -15,14 +15,19 @@ public class SimpleBossbar extends AbstractBossbar {
     }
 
     @Override
-    protected void showPlayer(Player p) {
+    protected void show(Player p) {
         Audience audience = CrispyCommons.getBukkitAudiences().player(p);
         audience.showBossBar(data.getBossBar());
     }
 
     @Override
-    protected void hidePlayer(Player p) {
+    protected void hide(Player p) {
         Audience audience = CrispyCommons.getBukkitAudiences().player(p);
         audience.hideBossBar(data.getBossBar());
+    }
+
+    @Override
+    protected void update(Player p) {
+
     }
 }

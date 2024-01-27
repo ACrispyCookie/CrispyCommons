@@ -11,11 +11,11 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.Collection;
 
-public class PublicHologram extends SimpleHologram implements Listener {
+public class PublicHologram extends SimpleHologram {
 
     public PublicHologram(HologramData data, Collection<? extends OfflinePlayer> receivers, long timeToLive) {
         super(data, receivers, timeToLive);
-        setPlayers(Bukkit.getOnlinePlayers());
+        Bukkit.getOnlinePlayers().forEach(this::addPlayer);
     }
 
     @EventHandler

@@ -18,7 +18,7 @@ public class SimpleTablist extends AbstractTablist {
 
     @Override
     protected void show(Player p) {
-        Audience audience = CrispyCommons.getBukkitAudiences().filter(cs -> (cs instanceof Player && receivers.contains(((Player) cs))));
+        Audience audience = CrispyCommons.getBukkitAudiences().filter(cs -> (cs instanceof Player && getPlayers().contains(((Player) cs))));
         Component header = Component.empty();
         Component footer = Component.empty();
         for (int i = 0; i < getHeader().size(); i++) {
@@ -40,7 +40,7 @@ public class SimpleTablist extends AbstractTablist {
 
     @Override
     protected void hide(Player p) {
-        Audience audience = CrispyCommons.getBukkitAudiences().filter(cs -> (cs instanceof Player && receivers.contains(((Player) cs))));
+        Audience audience = CrispyCommons.getBukkitAudiences().filter(cs -> (cs instanceof Player && getPlayers().contains(((Player) cs))));
         Component header = Component.empty();
         Component footer = Component.empty();
         audience.sendPlayerListHeaderAndFooter(header, footer);

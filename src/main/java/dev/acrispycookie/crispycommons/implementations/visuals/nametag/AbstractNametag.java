@@ -11,35 +11,29 @@ import java.util.Set;
 
 public abstract class AbstractNametag extends AbstractVisual<NameTagData> implements CrispyNametag {
 
-    protected abstract void showPlayer(Player p);
-    protected abstract void hidePlayer(Player p);
-    protected abstract void updatePlayer(Player p);
-
     AbstractNametag(NameTagData data, Set<? extends OfflinePlayer> receivers, long timeToLive) {
         super(data, receivers, timeToLive);
     }
 
     @Override
-    public void onShow() {
+    public void prepareShow() {
         data.getAboveName().start();
         data.getBelowName().start();
         data.getPrefix().start();
         data.getSuffix().start();
-        receivers.stream().filter(OfflinePlayer::isOnline).forEach(p -> showPlayer(p.getPlayer()));
     }
 
     @Override
-    public void onHide() {
+    public void prepareHide() {
         data.getAboveName().stop();
         data.getBelowName().stop();
         data.getPrefix().stop();
         data.getSuffix().stop();
-        receivers.stream().filter(OfflinePlayer::isOnline).forEach(p -> hidePlayer(p.getPlayer()));
     }
 
     @Override
-    public void onUpdate() {
-        receivers.stream().filter(OfflinePlayer::isOnline).forEach(p -> updatePlayer(p.getPlayer()));
+    public void prepareUpdate() {
+
     }
 
     @Override

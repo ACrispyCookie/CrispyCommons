@@ -11,26 +11,24 @@ import java.util.Set;
 
 public abstract class AbstractActionbar extends AbstractVisual<ActionbarData> implements CrispyActionbar {
 
-    protected abstract void showPlayer(Player p);
 
     AbstractActionbar(ActionbarData data, Set<? extends OfflinePlayer> receivers, long timeToLive) {
         super(data, receivers, timeToLive);
     }
 
     @Override
-    public void onShow() {
+    public void prepareShow() {
         data.getText().start();
-        receivers.stream().filter(OfflinePlayer::isOnline).forEach(p -> showPlayer(p.getPlayer()));
     }
 
     @Override
-    public void onHide() {
+    public void prepareHide() {
         data.getText().stop();
     }
 
     @Override
-    public void onUpdate() {
-        receivers.stream().filter(OfflinePlayer::isOnline).forEach(p -> showPlayer(p.getPlayer()));
+    public void prepareUpdate() {
+
     }
 
     @Override

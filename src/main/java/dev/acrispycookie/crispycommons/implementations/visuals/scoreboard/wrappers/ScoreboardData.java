@@ -1,9 +1,7 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.wrappers;
 
+import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.TextElement;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.VisualData;
-import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.ScoreboardTitleLine;
-import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.SimpleScoreboardLine;
-import org.bukkit.scoreboard.Scoreboard;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -11,37 +9,39 @@ import java.util.List;
 
 public class ScoreboardData implements VisualData {
 
-    private ScoreboardTitleLine title;
-    private List<SimpleScoreboardLine> lines;
-    private Scoreboard bukkitScoreboard;
+    private TextElement title;
+    private List<TextElement> lines;
 
-    public ScoreboardData(ScoreboardTitleLine title, Collection<? extends SimpleScoreboardLine> lines, Scoreboard bukkitScoreboard) {
+    public ScoreboardData(TextElement title, Collection<? extends TextElement> lines) {
         this.title = title;
         this.lines = new ArrayList<>(lines);
-        this.bukkitScoreboard = bukkitScoreboard;
     }
 
-    public ScoreboardTitleLine getTitle() {
+    public TextElement getTitle() {
         return title;
     }
 
-    public void setTitle(ScoreboardTitleLine title) {
+    public void setTitle(TextElement title) {
         this.title = title;
     }
 
-    public List<SimpleScoreboardLine> getLines() {
+    public List<TextElement> getLines() {
         return lines;
     }
 
-    public void setLines(List<SimpleScoreboardLine> lines) {
+    public void addLine(TextElement line) {
+        this.lines.add(line);
+    }
+
+    public void addLine(int index, TextElement line) {
+        this.lines.add(index, line);
+    }
+
+    public void removeLine(int index) {
+        this.lines.remove(index);
+    }
+
+    public void setLines(List<TextElement> lines) {
         this.lines = lines;
-    }
-
-    public Scoreboard getBukkitScoreboard() {
-        return bukkitScoreboard;
-    }
-
-    public void setBukkitScoreboard(Scoreboard bukkitScoreboard) {
-        this.bukkitScoreboard = bukkitScoreboard;
     }
 }

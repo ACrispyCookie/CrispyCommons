@@ -14,12 +14,17 @@ public class RenderedParticle extends AbstractParticle<RenderedEffect> {
     }
 
     @Override
-    public void playOnce(Player player) {
-        RenderedEffect effect = data.getElement().getRaw();
-        playRendered(player, effect);
+    public void show(Player player) {
+        // ???
     }
 
-    private void playRendered(Player p, RenderedEffect effect) {
-        //??
+    @Override
+    public void hide(Player player) {
+
+    }
+
+    @Override
+    public void update(Player player) {
+        show(player);
     }
 }

@@ -1,49 +1,37 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.title;
 
-import dev.acrispycookie.crispycommons.CrispyCommons;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.TextElement;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractVisual;
 import dev.acrispycookie.crispycommons.api.visuals.title.CrispyTitle;
 import dev.acrispycookie.crispycommons.implementations.visuals.title.wrappers.TitleData;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Set;
 
 public abstract class AbstractTitle extends AbstractVisual<TitleData> implements CrispyTitle {
 
-    protected abstract void showPlayer(Player p);
-    protected abstract void updatePlayer(Player p);
     protected long timeStarted;
 
     AbstractTitle(TitleData data, Set<? extends OfflinePlayer> receivers, long timeToLive) {
-        super(data, receivers, timeToLive);
+        super(data, receivers, data.getSmallestPeriod() != -1 ? timeToLive : 0);
     }
 
     @Override
-    public void onShow() {
+    public void prepareShow() {
         timeStarted = System.currentTimeMillis();
         data.getTitle().start();
         data.getSubtitle().start();
-        receivers.stream().filter(OfflinePlayer::isOnline).forEach(p -> showPlayer(p.getPlayer()));
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                hide();
-            }
-        }.runTaskLater(CrispyCommons.getPlugin(), data.getSmallestPeriod() != -1 ? timeToLive : 0);
     }
 
     @Override
-    public void onHide() {
+    public void prepareHide() {
         data.getTitle().stop();
         data.getSubtitle().stop();
     }
 
     @Override
-    public void onUpdate() {
-        receivers.stream().filter(OfflinePlayer::isOnline).forEach(p -> updatePlayer(p.getPlayer()));
+    public void prepareUpdate() {
     }
 
     @Override
@@ -84,5 +72,10 @@ public abstract class AbstractTitle extends AbstractVisual<TitleData> implements
     @Override
     public int getFadeOut() {
         return this.data.getFadeOut();
+    }
+
+    @Override
+    public void setTimeToLive(long timeToLive) {
+        this.timeToLive = this.data.getSmallestPeriod() != -1 ? timeToLive : 0;
     }
 }

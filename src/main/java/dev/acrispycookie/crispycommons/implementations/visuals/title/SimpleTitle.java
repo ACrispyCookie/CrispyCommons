@@ -17,12 +17,12 @@ public class SimpleTitle extends AbstractTitle {
     }
 
     @Override
-    protected void showPlayer(Player p) {
+    protected void show(Player p) {
         showTitle(p, data.getFadeIn() * 50L, timeToLive * 50L, data.getFadeOut() * 50L);
     }
 
     @Override
-    protected void updatePlayer(Player p) {
+    protected void update(Player p) {
 
         // Last title update
         if (System.currentTimeMillis() > timeStarted + timeToLive * 50L - data.getSmallestPeriod() * 150L - data.getFadeOut() * 50L) {
@@ -32,12 +32,18 @@ public class SimpleTitle extends AbstractTitle {
 
         // First title update
         if (System.currentTimeMillis() < timeStarted + data.getSmallestPeriod() * 150L) {
-            hidePlayer(p);
+            clearTitle(p);
         }
 
         showTitle(p, 0, data.getSmallestPeriod() * 150L, 0);
     }
-    private void hidePlayer(Player p) {
+
+    @Override
+    public void hide(Player p) {
+
+    }
+
+    private void clearTitle(Player p) {
         Audience audience = CrispyCommons.getBukkitAudiences().player(p);
         audience.clearTitle();
     }

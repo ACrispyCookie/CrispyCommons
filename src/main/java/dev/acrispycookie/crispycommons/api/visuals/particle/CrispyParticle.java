@@ -12,7 +12,7 @@ import dev.acrispycookie.crispycommons.implementations.wrappers.particle.Colored
 import dev.acrispycookie.crispycommons.implementations.wrappers.particle.RenderedEffect;
 import dev.acrispycookie.crispycommons.implementations.wrappers.particle.SimpleEffect;
 
-public interface CrispyParticle extends CrispyVisual {
+public interface CrispyParticle<T extends CrispyEffect> extends CrispyVisual {
 
     static SimpleParticleBuilder simpleBuilder() {
         return new SimpleParticleBuilder();
@@ -23,27 +23,15 @@ public interface CrispyParticle extends CrispyVisual {
     static RenderedParticleBuilder renderedBuilder() {
         return new RenderedParticleBuilder();
     }
-    long getDuration();
-    void setDuration(long duration);
-    long getPeriod();
-    void setPeriod(long period);
+    void setElement(ParticleElement<T> element);
+    ParticleElement<T> getElement();
 
     abstract class ParticleBuilder<T extends CrispyEffect> extends AbstractVisualBuilder<CrispyParticle> {
 
-        protected final ParticleData<T> data = new ParticleData<>(null, 0, -1);
+        protected final ParticleData<T> data = new ParticleData<>(null);
 
         public ParticleBuilder<T> setParticle(ParticleElement<T> element) {
             data.setElement(element);
-            return this;
-        }
-
-        public ParticleBuilder<T> setDuration(long duration) {
-            data.setDuration(duration);
-            return this;
-        }
-
-        public ParticleBuilder<T> setPeriod(long period) {
-            data.setPeriod(period);
             return this;
         }
     }
