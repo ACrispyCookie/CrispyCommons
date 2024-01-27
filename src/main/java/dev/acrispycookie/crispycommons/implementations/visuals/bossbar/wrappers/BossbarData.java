@@ -6,28 +6,18 @@ import net.kyori.adventure.bossbar.BossBar;
 
 public class BossbarData implements VisualData {
 
-    private int timeToLive;
     private float progress;
     private BossBar.Color color;
     private BossBar.Overlay overlay;
     private BossBar bossBar;
     private TextElement text;
 
-    public BossbarData(int timeToLive, float progress, BossBar.Color color, BossBar.Overlay overlay, TextElement text) {
-        this.timeToLive = timeToLive;
+    public BossbarData(float progress, BossBar.Color color, BossBar.Overlay overlay, TextElement text) {
         this.progress = progress;
         this.color = color;
         this.overlay = overlay;
         this.text = text;
         this.bossBar = BossBar.bossBar(text.getRaw(), progress, color, overlay);
-    }
-
-    public int getTimeToLive() {
-        return timeToLive;
-    }
-
-    public void setTimeToLive(int timeToLive) {
-        this.timeToLive = timeToLive;
     }
 
     public float getProgress() {

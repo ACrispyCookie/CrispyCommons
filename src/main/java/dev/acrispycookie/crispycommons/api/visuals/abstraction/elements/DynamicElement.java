@@ -24,7 +24,7 @@ public abstract class DynamicElement<T> extends AbstractElement<T> {
     }
 
     public void start() {
-        if(period == -1 || update == null)
+        if(period == -1 || update == null || bukkitTask != null)
             return;
 
         if (async) {
@@ -51,6 +51,7 @@ public abstract class DynamicElement<T> extends AbstractElement<T> {
         if (bukkitTask == null)
             return;
         bukkitTask.cancel();
+        bukkitTask = null;
     }
 
     public int getPeriod() {

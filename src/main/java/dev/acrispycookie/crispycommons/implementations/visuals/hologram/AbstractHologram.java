@@ -1,101 +1,55 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.hologram;
 
-import dev.acrispycookie.crispycommons.CrispyCommons;
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractAccessibleVisual;
+import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.AnimatedElement;
+import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractVisual;
 import dev.acrispycookie.crispycommons.api.visuals.hologram.CrispyHologram;
 import dev.acrispycookie.crispycommons.implementations.visuals.hologram.wrappers.HologramData;
 import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 
-public abstract class AbstractHologram extends AbstractAccessibleVisual<HologramData> implements CrispyHologram {
+public abstract class AbstractHologram extends AbstractVisual<HologramData> implements CrispyHologram {
 
+    protected abstract void init();
+    protected abstract void show(Player p);
+    protected abstract void hide(Player p);
+    protected abstract void update(Player p);
 
-    AbstractHologram(HologramData data, Set<? extends Player> receivers) {
-        super(data, receivers);
-        this.data.getLines().forEach(l -> l.setHologram(this));
+    AbstractHologram(HologramData data, Set<? extends OfflinePlayer> receivers, long timeToLive) {
+        super(data, receivers, timeToLive);
     }
 
     @Override
-    public void show() {
-        if (isDisplayed)
-            return;
-
-        isDisplayed = true;
-        data.getLines().forEach(AbstractHologramLine::show);
-        if(data.getTimeToLive() != -1) {
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    hide();
-                }
-            }.runTaskLater(CrispyCommons.getPlugin(), data.getTimeToLive());
-        }
+    public void onShow() {
+        data.getLines().forEach(AnimatedElement::start);
+        init();
+        receivers.stream().filter(OfflinePlayer::isOnline).forEach(p -> show(p.getPlayer()));
     }
 
     @Override
-    public void hide() {
-        if (!isDisplayed)
-            return;
-
-        isDisplayed = false;
-        data.getLines().forEach(AbstractHologramLine::hide);
+    public void onHide() {
+        data.getLines().forEach(AnimatedElement::stop);
+        receivers.stream().filter(OfflinePlayer::isOnline).forEach(p -> show(p.getPlayer()));
     }
 
     @Override
-    public void update() {
-        if(!isDisplayed)
-            return;
-
-        data.getLines().forEach(AbstractHologramLine::update);
-    }
-
-    @Override
-    public void addPlayer(Player player) {
-        super.addPlayer(player);
-        if(isDisplayed) {
-            data.getLines().forEach(l -> l.show(player));
-        }
-    }
-
-    @Override
-    public void removePlayer(Player player) {
-        super.removePlayer(player);
-        if(!isDisplayed) {
-            data.getLines().forEach(l -> l.hide(player));
-        }
-    }
-
-    @Override
-    public void setPlayers(Collection<? extends Player> players) {
-        if(isDisplayed) {
-            hide();
-            super.setPlayers(players);
-            show();
-        }
+    public void onUpdate() {
+        receivers.stream().filter(OfflinePlayer::isOnline).forEach(p -> update(p.getPlayer()));
     }
 
 
     @Override
-    public void addLine(int index, AbstractHologramLine<?> line) {
+    public void addLine(int index, AnimatedElement<?> line) {
         if (index > data.getLines().size())
             return;
 
-        List<AbstractHologramLine<?>> newLines = data.getLines();
-        newLines.add(index, line);
-        data.setLines(newLines);
-        line.setHologram(this);
-        if (isDisplayed) {
-            line.show();
-        }
-
-        data.getLines().forEach(AbstractHologramLine::update);
+        data.addLine(index, line);
     }
 
     @Override
-    public void addLine(AbstractHologramLine<?> line) {
+    public void addLine(AnimatedElement<?> line) {
         addLine(data.getLines().size(), line);
     }
 
@@ -104,37 +58,17 @@ public abstract class AbstractHologram extends AbstractAccessibleVisual<Hologram
         if(index >= data.getLines().size())
             return;
 
-        AbstractHologramLine<?> toRemove = data.getLines().get(index);
-        List<AbstractHologramLine<?>> newLines = data.getLines();
-        newLines.remove(index);
-        data.setLines(newLines);
-        if (isDisplayed && toRemove.isDisplayed()) {
-            toRemove.hide();
-        }
-
-        data.getLines().forEach(AbstractHologramLine::update);
+        data.removeLine(index);
     }
 
     @Override
-    public void showLine(int index) {
-        if(index >= data.getLines().size())
-            return;
-
-        AbstractHologramLine<?> line = data.getLines().get(index);
-        if(isDisplayed && !line.isDisplayed()) {
-            line.show();
-        }
+    public void setLines(Collection<? extends AnimatedElement<?>> lines) {
+        data.setLines(new ArrayList<>(lines));
     }
 
     @Override
-    public void hideLine(int index) {
-        if(index >= data.getLines().size())
-            return;
-
-        AbstractHologramLine<?> line = data.getLines().get(index);
-        if(isDisplayed && line.isDisplayed()) {
-            line.hide();
-        }
+    public void setLocation(Location location) {
+        data.setLocation(location);
     }
 
     @Override
@@ -142,20 +76,9 @@ public abstract class AbstractHologram extends AbstractAccessibleVisual<Hologram
         return data.getLocation();
     }
 
-    @Override
-    public int getTimeToLive() {
-        return data.getTimeToLive();
-    }
 
     @Override
-    public void setLocation(Location location) {
-        data.setLocation(location);
-
-        update();
-    }
-
-    @Override
-    public void setTimeToLive(int timeToLive) {
-        data.setTimeToLive(timeToLive);
+    public List<AnimatedElement<?>> getLines() {
+        return data.getLines();
     }
 }

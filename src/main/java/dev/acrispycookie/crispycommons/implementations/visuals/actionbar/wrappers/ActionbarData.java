@@ -5,17 +5,17 @@ import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.VisualData
 
 public class ActionbarData implements VisualData {
 
-    private TextElement element;
+    private TextElement text;
 
-    public ActionbarData(TextElement element) {
-        this.element = element;
+    public ActionbarData(TextElement text) {
+        this.text = text;
     }
 
-    public TextElement getElement() {
-        return element;
+    public TextElement getText() {
+        return text;
     }
 
-    public void setElement(TextElement element) {
-        this.element = element;
+    public void setText(TextElement text) {
+        this.text = text;
     }
 }

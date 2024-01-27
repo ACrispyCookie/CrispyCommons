@@ -2,14 +2,12 @@ package dev.acrispycookie.crispycommons.api.visuals.nametag;
 
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.builder.AbstractVisualBuilder;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.TextElement;
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.CrispyAccessibleVisual;
+import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.CrispyVisual;
 import dev.acrispycookie.crispycommons.implementations.visuals.nametag.SimpleNameTag;
 import dev.acrispycookie.crispycommons.implementations.visuals.nametag.wrappers.NameTagData;
 import org.bukkit.entity.Player;
 
-import java.util.Collection;
-
-public interface CrispyNametag extends CrispyAccessibleVisual<NameTagData> {
+public interface CrispyNametag extends CrispyVisual {
 
     static NameTagBuilder builder() {
         return new NameTagBuilder();
@@ -68,7 +66,7 @@ public interface CrispyNametag extends CrispyAccessibleVisual<NameTagData> {
 
         @Override
         public CrispyNametag build() {
-            nametag = new SimpleNameTag(data, receivers);
+            nametag = new SimpleNameTag(data, receivers, timeToLive);
             return nametag;
         }
     }

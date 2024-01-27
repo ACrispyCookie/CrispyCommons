@@ -1,54 +1,38 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.bossbar;
 
-import dev.acrispycookie.crispycommons.CrispyCommons;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.TextElement;
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractAccessibleVisual;
+import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractVisual;
 import dev.acrispycookie.crispycommons.api.visuals.bossbar.CrispyBossbar;
 import dev.acrispycookie.crispycommons.implementations.visuals.bossbar.wrappers.BossbarData;
 import net.kyori.adventure.bossbar.BossBar;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Set;
 
-public abstract class AbstractBossbar extends AbstractAccessibleVisual<BossbarData> implements CrispyBossbar {
+public abstract class AbstractBossbar extends AbstractVisual<BossbarData> implements CrispyBossbar {
 
     protected abstract void showPlayer(Player p);
     protected abstract void hidePlayer(Player p);
 
-    AbstractBossbar(BossbarData data, Set<? extends Player> receivers) {
-        super(data, receivers);
+    AbstractBossbar(BossbarData data, Set<? extends OfflinePlayer> receivers, long timeToLive) {
+        super(data, receivers, timeToLive);
     }
 
     @Override
-    public void show() {
-        if (isDisplayed)
-            return;
-
-        isDisplayed = true;
+    public void onShow() {
         data.getText().start();
-        receivers.stream().filter(Player::isOnline).forEach(this::showPlayer);
-        if (data.getTimeToLive() != -1)
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    hide();
-                }
-            }.runTaskLater(CrispyCommons.getPlugin(), data.getTimeToLive());
+        receivers.stream().filter(OfflinePlayer::isOnline).forEach(p -> showPlayer(p.getPlayer()));
     }
 
     @Override
-    public void hide() {
-        if (!isDisplayed)
-            return;
-
-        isDisplayed = false;
+    public void onHide() {
         data.getText().stop();
-        receivers.stream().filter(Player::isOnline).forEach(this::hidePlayer);
+        receivers.stream().filter(OfflinePlayer::isOnline).forEach(p -> hidePlayer(p.getPlayer()));
     }
 
     @Override
-    public void update() {
+    public void onUpdate() {
         data.getBossBar().name(data.getText().getRaw());
     }
 
@@ -75,10 +59,6 @@ public abstract class AbstractBossbar extends AbstractAccessibleVisual<BossbarDa
         data.getBossBar().overlay(overlay);
     }
 
-    @Override
-    public void setTimeToLive(int timeToLive) {
-        data.setTimeToLive(timeToLive);
-    }
 
     @Override
     public float getProgress() {
@@ -93,10 +73,5 @@ public abstract class AbstractBossbar extends AbstractAccessibleVisual<BossbarDa
     @Override
     public BossBar.Overlay getOverlay() {
         return data.getOverlay();
-    }
-
-    @Override
-    public int getTimeToLive() {
-        return data.getTimeToLive();
     }
 }

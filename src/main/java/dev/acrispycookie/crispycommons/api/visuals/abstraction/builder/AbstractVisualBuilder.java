@@ -1,38 +1,38 @@
 package dev.acrispycookie.crispycommons.api.visuals.abstraction.builder;
 
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.CrispyAccessibleVisual;
-import org.bukkit.entity.Player;
+import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.CrispyVisual;
+import org.bukkit.OfflinePlayer;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-public abstract class AbstractVisualBuilder<T extends CrispyAccessibleVisual<?>> implements VisualBuilder<T> {
+public abstract class AbstractVisualBuilder<T extends CrispyVisual> implements VisualBuilder<T> {
 
-    protected final Set<Player> receivers = new HashSet<>();
-    protected long timeToLive = 0;
+    protected final Set<OfflinePlayer> receivers = new HashSet<>();
+    protected long timeToLive = -1;
 
     @Override
-    public AbstractVisualBuilder<T> addPlayer(Player p) {
+    public AbstractVisualBuilder<T> addPlayer(OfflinePlayer p) {
         receivers.add(p);
         return this;
     }
 
     @Override
-    public AbstractVisualBuilder<T> removePlayer(Player p) {
+    public AbstractVisualBuilder<T> removePlayer(OfflinePlayer p) {
         receivers.remove(p);
         return this;
     }
 
     @Override
-    public AbstractVisualBuilder<T> setPlayers(Collection<? extends Player> p) {
+    public AbstractVisualBuilder<T> setPlayers(Collection<? extends OfflinePlayer> p) {
         receivers.clear();
         receivers.addAll(p);
         return this;
     }
 
     @Override
-    public AbstractVisualBuilder<T> addPlayers(Collection<? extends Player> p) {
+    public AbstractVisualBuilder<T> addPlayers(Collection<? extends OfflinePlayer> p) {
         receivers.addAll(p);
         return this;
     }

@@ -2,7 +2,7 @@ package dev.acrispycookie.crispycommons.implementations.visuals.scoreboard;
 
 import dev.acrispycookie.crispycommons.api.visuals.scoreboard.CrispyScoreboard;
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.ScoreboardTitleLine;
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractAccessibleVisual;
+import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractVisual;
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.SimpleScoreboardLine;
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.wrappers.ScoreboardData;
 import org.bukkit.Bukkit;
@@ -13,48 +13,36 @@ import org.bukkit.scoreboard.Scoreboard;
 
 import java.util.*;
 
-public abstract class AbstractScoreboard extends AbstractAccessibleVisual<ScoreboardData> implements CrispyScoreboard {
+public abstract class AbstractScoreboard extends AbstractVisual<ScoreboardData> implements CrispyScoreboard {
 
-    AbstractScoreboard(ScoreboardData data, Set<? extends Player> receivers) {
-        super(data, receivers);
+    AbstractScoreboard(ScoreboardData data, Set<? extends OfflinePlayer> receivers, long timeToLive) {
+        super(data, receivers, timeToLive);
         this.data.setBukkitScoreboard(getNewBoard());
         this.data.getTitle().setScoreboard(this);
         this.data.getLines().forEach(l -> l.setScoreboard(this));
     }
 
     @Override
-    public void show() {
-        if (isDisplayed) {
-            return;
-        }
-
+    public void onShow() {
         this.data.getTitle().show(0);
         for (int i = 0; i < data.getLines().size(); i++) {
             AbstractScoreboardLine line = data.getLines().get(i);
             line.show(i);
         }
-        receivers.stream().filter(OfflinePlayer::isOnline).forEach(p -> p.setScoreboard(this.data.getBukkitScoreboard()));
-        isDisplayed = true;
+        receivers.stream().filter(OfflinePlayer::isOnline).forEach(p -> p.getPlayer().setScoreboard(this.data.getBukkitScoreboard()));
     }
 
     @Override
-    public void hide() {
-        if (!isDisplayed) {
-            return;
-        }
-
+    public void onHide() {
         data.getLines().forEach(AbstractScoreboardLine::hide);
-        receivers.stream().filter(OfflinePlayer::isOnline).forEach((p) -> p.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard()));
+        receivers.stream().filter(OfflinePlayer::isOnline).forEach((p) -> p.getPlayer().setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard()));
         data.setBukkitScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
-        isDisplayed = false;
     }
 
     @Override
-    public void update() {
-        if (isDisplayed) {
-            data.getTitle().update();
-            data.getLines().forEach(AbstractScoreboardLine::update);
-        }
+    public void onUpdate() {
+        data.getTitle().update();
+        data.getLines().forEach(AbstractScoreboardLine::update);
     }
 
     protected void updateScoreboard() {
@@ -67,7 +55,7 @@ public abstract class AbstractScoreboard extends AbstractAccessibleVisual<Scoreb
                     toShow.add(i);
                 l.hide();
             }
-            receivers.stream().filter(OfflinePlayer::isOnline).forEach(p -> p.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard()));
+            receivers.stream().filter(OfflinePlayer::isOnline).forEach(p -> p.getPlayer().setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard()));
 
             data.setBukkitScoreboard(getNewBoard());
             data.getTitle().show(0);
@@ -77,27 +65,29 @@ public abstract class AbstractScoreboard extends AbstractAccessibleVisual<Scoreb
                 line.show(index);
                 index++;
             }
-            receivers.stream().filter(OfflinePlayer::isOnline).forEach((p) -> p.setScoreboard(data.getBukkitScoreboard()));
+            receivers.stream().filter(OfflinePlayer::isOnline).forEach((p) -> p.getPlayer().setScoreboard(data.getBukkitScoreboard()));
         }
     }
 
     @Override
-    public void addPlayer(Player player) {
+    public void addPlayer(OfflinePlayer player) {
         super.addPlayer(player);
-        player.setScoreboard(data.getBukkitScoreboard());
+        if (player.isOnline())
+            player.getPlayer().setScoreboard(data.getBukkitScoreboard());
     }
 
     @Override
-    public void removePlayer(Player player) {
+    public void removePlayer(OfflinePlayer player) {
         super.removePlayer(player);
-        player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
+        if (player.isOnline())
+            player.getPlayer().setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
     }
 
     @Override
-    public void setPlayers(Collection<? extends Player> players) {
-        players.stream().filter(OfflinePlayer::isOnline).forEach(p -> p.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard()));
+    public void setPlayers(Collection<? extends OfflinePlayer> players) {
+        players.stream().filter(OfflinePlayer::isOnline).forEach(p -> p.getPlayer().setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard()));
         super.setPlayers(players);
-        players.stream().filter(OfflinePlayer::isOnline).forEach(p -> p.setScoreboard(data.getBukkitScoreboard()));
+        players.stream().filter(OfflinePlayer::isOnline).forEach(p -> p.getPlayer().setScoreboard(data.getBukkitScoreboard()));
     }
 
     @Override

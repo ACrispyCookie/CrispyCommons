@@ -2,6 +2,7 @@ package dev.acrispycookie.crispycommons.implementations.visuals.scoreboard;
 
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.wrappers.ScoreboardData;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -10,8 +11,8 @@ import java.util.Collection;
 import java.util.HashSet;
 
 public class PublicScoreboard extends SimpleScoreboard {
-    public PublicScoreboard(ScoreboardData data, Collection<? extends Player> receivers) {
-        super(data, new HashSet<>(receivers));
+    public PublicScoreboard(ScoreboardData data, Collection<? extends OfflinePlayer> receivers, long timeToLive) {
+        super(data, new HashSet<>(receivers), timeToLive);
         setPlayers(Bukkit.getOnlinePlayers());
     }
 

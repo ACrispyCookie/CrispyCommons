@@ -5,14 +5,15 @@ import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implemen
 import dev.acrispycookie.crispycommons.implementations.visuals.tablist.wrappers.TablistData;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.util.Set;
 
 public class SimpleTablist extends AbstractTablist {
 
-    public SimpleTablist(TablistData data, Set<? extends Player> receivers) {
-        super(data, receivers);
+    public SimpleTablist(TablistData data, Set<? extends OfflinePlayer> receivers, long timeToLive) {
+        super(data, receivers, timeToLive);
     }
 
     @Override

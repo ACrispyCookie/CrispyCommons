@@ -1,7 +1,7 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.tablist;
 
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.TextElement;
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractAccessibleVisual;
+import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractVisual;
 import dev.acrispycookie.crispycommons.api.visuals.tablist.CrispyTablist;
 import dev.acrispycookie.crispycommons.implementations.visuals.tablist.wrappers.TablistData;
 import org.bukkit.OfflinePlayer;
@@ -10,44 +10,33 @@ import org.bukkit.entity.Player;
 import java.util.List;
 import java.util.Set;
 
-public abstract class AbstractTablist extends AbstractAccessibleVisual<TablistData> implements CrispyTablist {
+public abstract class AbstractTablist extends AbstractVisual<TablistData> implements CrispyTablist {
 
     protected abstract void show(Player p);
     protected abstract void hide(Player p);
     protected abstract void update(Player p);
 
-    AbstractTablist(TablistData data, Set<? extends Player> receivers) {
-        super(data, receivers);
+    AbstractTablist(TablistData data, Set<? extends OfflinePlayer> receivers, long timeToLive) {
+        super(data, receivers, timeToLive);
     }
 
     @Override
-    public void show() {
-        if(isDisplayed)
-            return;
-
-        isDisplayed = true;
+    public void onShow() {
         data.getHeader().forEach(TextElement::start);
         data.getFooter().forEach(TextElement::start);
-        receivers.stream().filter(OfflinePlayer::isOnline).forEach(this::show);
+        receivers.stream().filter(OfflinePlayer::isOnline).forEach(p -> show(p.getPlayer()));
     }
 
     @Override
-    public void hide() {
-        if(!isDisplayed)
-            return;
-
-        isDisplayed = false;
+    public void onHide() {
         data.getHeader().forEach(TextElement::stop);
         data.getFooter().forEach(TextElement::stop);
-        receivers.stream().filter(OfflinePlayer::isOnline).forEach(this::hide);
+        receivers.stream().filter(OfflinePlayer::isOnline).forEach(p -> hide(p.getPlayer()));
     }
 
     @Override
-    public void update() {
-        if(!isDisplayed)
-            return;
-
-        receivers.stream().filter(OfflinePlayer::isOnline).forEach(this::update);
+    public void onUpdate() {
+        receivers.stream().filter(OfflinePlayer::isOnline).forEach(p -> update(p.getPlayer()));
     }
 
     @Override

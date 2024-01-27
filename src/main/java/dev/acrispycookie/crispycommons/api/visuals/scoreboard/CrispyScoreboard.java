@@ -5,7 +5,7 @@ import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implemen
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.PublicScoreboard;
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.SimpleScoreboard;
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.ScoreboardTitleLine;
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.CrispyAccessibleVisual;
+import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.CrispyVisual;
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.SimpleScoreboardLine;
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.wrappers.ScoreboardData;
 import org.bukkit.scoreboard.Scoreboard;
@@ -13,7 +13,7 @@ import org.bukkit.scoreboard.Scoreboard;
 import java.util.ArrayList;
 import java.util.List;
 
-public interface CrispyScoreboard extends CrispyAccessibleVisual<ScoreboardData> {
+public interface CrispyScoreboard extends CrispyVisual {
 
     static ScoreboardBuilder builder() {
         return new ScoreboardBuilder();
@@ -53,9 +53,9 @@ public interface CrispyScoreboard extends CrispyAccessibleVisual<ScoreboardData>
             SimpleScoreboard scoreboard;
 
             if(isPublic) {
-                scoreboard = new PublicScoreboard(data, receivers);
+                scoreboard = new PublicScoreboard(data, receivers, timeToLive);
             } else {
-                scoreboard = new SimpleScoreboard(data, receivers);
+                scoreboard = new SimpleScoreboard(data, receivers, timeToLive);
             }
 
             return scoreboard;

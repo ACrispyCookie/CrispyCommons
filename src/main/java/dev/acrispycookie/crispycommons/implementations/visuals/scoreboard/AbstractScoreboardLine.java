@@ -1,11 +1,11 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.scoreboard;
 
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractVisual;
+import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractNonVisual;
 import dev.acrispycookie.crispycommons.api.visuals.scoreboard.CrispyScoreboard;
 import dev.acrispycookie.crispycommons.api.visuals.scoreboard.ScoreboardLine;
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.wrappers.ScoreboardLineData;
 
-public abstract class AbstractScoreboardLine extends AbstractVisual<ScoreboardLineData> implements ScoreboardLine {
+public abstract class AbstractScoreboardLine extends AbstractNonVisual<ScoreboardLineData> implements ScoreboardLine {
 
     protected abstract void initialize();
     protected abstract void updateInternal();

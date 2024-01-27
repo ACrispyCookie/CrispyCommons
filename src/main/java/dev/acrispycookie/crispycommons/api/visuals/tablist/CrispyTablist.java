@@ -2,14 +2,14 @@ package dev.acrispycookie.crispycommons.api.visuals.tablist;
 
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.builder.AbstractVisualBuilder;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.TextElement;
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.CrispyAccessibleVisual;
+import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.CrispyVisual;
 import dev.acrispycookie.crispycommons.implementations.visuals.tablist.SimpleTablist;
 import dev.acrispycookie.crispycommons.implementations.visuals.tablist.wrappers.TablistData;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public interface CrispyTablist extends CrispyAccessibleVisual<TablistData> {
+public interface CrispyTablist extends CrispyVisual {
 
     static TablistBuilder builder() {
         return new TablistBuilder();
@@ -42,7 +42,7 @@ public interface CrispyTablist extends CrispyAccessibleVisual<TablistData> {
 
         @Override
         public CrispyTablist build() {
-            tablist = new SimpleTablist(data, receivers);
+            tablist = new SimpleTablist(data, receivers, timeToLive);
             return tablist;
         }
     }

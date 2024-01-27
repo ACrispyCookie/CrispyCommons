@@ -2,58 +2,48 @@ package dev.acrispycookie.crispycommons.implementations.visuals.title;
 
 import dev.acrispycookie.crispycommons.CrispyCommons;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.TextElement;
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractAccessibleVisual;
+import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractVisual;
 import dev.acrispycookie.crispycommons.api.visuals.title.CrispyTitle;
 import dev.acrispycookie.crispycommons.implementations.visuals.title.wrappers.TitleData;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Set;
 
-public abstract class AbstractTitle extends AbstractAccessibleVisual<TitleData> implements CrispyTitle {
+public abstract class AbstractTitle extends AbstractVisual<TitleData> implements CrispyTitle {
 
     protected abstract void showPlayer(Player p);
     protected abstract void updatePlayer(Player p);
     protected long timeStarted;
 
-    AbstractTitle(TitleData data, Set<? extends Player> receivers) {
-        super(data, receivers);
+    AbstractTitle(TitleData data, Set<? extends OfflinePlayer> receivers, long timeToLive) {
+        super(data, receivers, timeToLive);
     }
 
     @Override
-    public void show() {
-        if (isDisplayed)
-            return;
-
-        isDisplayed = true;
+    public void onShow() {
         timeStarted = System.currentTimeMillis();
         data.getTitle().start();
         data.getSubtitle().start();
-        receivers.stream().filter(Player::isOnline).forEach(this::showPlayer);
+        receivers.stream().filter(OfflinePlayer::isOnline).forEach(p -> showPlayer(p.getPlayer()));
         new BukkitRunnable() {
             @Override
             public void run() {
                 hide();
             }
-        }.runTaskLater(CrispyCommons.getPlugin(), data.getSmallestPeriod() != -1 ? data.getDuration() : 0);
+        }.runTaskLater(CrispyCommons.getPlugin(), data.getSmallestPeriod() != -1 ? timeToLive : 0);
     }
 
     @Override
-    public void hide() {
-        if (!isDisplayed)
-            return;
-
-        isDisplayed = false;
+    public void onHide() {
         data.getTitle().stop();
         data.getSubtitle().stop();
     }
 
     @Override
-    public void update() {
-        if (!isDisplayed)
-            return;
-
-        receivers.stream().filter(Player::isOnline).forEach(this::updatePlayer);
+    public void onUpdate() {
+        receivers.stream().filter(OfflinePlayer::isOnline).forEach(p -> updatePlayer(p.getPlayer()));
     }
 
     @Override
@@ -69,11 +59,6 @@ public abstract class AbstractTitle extends AbstractAccessibleVisual<TitleData> 
     @Override
     public void setFadeIn(int fadeIn) {
         this.data.setFadeIn(fadeIn);
-    }
-
-    @Override
-    public void setDuration(int duration) {
-        this.data.setDuration(duration);
     }
 
     @Override
@@ -94,11 +79,6 @@ public abstract class AbstractTitle extends AbstractAccessibleVisual<TitleData> 
     @Override
     public int getFadeIn() {
         return this.data.getFadeIn();
-    }
-
-    @Override
-    public int getDuration() {
-        return this.data.getDuration();
     }
 
     @Override

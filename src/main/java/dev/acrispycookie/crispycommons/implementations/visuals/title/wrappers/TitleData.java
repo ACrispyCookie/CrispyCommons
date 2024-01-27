@@ -8,15 +8,13 @@ public class TitleData implements VisualData {
     private TextElement title;
     private TextElement subtitle;
     private int fadeIn;
-    private int duration;
     private int fadeOut;
     private int smallestPeriod;
 
-    public TitleData(TextElement title, TextElement subtitle, int fadeIn, int duration, int fadeOut) {
+    public TitleData(TextElement title, TextElement subtitle, int fadeIn, int fadeOut) {
         this.title = title;
         this.subtitle = subtitle;
         this.fadeIn = fadeIn;
-        this.duration = duration;
         this.fadeOut = fadeOut;
     }
 
@@ -30,10 +28,6 @@ public class TitleData implements VisualData {
 
     public int getFadeIn() {
         return fadeIn;
-    }
-
-    public int getDuration() {
-        return duration;
     }
 
     public int getFadeOut() {
@@ -52,10 +46,6 @@ public class TitleData implements VisualData {
 
     public void setFadeIn(int fadeIn) {
         this.fadeIn = fadeIn;
-    }
-
-    public void setDuration(int duration) {
-        this.duration = duration;
     }
 
     public void setFadeOut(int fadeOut) {

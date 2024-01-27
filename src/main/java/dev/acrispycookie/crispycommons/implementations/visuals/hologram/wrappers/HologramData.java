@@ -1,37 +1,39 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.hologram.wrappers;
 
+import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.AnimatedElement;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.VisualData;
-import dev.acrispycookie.crispycommons.implementations.visuals.hologram.AbstractHologramLine;
 import org.bukkit.Location;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public class HologramData implements VisualData {
 
-    private List<AbstractHologramLine<?>> lines;
-    private int timeToLive;
+    private List<AnimatedElement<?>> lines;
     private Location location;
 
-    public HologramData(List<AbstractHologramLine<?>> lines, int timeToLive, Location location) {
-        this.lines = lines;
-        this.timeToLive = timeToLive;
+    public HologramData(Collection<? extends AnimatedElement<?>> lines, Location location) {
+        this.lines = new ArrayList<>(lines);
         this.location = location;
     }
 
-    public List<AbstractHologramLine<?>> getLines() {
+    public List<AnimatedElement<?>> getLines() {
         return lines;
     }
 
-    public void setLines(List<AbstractHologramLine<?>> lines) {
-        this.lines = lines;
+    public void setLines(List<AnimatedElement<?>> lines) {
+        this.lines.clear();
+        this.lines.addAll(lines);
     }
 
-    public int getTimeToLive() {
-        return timeToLive;
+    public void removeLine(int index) {
+        this.lines.remove(index);
     }
 
-    public void setTimeToLive(int timeToLive) {
-        this.timeToLive = timeToLive;
+    public void addLine(int index, AnimatedElement<?> element) {
+        this.lines.add(index, element);
     }
 
     public Location getLocation() {

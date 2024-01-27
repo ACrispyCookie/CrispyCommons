@@ -2,15 +2,12 @@ package dev.acrispycookie.crispycommons.api.visuals.bossbar;
 
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.builder.AbstractVisualBuilder;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.TextElement;
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.CrispyAccessibleVisual;
+import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.CrispyVisual;
 import dev.acrispycookie.crispycommons.implementations.visuals.bossbar.SimpleBossbar;
 import dev.acrispycookie.crispycommons.implementations.visuals.bossbar.wrappers.BossbarData;
 import net.kyori.adventure.bossbar.BossBar;
-import org.bukkit.entity.Player;
 
-import java.util.Collection;
-
-public interface CrispyBossbar extends CrispyAccessibleVisual<BossbarData> {
+public interface CrispyBossbar extends CrispyVisual {
 
     static BossbarBuilder builder() {
         return new BossbarBuilder();
@@ -26,7 +23,7 @@ public interface CrispyBossbar extends CrispyAccessibleVisual<BossbarData> {
     class BossbarBuilder extends AbstractVisualBuilder<CrispyBossbar> {
 
         private CrispyBossbar bossbar;
-        private final BossbarData data = new BossbarData(0, 1, BossBar.Color.WHITE, BossBar.Overlay.PROGRESS, TextElement.simple(""));
+        private final BossbarData data = new BossbarData( 1, BossBar.Color.WHITE, BossBar.Overlay.PROGRESS, TextElement.simple(""));
 
         public BossbarBuilder setText(TextElement text) {
             this.data.setText(text);
@@ -49,14 +46,9 @@ public interface CrispyBossbar extends CrispyAccessibleVisual<BossbarData> {
             return this;
         }
 
-        public BossbarBuilder setTimeToLive(int timeToLive) {
-            this.data.setTimeToLive(timeToLive);
-            return this;
-        }
-
         @Override
         public CrispyBossbar build() {
-            this.bossbar = new SimpleBossbar(data, receivers);
+            this.bossbar = new SimpleBossbar(data, receivers, timeToLive);
             return bossbar;
         }
     }

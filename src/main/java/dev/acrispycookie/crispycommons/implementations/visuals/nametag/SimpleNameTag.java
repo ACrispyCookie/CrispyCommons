@@ -6,6 +6,7 @@ import dev.acrispycookie.crispycommons.api.visuals.hologram.CrispyHologram;
 import dev.acrispycookie.crispycommons.implementations.visuals.nametag.wrappers.NameTagData;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -19,8 +20,8 @@ public class SimpleNameTag extends AbstractNametag implements Listener {
     private CrispyHologram aboveNameHologram;
     private CrispyHologram belowNameHologram;
 
-    public SimpleNameTag(NameTagData data, Set<? extends Player> receivers) {
-        super(data, receivers);
+    public SimpleNameTag(NameTagData data, Set<? extends OfflinePlayer> receivers, long timeToLive) {
+        super(data, receivers, timeToLive);
         this.receivers.addAll(Bukkit.getOnlinePlayers());
         Bukkit.getPluginManager().registerEvents(this, CrispyCommons.getPlugin());
         if (!StringUtils.isEmptyOrWhitespaceOnly(LegacyComponentSerializer.legacyAmpersand().serialize(data.getAboveName().getRaw())))
