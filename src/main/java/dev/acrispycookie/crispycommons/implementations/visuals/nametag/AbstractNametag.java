@@ -1,7 +1,8 @@
-package dev.acrispycookie.crispycommons.api.visuals.nametag;
+package dev.acrispycookie.crispycommons.implementations.visuals.nametag;
 
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.TextElement;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractAccessibleVisual;
+import dev.acrispycookie.crispycommons.api.visuals.nametag.CrispyNametag;
 import dev.acrispycookie.crispycommons.implementations.visuals.nametag.wrappers.NameTagData;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -14,7 +15,7 @@ public abstract class AbstractNametag extends AbstractAccessibleVisual<NameTagDa
     protected abstract void hidePlayer(Player p);
     protected abstract void updatePlayer(Player p);
 
-    public AbstractNametag(NameTagData data, Set<? extends Player> receivers) {
+    AbstractNametag(NameTagData data, Set<? extends Player> receivers) {
         super(data, receivers);
     }
 

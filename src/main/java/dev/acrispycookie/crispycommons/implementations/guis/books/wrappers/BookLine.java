@@ -1,4 +1,4 @@
-package dev.acrispycookie.crispycommons.api.guis.book.wrappers;
+package dev.acrispycookie.crispycommons.implementations.guis.books.wrappers;
 
 
 import net.kyori.adventure.text.Component;

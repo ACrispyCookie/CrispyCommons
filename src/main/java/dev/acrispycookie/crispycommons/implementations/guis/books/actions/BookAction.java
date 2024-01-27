@@ -1,4 +1,4 @@
-package dev.acrispycookie.crispycommons.api.guis.book.actions;
+package dev.acrispycookie.crispycommons.implementations.guis.books.actions;
 
 import org.bukkit.entity.Player;
 

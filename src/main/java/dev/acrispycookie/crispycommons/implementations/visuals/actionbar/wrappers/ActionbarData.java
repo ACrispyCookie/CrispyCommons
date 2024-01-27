@@ -6,11 +6,9 @@ import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.VisualData
 public class ActionbarData implements VisualData {
 
     private TextElement element;
-    private int duration;
 
-    public ActionbarData(TextElement element, int duration) {
+    public ActionbarData(TextElement element) {
         this.element = element;
-        this.duration = duration;
     }
 
     public TextElement getElement() {
@@ -19,13 +17,5 @@ public class ActionbarData implements VisualData {
 
     public void setElement(TextElement element) {
         this.element = element;
-    }
-
-    public int getDuration() {
-        return duration;
-    }
-
-    public void setDuration(int duration) {
-        this.duration = duration;
     }
 }

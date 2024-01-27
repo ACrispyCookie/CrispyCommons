@@ -1,6 +1,8 @@
-package dev.acrispycookie.crispycommons.api.visuals.scoreboard;
+package dev.acrispycookie.crispycommons.implementations.visuals.scoreboard;
 
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractVisual;
+import dev.acrispycookie.crispycommons.api.visuals.scoreboard.CrispyScoreboard;
+import dev.acrispycookie.crispycommons.api.visuals.scoreboard.ScoreboardLine;
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.wrappers.ScoreboardLineData;
 
 public abstract class AbstractScoreboardLine extends AbstractVisual<ScoreboardLineData> implements ScoreboardLine {

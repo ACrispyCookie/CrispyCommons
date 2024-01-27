@@ -2,7 +2,7 @@ package dev.acrispycookie.crispycommons.implementations.guis.books;
 
 import dev.acrispycookie.crispycommons.CrispyCommons;
 import dev.acrispycookie.crispycommons.api.guis.book.CrispyBook;
-import dev.acrispycookie.crispycommons.api.guis.book.wrappers.BookPage;
+import dev.acrispycookie.crispycommons.implementations.guis.books.wrappers.BookPage;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.inventory.Book;
 import net.kyori.adventure.text.Component;

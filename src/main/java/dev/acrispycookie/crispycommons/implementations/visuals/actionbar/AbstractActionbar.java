@@ -1,7 +1,8 @@
-package dev.acrispycookie.crispycommons.api.visuals.actionbar;
+package dev.acrispycookie.crispycommons.implementations.visuals.actionbar;
 
 import dev.acrispycookie.crispycommons.CrispyCommons;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractAccessibleVisual;
+import dev.acrispycookie.crispycommons.api.visuals.actionbar.CrispyActionbar;
 import dev.acrispycookie.crispycommons.implementations.visuals.actionbar.wrappers.ActionbarData;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -12,8 +13,8 @@ public abstract class AbstractActionbar extends AbstractAccessibleVisual<Actionb
 
     protected abstract void showPlayer(Player p);
 
-    public AbstractActionbar(ActionbarData data, Set<? extends Player> receivers) {
-        super(data, receivers);
+    AbstractActionbar(ActionbarData data, Set<? extends Player> receivers, long timeToLive) {
+        super(data, receivers, timeToLive);
     }
 
     @Override
@@ -24,14 +25,12 @@ public abstract class AbstractActionbar extends AbstractAccessibleVisual<Actionb
         isDisplayed = true;
         data.getElement().start();
         receivers.stream().filter(Player::isOnline).forEach(this::showPlayer);
-        if (data.getDuration() != -1) {
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    hide();
-                }
-            }.runTaskLater(CrispyCommons.getPlugin(), data.getDuration());
-        }
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                hide();
+            }
+        }.runTaskLater(CrispyCommons.getPlugin(), timeToLive);
     }
 
     @Override
@@ -49,10 +48,5 @@ public abstract class AbstractActionbar extends AbstractAccessibleVisual<Actionb
             return;
 
         receivers.stream().filter(Player::isOnline).forEach(this::showPlayer);
-    }
-
-    @Override
-    public void setDuration(int duration) {
-        data.setDuration(duration);
     }
 }

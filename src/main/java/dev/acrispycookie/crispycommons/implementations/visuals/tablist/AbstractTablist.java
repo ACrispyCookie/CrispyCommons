@@ -1,7 +1,8 @@
-package dev.acrispycookie.crispycommons.api.visuals.tablist;
+package dev.acrispycookie.crispycommons.implementations.visuals.tablist;
 
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.TextElement;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractAccessibleVisual;
+import dev.acrispycookie.crispycommons.api.visuals.tablist.CrispyTablist;
 import dev.acrispycookie.crispycommons.implementations.visuals.tablist.wrappers.TablistData;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -15,7 +16,7 @@ public abstract class AbstractTablist extends AbstractAccessibleVisual<TablistDa
     protected abstract void hide(Player p);
     protected abstract void update(Player p);
 
-    public AbstractTablist(TablistData data, Set<? extends Player> receivers) {
+    AbstractTablist(TablistData data, Set<? extends Player> receivers) {
         super(data, receivers);
     }
 

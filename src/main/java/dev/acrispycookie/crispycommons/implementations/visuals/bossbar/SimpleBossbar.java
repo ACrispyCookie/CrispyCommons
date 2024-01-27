@@ -1,7 +1,6 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.bossbar;
 
 import dev.acrispycookie.crispycommons.CrispyCommons;
-import dev.acrispycookie.crispycommons.api.visuals.bossbar.AbstractBossbar;
 import dev.acrispycookie.crispycommons.implementations.visuals.bossbar.wrappers.BossbarData;
 import net.kyori.adventure.audience.Audience;
 import org.bukkit.entity.Player;

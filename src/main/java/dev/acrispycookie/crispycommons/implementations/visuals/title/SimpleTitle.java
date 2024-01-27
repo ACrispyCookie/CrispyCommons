@@ -1,8 +1,6 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.title;
 
 import dev.acrispycookie.crispycommons.CrispyCommons;
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.TextElement;
-import dev.acrispycookie.crispycommons.api.visuals.title.AbstractTitle;
 import dev.acrispycookie.crispycommons.implementations.visuals.title.wrappers.TitleData;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.title.Title;
@@ -18,16 +16,35 @@ public class SimpleTitle extends AbstractTitle {
     }
 
     @Override
-    protected void showInternal() {
-        Audience audience = CrispyCommons.getBukkitAudiences().filter(cs -> (cs instanceof Player) && receivers.contains(cs));
-        TextElement title = data.getTitle();
-        TextElement subtitle = data.getSubtitle();
-        Title toSend = Title.title(title.getRaw(), subtitle.getRaw(), Title.Times.times(Duration.ofMillis(getFadeIn() * 50L), Duration.ofMillis(getDuration() * 50L), Duration.ofMillis(getFadeOut() * 50L)));
-        audience.showTitle(toSend);
+    protected void showPlayer(Player p) {
+        showTitle(p, data.getFadeIn() * 50L, data.getDuration() * 50L, data.getFadeOut() * 50L);
     }
 
     @Override
-    protected void hideInternal() {
+    protected void updatePlayer(Player p) {
 
+        // Last title update
+        if (System.currentTimeMillis() > timeStarted + data.getDuration() * 50L - data.getSmallestPeriod() * 150L - data.getFadeOut() * 50L) {
+            showTitle(p, 0, data.getSmallestPeriod() * 150L, data.getFadeOut() * 50L);
+            return;
+        }
+
+        // First title update
+        if (System.currentTimeMillis() < timeStarted + data.getSmallestPeriod() * 150L) {
+            hidePlayer(p);
+        }
+
+        showTitle(p, 0, data.getSmallestPeriod() * 150L, 0);
+    }
+    private void hidePlayer(Player p) {
+        Audience audience = CrispyCommons.getBukkitAudiences().player(p);
+        audience.clearTitle();
+    }
+
+    private void showTitle(Player p, long fadeIn, long duration, long fadeOut) {
+        Audience audience = CrispyCommons.getBukkitAudiences().player(p);
+        Title toSend = Title.title(data.getTitle().getRaw(), data.getSubtitle().getRaw(),
+                Title.Times.times(Duration.ofMillis(fadeIn), Duration.ofMillis(duration), Duration.ofMillis(fadeOut)));
+        audience.showTitle(toSend);
     }
 }

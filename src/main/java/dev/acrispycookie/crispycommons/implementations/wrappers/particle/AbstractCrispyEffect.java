@@ -1,5 +1,6 @@
-package dev.acrispycookie.crispycommons.api.wrappers.particle;
+package dev.acrispycookie.crispycommons.implementations.wrappers.particle;
 
+import dev.acrispycookie.crispycommons.api.wrappers.particle.CrispyEffect;
 import org.bukkit.Location;
 
 public abstract class AbstractCrispyEffect implements CrispyEffect {

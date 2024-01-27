@@ -1,10 +1,6 @@
-package dev.acrispycookie.crispycommons.api.guis.book.wrappers;
+package dev.acrispycookie.crispycommons.implementations.guis.books.wrappers;
 
 import net.kyori.adventure.text.Component;
-import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.chat.ComponentSerializer;
-import net.minecraft.server.v1_8_R3.IChatBaseComponent;
 
 import java.util.ArrayList;
 import java.util.Arrays;

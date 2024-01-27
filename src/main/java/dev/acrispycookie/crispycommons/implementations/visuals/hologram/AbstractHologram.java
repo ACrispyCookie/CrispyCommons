@@ -1,7 +1,8 @@
-package dev.acrispycookie.crispycommons.api.visuals.hologram;
+package dev.acrispycookie.crispycommons.implementations.visuals.hologram;
 
 import dev.acrispycookie.crispycommons.CrispyCommons;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractAccessibleVisual;
+import dev.acrispycookie.crispycommons.api.visuals.hologram.CrispyHologram;
 import dev.acrispycookie.crispycommons.implementations.visuals.hologram.wrappers.HologramData;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -12,7 +13,7 @@ import java.util.*;
 public abstract class AbstractHologram extends AbstractAccessibleVisual<HologramData> implements CrispyHologram {
 
 
-    public AbstractHologram(HologramData data, Set<? extends Player> receivers) {
+    AbstractHologram(HologramData data, Set<? extends Player> receivers) {
         super(data, receivers);
         this.data.getLines().forEach(l -> l.setHologram(this));
     }

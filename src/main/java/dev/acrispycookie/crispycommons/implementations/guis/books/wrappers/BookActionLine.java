@@ -1,6 +1,6 @@
-package dev.acrispycookie.crispycommons.api.guis.book.wrappers;
+package dev.acrispycookie.crispycommons.implementations.guis.books.wrappers;
 
-import dev.acrispycookie.crispycommons.api.guis.book.actions.BookAction;
+import dev.acrispycookie.crispycommons.implementations.guis.books.actions.BookAction;
 import dev.acrispycookie.crispycommons.implementations.guis.books.actions.BookActionCommand;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;

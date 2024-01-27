@@ -33,13 +33,6 @@ public abstract class DynamicElement<T> extends AbstractElement<T> {
                 public void run() {
                     element = supplier.get();
                     update.run();
-                    CrispyLogger.log(CrispyCommons.getPlugin(), Level.WARNING, "------------------------");
-                    CrispyLogger.log(CrispyCommons.getPlugin(), Level.WARNING, "Dynamic element update:");
-                    CrispyLogger.log(CrispyCommons.getPlugin(), Level.WARNING, "  - Element: " + element);
-                    CrispyLogger.log(CrispyCommons.getPlugin(), Level.WARNING, "  - Supplier: " + supplier);
-                    CrispyLogger.log(CrispyCommons.getPlugin(), Level.WARNING, "  - Period: " + period);
-                    CrispyLogger.log(CrispyCommons.getPlugin(), Level.WARNING, "  - Async: " + async);
-                    CrispyLogger.log(CrispyCommons.getPlugin(), Level.WARNING, "------------------------");
                 }
             }.runTaskTimerAsynchronously(CrispyCommons.getPlugin(), period, period);
             return;
@@ -50,13 +43,6 @@ public abstract class DynamicElement<T> extends AbstractElement<T> {
             public void run() {
                 element = supplier.get();
                 update.run();
-                CrispyLogger.log(CrispyCommons.getPlugin(), Level.WARNING, "------------------------");
-                CrispyLogger.log(CrispyCommons.getPlugin(), Level.WARNING, "Dynamic element update:");
-                CrispyLogger.log(CrispyCommons.getPlugin(), Level.WARNING, "  - Element: " + element);
-                CrispyLogger.log(CrispyCommons.getPlugin(), Level.WARNING, "  - Supplier: " + supplier);
-                CrispyLogger.log(CrispyCommons.getPlugin(), Level.WARNING, "  - Period: " + period);
-                CrispyLogger.log(CrispyCommons.getPlugin(), Level.WARNING, "  - Async: " + async);
-                CrispyLogger.log(CrispyCommons.getPlugin(), Level.WARNING, "------------------------");
             }
         }.runTaskTimer(CrispyCommons.getPlugin(), period, period);
     }

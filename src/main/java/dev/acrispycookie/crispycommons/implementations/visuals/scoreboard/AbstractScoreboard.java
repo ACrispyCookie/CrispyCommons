@@ -1,5 +1,6 @@
-package dev.acrispycookie.crispycommons.api.visuals.scoreboard;
+package dev.acrispycookie.crispycommons.implementations.visuals.scoreboard;
 
+import dev.acrispycookie.crispycommons.api.visuals.scoreboard.CrispyScoreboard;
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.ScoreboardTitleLine;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractAccessibleVisual;
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.lines.SimpleScoreboardLine;
@@ -14,7 +15,7 @@ import java.util.*;
 
 public abstract class AbstractScoreboard extends AbstractAccessibleVisual<ScoreboardData> implements CrispyScoreboard {
 
-    public AbstractScoreboard(ScoreboardData data, Set<? extends Player> receivers) {
+    AbstractScoreboard(ScoreboardData data, Set<? extends Player> receivers) {
         super(data, receivers);
         this.data.setBukkitScoreboard(getNewBoard());
         this.data.getTitle().setScoreboard(this);

@@ -1,6 +1,7 @@
-package dev.acrispycookie.crispycommons.api.visuals.particle;
+package dev.acrispycookie.crispycommons.implementations.visuals.particle;
 
 import dev.acrispycookie.crispycommons.CrispyCommons;
+import dev.acrispycookie.crispycommons.api.visuals.particle.CrispyParticle;
 import dev.acrispycookie.crispycommons.api.wrappers.particle.CrispyEffect;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractAccessibleVisual;
 import dev.acrispycookie.crispycommons.implementations.visuals.particle.wrappers.ParticleData;
@@ -14,7 +15,7 @@ public abstract class AbstractParticle<T extends CrispyEffect> extends AbstractA
 
     protected abstract void playOnce(Player p);
 
-    protected AbstractParticle(ParticleData<T> data, Set<? extends Player> receivers) {
+    AbstractParticle(ParticleData<T> data, Set<? extends Player> receivers) {
         super(data, receivers);
     }
 
@@ -28,8 +29,6 @@ public abstract class AbstractParticle<T extends CrispyEffect> extends AbstractA
             isDisplayed = false;
             return;
         }
-
-
 
         data.setTask(new BukkitRunnable() {
             long i = 0;

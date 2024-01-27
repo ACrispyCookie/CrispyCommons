@@ -1,14 +1,8 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.nametag.wrappers;
 
-import com.mysql.jdbc.StringUtils;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.TextElement;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.VisualData;
-import dev.acrispycookie.crispycommons.api.visuals.hologram.CrispyHologram;
-import dev.acrispycookie.crispycommons.implementations.visuals.hologram.builders.HologramBuilder;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.entity.Player;
-
-import java.util.HashSet;
 
 public class NameTagData implements VisualData {
 
@@ -76,5 +70,13 @@ public class NameTagData implements VisualData {
 
     public boolean isHologramBelowName() {
         return hologramBelowName;
+    }
+
+    public void setNameMode(boolean hologramName) {
+        this.hologramName = hologramName;
+    }
+
+    public void setBelowNameMode(boolean hologramBelowName) {
+        this.hologramBelowName = hologramBelowName;
     }
 }

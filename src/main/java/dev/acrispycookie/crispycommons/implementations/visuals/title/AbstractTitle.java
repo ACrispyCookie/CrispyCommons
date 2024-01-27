@@ -1,18 +1,22 @@
-package dev.acrispycookie.crispycommons.api.visuals.title;
+package dev.acrispycookie.crispycommons.implementations.visuals.title;
 
+import dev.acrispycookie.crispycommons.CrispyCommons;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.TextElement;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractAccessibleVisual;
+import dev.acrispycookie.crispycommons.api.visuals.title.CrispyTitle;
 import dev.acrispycookie.crispycommons.implementations.visuals.title.wrappers.TitleData;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Set;
 
 public abstract class AbstractTitle extends AbstractAccessibleVisual<TitleData> implements CrispyTitle {
 
-    protected abstract void showInternal();
-    protected abstract void hideInternal();
+    protected abstract void showPlayer(Player p);
+    protected abstract void updatePlayer(Player p);
+    protected long timeStarted;
 
-    public AbstractTitle(TitleData data, Set<? extends Player> receivers) {
+    AbstractTitle(TitleData data, Set<? extends Player> receivers) {
         super(data, receivers);
     }
 
@@ -22,9 +26,16 @@ public abstract class AbstractTitle extends AbstractAccessibleVisual<TitleData> 
             return;
 
         isDisplayed = true;
+        timeStarted = System.currentTimeMillis();
         data.getTitle().start();
         data.getSubtitle().start();
-        showInternal();
+        receivers.stream().filter(Player::isOnline).forEach(this::showPlayer);
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                hide();
+            }
+        }.runTaskLater(CrispyCommons.getPlugin(), data.getSmallestPeriod() != -1 ? data.getDuration() : 0);
     }
 
     @Override
@@ -35,12 +46,14 @@ public abstract class AbstractTitle extends AbstractAccessibleVisual<TitleData> 
         isDisplayed = false;
         data.getTitle().stop();
         data.getSubtitle().stop();
-        hideInternal();
     }
 
     @Override
     public void update() {
+        if (!isDisplayed)
+            return;
 
+        receivers.stream().filter(Player::isOnline).forEach(this::updatePlayer);
     }
 
     @Override
@@ -69,11 +82,6 @@ public abstract class AbstractTitle extends AbstractAccessibleVisual<TitleData> 
     }
 
     @Override
-    public void setPeriod(int period) {
-        this.data.setPeriod(period);
-    }
-
-    @Override
     public TextElement getTitle() {
         return this.data.getTitle();
     }
@@ -96,10 +104,5 @@ public abstract class AbstractTitle extends AbstractAccessibleVisual<TitleData> 
     @Override
     public int getFadeOut() {
         return this.data.getFadeOut();
-    }
-
-    @Override
-    public int getPeriod() {
-        return this.data.getPeriod();
     }
 }

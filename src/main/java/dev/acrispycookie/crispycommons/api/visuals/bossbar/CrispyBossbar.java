@@ -1,19 +1,63 @@
 package dev.acrispycookie.crispycommons.api.visuals.bossbar;
 
+import dev.acrispycookie.crispycommons.api.visuals.abstraction.builder.AbstractVisualBuilder;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.TextElement;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.CrispyAccessibleVisual;
+import dev.acrispycookie.crispycommons.implementations.visuals.bossbar.SimpleBossbar;
 import dev.acrispycookie.crispycommons.implementations.visuals.bossbar.wrappers.BossbarData;
 import net.kyori.adventure.bossbar.BossBar;
+import org.bukkit.entity.Player;
+
+import java.util.Collection;
 
 public interface CrispyBossbar extends CrispyAccessibleVisual<BossbarData> {
 
+    static BossbarBuilder builder() {
+        return new BossbarBuilder();
+    }
     void setText(TextElement text);
     void setProgress(float progress);
     void setColor(BossBar.Color color);
     void setOverlay(BossBar.Overlay overlay);
-    void setTimeToLive(int timeToLive);
     float getProgress();
     BossBar.Color getColor();
     BossBar.Overlay getOverlay();
-    int getTimeToLive();
+
+    class BossbarBuilder extends AbstractVisualBuilder<CrispyBossbar> {
+
+        private CrispyBossbar bossbar;
+        private final BossbarData data = new BossbarData(0, 1, BossBar.Color.WHITE, BossBar.Overlay.PROGRESS, TextElement.simple(""));
+
+        public BossbarBuilder setText(TextElement text) {
+            this.data.setText(text);
+            this.data.getText().setUpdate(() -> bossbar.update());
+            return this;
+        }
+
+        public BossbarBuilder setProgress(float progress) {
+            this.data.setProgress(progress);
+            return this;
+        }
+
+        public BossbarBuilder setColor(BossBar.Color color) {
+            this.data.setColor(color);
+            return this;
+        }
+
+        public BossbarBuilder setOverlay(BossBar.Overlay overlay) {
+            this.data.setOverlay(overlay);
+            return this;
+        }
+
+        public BossbarBuilder setTimeToLive(int timeToLive) {
+            this.data.setTimeToLive(timeToLive);
+            return this;
+        }
+
+        @Override
+        public CrispyBossbar build() {
+            this.bossbar = new SimpleBossbar(data, receivers);
+            return bossbar;
+        }
+    }
 }

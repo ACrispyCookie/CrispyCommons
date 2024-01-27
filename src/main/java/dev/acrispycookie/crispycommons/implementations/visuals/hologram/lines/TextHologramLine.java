@@ -2,7 +2,7 @@ package dev.acrispycookie.crispycommons.implementations.visuals.hologram.lines;
 
 import com.mysql.jdbc.StringUtils;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.TextElement;
-import dev.acrispycookie.crispycommons.api.visuals.hologram.AbstractHologramLine;
+import dev.acrispycookie.crispycommons.implementations.visuals.hologram.AbstractHologramLine;
 import dev.acrispycookie.crispycommons.api.visuals.hologram.HologramLine;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.minecraft.server.v1_8_R3.*;

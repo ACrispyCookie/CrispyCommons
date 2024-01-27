@@ -1,7 +1,9 @@
-package dev.acrispycookie.crispycommons.api.visuals.hologram;
+package dev.acrispycookie.crispycommons.implementations.visuals.hologram;
 
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.AnimatedElement;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractVisual;
+import dev.acrispycookie.crispycommons.api.visuals.hologram.CrispyHologram;
+import dev.acrispycookie.crispycommons.api.visuals.hologram.HologramLine;
 import dev.acrispycookie.crispycommons.implementations.visuals.hologram.wrappers.HologramLineData;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;

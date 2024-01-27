@@ -1,6 +1,5 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.particle;
 
-import dev.acrispycookie.crispycommons.api.visuals.particle.AbstractParticle;
 import dev.acrispycookie.crispycommons.implementations.visuals.particle.wrappers.ParticleData;
 import dev.acrispycookie.crispycommons.implementations.wrappers.particle.RenderedEffect;
 import org.bukkit.entity.Player;

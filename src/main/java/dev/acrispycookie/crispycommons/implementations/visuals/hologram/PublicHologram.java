@@ -1,9 +1,7 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.hologram;
 
-import dev.acrispycookie.crispycommons.api.visuals.hologram.AbstractHologramLine;
 import dev.acrispycookie.crispycommons.implementations.visuals.hologram.wrappers.HologramData;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

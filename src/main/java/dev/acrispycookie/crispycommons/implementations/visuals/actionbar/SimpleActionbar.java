@@ -1,7 +1,6 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.actionbar;
 
 import dev.acrispycookie.crispycommons.CrispyCommons;
-import dev.acrispycookie.crispycommons.api.visuals.actionbar.AbstractActionbar;
 import dev.acrispycookie.crispycommons.implementations.visuals.actionbar.wrappers.ActionbarData;
 import net.kyori.adventure.audience.Audience;
 import org.bukkit.entity.Player;

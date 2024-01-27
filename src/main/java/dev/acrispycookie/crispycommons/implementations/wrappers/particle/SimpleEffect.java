@@ -1,6 +1,5 @@
 package dev.acrispycookie.crispycommons.implementations.wrappers.particle;
 
-import dev.acrispycookie.crispycommons.api.wrappers.particle.AbstractCrispyEffect;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 

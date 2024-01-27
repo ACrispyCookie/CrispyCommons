@@ -3,8 +3,6 @@ package dev.acrispycookie.crispycommons.implementations.visuals.nametag;
 import com.mysql.jdbc.StringUtils;
 import dev.acrispycookie.crispycommons.CrispyCommons;
 import dev.acrispycookie.crispycommons.api.visuals.hologram.CrispyHologram;
-import dev.acrispycookie.crispycommons.api.visuals.nametag.AbstractNametag;
-import dev.acrispycookie.crispycommons.implementations.visuals.hologram.builders.HologramBuilder;
 import dev.acrispycookie.crispycommons.implementations.visuals.nametag.wrappers.NameTagData;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
