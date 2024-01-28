@@ -1,5 +1,6 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.title.wrappers;
 
+import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.elements.DynamicElement;
 import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.elements.types.TextElement;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.VisualData;
 
@@ -16,7 +17,7 @@ public class TitleData implements VisualData {
         this.subtitle = subtitle;
         this.fadeIn = fadeIn;
         this.fadeOut = fadeOut;
-        this.smallestPeriod = findSmallestPeriod();
+        this.smallestPeriod = DynamicElement.getMinimumPeriod(title, subtitle);
     }
 
     public TextElement getTitle() {
@@ -37,12 +38,12 @@ public class TitleData implements VisualData {
 
     public void setTitle(TextElement title) {
         this.title = title;
-        this.smallestPeriod = findSmallestPeriod();
+        this.smallestPeriod = DynamicElement.getMinimumPeriod(title, subtitle);
     }
 
     public void setSubtitle(TextElement subtitle) {
         this.subtitle = subtitle;
-        this.smallestPeriod = findSmallestPeriod();
+        this.smallestPeriod = DynamicElement.getMinimumPeriod(title, subtitle);
     }
 
     public void setFadeIn(int fadeIn) {
@@ -55,19 +56,5 @@ public class TitleData implements VisualData {
 
     public int getSmallestPeriod() {
         return smallestPeriod;
-    }
-
-    private int findSmallestPeriod() {
-        if (title != null && subtitle != null) {
-            int smallestPeriod = title.getPeriod() < 0 ? -1 : title.getPeriod();
-            smallestPeriod = subtitle.getPeriod() < 0
-                    ?
-                    smallestPeriod < 0 ? -1 : smallestPeriod
-                    :
-                    smallestPeriod < 0 ? subtitle.getPeriod() : Math.min(smallestPeriod, subtitle.getPeriod());
-            return smallestPeriod;
-        } else {
-            return -1;
-        }
     }
 }

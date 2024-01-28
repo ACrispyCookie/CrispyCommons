@@ -52,6 +52,10 @@ public abstract class DynamicElement<T> extends AbstractElement<T> {
         bukkitTask = null;
     }
 
+    public boolean isDynamic() {
+        return period > 0;
+    }
+
     public int getPeriod() {
         return period;
     }
@@ -64,5 +68,19 @@ public abstract class DynamicElement<T> extends AbstractElement<T> {
         if (this.update != null)
             return;
         this.update = update;
+    }
+
+    public static int getMinimumPeriod(AnimatedElement<?>... elements) {
+        int period = -1;
+        for (AnimatedElement<?> element : elements) {
+            if (!element.isDynamic())
+                continue;
+            if (period == -1) {
+                period = element.getPeriod();
+                continue;
+            }
+            period = Math.min(period, element.getPeriod());
+        }
+        return period;
     }
 }
