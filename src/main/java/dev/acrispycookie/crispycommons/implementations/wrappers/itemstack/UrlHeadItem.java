@@ -10,11 +10,11 @@ import java.lang.reflect.Field;
 import java.util.Base64;
 import java.util.UUID;
 
-public class CrispyUrlHeadItem extends CrispyHeadItem {
+public class UrlHeadItem extends CrispyHeadItem {
 
     private final String url;
 
-    public CrispyUrlHeadItem(String url) {
+    public UrlHeadItem(String url) {
         this.url = url;
     }
 
@@ -23,7 +23,7 @@ public class CrispyUrlHeadItem extends CrispyHeadItem {
     }
 
     @Override
-    public CrispyUrlHeadItem update() {
+    public UrlHeadItem update() {
         SkullMeta meta = (SkullMeta) getItemMeta();
         meta = setSkinToUrl(meta, url);
         setItemMeta(meta);
@@ -31,7 +31,7 @@ public class CrispyUrlHeadItem extends CrispyHeadItem {
     }
 
     @Override
-    public CrispyUrlHeadItem updateAsync(JavaPlugin plugin) {
+    public UrlHeadItem updateAsync(JavaPlugin plugin) {
         update();
         return this;
     }

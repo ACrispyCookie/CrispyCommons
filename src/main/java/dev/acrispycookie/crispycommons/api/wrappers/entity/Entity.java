@@ -1,8 +1,10 @@
-package dev.acrispycookie.crispycommons.utility.entities;
+package dev.acrispycookie.crispycommons.api.wrappers.entity;
 
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.AnimatedElement;
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.items.ItemElement;
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.TextElement;
+import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.elements.AnimatedElement;
+import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.elements.types.ItemElement;
+import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.elements.types.TextElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.entity.ItemEntity;
+import dev.acrispycookie.crispycommons.implementations.wrappers.entity.TextEntity;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 

@@ -1,18 +1,18 @@
 package dev.acrispycookie.crispycommons.implementations.wrappers.particle;
 
-import dev.acrispycookie.crispycommons.api.wrappers.particle.CrispyEffect;
+import dev.acrispycookie.crispycommons.api.wrappers.particle.Effect;
 import org.bukkit.Location;
 
-public abstract class AbstractCrispyEffect implements CrispyEffect {
+public abstract class AbstractEffect implements Effect {
 
     private Location location;
 
-    public AbstractCrispyEffect(Location location) {
+    public AbstractEffect(Location location) {
         this.location = location;
     }
 
     @Override
-    public CrispyEffect location(Location location) {
+    public Effect location(Location location) {
         this.location = location;
         return this;
     }

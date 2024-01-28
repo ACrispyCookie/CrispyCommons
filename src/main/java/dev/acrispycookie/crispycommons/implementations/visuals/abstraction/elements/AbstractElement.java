@@ -1,4 +1,6 @@
-package dev.acrispycookie.crispycommons.api.visuals.abstraction.elements;
+package dev.acrispycookie.crispycommons.implementations.visuals.abstraction.elements;
+
+import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.CrispyElement;
 
 public class AbstractElement<T> implements CrispyElement<T> {
 

@@ -1,12 +1,10 @@
-package dev.acrispycookie.crispycommons.api.visuals.abstraction.elements;
+package dev.acrispycookie.crispycommons.implementations.visuals.abstraction.elements;
 
 import dev.acrispycookie.crispycommons.CrispyCommons;
-import dev.acrispycookie.crispycommons.utility.logging.CrispyLogger;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.util.function.Supplier;
-import java.util.logging.Level;
 
 public abstract class DynamicElement<T> extends AbstractElement<T> {
 

@@ -1,11 +1,10 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.nametag;
 
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.TextElement;
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractVisual;
+import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.elements.types.TextElement;
+import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.visual.AbstractVisual;
 import dev.acrispycookie.crispycommons.api.visuals.nametag.CrispyNametag;
 import dev.acrispycookie.crispycommons.implementations.visuals.nametag.wrappers.NameTagData;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
 
 import java.util.Set;
 

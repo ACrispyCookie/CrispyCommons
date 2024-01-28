@@ -1,12 +1,11 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.hologram.wrappers;
 
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.AnimatedElement;
+import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.elements.AnimatedElement;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.VisualData;
 import org.bukkit.Location;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 public class HologramData implements VisualData {

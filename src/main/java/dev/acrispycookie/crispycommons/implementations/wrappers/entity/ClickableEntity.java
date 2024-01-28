@@ -1,6 +1,7 @@
-package dev.acrispycookie.crispycommons.utility.entities;
+package dev.acrispycookie.crispycommons.implementations.wrappers.entity;
 
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.AnimatedElement;
+import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.elements.AnimatedElement;
+import dev.acrispycookie.crispycommons.api.wrappers.entity.Entity;
 
 public abstract class ClickableEntity<T extends AnimatedElement<?>> implements Entity {
 

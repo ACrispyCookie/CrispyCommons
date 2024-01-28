@@ -1,6 +1,6 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.wrappers;
 
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.TextElement;
+import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.elements.types.TextElement;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.VisualData;
 
 import java.util.ArrayList;

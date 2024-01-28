@@ -1,7 +1,7 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.tablist;
 
 import dev.acrispycookie.crispycommons.CrispyCommons;
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.TextElement;
+import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.elements.types.TextElement;
 import dev.acrispycookie.crispycommons.implementations.visuals.tablist.wrappers.TablistData;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;

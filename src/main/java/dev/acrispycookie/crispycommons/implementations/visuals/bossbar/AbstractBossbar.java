@@ -1,12 +1,11 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.bossbar;
 
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.TextElement;
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractVisual;
+import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.elements.types.TextElement;
+import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.visual.AbstractVisual;
 import dev.acrispycookie.crispycommons.api.visuals.bossbar.CrispyBossbar;
 import dev.acrispycookie.crispycommons.implementations.visuals.bossbar.wrappers.BossbarData;
 import net.kyori.adventure.bossbar.BossBar;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
 
 import java.util.Set;
 
@@ -39,21 +38,22 @@ public abstract class AbstractBossbar extends AbstractVisual<BossbarData> implem
     @Override
     public void setProgress(float progress) {
         data.setProgress(progress);
-        data.getBossBar().progress(progress);
     }
 
     @Override
     public void setColor(BossBar.Color color) {
         data.setColor(color);
-        data.getBossBar().color(color);
     }
 
     @Override
     public void setOverlay(BossBar.Overlay overlay) {
         data.setOverlay(overlay);
-        data.getBossBar().overlay(overlay);
     }
 
+    @Override
+    public TextElement getText() {
+        return data.getText();
+    }
 
     @Override
     public float getProgress() {

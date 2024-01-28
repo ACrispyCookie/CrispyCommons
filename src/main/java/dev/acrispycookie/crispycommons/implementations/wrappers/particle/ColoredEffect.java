@@ -4,7 +4,7 @@ import org.bukkit.Color;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 
-public class ColoredEffect extends AbstractCrispyEffect {
+public class ColoredEffect extends AbstractEffect {
 
     private float r = 0;
     private float g = 0;

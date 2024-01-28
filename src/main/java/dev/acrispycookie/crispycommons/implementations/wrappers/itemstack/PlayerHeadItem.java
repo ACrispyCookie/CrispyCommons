@@ -13,11 +13,11 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.lang.reflect.Field;
 import java.util.UUID;
 
-public class CrispyPlayerHeadItem extends CrispyHeadItem {
+public class PlayerHeadItem extends CrispyHeadItem {
 
     private final UUID uuid;
 
-    public CrispyPlayerHeadItem(UUID uuid) {
+    public PlayerHeadItem(UUID uuid) {
         this.uuid = uuid;
     }
 
@@ -26,7 +26,7 @@ public class CrispyPlayerHeadItem extends CrispyHeadItem {
     }
 
     @Override
-    public CrispyPlayerHeadItem update() {
+    public PlayerHeadItem update() {
         SkullMeta meta = (SkullMeta) getItemMeta();
         if (Bukkit.getPlayer(uuid) != null) {
             meta.setOwner(Bukkit.getPlayer(uuid).getName());
@@ -38,7 +38,7 @@ public class CrispyPlayerHeadItem extends CrispyHeadItem {
     }
 
     @Override
-    public CrispyPlayerHeadItem updateAsync(JavaPlugin plugin) {
+    public PlayerHeadItem updateAsync(JavaPlugin plugin) {
         new BukkitRunnable() {
             @Override
             public void run() {

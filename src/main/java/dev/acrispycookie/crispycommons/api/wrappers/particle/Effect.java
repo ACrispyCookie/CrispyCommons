@@ -2,8 +2,8 @@ package dev.acrispycookie.crispycommons.api.wrappers.particle;
 
 import org.bukkit.Location;
 
-public interface CrispyEffect {
+public interface Effect {
 
-    CrispyEffect location(Location location);
+    Effect location(Location location);
 
 }

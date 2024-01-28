@@ -3,7 +3,7 @@ package dev.acrispycookie.crispycommons.implementations.wrappers.particle;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 
-public class SimpleEffect extends AbstractCrispyEffect {
+public class SimpleEffect extends AbstractEffect {
 
     private Effect effect;
     private int data;

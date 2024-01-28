@@ -1,5 +1,6 @@
-package dev.acrispycookie.crispycommons.api.visuals.abstraction.builder;
+package dev.acrispycookie.crispycommons.implementations.visuals.abstraction.builder;
 
+import dev.acrispycookie.crispycommons.api.visuals.abstraction.builder.VisualBuilder;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.CrispyVisual;
 import org.bukkit.OfflinePlayer;
 

@@ -1,7 +1,7 @@
 package dev.acrispycookie.crispycommons.api.visuals.tablist;
 
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.builder.AbstractVisualBuilder;
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.TextElement;
+import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.builder.AbstractVisualBuilder;
+import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.elements.types.TextElement;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.CrispyVisual;
 import dev.acrispycookie.crispycommons.implementations.visuals.tablist.SimpleTablist;
 import dev.acrispycookie.crispycommons.implementations.visuals.tablist.wrappers.TablistData;
@@ -26,17 +26,13 @@ public interface CrispyTablist extends CrispyVisual {
 
         public TablistBuilder addHeaderLine(TextElement text) {
             text.setUpdate(() -> tablist.update());
-            List<TextElement> newHeader = this.data.getHeader();
-            newHeader.add(text);
-            this.data.setHeader(newHeader);
+            this.data.addHeaderLine(text);
             return this;
         }
 
         public TablistBuilder addFooterLine(TextElement text) {
             text.setUpdate(() -> tablist.update());
-            List<TextElement> newFooter = this.data.getFooter();
-            newFooter.add(text);
-            this.data.setFooter(newFooter);
+            this.data.addFooterLine(text);
             return this;
         }
 

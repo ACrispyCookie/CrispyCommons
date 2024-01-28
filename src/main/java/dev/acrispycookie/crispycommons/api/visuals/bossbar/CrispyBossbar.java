@@ -1,7 +1,7 @@
 package dev.acrispycookie.crispycommons.api.visuals.bossbar;
 
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.builder.AbstractVisualBuilder;
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.TextElement;
+import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.builder.AbstractVisualBuilder;
+import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.elements.types.TextElement;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.CrispyVisual;
 import dev.acrispycookie.crispycommons.implementations.visuals.bossbar.SimpleBossbar;
 import dev.acrispycookie.crispycommons.implementations.visuals.bossbar.wrappers.BossbarData;
@@ -16,6 +16,7 @@ public interface CrispyBossbar extends CrispyVisual {
     void setProgress(float progress);
     void setColor(BossBar.Color color);
     void setOverlay(BossBar.Overlay overlay);
+    TextElement getText();
     float getProgress();
     BossBar.Color getColor();
     BossBar.Overlay getOverlay();
