@@ -1,7 +1,7 @@
 package dev.acrispycookie.crispycommons.api.visuals.title;
 
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.builder.AbstractVisualBuilder;
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.TextElement;
+import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.builder.AbstractVisualBuilder;
+import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.elements.types.TextElement;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.CrispyVisual;
 import dev.acrispycookie.crispycommons.implementations.visuals.title.SimpleTitle;
 import dev.acrispycookie.crispycommons.implementations.visuals.title.wrappers.TitleData;
@@ -23,7 +23,7 @@ public interface CrispyTitle extends CrispyVisual {
     class TitleBuilder extends AbstractVisualBuilder<CrispyTitle> {
 
         private CrispyTitle title;
-        protected final TitleData data = new TitleData(null, null, 0,0);
+        protected final TitleData data = new TitleData(TextElement.simple(""), TextElement.simple(""), 0,0);
 
         public TitleBuilder setTitle(TextElement text) {
             text.setUpdate(() -> title.update());

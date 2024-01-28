@@ -10,6 +10,7 @@ public interface CrispyVisual {
     void show();
     void hide();
     void update();
+    void destroy();
     void setTimeToLive(long timeToLive);
     void addPlayer(OfflinePlayer player);
     void removePlayer(OfflinePlayer player);

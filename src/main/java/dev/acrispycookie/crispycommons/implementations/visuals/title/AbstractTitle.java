@@ -1,11 +1,10 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.title;
 
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.TextElement;
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.AbstractVisual;
+import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.elements.types.TextElement;
+import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.visual.AbstractVisual;
 import dev.acrispycookie.crispycommons.api.visuals.title.CrispyTitle;
 import dev.acrispycookie.crispycommons.implementations.visuals.title.wrappers.TitleData;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
 
 import java.util.Set;
 
@@ -32,6 +31,7 @@ public abstract class AbstractTitle extends AbstractVisual<TitleData> implements
 
     @Override
     public void prepareUpdate() {
+
     }
 
     @Override

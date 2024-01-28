@@ -25,7 +25,7 @@ public class SimpleTitle extends AbstractTitle {
     protected void update(Player p) {
 
         // Last title update
-        if (System.currentTimeMillis() > timeStarted + timeToLive * 50L - data.getSmallestPeriod() * 150L - data.getFadeOut() * 50L) {
+        if (timeToLive != -1 && System.currentTimeMillis() > timeStarted + timeToLive * 50L - data.getSmallestPeriod() * 150L - data.getFadeOut() * 50L) {
             showTitle(p, 0, data.getSmallestPeriod() * 150L, data.getFadeOut() * 50L);
             return;
         }

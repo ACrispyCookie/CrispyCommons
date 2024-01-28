@@ -1,7 +1,7 @@
 package dev.acrispycookie.crispycommons.api.visuals.actionbar;
 
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.builder.AbstractVisualBuilder;
-import dev.acrispycookie.crispycommons.api.visuals.abstraction.elements.implementations.text.TextElement;
+import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.builder.AbstractVisualBuilder;
+import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.elements.types.TextElement;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.CrispyVisual;
 import dev.acrispycookie.crispycommons.implementations.visuals.actionbar.SimpleActionbar;
 import dev.acrispycookie.crispycommons.implementations.visuals.actionbar.wrappers.ActionbarData;
@@ -17,7 +17,7 @@ public interface CrispyActionbar extends CrispyVisual {
     class ActionbarBuilder extends AbstractVisualBuilder<CrispyActionbar> {
 
         private CrispyActionbar actionbar;
-        private final ActionbarData data = new ActionbarData(null);
+        private final ActionbarData data = new ActionbarData(TextElement.simple(""));
 
         public ActionbarBuilder setText(TextElement element) {
             this.data.setText(element);
