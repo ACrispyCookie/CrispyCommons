@@ -14,27 +14,22 @@ public abstract class AbstractTablist extends AbstractVisual<TablistData> implem
 
     protected abstract void show(Player p);
     protected abstract void hide(Player p);
-    protected abstract void update(Player p);
+    protected abstract void perPlayerUpdate(Player p);
 
-    AbstractTablist(TablistData data, Set<? extends OfflinePlayer> receivers, long timeToLive) {
-        super(data, receivers, timeToLive);
+    AbstractTablist(TablistData data, Set<? extends OfflinePlayer> receivers, long timeToLive, UpdateMode updateMode) {
+        super(data, receivers, timeToLive, updateMode);
     }
 
     @Override
-    public void prepareShow() {
+    protected void prepareShow() {
         data.getHeader().forEach(TextElement::start);
         data.getFooter().forEach(TextElement::start);
     }
 
     @Override
-    public void prepareHide() {
+    protected void prepareHide() {
         data.getHeader().forEach(TextElement::stop);
         data.getFooter().forEach(TextElement::stop);
-    }
-
-    @Override
-    public void prepareUpdate() {
-
     }
 
     @Override

@@ -19,7 +19,7 @@ public class SimpleNameTag extends AbstractNametag {
     private CrispyHologram belowNameHologram;
 
     public SimpleNameTag(NameTagData data, Set<? extends OfflinePlayer> receivers, long timeToLive) {
-        super(data, receivers, timeToLive);
+        super(data, receivers, timeToLive, UpdateMode.PER_PLAYER);
         Bukkit.getOnlinePlayers().forEach(this::addPlayer);
         if (!StringUtils.isEmptyOrWhitespaceOnly(LegacyComponentSerializer.legacyAmpersand().serialize(data.getAboveName().getRaw())))
             //TODO: Add hologram builder
@@ -46,9 +46,14 @@ public class SimpleNameTag extends AbstractNametag {
     }
 
     @Override
-    protected void update(Player p) {
+    protected void perPlayerUpdate(Player p) {
         if (!p.canSee(data.getPlayer()))
             return;
+
+    }
+
+    @Override
+    protected void globalUpdate() {
 
     }
 }

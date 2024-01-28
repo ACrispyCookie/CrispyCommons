@@ -10,23 +10,18 @@ import java.util.*;
 
 public abstract class AbstractScoreboard extends AbstractVisual<ScoreboardData> implements CrispyScoreboard {
 
-    AbstractScoreboard(ScoreboardData data, Set<? extends OfflinePlayer> receivers, long timeToLive) {
-        super(data, receivers, timeToLive);
+    AbstractScoreboard(ScoreboardData data, Set<? extends OfflinePlayer> receivers, long timeToLive, UpdateMode updateMode) {
+        super(data, receivers, timeToLive, updateMode);
     }
 
     @Override
-    public void prepareShow() {
+    protected void prepareShow() {
         this.data.getLines().forEach(TextElement::start);
     }
 
     @Override
-    public void prepareHide() {
+    protected void prepareHide() {
         this.data.getLines().forEach(TextElement::stop);
-    }
-
-    @Override
-    public void prepareUpdate() {
-
     }
 
     @Override

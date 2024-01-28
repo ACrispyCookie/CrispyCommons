@@ -10,22 +10,27 @@ import java.util.Set;
 public class SimpleParticle extends AbstractParticle<SimpleEffect> {
 
     public SimpleParticle(ParticleData<SimpleEffect> data, Set<? extends OfflinePlayer> receivers, long timeToLive) {
-        super(data, receivers, timeToLive);
+        super(data, receivers, timeToLive, UpdateMode.PER_PLAYER);
     }
 
     @Override
-    public void show(Player player) {
+    protected void show(Player player) {
         SimpleEffect effect = data.getElement().getRaw();
         player.spigot().playEffect(effect.getLocation(), effect.getEffect(), effect.getData(), effect.getData(), 0, 0, 0, 1, 100, 160);
     }
 
     @Override
-    public void hide(Player player) {
+    protected void hide(Player player) {
 
     }
 
     @Override
-    public void update(Player player) {
+    protected void perPlayerUpdate(Player player) {
         show(player);
+    }
+
+    @Override
+    protected void globalUpdate() {
+
     }
 }

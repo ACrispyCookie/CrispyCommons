@@ -12,23 +12,18 @@ import java.util.Set;
 public abstract class AbstractParticle<T extends Effect> extends AbstractVisual<ParticleData<T>> implements CrispyParticle<T> {
 
 
-    AbstractParticle(ParticleData<T> data, Set<? extends OfflinePlayer> receivers, long timeToLive) {
-        super(data, receivers, data.getElement().getPeriod() != -1 ? timeToLive : 0);
+    AbstractParticle(ParticleData<T> data, Set<? extends OfflinePlayer> receivers, long timeToLive, UpdateMode updateMode) {
+        super(data, receivers, data.getElement().getPeriod() != -1 ? timeToLive : 0, updateMode);
     }
 
     @Override
-    public void prepareShow() {
+    protected void prepareShow() {
         data.getElement().start();
     }
 
     @Override
-    public void prepareHide() {
+    protected void prepareHide() {
         data.getElement().stop();
-    }
-
-    @Override
-    public void prepareUpdate() {
-
     }
 
     @Override

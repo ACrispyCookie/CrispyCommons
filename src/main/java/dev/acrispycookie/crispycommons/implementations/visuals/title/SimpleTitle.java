@@ -13,7 +13,7 @@ import java.util.Set;
 public class SimpleTitle extends AbstractTitle {
 
     public SimpleTitle(TitleData data, Set<? extends OfflinePlayer> receivers, long timeToLive) {
-        super(data, receivers, timeToLive);
+        super(data, receivers, timeToLive, UpdateMode.PER_PLAYER);
     }
 
     @Override
@@ -22,7 +22,12 @@ public class SimpleTitle extends AbstractTitle {
     }
 
     @Override
-    protected void update(Player p) {
+    public void hide(Player p) {
+
+    }
+
+    @Override
+    protected void perPlayerUpdate(Player p) {
 
         // Last title update
         if (timeToLive != -1 && System.currentTimeMillis() > timeStarted + timeToLive * 50L - data.getSmallestPeriod() * 150L - data.getFadeOut() * 50L) {
@@ -39,7 +44,7 @@ public class SimpleTitle extends AbstractTitle {
     }
 
     @Override
-    public void hide(Player p) {
+    protected void globalUpdate() {
 
     }
 

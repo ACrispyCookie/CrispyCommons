@@ -3,7 +3,6 @@ package dev.acrispycookie.crispycommons.implementations.visuals.abstraction.visu
 import dev.acrispycookie.crispycommons.CrispyCommons;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.CrispyVisual;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.VisualData;
-import dev.acrispycookie.crispycommons.utility.logging.CrispyLogger;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -24,18 +23,20 @@ import java.util.stream.Collectors;
 public abstract class AbstractVisual<T extends VisualData> implements CrispyVisual, Listener {
 
     private final Set<UUID> receivers = new HashSet<>();
+    private final UpdateMode updateMode;
     protected T data;
     protected boolean isDisplayed = false;
     protected long timeToLive;
     protected abstract void prepareShow();
     protected abstract void prepareHide();
-    protected abstract void prepareUpdate();
+    protected abstract void globalUpdate();
     protected abstract void show(Player p);
     protected abstract void hide(Player p);
-    protected abstract void update(Player p);
+    protected abstract void perPlayerUpdate(Player p);
 
-    public AbstractVisual(T data, Set<? extends OfflinePlayer> receivers, long timeToLive) {
+    public AbstractVisual(T data, Set<? extends OfflinePlayer> receivers, long timeToLive, UpdateMode mode) {
         this.data = data;
+        this.updateMode = mode;
         this.receivers.addAll(receivers.stream().map(OfflinePlayer::getUniqueId).collect(Collectors.toSet()));
         this.timeToLive = timeToLive;
         Bukkit.getPluginManager().registerEvents(this, CrispyCommons.getPlugin());
@@ -85,8 +86,14 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
     public void update() {
         if (!isDisplayed) return;
 
-        prepareUpdate();
-        receivers.stream().map(Bukkit::getOfflinePlayer).filter(OfflinePlayer::isOnline).forEach(p -> update(p.getPlayer()));
+        if (updateMode == UpdateMode.BOTH) {
+            globalUpdate();
+            receivers.stream().map(Bukkit::getOfflinePlayer).filter(OfflinePlayer::isOnline).forEach(p -> perPlayerUpdate(p.getPlayer()));
+        } else if (updateMode == UpdateMode.GLOBAL) {
+            globalUpdate();
+        } else if (updateMode == UpdateMode.PER_PLAYER) {
+            receivers.stream().map(Bukkit::getOfflinePlayer).filter(OfflinePlayer::isOnline).forEach(p -> perPlayerUpdate(p.getPlayer()));
+        }
     }
 
     public void destroy() {
@@ -145,5 +152,11 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
 
     protected T getData() {
         return data;
+    }
+
+    public enum UpdateMode {
+        PER_PLAYER,
+        GLOBAL,
+        BOTH;
     }
 }

@@ -10,21 +10,25 @@ import java.util.Set;
 public class RenderedParticle extends AbstractParticle<RenderedEffect> {
 
     public RenderedParticle(ParticleData<RenderedEffect> data, Set<? extends OfflinePlayer> receivers, long timeToLive) {
-        super(data, receivers, timeToLive);
+        super(data, receivers, timeToLive, UpdateMode.PER_PLAYER);
     }
 
     @Override
-    public void show(Player player) {
+    protected void show(Player player) {
         // ???
     }
 
     @Override
-    public void hide(Player player) {
+    protected void hide(Player player) {
 
+    }
+    @Override
+    protected void perPlayerUpdate(Player player) {
+        show(player);
     }
 
     @Override
-    public void update(Player player) {
-        show(player);
+    protected void globalUpdate() {
+
     }
 }

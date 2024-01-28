@@ -11,7 +11,7 @@ import java.util.Set;
 public class SimpleActionbar extends AbstractActionbar {
 
     public SimpleActionbar(ActionbarData data, Set<? extends OfflinePlayer> receivers, long timeToLive) {
-        super(data, receivers, timeToLive);
+        super(data, receivers, timeToLive, UpdateMode.PER_PLAYER);
     }
 
     @Override
@@ -26,7 +26,10 @@ public class SimpleActionbar extends AbstractActionbar {
     }
 
     @Override
-    protected void update(Player p) {
+    protected void perPlayerUpdate(Player p) {
         show(p);
     }
+
+    @Override
+    protected void globalUpdate() { }
 }

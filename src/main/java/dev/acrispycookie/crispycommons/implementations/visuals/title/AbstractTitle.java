@@ -12,26 +12,21 @@ public abstract class AbstractTitle extends AbstractVisual<TitleData> implements
 
     protected long timeStarted;
 
-    AbstractTitle(TitleData data, Set<? extends OfflinePlayer> receivers, long timeToLive) {
-        super(data, receivers, data.getSmallestPeriod() != -1 ? timeToLive : 0);
+    AbstractTitle(TitleData data, Set<? extends OfflinePlayer> receivers, long timeToLive, UpdateMode updateMode) {
+        super(data, receivers, data.getSmallestPeriod() != -1 ? timeToLive : 0, updateMode);
     }
 
     @Override
-    public void prepareShow() {
+    protected void prepareShow() {
         timeStarted = System.currentTimeMillis();
         data.getTitle().start();
         data.getSubtitle().start();
     }
 
     @Override
-    public void prepareHide() {
+    protected void prepareHide() {
         data.getTitle().stop();
         data.getSubtitle().stop();
-    }
-
-    @Override
-    public void prepareUpdate() {
-
     }
 
     @Override

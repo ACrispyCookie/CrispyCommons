@@ -27,7 +27,7 @@ public class SimpleBossbar extends AbstractBossbar {
     }
 
     @Override
-    protected void update(Player p) {
+    protected void perPlayerUpdate(Player p) {
 
     }
 }

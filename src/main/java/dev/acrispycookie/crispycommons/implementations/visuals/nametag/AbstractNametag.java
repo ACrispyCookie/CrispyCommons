@@ -10,12 +10,12 @@ import java.util.Set;
 
 public abstract class AbstractNametag extends AbstractVisual<NameTagData> implements CrispyNametag {
 
-    AbstractNametag(NameTagData data, Set<? extends OfflinePlayer> receivers, long timeToLive) {
-        super(data, receivers, timeToLive);
+    AbstractNametag(NameTagData data, Set<? extends OfflinePlayer> receivers, long timeToLive, UpdateMode updateMode) {
+        super(data, receivers, timeToLive, updateMode);
     }
 
     @Override
-    public void prepareShow() {
+    protected void prepareShow() {
         data.getAboveName().start();
         data.getBelowName().start();
         data.getPrefix().start();
@@ -23,16 +23,11 @@ public abstract class AbstractNametag extends AbstractVisual<NameTagData> implem
     }
 
     @Override
-    public void prepareHide() {
+    protected void prepareHide() {
         data.getAboveName().stop();
         data.getBelowName().stop();
         data.getPrefix().stop();
         data.getSuffix().stop();
-    }
-
-    @Override
-    public void prepareUpdate() {
-
     }
 
     @Override

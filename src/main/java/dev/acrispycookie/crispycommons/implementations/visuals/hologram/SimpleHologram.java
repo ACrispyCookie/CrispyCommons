@@ -14,12 +14,11 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
-public class SimpleHologram extends AbstractHologram implements Listener {
+public class SimpleHologram extends AbstractHologram {
     private final List<Entity> entities = new ArrayList<>();
 
     public SimpleHologram(HologramData data, Collection<? extends OfflinePlayer> receivers, long timeToLive) {
-        super(data, new HashSet<>(receivers), timeToLive);
-        Bukkit.getPluginManager().registerEvents(this, CrispyCommons.getPlugin());
+        super(data, new HashSet<>(receivers), timeToLive, UpdateMode.PER_PLAYER);
         init();
     }
 
@@ -44,11 +43,16 @@ public class SimpleHologram extends AbstractHologram implements Listener {
     }
 
     @Override
-    protected void update(Player p) {
+    protected void perPlayerUpdate(Player p) {
         for (int i = 0; i < entities.size(); i++) {
             Entity entity = entities.get(i);
             entity.update(getEntityLocation(entity, i), p);
         }
+    }
+
+    @Override
+    protected void globalUpdate() {
+
     }
 
     private Location getEntityLocation(Entity entity, int index) {
