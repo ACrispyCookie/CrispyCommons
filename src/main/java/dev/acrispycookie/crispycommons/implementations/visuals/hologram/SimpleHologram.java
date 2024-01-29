@@ -19,7 +19,6 @@ public class SimpleHologram extends AbstractHologram {
 
     public SimpleHologram(HologramData data, Collection<? extends OfflinePlayer> receivers, long timeToLive) {
         super(data, new HashSet<>(receivers), timeToLive, UpdateMode.PER_PLAYER);
-        init();
     }
 
     private void init() {
@@ -27,6 +26,12 @@ public class SimpleHologram extends AbstractHologram {
             Entity entity = Entity.of(data.getLines().get(i));
             entities.add(entity);
         }
+    }
+
+    @Override
+    protected void prepareShow() {
+        super.prepareShow();
+        init();
     }
 
     @Override

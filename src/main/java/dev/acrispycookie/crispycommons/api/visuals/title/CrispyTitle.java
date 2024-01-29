@@ -4,12 +4,16 @@ import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.build
 import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.elements.types.TextElement;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.CrispyVisual;
 import dev.acrispycookie.crispycommons.implementations.visuals.title.SimpleTitle;
+import dev.acrispycookie.crispycommons.implementations.visuals.title.UpdatingTitle;
 import dev.acrispycookie.crispycommons.implementations.visuals.title.wrappers.TitleData;
 
 
 public interface CrispyTitle extends CrispyVisual {
-    static TitleBuilder builder() {
-        return new TitleBuilder();
+    static SimpleTitleBuilder simpleBuilder() {
+        return new SimpleTitleBuilder();
+    }
+    static UpdatingTitleBuilder updatingBuilder() {
+        return new UpdatingTitleBuilder();
     }
     void setTitle(TextElement text);
     void setSubtitle(TextElement text);
@@ -20,10 +24,10 @@ public interface CrispyTitle extends CrispyVisual {
     int getFadeIn();
     int getFadeOut();
 
-    class TitleBuilder extends AbstractVisualBuilder<CrispyTitle> {
+    abstract class TitleBuilder extends AbstractVisualBuilder<CrispyTitle> {
 
-        private CrispyTitle title;
-        protected final TitleData data = new TitleData(TextElement.simple(""), TextElement.simple(""), 0,0);
+        protected CrispyTitle title;
+        protected final TitleData data = new TitleData(null, null, 0,0);
 
         public TitleBuilder setTitle(TextElement text) {
             text.setUpdate(() -> title.update());
@@ -46,10 +50,19 @@ public interface CrispyTitle extends CrispyVisual {
             this.data.setFadeOut(fadeOut);
             return this;
         }
+    }
 
-        public CrispyTitle build() {
+    class SimpleTitleBuilder extends TitleBuilder {
+        public SimpleTitle build() {
             this.title = new SimpleTitle(data, receivers, timeToLive);
-            return title;
+            return (SimpleTitle) title;
+        }
+    }
+
+    class UpdatingTitleBuilder extends TitleBuilder {
+        public UpdatingTitle build() {
+            this.title = new UpdatingTitle(data, receivers, timeToLive);
+            return (UpdatingTitle) title;
         }
     }
 }

@@ -20,8 +20,13 @@ public class SimpleScoreboard extends AbstractScoreboard {
     private final Scoreboard bukkitScoreboard;
 
     public SimpleScoreboard(ScoreboardData data, Collection<? extends OfflinePlayer> receivers, long timeToLive) {
-        super(data, new HashSet<>(receivers), timeToLive, UpdateMode.PER_PLAYER);
+        super(data, new HashSet<>(receivers), timeToLive, UpdateMode.GLOBAL);
         this.bukkitScoreboard = getNewBoard();
+    }
+
+    @Override
+    protected void prepareShow() {
+        super.prepareShow();
         initTitle();
         initLines();
     }
@@ -38,15 +43,15 @@ public class SimpleScoreboard extends AbstractScoreboard {
 
     @Override
     protected void perPlayerUpdate(Player p) {
-        initTitle();
-        for (int i = 0; i < data.getLines().size(); i++) {
-            updateLine(i);
-        }
+
     }
 
     @Override
     protected void globalUpdate() {
-
+        initTitle();
+        for (int i = 0; i < data.getLines().size(); i++) {
+            updateLine(i);
+        }
     }
 
     private void showLine(int index) {

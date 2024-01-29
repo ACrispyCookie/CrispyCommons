@@ -17,7 +17,6 @@ public class BossbarData implements VisualData {
         this.color = color;
         this.overlay = overlay;
         this.text = text;
-        this.bossBar = BossBar.bossBar(text.getRaw(), progress, color, overlay);
     }
 
     public float getProgress() {
@@ -58,5 +57,19 @@ public class BossbarData implements VisualData {
 
     public void setText(TextElement text) {
         this.text = text;
+    }
+
+    @Override
+    public void assertReady() {
+        if (text == null)
+            throw new VisualNotReadyException("The bossbar text was not set!");
+        if (color == null)
+            throw new VisualNotReadyException("The bossbar color was not set!");
+        if (overlay == null)
+            throw new VisualNotReadyException("The bossbar overlay was not set!");
+        if (progress < 0 || progress > 1)
+            throw new VisualNotReadyException("The bossbar progress must be between 0 and 1!");
+
+        this.bossBar = BossBar.bossBar(text.getRaw(), progress, color, overlay);
     }
 }

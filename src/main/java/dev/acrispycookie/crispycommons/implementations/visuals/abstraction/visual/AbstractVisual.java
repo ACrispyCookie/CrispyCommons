@@ -1,8 +1,10 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.abstraction.visual;
 
+import com.avaje.ebean.annotation.UpdateMode;
 import dev.acrispycookie.crispycommons.CrispyCommons;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.CrispyVisual;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.VisualData;
+import dev.acrispycookie.crispycommons.utility.logging.CrispyLogger;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -18,6 +20,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 public abstract class AbstractVisual<T extends VisualData> implements CrispyVisual, Listener {
@@ -59,6 +62,12 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
     @Override
     public void show() {
         if (isDisplayed) return;
+        try {
+            data.assertReady();
+        } catch (VisualData.VisualNotReadyException e) {
+            CrispyLogger.printException(CrispyCommons.getPlugin(), e, "This visual is not ready to be displayed!");
+            return;
+        }
         isDisplayed = true;
 
         if (timeToLive > 0)

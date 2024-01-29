@@ -16,11 +16,13 @@ public abstract class AbstractScoreboard extends AbstractVisual<ScoreboardData> 
 
     @Override
     protected void prepareShow() {
+        this.data.getTitle().start();
         this.data.getLines().forEach(TextElement::start);
     }
 
     @Override
     protected void prepareHide() {
+        this.data.getTitle().stop();
         this.data.getLines().forEach(TextElement::stop);
     }
 

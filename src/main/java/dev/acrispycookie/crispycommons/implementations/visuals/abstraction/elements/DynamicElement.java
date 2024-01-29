@@ -73,7 +73,7 @@ public abstract class DynamicElement<T> extends AbstractElement<T> {
     public static int getMinimumPeriod(AnimatedElement<?>... elements) {
         int period = -1;
         for (AnimatedElement<?> element : elements) {
-            if (!element.isDynamic())
+            if (element == null || !element.isDynamic())
                 continue;
             if (period == -1) {
                 period = element.getPeriod();

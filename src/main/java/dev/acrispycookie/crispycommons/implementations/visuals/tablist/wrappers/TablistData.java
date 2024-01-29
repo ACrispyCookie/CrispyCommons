@@ -54,4 +54,12 @@ public class TablistData implements VisualData {
     public void removeFooterLine(int index) {
         this.footer.remove(index);
     }
+
+    @Override
+    public void assertReady() {
+        if (header == null)
+            throw new VisualNotReadyException("The tablist header was not set!");
+        if (footer == null)
+            throw new VisualNotReadyException("The tablist footer was not set!");
+    }
 }

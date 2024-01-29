@@ -18,4 +18,10 @@ public class ParticleData<T extends Effect> implements VisualData {
     public void setElement(ParticleElement<T> element) {
         this.element = element;
     }
+
+    @Override
+    public void assertReady() {
+        if (element == null)
+            throw new VisualNotReadyException("The particle element was not set!");
+    }
 }

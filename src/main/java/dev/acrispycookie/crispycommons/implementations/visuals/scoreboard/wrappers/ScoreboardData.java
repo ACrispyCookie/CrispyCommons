@@ -44,4 +44,12 @@ public class ScoreboardData implements VisualData {
     public void setLines(List<TextElement> lines) {
         this.lines = lines;
     }
+
+    @Override
+    public void assertReady() {
+        if (title == null)
+            throw new VisualNotReadyException("The scoreboard title was not set!");
+        if (lines == null)
+            throw new VisualNotReadyException("The scoreboard lines were not set!");
+    }
 }

@@ -24,7 +24,7 @@ public interface CrispyBossbar extends CrispyVisual {
     class BossbarBuilder extends AbstractVisualBuilder<CrispyBossbar> {
 
         private CrispyBossbar bossbar;
-        private final BossbarData data = new BossbarData( 1, BossBar.Color.WHITE, BossBar.Overlay.PROGRESS, TextElement.simple(""));
+        private final BossbarData data = new BossbarData( -1, null, null, null);
 
         public BossbarBuilder setText(TextElement text) {
             this.data.setText(text);

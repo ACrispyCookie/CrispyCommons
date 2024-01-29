@@ -42,4 +42,12 @@ public class HologramData implements VisualData {
     public void setLocation(Location location) {
         this.location = location;
     }
+
+    @Override
+    public void assertReady() {
+        if (lines == null)
+            throw new VisualNotReadyException("The hologram's lines were not set!");
+        if (location == null)
+            throw new VisualNotReadyException("The hologram's location was not set!");
+    }
 }

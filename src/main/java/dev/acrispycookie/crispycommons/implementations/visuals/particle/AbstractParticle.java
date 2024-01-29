@@ -13,7 +13,7 @@ public abstract class AbstractParticle<T extends Effect> extends AbstractVisual<
 
 
     AbstractParticle(ParticleData<T> data, Set<? extends OfflinePlayer> receivers, long timeToLive, UpdateMode updateMode) {
-        super(data, receivers, data.getElement().getPeriod() != -1 ? timeToLive : 0, updateMode);
+        super(data, receivers, timeToLive, updateMode);
     }
 
     @Override

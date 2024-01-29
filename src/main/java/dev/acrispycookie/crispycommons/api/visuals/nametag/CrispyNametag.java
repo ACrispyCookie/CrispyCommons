@@ -23,7 +23,7 @@ public interface CrispyNametag extends CrispyVisual {
 
     class NameTagBuilder extends AbstractVisualBuilder<CrispyNametag> {
         private CrispyNametag nametag;
-        private final NameTagData data = new NameTagData(null, TextElement.simple(""), TextElement.simple(""), TextElement.simple(""), TextElement.simple(""), false, false);
+        private final NameTagData data = new NameTagData(null, null, null, null, null, false, false);
 
         public NameTagBuilder setPrefix(TextElement prefix) {
             this.data.setPrefix(prefix);

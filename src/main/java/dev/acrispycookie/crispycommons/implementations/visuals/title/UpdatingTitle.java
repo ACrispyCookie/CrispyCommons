@@ -10,25 +10,25 @@ import org.bukkit.entity.Player;
 import java.time.Duration;
 import java.util.Set;
 
-public class SimpleTitle extends AbstractTitle {
+public class UpdatingTitle extends AbstractTitle {
 
-    public SimpleTitle(TitleData data, Set<? extends OfflinePlayer> receivers, long timeToLive) {
+    public UpdatingTitle(TitleData data, Set<? extends OfflinePlayer> receivers, long timeToLive) {
         super(data, receivers, timeToLive, UpdateMode.PER_PLAYER);
     }
 
     @Override
     protected void show(Player p) {
-        showTitle(p, data.getFadeIn() * 50L, timeToLive * 50L, data.getFadeOut() * 50L);
+        showTitle(p, data.getFadeIn() * 50L, data.getSmallestPeriod() * 150L, 0);
     }
 
     @Override
     public void hide(Player p) {
-
+        showTitle(p, 0, 1, data.getFadeOut() * 50L);
     }
 
     @Override
     protected void perPlayerUpdate(Player p) {
-
+        showTitle(p, 0, data.getSmallestPeriod() * 150L, 0);
     }
 
     @Override

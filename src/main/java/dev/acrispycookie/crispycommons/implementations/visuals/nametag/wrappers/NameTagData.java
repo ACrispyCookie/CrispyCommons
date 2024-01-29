@@ -79,4 +79,18 @@ public class NameTagData implements VisualData {
     public void setBelowNameMode(boolean hologramBelowName) {
         this.hologramBelowName = hologramBelowName;
     }
+
+    @Override
+    public void assertReady() {
+        if (player == null)
+            throw new VisualNotReadyException("The nametag player was not set!");
+        if (prefix == null)
+            throw new VisualNotReadyException("The nametag prefix was not set!");
+        if (suffix == null)
+            throw new VisualNotReadyException("The nametag suffix was not set!");
+        if (belowName == null)
+            throw new VisualNotReadyException("The nametag below name element was not set!");
+        if (aboveName == null)
+            throw new VisualNotReadyException("The nametag above name element was not set!");
+    }
 }

@@ -13,7 +13,7 @@ public abstract class AbstractTitle extends AbstractVisual<TitleData> implements
     protected long timeStarted;
 
     AbstractTitle(TitleData data, Set<? extends OfflinePlayer> receivers, long timeToLive, UpdateMode updateMode) {
-        super(data, receivers, data.getSmallestPeriod() != -1 ? timeToLive : 0, updateMode);
+        super(data, receivers, timeToLive, updateMode);
     }
 
     @Override
@@ -67,10 +67,5 @@ public abstract class AbstractTitle extends AbstractVisual<TitleData> implements
     @Override
     public int getFadeOut() {
         return this.data.getFadeOut();
-    }
-
-    @Override
-    public void setTimeToLive(long timeToLive) {
-        this.timeToLive = this.data.getSmallestPeriod() != -1 ? timeToLive : 0;
     }
 }

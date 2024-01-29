@@ -17,7 +17,6 @@ public class TitleData implements VisualData {
         this.subtitle = subtitle;
         this.fadeIn = fadeIn;
         this.fadeOut = fadeOut;
-        this.smallestPeriod = DynamicElement.getMinimumPeriod(title, subtitle);
     }
 
     public TextElement getTitle() {
@@ -56,5 +55,14 @@ public class TitleData implements VisualData {
 
     public int getSmallestPeriod() {
         return smallestPeriod;
+    }
+
+    @Override
+    public void assertReady() {
+        if (title == null)
+            throw new VisualNotReadyException("The title was not set!");
+        if (subtitle == null)
+            throw new VisualNotReadyException("The subtitle was not set!");
+        this.smallestPeriod = DynamicElement.getMinimumPeriod(title, subtitle);
     }
 }

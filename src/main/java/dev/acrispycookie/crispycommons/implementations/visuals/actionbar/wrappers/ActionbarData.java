@@ -19,4 +19,10 @@ public class ActionbarData implements VisualData {
     public void setText(TextElement text) {
         this.text = text;
     }
+
+    @Override
+    public void assertReady() {
+        if (text == null)
+            throw new VisualNotReadyException("The actionbar text was not set!");
+    }
 }
