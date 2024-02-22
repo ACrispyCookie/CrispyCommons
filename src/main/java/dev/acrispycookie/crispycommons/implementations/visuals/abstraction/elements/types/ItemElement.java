@@ -21,6 +21,12 @@ public abstract class ItemElement extends AnimatedElement<CrispyItem> {
         setUpdate(() -> {});
     }
 
+    @Override
+    public ItemElement clone() {
+        if(isDynamic())
+            return dynamic(this::getRaw, getPeriod());
+        return simple(this.getRaw());
+    }
     public static ItemElement simple(CrispyItem item) {
         return new ItemElement(item) {};
     }

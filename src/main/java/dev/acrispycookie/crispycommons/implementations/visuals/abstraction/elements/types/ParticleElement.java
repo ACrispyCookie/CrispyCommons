@@ -20,6 +20,12 @@ public abstract class ParticleElement<T extends Effect> extends AnimatedElement<
         setUpdate(() -> {});
     }
 
+    @Override
+    public ParticleElement<T> clone() {
+        if (isDynamic())
+            return dynamic(this::getRaw, getPeriod());
+        return simple(getRaw());
+    }
     public static <K extends Effect> ParticleElement<K> simple(K effect) {
         return new ParticleElement<K>(effect) {};
     }

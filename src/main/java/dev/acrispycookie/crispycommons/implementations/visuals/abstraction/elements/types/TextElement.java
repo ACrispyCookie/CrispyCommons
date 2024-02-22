@@ -34,6 +34,13 @@ public abstract class TextElement extends AnimatedElement<Component> {
         }
     }
 
+    @Override
+    public TextElement clone() {
+        if (isDynamic())
+            return TextElement.dynamic(() -> LegacyComponentSerializer.legacySection().serialize(getRaw()), getPeriod());
+        return TextElement.simple(LegacyComponentSerializer.legacySection().serialize(getRaw()));
+    }
+
     public void setAsync(boolean async) {
         this.async = async;
     }
