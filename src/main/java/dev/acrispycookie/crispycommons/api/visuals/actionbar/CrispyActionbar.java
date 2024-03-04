@@ -16,19 +16,18 @@ public interface CrispyActionbar extends CrispyVisual {
 
     class ActionbarBuilder extends AbstractVisualBuilder<CrispyActionbar> {
 
-        private CrispyActionbar actionbar;
         private final ActionbarData data = new ActionbarData(null);
 
         public ActionbarBuilder setText(TextElement element) {
             this.data.setText(element);
-            this.data.getText().setUpdate(() -> actionbar.update());
+            this.data.getText().setUpdate(() -> toBuild.update());
             return this;
         }
 
         @Override
         public CrispyActionbar build() {
-            this.actionbar = new SimpleActionbar(data, receivers, timeToLive);
-            return actionbar;
+            this.toBuild = new SimpleActionbar(data, receivers, timeToLive);
+            return toBuild;
         }
     }
 }

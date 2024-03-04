@@ -10,6 +10,7 @@ import java.util.Set;
 
 public abstract class AbstractVisualBuilder<T extends CrispyVisual> implements VisualBuilder<T> {
 
+    protected T toBuild;
     protected final Set<OfflinePlayer> receivers = new HashSet<>();
     protected long timeToLive = -1;
 
