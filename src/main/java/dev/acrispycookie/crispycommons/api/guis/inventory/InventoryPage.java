@@ -1,13 +1,40 @@
 package dev.acrispycookie.crispycommons.api.guis.inventory;
 
+import dev.acrispycookie.crispycommons.api.wrappers.itemstack.CrispyItemStack;
 import dev.acrispycookie.crispycommons.implementations.guis.inventory.AbstractPage;
-import org.bukkit.event.Listener;
-import org.bukkit.inventory.InventoryHolder;
+import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.elements.types.ItemElement;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 
 import java.util.List;
-import java.util.function.Consumer;
 
-public interface InventoryPage extends InventoryHolder, Listener {
+public interface InventoryPage  {
+    InventoryItem<?> previousItem = InventoryItem.staticItem(
+            ItemElement.simple(new CrispyItemStack(Material.ARROW).name("&dPrevious page")),
+            (page, player) ->
+            {
+                page.getParent().changePage(player, page.getParent().getPages().indexOf(page) - 1);
+                return null;
+            }
+    ).setCanSee((page, player) -> {
+        int index = page.getParent().getPages().indexOf(page);
+        int totalPages = page.getParent().getPages().size();
+        return totalPages > 1 && index > 0;
+    });
+
+    InventoryItem<?> nextItem = InventoryItem.staticItem(
+            ItemElement.simple(new CrispyItemStack(Material.ARROW).name("&dNext page")),
+            (page, player) ->
+            {
+                page.getParent().changePage(player, page.getParent().getPages().indexOf(page) + 1);
+                return null;
+            }
+    ).setCanSee((page, player) -> {
+        int index = page.getParent().getPages().indexOf(page);
+        int totalPages = page.getParent().getPages().size();
+        return totalPages > 1 && index < totalPages - 1;
+    });
 
     static InventoryPage staticSize(String title, int rows) {
         return new AbstractPage(title, rows);
@@ -25,12 +52,9 @@ public interface InventoryPage extends InventoryHolder, Listener {
     void setItem(int slot, InventoryItem<?> item);
     void setItem(int x, int y, InventoryItem<?> item);
     void addItem(InventoryItem<?> item);
-    void renderItem(int slot);
-    void renderItem(int x, int y);
-    void renderItem(InventoryItem<?> item);
-    void renderItems();
+    void renderItems(Player player);
     void fillBorder(InventoryItem<?> item, BorderPosition position);
-    void consumeItems(Consumer<InventoryItem<?>> consumer);
+    Inventory getInventory(Player p);
 
     enum BorderPosition {
         TOP,

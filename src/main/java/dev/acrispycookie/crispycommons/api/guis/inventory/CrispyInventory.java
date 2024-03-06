@@ -4,23 +4,24 @@ import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.CrispyVisu
 import dev.acrispycookie.crispycommons.implementations.guis.inventory.AbstractInventory;
 import dev.acrispycookie.crispycommons.implementations.guis.inventory.wrappers.InventoryData;
 import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.builder.AbstractVisualBuilder;
-import org.bukkit.event.Listener;
+import org.bukkit.entity.Player;
 
 import java.util.List;
 import java.util.function.Consumer;
 
-public interface CrispyInventory extends CrispyVisual, Listener {
+public interface CrispyInventory extends CrispyVisual {
 
     static InventoryBuilder builder() {
         return new InventoryBuilder();
     }
 
+    void changePage(Player player, int newIndex);
     InventoryPage getPage(int index);
     List<InventoryPage> getPages();
     void addPage(InventoryPage page, int index);
     void addPage(InventoryPage page);
     void removePage(int index);
-    void consumePages(Consumer<InventoryPage> consumer);
+    void forEachPage(Consumer<InventoryPage> consumer);
 
     class InventoryBuilder extends AbstractVisualBuilder<CrispyInventory> {
 

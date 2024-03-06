@@ -1,53 +1,31 @@
 package dev.acrispycookie.crispycommons.implementations.guis.inventory;
 
-import dev.acrispycookie.crispycommons.CrispyCommons;
 import dev.acrispycookie.crispycommons.api.guis.inventory.CrispyInventory;
 import dev.acrispycookie.crispycommons.api.guis.inventory.InventoryItem;
 import dev.acrispycookie.crispycommons.api.guis.inventory.InventoryPage;
-import dev.acrispycookie.crispycommons.utility.logging.CrispyLogger;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 
 import java.util.*;
-import java.util.function.Consumer;
-import java.util.logging.Level;
 
 public class AbstractPage implements InventoryPage {
 
-    private CrispyInventory parent;
+    private final HashMap<Player, PageHolder> inventories = new HashMap<>();
     private final HashMap<Integer, InventoryItem<?>> items = new HashMap<>();
-    private final InventoryType type;
-    private final Inventory bukkitInventory;
+    private CrispyInventory parent;
+    private final String title;
     private final int rows;
     private final int columns;
 
     public AbstractPage(String title, int rows) {
-        this.type = InventoryType.CHEST;
+        this.title = title;
         this.rows = rows;
         this.columns = 9;
-        this.bukkitInventory = Bukkit.createInventory(this, rows * columns, title);
-        Bukkit.getPluginManager().registerEvents(this, CrispyCommons.getPlugin());
-    }
 
-    private AbstractPage(InventoryType type) {
-        this.type = type;
-        this.rows = 0;
-        this.columns = 0;
-        this.bukkitInventory = Bukkit.createInventory(this, type, "");
-    }
-
-    @Override
-    public CrispyInventory getParent() {
-        return this.parent;
-    }
-
-    @Override
-    public void setParent(CrispyInventory parent) {
-        this.parent = parent;
+        setItem(2, this.rows - 1, InventoryPage.previousItem);
+        setItem(6, this.rows - 1, InventoryPage.nextItem);
     }
 
     @Override
@@ -62,7 +40,7 @@ public class AbstractPage implements InventoryPage {
 
     @Override
     public InventoryItem<?> getItem(int x, int y) {
-        return items.get(x + y * rows);
+        return items.get(x + y * columns);
     }
 
     @Override
@@ -75,42 +53,24 @@ public class AbstractPage implements InventoryPage {
 
     @Override
     public void setItem(int x, int y, InventoryItem<?> item) {
-        setItem(x + y * rows, item);
+        setItem(x + y * columns, item);
     }
 
     @Override
     public void addItem(InventoryItem<?> item) {
-        setItem(items.isEmpty() ? 0 : Collections.max(items.keySet()) + 1, item);
+        int maxSlot = Collections.max(items.keySet());
+        int i;
+        for (i = 0; i < maxSlot; i++) {
+            if (!items.containsKey(i))
+                break;
+        }
+        setItem(i, item);
     }
 
     @Override
-    public void renderItem(int slot) {
-        InventoryItem<?> item = items.get(slot);
-        bukkitInventory.setItem(slot,
-                item.isLoaded() ? item.getDisplay().getRaw() : item.getLoadingDisplay().getRaw());
-    }
-
-    @Override
-    public void renderItem(int x, int y) {
-        renderItem(x + y * rows);
-    }
-
-    @Override
-    public void renderItem(InventoryItem<?> item) {
-        if (items.containsValue(item))
-            return;
-
-        int slot = items.entrySet()
-                .stream()
-                .filter(e -> e.getValue().equals(item))
-                .map(Map.Entry::getKey).findFirst().get();
-        renderItem(slot);
-    }
-
-    @Override
-    public void renderItems() {
+    public void renderItems(Player player) {
         for (int slot : items.keySet()) {
-            renderItem(slot);
+            renderItem(slot, player);
         }
     }
 
@@ -141,29 +101,58 @@ public class AbstractPage implements InventoryPage {
     }
 
     @Override
-    public void consumeItems(Consumer<InventoryItem<?>> consumer) {
-        items.values().forEach(consumer);
+    public Inventory getInventory(Player p) {
+        if (inventories.containsKey(p))
+            return inventories.get(p).getInventory();
+
+        PageHolder holder = new PageHolder(this, title, rows);
+        inventories.put(p, holder);
+        renderItems(p);
+        return holder.getInventory();
     }
 
     @Override
-    public Inventory getInventory() {
-        return bukkitInventory;
+    public CrispyInventory getParent() {
+        return parent;
     }
 
-    @EventHandler
-    public void onClick(InventoryClickEvent event) {
-        if(event.getClickedInventory() == null
-                || event.getInventory() == null
-                || !event.getInventory().equals(bukkitInventory)
-                || !(event.getWhoClicked() instanceof Player))
-            return;
+    @Override
+    public void setParent(CrispyInventory inventory) {
+        this.parent = inventory;
+    }
 
-        InventoryPage page = (InventoryPage) event.getInventory().getHolder();
-        InventoryItem<?> item = page.getItem(event.getSlot());
-        event.setCancelled(!item.canTake(page));
-        if (item.isLoaded())
-            item.onClick(page, (Player) event.getWhoClicked());
-        else
-            item.onClickUnloaded(page, (Player) event.getWhoClicked());
+    protected void renderItem(int slot) {
+        for (Player player : inventories.keySet()) {
+            renderItem(slot, player);
+        }
+    }
+
+    protected void renderItem(int slot, Player player) {
+        if (!inventories.containsKey(player))
+            return;
+        InventoryItem<?> item = items.get(slot);
+        if (!item.canSee(this, player))
+            return;
+        inventories.get(player).getInventory().setItem(slot,
+                item.isLoaded() ? item.getDisplay().getRaw() : item.getLoadingDisplay().getRaw());
+    }
+
+    static class PageHolder implements InventoryHolder {
+        private final Inventory inventory;
+        private final InventoryPage page;
+
+        private PageHolder(InventoryPage page, String title, int rows) {
+            this.page = page;
+            this.inventory = Bukkit.createInventory(this, rows * 9, title);
+        }
+
+        public InventoryPage getPage() {
+            return page;
+        }
+
+        @Override
+        public Inventory getInventory() {
+            return inventory;
+        }
     }
 }
