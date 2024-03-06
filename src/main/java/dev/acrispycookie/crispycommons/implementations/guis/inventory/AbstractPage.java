@@ -14,7 +14,6 @@ public class AbstractPage implements InventoryPage {
 
     private final HashMap<Player, PageHolder> inventories = new HashMap<>();
     private final HashMap<Integer, InventoryItem<?>> items = new HashMap<>();
-    private CrispyInventory parent;
     private final String title;
     private final int rows;
     private final int columns;
@@ -57,46 +56,33 @@ public class AbstractPage implements InventoryPage {
     }
 
     @Override
-    public void addItem(InventoryItem<?> item) {
-        int maxSlot = Collections.max(items.keySet());
-        int i;
-        for (i = 0; i < maxSlot; i++) {
-            if (!items.containsKey(i))
-                break;
-        }
-        setItem(i, item);
+    public String getTitle() {
+        return title;
+    }
+
+    @Override
+    public int getRows() {
+        return rows;
+    }
+
+    @Override
+    public int getColumns() {
+        return columns;
+    }
+
+    @Override
+    public void updateItemDisplay(InventoryItem<?> item) {
+        Optional<Integer> slot = items.keySet().stream().filter(s -> items.get(s).equals(item)).findFirst();
+        if(!slot.isPresent())
+            return;
+
+        item.getDisplay().setUpdate(() -> renderItem(slot.get()));
     }
 
     @Override
     public void renderItems(Player player) {
         for (int slot : items.keySet()) {
             renderItem(slot, player);
-        }
-    }
-
-    @Override
-    public void fillBorder(InventoryItem<?> item, BorderPosition position) {
-        switch (position) {
-            case TOP:
-                for (int i = 0; i < 9; i++) {
-                    setItem(i, item);
-                }
-                break;
-            case BOTTOM:
-                for (int i = (rows - 1) * 9; i < rows * 9; i++) {
-                    setItem(i, item);
-                }
-                break;
-            case RIGHT:
-                for (int i = 0; i < rows; i++) {
-                    setItem(0, i, item);
-                }
-                break;
-            case LEFT:
-                for (int i = 0; i < rows; i++) {
-                    setItem(8, i, item);
-                }
-                break;
         }
     }
 
@@ -109,16 +95,6 @@ public class AbstractPage implements InventoryPage {
         inventories.put(p, holder);
         renderItems(p);
         return holder.getInventory();
-    }
-
-    @Override
-    public CrispyInventory getParent() {
-        return parent;
-    }
-
-    @Override
-    public void setParent(CrispyInventory inventory) {
-        this.parent = inventory;
     }
 
     protected void renderItem(int slot) {

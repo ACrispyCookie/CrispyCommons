@@ -5,12 +5,15 @@ import dev.acrispycookie.crispycommons.api.guis.inventory.InventoryItem;
 import dev.acrispycookie.crispycommons.api.guis.inventory.InventoryPage;
 import dev.acrispycookie.crispycommons.implementations.guis.inventory.wrappers.InventoryData;
 import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.visual.AbstractVisual;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 
 import java.util.List;
 import java.util.Set;
@@ -20,7 +23,6 @@ public class AbstractInventory extends AbstractVisual<InventoryData> implements 
 
     public AbstractInventory(InventoryData data, Set<? extends OfflinePlayer> receivers, long timeToLive) {
         super(data, receivers, timeToLive, UpdateMode.PER_PLAYER);
-        forEachPage(p -> p.setParent(this));
     }
 
     @Override
@@ -28,9 +30,11 @@ public class AbstractInventory extends AbstractVisual<InventoryData> implements 
         if (newIndex < 0 || newIndex >= data.getTotalPages())
             return;
 
-        data.setCurrentPage(newIndex);
-        this.hide(player);
-        this.show(player);
+        data.setCurrentPage(player, newIndex);
+        if (isDisplayed) {
+            this.hide(player);
+            this.show(player);
+        }
     }
 
     @Override
@@ -45,7 +49,7 @@ public class AbstractInventory extends AbstractVisual<InventoryData> implements 
 
     @Override
     protected void show(Player p) {
-        p.openInventory(data.getPages().get(data.getCurrentPage()).getInventory(p));
+        p.openInventory(data.getPages().get(data.getCurrentPage(p)).getInventory(p));
     }
 
     @Override
@@ -56,7 +60,6 @@ public class AbstractInventory extends AbstractVisual<InventoryData> implements 
     @Override
     protected void perPlayerUpdate(Player p) {
         data.forEachPage(page -> page.renderItems(p));
-
     }
 
     @Override
@@ -75,14 +78,18 @@ public class AbstractInventory extends AbstractVisual<InventoryData> implements 
     }
 
     @Override
-    public void addPage(InventoryPage page, int index) {
+    public void addPage(int index, InventoryPage page) {
         data.addPage(index, page);
-        page.setParent(this);
     }
 
     @Override
     public void addPage(InventoryPage page) {
-        addPage(page, data.getTotalPages());
+        addPage(data.getTotalPages(), page);
+    }
+
+    @Override
+    public void setPage(int index, InventoryPage page) {
+        data.setPage(index, page);
     }
 
     @Override
@@ -93,6 +100,24 @@ public class AbstractInventory extends AbstractVisual<InventoryData> implements 
     @Override
     public void forEachPage(Consumer<InventoryPage> consumer) {
         data.forEachPage(consumer);
+    }
+
+    public Inventory getBukkitInventory(int pageIndex, Player p) {
+        InventoryPage page = getPage(pageIndex);
+        BukkitInventoryHolder holder = new BukkitInventoryHolder(page.getTitle(), page.getRows());
+
+    }
+
+    public void renderItems(int page, Player p) {
+
+    }
+
+    protected void renderItem(int page, Player p, int slot) {
+
+    }
+
+    protected void renderItems(int page, int slot) {
+
     }
 
     @EventHandler
@@ -121,10 +146,24 @@ public class AbstractInventory extends AbstractVisual<InventoryData> implements 
 
         Player player = (Player) event.getWhoClicked();
         InventoryItem<?> item = page.getItem(event.getSlot());
-        event.setCancelled(!item.canTake(page, player));
+        event.setCancelled(!item.canTake(this, page, player));
         if (item.isLoaded())
-            item.onClick(page, player);
+            item.onClick(this, page, player);
         else
-            item.onClickUnloaded(page, player);
+            item.onClickUnloaded(this, page, player);
+    }
+
+    static class BukkitInventoryHolder implements InventoryHolder {
+
+        private final Inventory inventory;
+
+        public BukkitInventoryHolder(String title, int rows) {
+            this.inventory = Bukkit.createInventory(this, rows * 9, title);
+        }
+
+        @Override
+        public Inventory getInventory() {
+            return inventory;
+        }
     }
 }

@@ -18,8 +18,9 @@ public interface CrispyInventory extends CrispyVisual {
     void changePage(Player player, int newIndex);
     InventoryPage getPage(int index);
     List<InventoryPage> getPages();
-    void addPage(InventoryPage page, int index);
+    void addPage(int index, InventoryPage page);
     void addPage(InventoryPage page);
+    void setPage(int index, InventoryPage page);
     void removePage(int index);
     void forEachPage(Consumer<InventoryPage> consumer);
 
@@ -28,7 +29,7 @@ public interface CrispyInventory extends CrispyVisual {
         private final InventoryData data = new InventoryData(0);
 
         public InventoryBuilder setStartingPage(int pageIndex) {
-            data.setCurrentPage(pageIndex);
+            data.setStartingPage(pageIndex);
             return this;
         }
 

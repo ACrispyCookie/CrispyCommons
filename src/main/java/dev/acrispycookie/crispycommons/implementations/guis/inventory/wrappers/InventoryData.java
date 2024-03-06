@@ -2,25 +2,28 @@ package dev.acrispycookie.crispycommons.implementations.guis.inventory.wrappers;
 
 import dev.acrispycookie.crispycommons.api.guis.inventory.InventoryPage;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.VisualData;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.function.Consumer;
 
 public class InventoryData implements VisualData {
 
     private final ArrayList<InventoryPage> pages = new ArrayList<>();
-    private int currentPage;
+    private final HashMap<Player, Integer> currentPage = new HashMap<>();
+    private int startingPage;
 
-    public InventoryData() {
-        this.currentPage = 0;
+    public InventoryData(int startingPage) {
+        this.startingPage = startingPage;
     }
 
-    public InventoryData(int currentPage) {
-        this.currentPage = 0;
+    public void setCurrentPage(Player player, int pageIndex) {
+        currentPage.put(player, pageIndex);
     }
 
     public void setCurrentPage(int pageIndex) {
-        this.currentPage = pageIndex;
+        currentPage.keySet().forEach(player -> currentPage.put(player, pageIndex));
     }
 
     public void addPage(int index, InventoryPage page) {
@@ -51,8 +54,16 @@ public class InventoryData implements VisualData {
         return pages.size();
     }
 
-    public int getCurrentPage() {
-        return currentPage;
+    public int getCurrentPage(Player player) {
+        if (currentPage.containsKey(player))
+            return currentPage.get(player);
+
+        currentPage.put(player, startingPage);
+        return startingPage;
+    }
+
+    public void setStartingPage(int index) {
+        this.startingPage = index;
     }
 
     @Override

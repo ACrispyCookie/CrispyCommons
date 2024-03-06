@@ -1,5 +1,6 @@
 package dev.acrispycookie.crispycommons.implementations.guis.inventory.items;
 
+import dev.acrispycookie.crispycommons.api.guis.inventory.CrispyInventory;
 import dev.acrispycookie.crispycommons.api.guis.inventory.InventoryPage;
 import dev.acrispycookie.crispycommons.implementations.guis.inventory.AbstractItem;
 import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.elements.types.ItemElement;
@@ -13,7 +14,7 @@ public abstract class StaticItem extends AbstractItem<Object> {
     }
 
     @Override
-    public void onClickUnloaded(InventoryPage page, Player player) {
+    public void onClickUnloaded(CrispyInventory inventory, InventoryPage page, Player player) {
 
     }
 }
