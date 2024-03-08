@@ -1,18 +1,16 @@
 package dev.acrispycookie.crispycommons.implementations.guis.inventory;
 
-import dev.acrispycookie.crispycommons.api.guis.inventory.CrispyInventory;
 import dev.acrispycookie.crispycommons.api.guis.inventory.InventoryItem;
 import dev.acrispycookie.crispycommons.api.guis.inventory.InventoryPage;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryHolder;
 
 import java.util.*;
+import java.util.function.Consumer;
 
 public class AbstractPage implements InventoryPage {
 
-    private final HashMap<Player, PageHolder> inventories = new HashMap<>();
+    private final HashMap<Player, Inventory> cached = new HashMap<>();
     private final HashMap<Integer, InventoryItem<?>> items = new HashMap<>();
     private final String title;
     private final int rows;
@@ -28,8 +26,18 @@ public class AbstractPage implements InventoryPage {
     }
 
     @Override
-    public List<InventoryItem<?>> getItems() {
-        return new ArrayList<>(items.values());
+    public Inventory getCached(Player p) {
+        return cached.getOrDefault(p, null);
+    }
+
+    @Override
+    public void addCached(Player player, Inventory holder) {
+        cached.put(player, holder);
+    }
+
+    @Override
+    public Map<Player, Inventory> getCached() {
+        return Collections.unmodifiableMap(cached);
     }
 
     @Override
@@ -45,14 +53,21 @@ public class AbstractPage implements InventoryPage {
     @Override
     public void setItem(int slot, InventoryItem<?> item) {
         items.put(slot, item);
-        renderItem(slot);
-        item.getDisplay().setUpdate(() -> renderItem(slot));
-        item.getLoadingDisplay().setUpdate(() -> renderItem(slot));
     }
 
     @Override
     public void setItem(int x, int y, InventoryItem<?> item) {
         setItem(x + y * columns, item);
+    }
+
+    @Override
+    public void forEachItem(Consumer<? super InventoryItem<?>> consumer) {
+        items.values().forEach(consumer);
+    }
+
+    @Override
+    public Map<Integer, InventoryItem<?>> getItems() {
+        return Collections.unmodifiableMap(items);
     }
 
     @Override
@@ -68,67 +83,5 @@ public class AbstractPage implements InventoryPage {
     @Override
     public int getColumns() {
         return columns;
-    }
-
-    @Override
-    public void updateItemDisplay(InventoryItem<?> item) {
-        Optional<Integer> slot = items.keySet().stream().filter(s -> items.get(s).equals(item)).findFirst();
-        if(!slot.isPresent())
-            return;
-
-        item.getDisplay().setUpdate(() -> renderItem(slot.get()));
-    }
-
-    @Override
-    public void renderItems(Player player) {
-        for (int slot : items.keySet()) {
-            renderItem(slot, player);
-        }
-    }
-
-    @Override
-    public Inventory getInventory(Player p) {
-        if (inventories.containsKey(p))
-            return inventories.get(p).getInventory();
-
-        PageHolder holder = new PageHolder(this, title, rows);
-        inventories.put(p, holder);
-        renderItems(p);
-        return holder.getInventory();
-    }
-
-    protected void renderItem(int slot) {
-        for (Player player : inventories.keySet()) {
-            renderItem(slot, player);
-        }
-    }
-
-    protected void renderItem(int slot, Player player) {
-        if (!inventories.containsKey(player))
-            return;
-        InventoryItem<?> item = items.get(slot);
-        if (!item.canSee(this, player))
-            return;
-        inventories.get(player).getInventory().setItem(slot,
-                item.isLoaded() ? item.getDisplay().getRaw() : item.getLoadingDisplay().getRaw());
-    }
-
-    static class PageHolder implements InventoryHolder {
-        private final Inventory inventory;
-        private final InventoryPage page;
-
-        private PageHolder(InventoryPage page, String title, int rows) {
-            this.page = page;
-            this.inventory = Bukkit.createInventory(this, rows * 9, title);
-        }
-
-        public InventoryPage getPage() {
-            return page;
-        }
-
-        @Override
-        public Inventory getInventory() {
-            return inventory;
-        }
     }
 }

@@ -5,6 +5,7 @@ import dev.acrispycookie.crispycommons.implementations.guis.inventory.AbstractIn
 import dev.acrispycookie.crispycommons.implementations.guis.inventory.wrappers.InventoryData;
 import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.builder.AbstractVisualBuilder;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -23,6 +24,7 @@ public interface CrispyInventory extends CrispyVisual {
     void setPage(int index, InventoryPage page);
     void removePage(int index);
     void forEachPage(Consumer<InventoryPage> consumer);
+    Inventory getInventory(int pageIndex, Player p);
 
     class InventoryBuilder extends AbstractVisualBuilder<CrispyInventory> {
 

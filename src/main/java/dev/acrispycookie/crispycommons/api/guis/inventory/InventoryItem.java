@@ -5,8 +5,6 @@ import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.eleme
 import dev.acrispycookie.crispycommons.utility.inventories.Function3P;
 import org.bukkit.entity.Player;
 
-import java.util.function.BiFunction;
-
 public interface InventoryItem<T> {
 
     static InventoryItem<?> staticItem(ItemElement display) {
@@ -37,8 +35,7 @@ public interface InventoryItem<T> {
     InventoryItem<T> setCanTake(Function3P<CrispyInventory, InventoryPage, Player, Boolean> supplier);
     boolean isLoaded();
     ItemElement getDisplay();
-    ItemElement getLoadingDisplay();
-    void setDisplay(ItemElement element);
+    void setLoadedDisplay(ItemElement element);
     void setLoadingDisplay(ItemElement element);
 
 }

@@ -15,14 +15,16 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Consumer;
 
 public class AbstractInventory extends AbstractVisual<InventoryData> implements CrispyInventory {
 
+    private final Map<OfflinePlayer, Boolean> isDisplayedMap = new HashMap<>();
+
     public AbstractInventory(InventoryData data, Set<? extends OfflinePlayer> receivers, long timeToLive) {
         super(data, receivers, timeToLive, UpdateMode.PER_PLAYER);
+        receivers.forEach(player -> isDisplayedMap.put(player, false));
     }
 
     @Override
@@ -30,7 +32,9 @@ public class AbstractInventory extends AbstractVisual<InventoryData> implements 
         if (newIndex < 0 || newIndex >= data.getTotalPages())
             return;
 
+        data.getPages().get(data.getCurrentPage(player)).forEachItem(item -> item.getDisplay().stop());
         data.setCurrentPage(player, newIndex);
+        data.getPages().get(newIndex).forEachItem(item -> item.getDisplay().start());
         if (isDisplayed) {
             this.hide(player);
             this.show(player);
@@ -39,32 +43,61 @@ public class AbstractInventory extends AbstractVisual<InventoryData> implements 
 
     @Override
     protected void prepareShow() {
-        data.getPages().forEach(p -> p.getItems().forEach(i -> i.getDisplay().start()));
+        Set<Integer> pagesToLoad = new HashSet<>();
+        getPlayers().forEach(player -> pagesToLoad.add(data.getCurrentPage(player)));
+
+        for (int pageIndex : pagesToLoad) {
+            getPage(pageIndex).forEachItem(item -> item.getDisplay().start());
+        }
     }
 
     @Override
     protected void prepareHide() {
-        data.getPages().forEach(p -> p.getItems().forEach(i -> i.getDisplay().stop()));
+        Set<Integer> pagesToLoad = new HashSet<>();
+        getPlayers().forEach(player -> pagesToLoad.add(data.getCurrentPage(player)));
+
+        for (int pageIndex : pagesToLoad) {
+            getPage(pageIndex).forEachItem(item -> item.getDisplay().stop());
+        }
     }
 
     @Override
-    protected void show(Player p) {
-        p.openInventory(data.getPages().get(data.getCurrentPage(p)).getInventory(p));
+    public void show(Player player) {
+        player.openInventory(getInventory(data.getCurrentPage(player), player));
     }
 
     @Override
-    protected void hide(Player p) {
-        p.closeInventory();
+    public void hide(Player player) {
+        player.closeInventory();
     }
 
     @Override
     protected void perPlayerUpdate(Player p) {
-        data.forEachPage(page -> page.renderItems(p));
+        renderItems(data.getCurrentPage(p), p);
     }
 
     @Override
     protected void globalUpdate() {
 
+    }
+
+    @Override
+    public void addPlayer(OfflinePlayer player) {
+        super.addPlayer(player);
+        isDisplayedMap.put(player, isDisplayed);
+    }
+
+    @Override
+    public void removePlayer(OfflinePlayer player) {
+        super.removePlayer(player);
+        isDisplayedMap.remove(player);
+    }
+
+    @Override
+    public void setPlayers(Collection<? extends OfflinePlayer> players) {
+        super.setPlayers(players);
+        isDisplayedMap.clear();
+        players.forEach(p -> isDisplayedMap.put(p, isDisplayed));
     }
 
     @Override
@@ -102,43 +135,69 @@ public class AbstractInventory extends AbstractVisual<InventoryData> implements 
         data.forEachPage(consumer);
     }
 
-    public Inventory getBukkitInventory(int pageIndex, Player p) {
+    @Override
+    public Inventory getInventory(int pageIndex, Player player) {
         InventoryPage page = getPage(pageIndex);
-        BukkitInventoryHolder holder = new BukkitInventoryHolder(page.getTitle(), page.getRows());
+        Inventory cached = page.getCached(player);
+        if (cached != null)
+            return cached;
 
+        BukkitInventoryHolder holder = new BukkitInventoryHolder(page.getTitle(), page.getRows(), this, page);
+        page.addCached(player, holder.getInventory());
+        renderItems(pageIndex, player);
+        return holder.getInventory();
     }
 
-    public void renderItems(int page, Player p) {
+    protected void renderItems(int pageIndex, Player player) {
+        if (pageIndex < 0 || pageIndex > data.getTotalPages() - 1)
+            return;
+        InventoryPage page = data.getPages().get(pageIndex);
+        Map<Integer, InventoryItem<?>> items = page.getItems();
+        Inventory cached = page.getCached(player);
+        if(cached == null)
+            page.addCached(player, cached = new BukkitInventoryHolder(page.getTitle(), page.getRows(), this, page)
+                    .getInventory());
 
+        for(int slot : items.keySet()) {
+            InventoryItem<?> item = items.get(slot);
+            if (!item.canSee(this, page, player))
+                continue;
+
+            item.getDisplay().setUpdate(() -> renderItems(pageIndex, slot));
+            cached.setItem(slot, item.getDisplay().getRaw());
+        }
     }
 
-    protected void renderItem(int page, Player p, int slot) {
+    protected void renderItems(int pageIndex, int slot) {
+        InventoryPage page = data.getPages().get(pageIndex);
+        InventoryItem<?> item = page.getItem(slot);
 
-    }
-
-    protected void renderItems(int page, int slot) {
-
+        for (Player player : page.getCached().keySet()) {
+            if(!item.canSee(this, page, player))
+                return;
+            item.getDisplay().setUpdate(() -> renderItems(pageIndex, slot));
+            page.getCached().get(player).setItem(slot, item.getDisplay().getRaw());
+        }
     }
 
     @EventHandler
     public void onInventoryClose(InventoryCloseEvent event) {
-        if (!(event.getInventory().getHolder() instanceof AbstractPage.PageHolder))
+        if (!(event.getInventory().getHolder() instanceof BukkitInventoryHolder))
             return;
 
-        InventoryPage page = ((AbstractPage.PageHolder) event.getInventory().getHolder()).getPage();
-        if (getPages().contains(page))
-            isDisplayed = false;
+        CrispyInventory inventory = ((BukkitInventoryHolder) event.getInventory().getHolder()).getCrispyInventory();
+        //TODO handle close
     }
 
     @EventHandler
     public void onClick(InventoryClickEvent event) {
         if(event.getClickedInventory() == null
                 || event.getInventory() == null
-                || !(event.getInventory().getHolder() instanceof AbstractPage.PageHolder)
+                || !(event.getInventory().getHolder() instanceof BukkitInventoryHolder)
                 || !(event.getWhoClicked() instanceof Player))
             return;
 
-        InventoryPage page = ((AbstractPage.PageHolder) event.getInventory().getHolder()).getPage();
+        InventoryPage page = ((BukkitInventoryHolder) event.getInventory().getHolder()).getPage();
         if (!getPages().contains(page)
                 || event.getCurrentItem() == null
                 || event.getCurrentItem().getType() == Material.AIR)
@@ -153,12 +212,24 @@ public class AbstractInventory extends AbstractVisual<InventoryData> implements 
             item.onClickUnloaded(this, page, player);
     }
 
-    static class BukkitInventoryHolder implements InventoryHolder {
+    public static class BukkitInventoryHolder implements InventoryHolder {
 
         private final Inventory inventory;
+        private final CrispyInventory crispyInventory;
+        private final InventoryPage page;
 
-        public BukkitInventoryHolder(String title, int rows) {
+        public BukkitInventoryHolder(String title, int rows, CrispyInventory inventory, InventoryPage page) {
             this.inventory = Bukkit.createInventory(this, rows * 9, title);
+            this.crispyInventory = inventory;
+            this.page = page;
+        }
+
+        public InventoryPage getPage() {
+            return page;
+        }
+
+        public CrispyInventory getCrispyInventory() {
+            return crispyInventory;
         }
 
         @Override

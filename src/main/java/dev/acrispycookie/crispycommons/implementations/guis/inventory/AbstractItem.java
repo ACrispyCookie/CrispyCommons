@@ -74,16 +74,11 @@ public abstract class AbstractItem<T> implements InventoryItem<T> {
 
     @Override
     public ItemElement getDisplay() {
-        return display;
+        return isLoaded ? display : loadingDisplay;
     }
 
     @Override
-    public ItemElement getLoadingDisplay() {
-        return loadingDisplay;
-    }
-
-    @Override
-    public void setDisplay(ItemElement element) {
+    public void setLoadedDisplay(ItemElement element) {
         this.display = element;
 
     }
