@@ -14,7 +14,7 @@ public abstract class StaticItem extends AbstractItem<Object> {
     }
 
     @Override
-    public void onClickUnloaded(CrispyInventory inventory, InventoryPage page, Player player) {
+    public void onClickUnloaded(InventoryPage page, Player player) {
 
     }
 }

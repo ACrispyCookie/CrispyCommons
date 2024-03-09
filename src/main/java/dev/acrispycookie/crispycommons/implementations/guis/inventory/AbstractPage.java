@@ -1,7 +1,9 @@
 package dev.acrispycookie.crispycommons.implementations.guis.inventory;
 
+import dev.acrispycookie.crispycommons.api.guis.inventory.CrispyInventory;
 import dev.acrispycookie.crispycommons.api.guis.inventory.InventoryItem;
 import dev.acrispycookie.crispycommons.api.guis.inventory.InventoryPage;
+import dev.acrispycookie.crispycommons.implementations.guis.inventory.wrappers.Holder;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
@@ -10,7 +12,8 @@ import java.util.function.Consumer;
 
 public class AbstractPage implements InventoryPage {
 
-    private final HashMap<Player, Inventory> cached = new HashMap<>();
+    private CrispyInventory inventory;
+    private final HashMap<Player, Inventory> inventories = new HashMap<>();
     private final HashMap<Integer, InventoryItem<?>> items = new HashMap<>();
     private final String title;
     private final int rows;
@@ -25,19 +28,40 @@ public class AbstractPage implements InventoryPage {
         setItem(6, this.rows - 1, InventoryPage.nextItem);
     }
 
-    @Override
-    public Inventory getCached(Player p) {
-        return cached.getOrDefault(p, null);
+    private void renderItem(Player p, int slot) {
+        System.out.println("Rendering item " + slot + "...");
+        InventoryItem<?> item = items.get(slot);
+        if (!item.canSee(this, p))
+            return;
+
+        inventories.get(p).setItem(slot, item.getDisplay().getRaw());
+    }
+
+    private void renderItems(Player p) {
+        for (int slot : items.keySet()) {
+            renderItem(p, slot);
+        }
+    }
+
+    private void renderItems(int slot) {
+        for (Player player : inventories.keySet()) {
+            renderItem(player, slot);
+        }
     }
 
     @Override
-    public void addCached(Player player, Inventory holder) {
-        cached.put(player, holder);
-    }
+    public Inventory render(Player p) {
+        Inventory inventory;
+        if (!inventories.containsKey(p)) {
+            inventory = new Holder(title, rows, this).getInventory();
+            inventories.put(p, inventory);
+        } else {
+            inventory = inventories.get(p);
+            inventory.clear();
+        }
+        renderItems(p);
 
-    @Override
-    public Map<Player, Inventory> getCached() {
-        return Collections.unmodifiableMap(cached);
+        return inventory;
     }
 
     @Override
@@ -53,6 +77,7 @@ public class AbstractPage implements InventoryPage {
     @Override
     public void setItem(int slot, InventoryItem<?> item) {
         items.put(slot, item);
+        item.getDisplay().setUpdate(() -> renderItems(slot));
     }
 
     @Override
@@ -68,6 +93,16 @@ public class AbstractPage implements InventoryPage {
     @Override
     public Map<Integer, InventoryItem<?>> getItems() {
         return Collections.unmodifiableMap(items);
+    }
+
+    @Override
+    public CrispyInventory getParent() {
+        return inventory;
+    }
+
+    @Override
+    public void setParent(CrispyInventory inventory) {
+        this.inventory = inventory;
     }
 
     @Override

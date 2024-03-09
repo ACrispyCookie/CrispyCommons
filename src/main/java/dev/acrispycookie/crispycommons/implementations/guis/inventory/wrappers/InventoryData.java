@@ -3,7 +3,6 @@ package dev.acrispycookie.crispycommons.implementations.guis.inventory.wrappers;
 import dev.acrispycookie.crispycommons.api.guis.inventory.InventoryPage;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.VisualData;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.HashMap;

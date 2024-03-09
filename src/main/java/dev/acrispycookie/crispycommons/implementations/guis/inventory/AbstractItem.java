@@ -20,49 +20,49 @@ import java.util.function.Function;
 public abstract class AbstractItem<T> implements InventoryItem<T> {
 
     protected boolean isLoaded = false;
-    private Function3P<CrispyInventory, InventoryPage, Player, Boolean> canSee;
-    private Function3P<CrispyInventory, InventoryPage, Player, Boolean> canSeeUnloaded;
-    private Function3P<CrispyInventory, InventoryPage, Player, Boolean> canTake;
+    private BiFunction<InventoryPage, Player, Boolean> canSee;
+    private BiFunction<InventoryPage, Player, Boolean> canSeeUnloaded;
+    private BiFunction<InventoryPage, Player, Boolean> canTake;
     private ItemElement display;
     private ItemElement loadingDisplay;
 
     public AbstractItem(ItemElement display, ItemElement unloadedDisplay) {
         this.display = display;
         this.loadingDisplay = unloadedDisplay;
-        this.canSee = (inv, page, player) -> true;
-        this.canSeeUnloaded = (inv, page, player) -> true;
-        this.canTake = (inv, page, player) -> false;
+        this.canSee = (page, player) -> true;
+        this.canSeeUnloaded = (page, player) -> true;
+        this.canTake = (page, player) -> false;
     }
 
     @Override
-    public boolean canSee(CrispyInventory inventory, InventoryPage page, Player player) {
-        return canSee.apply(inventory, page, player);
+    public boolean canSee( InventoryPage page, Player player) {
+        return canSee.apply(page, player);
     }
 
     @Override
-    public boolean canSeeUnloaded(CrispyInventory inventory, InventoryPage page, Player player) {
-        return canSeeUnloaded.apply(inventory, page, player);
+    public boolean canSeeUnloaded(InventoryPage page, Player player) {
+        return canSeeUnloaded.apply(page, player);
     }
 
     @Override
-    public boolean canTake(CrispyInventory inventory, InventoryPage page, Player player) {
-        return canTake.apply(inventory, page, player);
+    public boolean canTake(InventoryPage page, Player player) {
+        return canTake.apply(page, player);
     }
 
     @Override
-    public InventoryItem<T> setCanSee(Function3P<CrispyInventory, InventoryPage, Player, Boolean> supplier) {
+    public InventoryItem<T> setCanSee(BiFunction<InventoryPage, Player, Boolean> supplier) {
         this.canSee = supplier;
         return this;
     }
 
     @Override
-    public InventoryItem<T> setCanSeeUnloaded(Function3P<CrispyInventory, InventoryPage, Player, Boolean> supplier) {
+    public InventoryItem<T> setCanSeeUnloaded(BiFunction<InventoryPage, Player, Boolean> supplier) {
         this.canSeeUnloaded = supplier;
         return this;
     }
 
     @Override
-    public InventoryItem<T> setCanTake(Function3P<CrispyInventory, InventoryPage, Player, Boolean> supplier) {
+    public InventoryItem<T> setCanTake(BiFunction<InventoryPage, Player, Boolean> supplier) {
         this.canTake = supplier;
         return this;
     }
