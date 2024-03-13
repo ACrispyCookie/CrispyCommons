@@ -1,6 +1,5 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.abstraction.visual;
 
-import com.avaje.ebean.annotation.UpdateMode;
 import dev.acrispycookie.crispycommons.CrispyCommons;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.CrispyVisual;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.VisualData;
@@ -20,7 +19,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
-import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 public abstract class AbstractVisual<T extends VisualData> implements CrispyVisual, Listener {

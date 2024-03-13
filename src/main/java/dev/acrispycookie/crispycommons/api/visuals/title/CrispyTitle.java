@@ -1,11 +1,11 @@
 package dev.acrispycookie.crispycommons.api.visuals.title;
 
-import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.builder.AbstractVisualBuilder;
-import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.elements.types.TextElement;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.CrispyVisual;
+import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.builder.AbstractVisualBuilder;
 import dev.acrispycookie.crispycommons.implementations.visuals.title.SimpleTitle;
 import dev.acrispycookie.crispycommons.implementations.visuals.title.UpdatingTitle;
 import dev.acrispycookie.crispycommons.implementations.visuals.title.wrappers.TitleData;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TextElement;
 
 
 public interface CrispyTitle extends CrispyVisual {

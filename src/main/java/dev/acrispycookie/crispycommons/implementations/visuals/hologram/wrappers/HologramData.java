@@ -1,7 +1,7 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.hologram.wrappers;
 
-import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.elements.AnimatedElement;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.VisualData;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.AnimatedElement;
 import org.bukkit.Location;
 
 import java.util.ArrayList;

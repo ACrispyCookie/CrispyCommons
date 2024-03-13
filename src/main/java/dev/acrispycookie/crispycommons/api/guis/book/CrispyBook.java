@@ -1,7 +1,7 @@
 package dev.acrispycookie.crispycommons.api.guis.book;
 
-import dev.acrispycookie.crispycommons.implementations.guis.books.wrappers.BookPage;
 import dev.acrispycookie.crispycommons.implementations.guis.books.SimpleBook;
+import dev.acrispycookie.crispycommons.implementations.guis.books.wrappers.BookPage;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;

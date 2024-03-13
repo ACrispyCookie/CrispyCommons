@@ -1,9 +1,8 @@
 package dev.acrispycookie.crispycommons.api.guis.inventory;
 
-import dev.acrispycookie.crispycommons.CrispyCommons;
 import dev.acrispycookie.crispycommons.api.wrappers.itemstack.CrispyItemStack;
 import dev.acrispycookie.crispycommons.implementations.guis.inventory.AbstractPage;
-import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.elements.types.ItemElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.ItemElement;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;

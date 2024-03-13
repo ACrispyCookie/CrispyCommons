@@ -1,6 +1,5 @@
 package dev.acrispycookie.crispycommons.api.wrappers.itemstack;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;

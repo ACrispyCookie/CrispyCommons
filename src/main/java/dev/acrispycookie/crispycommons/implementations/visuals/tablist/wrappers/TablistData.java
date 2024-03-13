@@ -1,7 +1,7 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.tablist.wrappers;
 
-import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.elements.types.TextElement;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.VisualData;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TextElement;
 
 import java.util.List;
 

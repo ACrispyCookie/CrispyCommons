@@ -1,7 +1,7 @@
-package dev.acrispycookie.crispycommons.implementations.visuals.abstraction.elements.types;
+package dev.acrispycookie.crispycommons.implementations.wrappers.elements.types;
 
-import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.elements.AnimatedElement;
-import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.elements.DynamicElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.AnimatedElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.DynamicElement;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 

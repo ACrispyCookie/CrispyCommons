@@ -1,6 +1,6 @@
 package dev.acrispycookie.crispycommons.implementations.wrappers.entity;
 
-import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.elements.types.ItemElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.ItemElement;
 import net.minecraft.server.v1_8_R3.EntityItem;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;

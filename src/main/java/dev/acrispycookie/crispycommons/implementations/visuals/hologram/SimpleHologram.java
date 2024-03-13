@@ -1,13 +1,10 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.hologram;
 
-import dev.acrispycookie.crispycommons.CrispyCommons;
-import dev.acrispycookie.crispycommons.implementations.visuals.hologram.wrappers.HologramData;
 import dev.acrispycookie.crispycommons.api.wrappers.entity.Entity;
-import org.bukkit.Bukkit;
+import dev.acrispycookie.crispycommons.implementations.visuals.hologram.wrappers.HologramData;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
 
 import java.util.ArrayList;
 import java.util.Collection;

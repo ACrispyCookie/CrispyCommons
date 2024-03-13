@@ -1,21 +1,11 @@
 package dev.acrispycookie.crispycommons.implementations.guis.inventory;
 
-import dev.acrispycookie.crispycommons.api.guis.inventory.CrispyInventory;
 import dev.acrispycookie.crispycommons.api.guis.inventory.InventoryItem;
 import dev.acrispycookie.crispycommons.api.guis.inventory.InventoryPage;
-import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.elements.types.ItemElement;
-import dev.acrispycookie.crispycommons.utility.inventories.Function3P;
-import org.bukkit.Bukkit;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.ItemElement;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.inventory.Inventory;
 
-import java.util.*;
 import java.util.function.BiFunction;
-import java.util.function.Consumer;
-import java.util.function.Function;
 
 public abstract class AbstractItem<T> implements InventoryItem<T> {
 

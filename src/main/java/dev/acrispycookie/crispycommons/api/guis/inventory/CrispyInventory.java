@@ -5,11 +5,8 @@ import dev.acrispycookie.crispycommons.implementations.guis.inventory.AbstractIn
 import dev.acrispycookie.crispycommons.implementations.guis.inventory.AbstractPage;
 import dev.acrispycookie.crispycommons.implementations.guis.inventory.wrappers.InventoryData;
 import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.builder.AbstractVisualBuilder;
-import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.elements.types.ItemElement;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.function.Consumer;
 

@@ -1,8 +1,7 @@
-package dev.acrispycookie.crispycommons.implementations.visuals.abstraction.elements.types;
+package dev.acrispycookie.crispycommons.implementations.wrappers.elements.types;
 
-import dev.acrispycookie.crispycommons.api.wrappers.itemstack.CrispyItem;
 import dev.acrispycookie.crispycommons.api.wrappers.itemstack.CrispyItemStack;
-import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.elements.AnimatedElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.AnimatedElement;
 
 import java.util.ArrayList;
 import java.util.Collection;

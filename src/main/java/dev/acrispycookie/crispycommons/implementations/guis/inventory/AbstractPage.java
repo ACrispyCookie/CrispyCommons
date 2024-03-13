@@ -7,7 +7,9 @@ import dev.acrispycookie.crispycommons.implementations.guis.inventory.wrappers.H
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Consumer;
 
 public class AbstractPage implements InventoryPage {

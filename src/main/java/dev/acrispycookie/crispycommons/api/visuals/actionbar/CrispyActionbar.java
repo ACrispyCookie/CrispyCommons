@@ -1,10 +1,10 @@
 package dev.acrispycookie.crispycommons.api.visuals.actionbar;
 
-import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.builder.AbstractVisualBuilder;
-import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.elements.types.TextElement;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.CrispyVisual;
+import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.builder.AbstractVisualBuilder;
 import dev.acrispycookie.crispycommons.implementations.visuals.actionbar.SimpleActionbar;
 import dev.acrispycookie.crispycommons.implementations.visuals.actionbar.wrappers.ActionbarData;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TextElement;
 
 public interface CrispyActionbar extends CrispyVisual {
 

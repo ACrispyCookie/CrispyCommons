@@ -1,10 +1,10 @@
 package dev.acrispycookie.crispycommons.api.visuals.nametag;
 
-import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.builder.AbstractVisualBuilder;
-import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.elements.types.TextElement;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.CrispyVisual;
+import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.builder.AbstractVisualBuilder;
 import dev.acrispycookie.crispycommons.implementations.visuals.nametag.SimpleNameTag;
 import dev.acrispycookie.crispycommons.implementations.visuals.nametag.wrappers.NameTagData;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TextElement;
 import org.bukkit.entity.Player;
 
 public interface CrispyNametag extends CrispyVisual {

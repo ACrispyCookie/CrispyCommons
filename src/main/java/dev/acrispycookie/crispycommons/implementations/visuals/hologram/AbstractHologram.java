@@ -1,13 +1,16 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.hologram;
 
-import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.elements.AnimatedElement;
-import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.visual.AbstractVisual;
 import dev.acrispycookie.crispycommons.api.visuals.hologram.CrispyHologram;
+import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.visual.AbstractVisual;
 import dev.acrispycookie.crispycommons.implementations.visuals.hologram.wrappers.HologramData;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.AnimatedElement;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 public abstract class AbstractHologram extends AbstractVisual<HologramData> implements CrispyHologram {
 

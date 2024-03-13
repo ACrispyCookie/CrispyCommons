@@ -1,4 +1,4 @@
-package dev.acrispycookie.crispycommons.implementations.visuals.abstraction.elements;
+package dev.acrispycookie.crispycommons.implementations.wrappers.elements;
 
 import java.util.ArrayList;
 import java.util.function.Supplier;

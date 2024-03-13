@@ -1,8 +1,7 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.actionbar.wrappers;
 
-import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.elements.types.TextElement;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.VisualData;
-import org.jetbrains.annotations.NotNull;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TextElement;
 
 public class ActionbarData implements VisualData {
 

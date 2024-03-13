@@ -1,8 +1,8 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.title.wrappers;
 
-import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.elements.DynamicElement;
-import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.elements.types.TextElement;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.VisualData;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.DynamicElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TextElement;
 
 public class TitleData implements VisualData {
 

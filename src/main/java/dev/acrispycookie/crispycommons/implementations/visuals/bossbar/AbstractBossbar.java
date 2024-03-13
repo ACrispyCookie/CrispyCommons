@@ -1,9 +1,9 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.bossbar;
 
-import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.elements.types.TextElement;
-import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.visual.AbstractVisual;
 import dev.acrispycookie.crispycommons.api.visuals.bossbar.CrispyBossbar;
+import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.visual.AbstractVisual;
 import dev.acrispycookie.crispycommons.implementations.visuals.bossbar.wrappers.BossbarData;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TextElement;
 import net.kyori.adventure.bossbar.BossBar;
 import org.bukkit.OfflinePlayer;
 
