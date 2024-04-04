@@ -2,6 +2,7 @@ package dev.acrispycookie.crispycommons.implementations.guis.books;
 
 import dev.acrispycookie.crispycommons.CrispyCommons;
 import dev.acrispycookie.crispycommons.api.guis.book.CrispyBook;
+import dev.acrispycookie.crispycommons.implementations.guis.books.wrappers.BookData;
 import dev.acrispycookie.crispycommons.implementations.guis.books.wrappers.BookPage;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.inventory.Book;
@@ -14,18 +15,16 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class SimpleBook implements CrispyBook {
+public class SimpleBook extends AbstractBook implements CrispyBook {
 
-    private List<BookPage> pages;
-
-    public SimpleBook(Collection<? extends BookPage> pages) {
-        this.pages = new ArrayList<>(pages);
+    public SimpleBook(BookData data) {
+        super(data);
     }
 
     @Override
     public void open(Player p) {
         Audience player = CrispyCommons.getBukkitAudiences().player(p);
-        Book book = Book.book(Component.empty(), Component.empty(), pages
+        Book book = Book.book(Component.empty(), Component.empty(), data.getPages()
                 .stream()
                 .map(BookPage::getComponent)
                 .collect(Collectors.toList()));
@@ -34,17 +33,17 @@ public class SimpleBook implements CrispyBook {
 
     @Override
     public void setPages(Collection<BookPage> pages) {
-        this.pages = new ArrayList<>(pages);
+        data.setPages(pages);
     }
 
     @Override
     public void setPages(BookPage... pages) {
-        this.pages = Arrays.asList(pages);
+        data.setPages(Arrays.asList(pages));
     }
 
     @Override
     public List<BookPage> getPages() {
-        return pages;
+        return data.getPages();
     }
 
 }

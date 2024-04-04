@@ -1,10 +1,8 @@
 package dev.acrispycookie.crispycommons.api.guis.abstraction.builder;
 
-import org.bukkit.entity.Player;
+import dev.acrispycookie.crispycommons.api.guis.abstraction.CrispyGui;
 
-public interface GuiBuilder {
+public interface GuiBuilder<T extends CrispyGui> {
 
-    void open(Player p);
-
-
+    T build();
 }

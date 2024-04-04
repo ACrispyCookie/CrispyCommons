@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 public interface InventoryPage  {
-    InventoryItem<?> previousItem = InventoryItem.staticItem(
+    InventoryItem<?> previousItem = InventoryItem .staticItem(
             ItemElement.simple(new CrispyItemStack(Material.ARROW).name("&dPrevious page")),
             (page, player) ->
             {
