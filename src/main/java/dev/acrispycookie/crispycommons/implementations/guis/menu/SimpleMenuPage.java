@@ -89,7 +89,7 @@ public abstract class SimpleMenuPage implements MenuPage {
             int height = (endIndex - startIndex)/columns + 1;
             width = endIndex - (height - 1) * columns - startIndex + 1;
         }
-        int xPos = (index - startIndex) % width;
+        int xPos = (index - startIndex) % columns;
         int yPos  = (index - startIndex) / columns;
         int sectionIndex = xPos + yPos * width + info.getOffset();
 

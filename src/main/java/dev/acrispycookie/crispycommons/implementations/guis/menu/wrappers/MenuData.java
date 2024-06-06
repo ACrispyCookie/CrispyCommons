@@ -45,19 +45,11 @@ public class MenuData implements GuiData, Listener {
         if (page < 0 || page >= pages.size())
             return;
 
-        int previous = currentPages.getOrDefault(player, -1);
-        if (previous != -1) {
-            int usage = pageUsage.get(previous) - 1;
-            pageUsage.put(previous, usage);
-            if (usage == 0)
-                pages.get(previous).onClose();
-        }
-
-        currentPages.put(player, page);
-        pageUsage.put(page, pageUsage.getOrDefault(page, 0) + 1);
         if (player instanceof Player) {
             ((Player) player).openInventory(pages.get(page).render((Player) player));
         }
+        currentPages.put(player, page);
+        pageUsage.put(page, pageUsage.getOrDefault(page, 0) + 1);
     }
 
     public MenuPage getPage(OfflinePlayer player) {
