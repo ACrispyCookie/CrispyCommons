@@ -4,15 +4,19 @@ import dev.acrispycookie.crispycommons.implementations.guis.menu.wrappers.MenuDa
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.ItemElement;
 import org.bukkit.entity.Player;
 
-public abstract class StaticItem extends AbstractMenuItem {
+public abstract class LoadedItem extends AbstractMenuItem {
 
-    public StaticItem(ItemElement display) {
+    public LoadedItem(ItemElement display) {
         super(display, display);
-        this.isLoaded = true;
     }
 
     @Override
     public void onClickUnloaded(MenuData data, Player player) {
 
+    }
+
+    @Override
+    public void load(Runnable onLoad) {
+        this.isLoaded = true;
     }
 }

@@ -7,17 +7,18 @@ import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.I
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public abstract class AbstractSection implements Section {
 
-    protected final HashMap<ItemElement, ArrayList<InventoryInfo>> dynamicItems = new HashMap<>();
-    protected final HashMap<Inventory, ArrayList<ItemElement>> dynamicItemInventories = new HashMap<>();
+    protected final HashMap<ItemElement, Set<InventoryInfo>> dynamicItems = new HashMap<>();
+    protected final HashMap<Inventory, Set<ItemElement>> dynamicItemInventories = new HashMap<>();
 
     protected void updateItem(ItemElement item) {
-        ArrayList<InventoryInfo> inventories = dynamicItems.get(item);
+        Set<InventoryInfo> inventories = dynamicItems.get(item);
 
         inventories.forEach((info) -> info.getInventory().setItem(info.getPasteSlot(), item.getRaw()));
     }
@@ -36,9 +37,9 @@ public abstract class AbstractSection implements Section {
             return;
 
         dynamicItemInventories.get(inventory).forEach(item -> {
-            ArrayList<InventoryInfo> inventories = dynamicItems.get(item).stream()
+            Set<InventoryInfo> inventories = dynamicItems.get(item).stream()
                     .filter((i) -> !i.getInventory().equals(inventory))
-                    .collect(Collectors.toCollection(ArrayList::new));
+                    .collect(Collectors.toSet());
             dynamicItems.put(item, inventories);
 
             if(inventories.isEmpty()) {
@@ -59,16 +60,17 @@ public abstract class AbstractSection implements Section {
             addDynamicItem(item, toRender, pasteSlot);
         }
 
+        item.load(() -> renderValidItem(player, data, toRender, pasteSlot, startingIndex));
         toRender.setItem(pasteSlot, item.getDisplay().getRaw());
     }
 
     protected void addDynamicItem(MenuItem item, Inventory toRender, int pasteSlot) {
         boolean started = dynamicItems.containsKey(item.getDisplay());
-        ArrayList<InventoryInfo> elements = started ? dynamicItems.get(item.getDisplay()) : new ArrayList<>();
+        Set<InventoryInfo> elements = started ? dynamicItems.get(item.getDisplay()) : new HashSet<>();
         elements.add(new InventoryInfo(toRender, pasteSlot));
         dynamicItems.put(item.getDisplay(), elements);
 
-        ArrayList<ItemElement> items = dynamicItemInventories.getOrDefault(toRender, new ArrayList<>());
+        Set<ItemElement> items = dynamicItemInventories.getOrDefault(toRender, new HashSet<>());
         items.add(item.getDisplay());
         dynamicItemInventories.put(toRender, items);
 

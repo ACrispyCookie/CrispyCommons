@@ -33,9 +33,31 @@ public class MenuData implements GuiData, Listener {
         return startingPage;
     }
 
+    public void offsetPage(OfflinePlayer player, int offset) {
+        if (!currentPages.containsKey(player))
+            return;
+
+        int page = currentPages.get(player) + offset;
+        setPage(player, page);
+    }
+
     public void setPage(OfflinePlayer player, int page) {
+        if (page < 0 || page >= pages.size())
+            return;
+
+        int previous = currentPages.getOrDefault(player, -1);
+        if (previous != -1) {
+            int usage = pageUsage.get(previous) - 1;
+            pageUsage.put(previous, usage);
+            if (usage == 0)
+                pages.get(previous).onClose();
+        }
+
         currentPages.put(player, page);
         pageUsage.put(page, pageUsage.getOrDefault(page, 0) + 1);
+        if (player instanceof Player) {
+            ((Player) player).openInventory(pages.get(page).render((Player) player));
+        }
     }
 
     public MenuPage getPage(OfflinePlayer player) {

@@ -1,16 +1,18 @@
 package dev.acrispycookie.crispycommons.api.guis.menu;
 
-import dev.acrispycookie.crispycommons.implementations.guis.menu.items.StaticItem;
+import dev.acrispycookie.crispycommons.implementations.guis.menu.items.LoadedItem;
+import dev.acrispycookie.crispycommons.implementations.guis.menu.items.LoadingItem;
 import dev.acrispycookie.crispycommons.implementations.guis.menu.wrappers.MenuData;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.ItemElement;
 import org.bukkit.entity.Player;
 
 import java.util.function.BiFunction;
+import java.util.function.Supplier;
 
 public interface MenuItem {
 
-    static StaticItem staticItem(ItemElement display, BiFunction<MenuData, Player, Void> onClick) {
-        return new StaticItem(display) {
+    static LoadedItem loadedItem(ItemElement display, BiFunction<MenuData, Player, Void> onClick) {
+        return new LoadedItem(display) {
             @Override
             public void onClick(MenuData data, Player player) {
                 onClick.apply(data, player);
@@ -18,6 +20,26 @@ public interface MenuItem {
         };
     }
 
+    static LoadingItem loadingItem(ItemElement display, BiFunction<MenuData, Player, Void> onClick, BiFunction<MenuData, Player, Void> onClickUnloaded, Supplier<ItemElement> elementSupplier) {
+        return new LoadingItem(display) {
+            @Override
+            public void onClickUnloaded(MenuData data, Player player) {
+                onClickUnloaded.apply(data, player);
+            }
+
+            @Override
+            public void onClick(MenuData data, Player player) {
+                onClick.apply(data, player);
+            }
+
+            @Override
+            public ItemElement loadItem() {
+                return elementSupplier.get();
+            }
+        };
+    }
+
+    void load(Runnable onLoad);
     void onClick(MenuData data, Player player);
     void onClickUnloaded(MenuData data, Player player);
     boolean canSee(MenuData data, Player player);

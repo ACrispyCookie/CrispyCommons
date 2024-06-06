@@ -29,8 +29,8 @@ public abstract class DynamicElement<T> extends AbstractElement<T> {
             bukkitTask = new BukkitRunnable() {
                 @Override
                 public void run() {
-                    element = supplier.get();
-                    update.run();
+                element = supplier.get();
+                update.run();
                 }
             }.runTaskTimerAsynchronously(CrispyCommons.getPlugin(), period, period);
             return;
