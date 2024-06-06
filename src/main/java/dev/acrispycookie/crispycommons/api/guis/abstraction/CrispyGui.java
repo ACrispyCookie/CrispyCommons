@@ -4,4 +4,5 @@ import org.bukkit.entity.Player;
 
 public interface CrispyGui {
     void open(Player p);
+    void close(Player p);
 }

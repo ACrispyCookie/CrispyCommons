@@ -1,7 +1,10 @@
 package dev.acrispycookie.crispycommons;
 
 import dev.acrispycookie.crispycommons.implementations.guis.books.actions.BookActionCommand;
+import dev.acrispycookie.crispycommons.implementations.guis.menu.wrappers.MenuData;
+import dev.acrispycookie.crispycommons.utility.menus.MenuListener;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
+import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_8_R3.CraftServer;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -31,8 +34,8 @@ public class CrispyCommons {
         if (settings.isBookActionEnabled())
             ((CraftServer) plugin.getServer()).getCommandMap().register(plugin.getName(),
                     new BookActionCommand(settings.getBookCommand()));
-        if (settings.isInventoriesEnabled()) {
-
+        if (settings.isMenusEnabled()) {
+            Bukkit.getPluginManager().registerEvents(new MenuListener(), plugin);
         }
     }
 

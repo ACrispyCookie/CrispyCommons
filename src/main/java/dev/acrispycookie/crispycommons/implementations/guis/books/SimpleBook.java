@@ -1,9 +1,11 @@
 package dev.acrispycookie.crispycommons.implementations.guis.books;
 
 import dev.acrispycookie.crispycommons.CrispyCommons;
+import dev.acrispycookie.crispycommons.api.guis.abstraction.GuiData;
 import dev.acrispycookie.crispycommons.api.guis.book.CrispyBook;
 import dev.acrispycookie.crispycommons.implementations.guis.books.wrappers.BookData;
 import dev.acrispycookie.crispycommons.implementations.guis.books.wrappers.BookPage;
+import dev.acrispycookie.crispycommons.utility.logging.CrispyLogger;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.inventory.Book;
 import net.kyori.adventure.text.Component;
@@ -22,7 +24,7 @@ public class SimpleBook extends AbstractBook implements CrispyBook {
     }
 
     @Override
-    public void open(Player p) {
+    public void openInternal(Player p) {
         Audience player = CrispyCommons.getBukkitAudiences().player(p);
         Book book = Book.book(Component.empty(), Component.empty(), data.getPages()
                 .stream()

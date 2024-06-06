@@ -16,7 +16,6 @@ public interface CrispyBook extends CrispyGui {
     static BookBuilder builder() {
         return new BookBuilder();
     }
-    void open(Player p);
     void setPages(Collection<BookPage> pages);
     void setPages(BookPage... pages);
     List<BookPage> getPages();

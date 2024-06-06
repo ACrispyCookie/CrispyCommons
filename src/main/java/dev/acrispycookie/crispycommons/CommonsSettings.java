@@ -4,12 +4,12 @@ public class CommonsSettings {
 
     private boolean bookActionEnabled;
     private String bookCommand;
-    private boolean inventoriesEnabled;
+    private boolean menusEnabled;
 
-    public CommonsSettings(boolean bookActionEnabled, String bookCommand, boolean inventoriesEnabled) {
+    public CommonsSettings(boolean bookActionEnabled, String bookCommand, boolean menusEnabled) {
         this.bookActionEnabled = bookActionEnabled;
         this.bookCommand = bookCommand;
-        this.inventoriesEnabled = inventoriesEnabled;
+        this.menusEnabled = menusEnabled;
     }
 
     public CommonsSettings() {
@@ -22,6 +22,11 @@ public class CommonsSettings {
         return this;
     }
 
+    public CommonsSettings setMenus(boolean enabled) {
+        this.menusEnabled = enabled;
+        return this;
+    }
+
     public boolean isBookActionEnabled() {
         return bookActionEnabled;
     }
@@ -30,7 +35,7 @@ public class CommonsSettings {
         return bookCommand;
     }
 
-    public boolean isInventoriesEnabled() {
-        return inventoriesEnabled;
+    public boolean isMenusEnabled() {
+        return menusEnabled;
     }
 }

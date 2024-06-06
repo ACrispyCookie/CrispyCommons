@@ -19,6 +19,7 @@ public class CrispyItemStack extends ItemStack implements CrispyItem {
 
     public CrispyItemStack(Material material) {
         super(material);
+        amount(1);
     }
 
     public CrispyItemStack(Material mat, int amount, short durability) {

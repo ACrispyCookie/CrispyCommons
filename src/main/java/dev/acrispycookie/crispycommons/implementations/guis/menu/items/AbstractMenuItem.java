@@ -1,22 +1,22 @@
-package dev.acrispycookie.crispycommons.implementations.guis.inventory;
+package dev.acrispycookie.crispycommons.implementations.guis.menu.items;
 
-import dev.acrispycookie.crispycommons.api.guis.inventory.InventoryItem;
-import dev.acrispycookie.crispycommons.api.guis.inventory.InventoryPage;
+import dev.acrispycookie.crispycommons.api.guis.menu.MenuItem;
+import dev.acrispycookie.crispycommons.implementations.guis.menu.wrappers.MenuData;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.ItemElement;
 import org.bukkit.entity.Player;
 
 import java.util.function.BiFunction;
 
-public abstract class AbstractItem<T> implements InventoryItem<T> {
+public abstract class AbstractMenuItem implements MenuItem {
 
     protected boolean isLoaded = false;
-    private BiFunction<InventoryPage, Player, Boolean> canSee;
-    private BiFunction<InventoryPage, Player, Boolean> canSeeUnloaded;
-    private BiFunction<InventoryPage, Player, Boolean> canTake;
+    private BiFunction<MenuData, Player, Boolean> canSee;
+    private BiFunction<MenuData, Player, Boolean> canSeeUnloaded;
+    private BiFunction<MenuData, Player, Boolean> canTake;
     private ItemElement display;
     private ItemElement loadingDisplay;
 
-    public AbstractItem(ItemElement display, ItemElement unloadedDisplay) {
+    AbstractMenuItem(ItemElement display, ItemElement unloadedDisplay) {
         this.display = display;
         this.loadingDisplay = unloadedDisplay;
         this.canSee = (page, player) -> true;
@@ -25,34 +25,34 @@ public abstract class AbstractItem<T> implements InventoryItem<T> {
     }
 
     @Override
-    public boolean canSee( InventoryPage page, Player player) {
-        return canSee.apply(page, player);
+    public boolean canSee(MenuData data, Player player) {
+        return canSee.apply(data, player);
     }
 
     @Override
-    public boolean canSeeUnloaded(InventoryPage page, Player player) {
-        return canSeeUnloaded.apply(page, player);
+    public boolean canSeeUnloaded(MenuData data, Player player) {
+        return canSeeUnloaded.apply(data, player);
     }
 
     @Override
-    public boolean canTake(InventoryPage page, Player player) {
-        return canTake.apply(page, player);
+    public boolean canTake(MenuData data, Player player) {
+        return canTake.apply(data, player);
     }
 
     @Override
-    public InventoryItem<T> setCanSee(BiFunction<InventoryPage, Player, Boolean> supplier) {
+    public MenuItem setCanSee(BiFunction<MenuData, Player, Boolean> supplier) {
         this.canSee = supplier;
         return this;
     }
 
     @Override
-    public InventoryItem<T> setCanSeeUnloaded(BiFunction<InventoryPage, Player, Boolean> supplier) {
+    public MenuItem setCanSeeUnloaded(BiFunction<MenuData, Player, Boolean> supplier) {
         this.canSeeUnloaded = supplier;
         return this;
     }
 
     @Override
-    public InventoryItem<T> setCanTake(BiFunction<InventoryPage, Player, Boolean> supplier) {
+    public MenuItem setCanTake(BiFunction<MenuData, Player, Boolean> supplier) {
         this.canTake = supplier;
         return this;
     }
