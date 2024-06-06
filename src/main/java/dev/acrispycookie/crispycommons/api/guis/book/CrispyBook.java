@@ -5,7 +5,6 @@ import dev.acrispycookie.crispycommons.implementations.guis.abstraction.builder.
 import dev.acrispycookie.crispycommons.implementations.guis.books.SimpleBook;
 import dev.acrispycookie.crispycommons.implementations.guis.books.wrappers.BookData;
 import dev.acrispycookie.crispycommons.implementations.guis.books.wrappers.BookPage;
-import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Collection;

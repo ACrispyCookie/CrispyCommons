@@ -4,7 +4,6 @@ import dev.acrispycookie.crispycommons.api.guis.abstraction.CrispyGui;
 import dev.acrispycookie.crispycommons.implementations.guis.abstraction.builder.AbstractGuiBuilder;
 import dev.acrispycookie.crispycommons.implementations.guis.menu.SimpleMenu;
 import dev.acrispycookie.crispycommons.implementations.guis.menu.wrappers.MenuData;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 
 import java.util.ArrayList;
@@ -18,7 +17,6 @@ public interface CrispyMenu extends CrispyGui, Listener {
 
     class MenuBuilder extends AbstractGuiBuilder<CrispyMenu> {
 
-        private MenuData data;
         private final ArrayList<MenuPage> pages;
         private final int startingPage;
 
@@ -54,7 +52,7 @@ public interface CrispyMenu extends CrispyGui, Listener {
 
         @Override
         public CrispyMenu build() {
-            data = new MenuData(startingPage, pages);
+            MenuData data = new MenuData(startingPage, pages);
             toBuild = new SimpleMenu(data);
             return toBuild;
         }

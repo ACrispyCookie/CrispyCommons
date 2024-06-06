@@ -8,7 +8,7 @@ import java.util.Map;
 
 public abstract class AbstractTrackedGui<T extends GuiData> extends AbstractGui<T> {
 
-    protected Map<OfflinePlayer, Boolean> viewers = new HashMap<>();
+    protected final Map<OfflinePlayer, Boolean> viewers = new HashMap<>();
 
     public AbstractTrackedGui(T data) {
         super(data);

@@ -5,7 +5,7 @@ import dev.acrispycookie.crispycommons.implementations.wrappers.elements.Animate
 
 public abstract class ClickableEntity<T extends AnimatedElement<?>> implements Entity {
 
-    protected T element;
+    protected final T element;
     public ClickableEntity(T element) {
         this.element = element;
     }

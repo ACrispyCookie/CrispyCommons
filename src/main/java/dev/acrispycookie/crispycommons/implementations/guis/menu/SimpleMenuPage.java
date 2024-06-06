@@ -1,14 +1,14 @@
 package dev.acrispycookie.crispycommons.implementations.guis.menu;
 
 import dev.acrispycookie.crispycommons.api.guis.menu.MenuItem;
-import dev.acrispycookie.crispycommons.api.guis.menu.sections.DynamicSection;
 import dev.acrispycookie.crispycommons.api.guis.menu.MenuPage;
+import dev.acrispycookie.crispycommons.api.guis.menu.sections.DynamicSection;
 import dev.acrispycookie.crispycommons.api.guis.menu.sections.Section;
 import dev.acrispycookie.crispycommons.api.guis.menu.sections.StaticSection;
 import dev.acrispycookie.crispycommons.implementations.guis.menu.wrappers.Holder;
-import dev.acrispycookie.crispycommons.utility.menus.InvalidMenuConfiguration;
 import dev.acrispycookie.crispycommons.implementations.guis.menu.wrappers.MenuData;
 import dev.acrispycookie.crispycommons.implementations.guis.menu.wrappers.SectionInfo;
+import dev.acrispycookie.crispycommons.utility.menus.InvalidMenuConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 

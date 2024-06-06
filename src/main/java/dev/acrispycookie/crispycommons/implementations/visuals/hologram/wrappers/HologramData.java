@@ -10,7 +10,7 @@ import java.util.List;
 
 public class HologramData implements VisualData {
 
-    private List<AnimatedElement<?>> lines;
+    private final List<AnimatedElement<?>> lines;
     private Location location;
 
     public HologramData(Collection<? extends AnimatedElement<?>> lines, Location location) {

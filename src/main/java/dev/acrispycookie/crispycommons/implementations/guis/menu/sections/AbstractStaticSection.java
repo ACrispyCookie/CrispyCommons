@@ -15,7 +15,7 @@ public abstract class AbstractStaticSection extends AbstractSection implements S
 
     protected final int height;
     protected final int width;
-    public SortedMap<Integer, MenuItem> items = new TreeMap<>();
+    public final SortedMap<Integer, MenuItem> items = new TreeMap<>();
     protected abstract void renderItemsInternal(Player player, MenuData data, Inventory toRender, int pasteSlot, int startingIndex);
 
     AbstractStaticSection(int height, int width) {

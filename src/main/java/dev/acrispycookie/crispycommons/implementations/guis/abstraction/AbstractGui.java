@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 
 public abstract class AbstractGui<T extends GuiData> implements CrispyGui {
 
-    protected T data;
+    protected final T data;
     protected abstract void openInternal(Player p);
     protected abstract void closeInternal(Player p);
 

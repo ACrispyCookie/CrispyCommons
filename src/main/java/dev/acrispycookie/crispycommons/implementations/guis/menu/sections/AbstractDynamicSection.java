@@ -1,7 +1,7 @@
 package dev.acrispycookie.crispycommons.implementations.guis.menu.sections;
 
-import dev.acrispycookie.crispycommons.api.guis.menu.sections.DynamicSection;
 import dev.acrispycookie.crispycommons.api.guis.menu.MenuItem;
+import dev.acrispycookie.crispycommons.api.guis.menu.sections.DynamicSection;
 import dev.acrispycookie.crispycommons.api.guis.menu.sections.Section;
 import dev.acrispycookie.crispycommons.implementations.guis.menu.wrappers.MenuData;
 import org.bukkit.entity.Player;

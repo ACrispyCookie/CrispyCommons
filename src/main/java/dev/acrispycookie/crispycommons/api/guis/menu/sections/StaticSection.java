@@ -1,8 +1,8 @@
 package dev.acrispycookie.crispycommons.api.guis.menu.sections;
 
 import dev.acrispycookie.crispycommons.api.guis.menu.MenuItem;
-import dev.acrispycookie.crispycommons.implementations.guis.menu.wrappers.MenuData;
 import dev.acrispycookie.crispycommons.implementations.guis.menu.sections.SimpleStaticSection;
+import dev.acrispycookie.crispycommons.implementations.guis.menu.wrappers.MenuData;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
