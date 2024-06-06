@@ -15,7 +15,7 @@ public class SimpleMenu extends AbstractTrackedGui<MenuData> implements CrispyMe
 
     @Override
     public void openInternal(Player p) {
-        MenuPage page = data.getPage(p);
+        MenuPage page = data.getPage(data.getPage(p));
         p.openInventory(page.render(p));
         viewers.put(p, true);
     }

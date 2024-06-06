@@ -45,6 +45,7 @@ public class MenuData implements GuiData, Listener {
         if (page < 0 || page >= pages.size())
             return;
 
+        currentPages.put(player, page);
         if (player instanceof Player) {
             ((Player) player).openInventory(pages.get(page).render((Player) player));
         }
@@ -52,13 +53,20 @@ public class MenuData implements GuiData, Listener {
         pageUsage.put(page, pageUsage.getOrDefault(page, 0) + 1);
     }
 
-    public MenuPage getPage(OfflinePlayer player) {
+    public int getPage(OfflinePlayer player) {
         if (currentPages.containsKey(player))
-            return pages.get(currentPages.get(player));
+            return currentPages.get(player);
 
         currentPages.put(player, startingPage);
         pageUsage.put(startingPage, pageUsage.getOrDefault(startingPage, 0) + 1);
-        return pages.get(startingPage);
+        return startingPage;
+    }
+
+    public MenuPage getPage(int index) {
+        if (index < 0 || index >= pages.size())
+            return null;
+
+        return pages.get(index);
     }
 
     public void onPageClose(Player p) {
