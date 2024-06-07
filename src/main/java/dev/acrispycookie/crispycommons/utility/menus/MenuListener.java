@@ -51,6 +51,9 @@ public class MenuListener implements Listener {
             return;
 
         MenuPage page = ((Holder) event.getInventory().getHolder()).getPage();
+        if (page.getMenuData().isCurrentlyClosingPage((Player) event.getPlayer()))
+            return;
+
         page.getMenuData().getMenu().close((Player) event.getPlayer());
     }
 }

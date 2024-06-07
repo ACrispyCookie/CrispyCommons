@@ -16,6 +16,7 @@ public class MenuData implements GuiData, Listener {
     private CrispyMenu menu;
     private final ArrayList<MenuPage> pages = new ArrayList<>();
     private final HashMap<OfflinePlayer, Integer> currentPages = new HashMap<>();
+    private final ArrayList<OfflinePlayer> currentlyChangingPage = new ArrayList<>();
     private final HashMap<Integer, Integer> pageUsage = new HashMap<>();
     private final int startingPage;
 
@@ -45,11 +46,15 @@ public class MenuData implements GuiData, Listener {
         if (page < 0 || page >= pages.size())
             return;
 
-        currentPages.put(player, page);
         if (player instanceof Player) {
+            currentlyChangingPage.add(player);
+            onPageClose((Player) player);
+            currentPages.put(player, page);
             ((Player) player).openInventory(pages.get(page).render((Player) player));
+            currentlyChangingPage.remove(player);
+        } else {
+            currentPages.put(player, page);
         }
-        currentPages.put(player, page);
         pageUsage.put(page, pageUsage.getOrDefault(page, 0) + 1);
     }
 
@@ -80,6 +85,10 @@ public class MenuData implements GuiData, Listener {
 
     public void setMenu(CrispyMenu menu) {
         this.menu = menu;
+    }
+
+    public boolean isCurrentlyClosingPage(Player player) {
+        return currentlyChangingPage.contains(player);
     }
 
     public CrispyMenu getMenu() {
