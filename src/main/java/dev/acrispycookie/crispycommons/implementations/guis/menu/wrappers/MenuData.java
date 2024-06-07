@@ -87,7 +87,7 @@ public class MenuData implements GuiData, Listener {
         this.menu = menu;
     }
 
-    public boolean isCurrentlyClosingPage(Player player) {
+    public boolean isChangingPage(Player player) {
         return currentlyChangingPage.contains(player);
     }
 
