@@ -31,7 +31,7 @@ public abstract class ItemElement extends AnimatedElement<CrispyItemStack> {
         return new ItemElement(item) {};
     }
 
-    public static ItemElement animated(ArrayList<CrispyItemStack> frames, int period) {
+    public static ItemElement animated(Collection<? extends CrispyItemStack> frames, int period) {
         return new ItemElement(frames, period) {};
     }
 

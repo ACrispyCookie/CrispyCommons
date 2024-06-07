@@ -4,10 +4,11 @@ import dev.acrispycookie.crispycommons.api.wrappers.particle.Effect;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.AnimatedElement;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.function.Supplier;
 
 public abstract class ParticleElement<T extends Effect> extends AnimatedElement<T> {
-    protected ParticleElement(ArrayList<T> frames, int period) {
+    protected ParticleElement(Collection<? extends T> frames, int period) {
         super(new ArrayList<>(frames), period, false);
     }
 
@@ -30,7 +31,7 @@ public abstract class ParticleElement<T extends Effect> extends AnimatedElement<
         return new ParticleElement<K>(effect) {};
     }
 
-    public static <K extends Effect> ParticleElement<K> animated(ArrayList<K> frames, int period) {
+    public static <K extends Effect> ParticleElement<K> animated(Collection<? extends K> frames, int period) {
         return new ParticleElement<K>(frames, period) {};
     }
 

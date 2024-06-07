@@ -1,6 +1,7 @@
 package dev.acrispycookie.crispycommons.implementations.wrappers.elements;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.function.Supplier;
 
 public abstract class AnimatedElement<T> extends DynamicElement<T> {
@@ -8,7 +9,7 @@ public abstract class AnimatedElement<T> extends DynamicElement<T> {
     private final ArrayList<T> frames;
     private int frame;
 
-    protected AnimatedElement(ArrayList<? extends T> frames, int period, boolean async) {
+    protected AnimatedElement(Collection<? extends T> frames, int period, boolean async) {
         super(() -> null, period, async);
         this.frames = new ArrayList<>(frames);
         this.frame = 0;
