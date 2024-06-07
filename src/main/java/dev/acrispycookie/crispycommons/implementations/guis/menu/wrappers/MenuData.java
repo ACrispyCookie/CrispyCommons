@@ -47,9 +47,9 @@ public class MenuData implements GuiData, Listener {
             return;
 
         if (player instanceof Player) {
-            currentlyChangingPage.add(player);
             onPageClose((Player) player);
             currentPages.put(player, page);
+            currentlyChangingPage.add(player);
             ((Player) player).openInventory(pages.get(page).render((Player) player));
             currentlyChangingPage.remove(player);
         } else {
