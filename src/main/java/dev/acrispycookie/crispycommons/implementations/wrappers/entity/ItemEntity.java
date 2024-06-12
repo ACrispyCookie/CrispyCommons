@@ -1,15 +1,15 @@
 package dev.acrispycookie.crispycommons.implementations.wrappers.entity;
 
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.ItemElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GlobalItemElement;
 import net.minecraft.server.v1_8_R3.EntityItem;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-public class ItemEntity extends ClickableEntity<ItemElement> {
+public class ItemEntity extends ClickableEntity<GlobalItemElement> {
 
     private final EntityItem ei = null;
 
-    public ItemEntity(ItemElement element) {
+    public ItemEntity(GlobalItemElement element) {
         super(element);
     }
 

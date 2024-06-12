@@ -3,7 +3,7 @@ package dev.acrispycookie.crispycommons.implementations.guis.menu.sections;
 import dev.acrispycookie.crispycommons.api.guis.menu.MenuItem;
 import dev.acrispycookie.crispycommons.api.guis.menu.sections.Section;
 import dev.acrispycookie.crispycommons.implementations.guis.menu.wrappers.MenuData;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.ItemElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GlobalItemElement;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
@@ -14,13 +14,13 @@ import java.util.stream.Collectors;
 
 public abstract class AbstractSection implements Section {
 
-    protected final HashMap<ItemElement, Set<InventoryInfo>> dynamicItems = new HashMap<>();
-    protected final HashMap<Inventory, Set<ItemElement>> dynamicItemInventories = new HashMap<>();
+    protected final HashMap<GlobalItemElement, Set<InventoryInfo>> dynamicItems = new HashMap<>();
+    protected final HashMap<Inventory, Set<GlobalItemElement>> dynamicItemInventories = new HashMap<>();
 
-    protected void updateItem(ItemElement item) {
+    protected void updateItem(GlobalItemElement item) {
         Set<InventoryInfo> inventories = dynamicItems.get(item);
 
-        inventories.forEach((info) -> info.getInventory().setItem(info.getPasteSlot(), item.getRaw()));
+        inventories.forEach((info) -> info.getInventory().setItem(info.getPasteSlot(), item.getRaw(null)));
     }
 
     @Override
@@ -61,7 +61,7 @@ public abstract class AbstractSection implements Section {
         }
 
         item.load(() -> renderValidItem(player, data, toRender, pasteSlot, startingIndex));
-        toRender.setItem(pasteSlot, item.getDisplay().getRaw());
+        toRender.setItem(pasteSlot, item.getDisplay().getRaw(null));
     }
 
     protected void addDynamicItem(MenuItem item, Inventory toRender, int pasteSlot) {
@@ -70,7 +70,7 @@ public abstract class AbstractSection implements Section {
         elements.add(new InventoryInfo(toRender, pasteSlot));
         dynamicItems.put(item.getDisplay(), elements);
 
-        Set<ItemElement> items = dynamicItemInventories.getOrDefault(toRender, new HashSet<>());
+        Set<GlobalItemElement> items = dynamicItemInventories.getOrDefault(toRender, new HashSet<>());
         items.add(item.getDisplay());
         dynamicItemInventories.put(toRender, items);
 

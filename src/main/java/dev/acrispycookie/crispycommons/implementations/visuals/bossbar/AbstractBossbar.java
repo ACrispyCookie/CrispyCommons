@@ -3,7 +3,7 @@ package dev.acrispycookie.crispycommons.implementations.visuals.bossbar;
 import dev.acrispycookie.crispycommons.api.visuals.bossbar.CrispyBossbar;
 import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.visual.AbstractVisual;
 import dev.acrispycookie.crispycommons.implementations.visuals.bossbar.wrappers.BossbarData;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TextElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GlobalTextElement;
 import net.kyori.adventure.bossbar.BossBar;
 import org.bukkit.OfflinePlayer;
 
@@ -27,11 +27,11 @@ public abstract class AbstractBossbar extends AbstractVisual<BossbarData> implem
 
     @Override
     protected void globalUpdate() {
-        data.getBossBar().name(data.getText().getRaw());
+        data.getBossBar().name(data.getText().getRaw(null));
     }
 
     @Override
-    public void setText(TextElement text) {
+    public void setText(GlobalTextElement text) {
         data.setText(text);
     }
 
@@ -51,7 +51,7 @@ public abstract class AbstractBossbar extends AbstractVisual<BossbarData> implem
     }
 
     @Override
-    public TextElement getText() {
+    public GlobalTextElement getText() {
         return data.getText();
     }
 

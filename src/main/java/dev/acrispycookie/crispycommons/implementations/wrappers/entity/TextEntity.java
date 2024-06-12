@@ -1,7 +1,7 @@
 package dev.acrispycookie.crispycommons.implementations.wrappers.entity;
 
 import com.mysql.jdbc.StringUtils;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TextElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GlobalTextElement;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.ChatColor;
@@ -10,11 +10,11 @@ import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
-public class TextEntity extends ClickableEntity<TextElement> {
+public class TextEntity extends ClickableEntity<GlobalTextElement> {
 
     private EntityArmorStand as = null;
 
-    public TextEntity(TextElement element) {
+    public TextEntity(GlobalTextElement element) {
         super(element);
     }
 
@@ -25,7 +25,7 @@ public class TextEntity extends ClickableEntity<TextElement> {
 
     @Override
     public void spawn(Location location, Player player) {
-        String text = LegacyComponentSerializer.legacyAmpersand().serialize(element.getRaw());
+        String text = LegacyComponentSerializer.legacyAmpersand().serialize(element.getRaw(null));
 
         if (StringUtils.isEmptyOrWhitespaceOnly(text)) {
             return;
@@ -57,7 +57,7 @@ public class TextEntity extends ClickableEntity<TextElement> {
 
     @Override
     public void update(Location location, Player player) {
-        String content = LegacyComponentSerializer.legacyAmpersand().serialize(element.getRaw());
+        String content = LegacyComponentSerializer.legacyAmpersand().serialize(element.getRaw(null));
         String name = StringUtils.isEmptyOrWhitespaceOnly(content) ? " " : ChatColor.translateAlternateColorCodes('&', content);
 
         if(as != null) {

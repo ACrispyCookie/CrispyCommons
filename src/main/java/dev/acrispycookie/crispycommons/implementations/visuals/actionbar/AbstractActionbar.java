@@ -3,7 +3,7 @@ package dev.acrispycookie.crispycommons.implementations.visuals.actionbar;
 import dev.acrispycookie.crispycommons.api.visuals.actionbar.CrispyActionbar;
 import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.visual.AbstractVisual;
 import dev.acrispycookie.crispycommons.implementations.visuals.actionbar.wrappers.ActionbarData;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TextElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GlobalTextElement;
 import org.bukkit.OfflinePlayer;
 
 import java.util.Set;
@@ -26,12 +26,12 @@ public abstract class AbstractActionbar extends AbstractVisual<ActionbarData> im
     }
 
     @Override
-    public void setText(TextElement text) {
+    public void setText(GlobalTextElement text) {
         data.setText(text);
     }
 
     @Override
-    public TextElement getText() {
+    public GlobalTextElement getText() {
         return data.getText();
     }
 }

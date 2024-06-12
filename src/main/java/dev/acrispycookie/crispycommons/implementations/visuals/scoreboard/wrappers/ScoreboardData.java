@@ -1,7 +1,7 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.wrappers;
 
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.VisualData;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TextElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GlobalTextElement;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,31 +9,31 @@ import java.util.List;
 
 public class ScoreboardData implements VisualData {
 
-    private TextElement title;
-    private List<TextElement> lines;
+    private GlobalTextElement title;
+    private List<GlobalTextElement> lines;
 
-    public ScoreboardData(TextElement title, Collection<? extends TextElement> lines) {
+    public ScoreboardData(GlobalTextElement title, Collection<? extends GlobalTextElement> lines) {
         this.title = title;
         this.lines = new ArrayList<>(lines);
     }
 
-    public TextElement getTitle() {
+    public GlobalTextElement getTitle() {
         return title;
     }
 
-    public void setTitle(TextElement title) {
+    public void setTitle(GlobalTextElement title) {
         this.title = title;
     }
 
-    public List<TextElement> getLines() {
+    public List<GlobalTextElement> getLines() {
         return lines;
     }
 
-    public void addLine(TextElement line) {
+    public void addLine(GlobalTextElement line) {
         this.lines.add(line);
     }
 
-    public void addLine(int index, TextElement line) {
+    public void addLine(int index, GlobalTextElement line) {
         this.lines.add(index, line);
     }
 
@@ -41,7 +41,7 @@ public class ScoreboardData implements VisualData {
         this.lines.remove(index);
     }
 
-    public void setLines(List<TextElement> lines) {
+    public void setLines(List<GlobalTextElement> lines) {
         this.lines = lines;
     }
 

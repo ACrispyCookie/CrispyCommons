@@ -2,28 +2,28 @@ package dev.acrispycookie.crispycommons.implementations.visuals.title.wrappers;
 
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.VisualData;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.DynamicElement;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TextElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GlobalTextElement;
 
 public class TitleData implements VisualData {
 
-    private TextElement title;
-    private TextElement subtitle;
+    private GlobalTextElement title;
+    private GlobalTextElement subtitle;
     private int fadeIn;
     private int fadeOut;
     private int smallestPeriod;
 
-    public TitleData(TextElement title, TextElement subtitle, int fadeIn, int fadeOut) {
+    public TitleData(GlobalTextElement title, GlobalTextElement subtitle, int fadeIn, int fadeOut) {
         this.title = title;
         this.subtitle = subtitle;
         this.fadeIn = fadeIn;
         this.fadeOut = fadeOut;
     }
 
-    public TextElement getTitle() {
+    public GlobalTextElement getTitle() {
         return title;
     }
 
-    public TextElement getSubtitle() {
+    public GlobalTextElement getSubtitle() {
         return subtitle;
     }
 
@@ -35,12 +35,12 @@ public class TitleData implements VisualData {
         return fadeOut;
     }
 
-    public void setTitle(TextElement title) {
+    public void setTitle(GlobalTextElement title) {
         this.title = title;
         this.smallestPeriod = DynamicElement.getMinimumPeriod(title, subtitle);
     }
 
-    public void setSubtitle(TextElement subtitle) {
+    public void setSubtitle(GlobalTextElement subtitle) {
         this.subtitle = subtitle;
         this.smallestPeriod = DynamicElement.getMinimumPeriod(title, subtitle);
     }

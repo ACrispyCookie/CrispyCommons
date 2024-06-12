@@ -4,7 +4,7 @@ import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.CrispyVisu
 import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.builder.AbstractVisualBuilder;
 import dev.acrispycookie.crispycommons.implementations.visuals.nametag.SimpleNameTag;
 import dev.acrispycookie.crispycommons.implementations.visuals.nametag.wrappers.NameTagData;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TextElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GlobalTextElement;
 import org.bukkit.entity.Player;
 
 public interface CrispyNametag extends CrispyVisual {
@@ -12,38 +12,38 @@ public interface CrispyNametag extends CrispyVisual {
     static NameTagBuilder builder() {
         return new NameTagBuilder();
     }
-    void setPrefix(TextElement prefix);
-    void setSuffix(TextElement suffix);
-    void setBelowName(TextElement belowName);
-    void setAboveName(TextElement aboveName);
-    TextElement getPrefix();
-    TextElement getSuffix();
-    TextElement getBelowName();
-    TextElement getAboveName();
+    void setPrefix(GlobalTextElement prefix);
+    void setSuffix(GlobalTextElement suffix);
+    void setBelowName(GlobalTextElement belowName);
+    void setAboveName(GlobalTextElement aboveName);
+    GlobalTextElement getPrefix();
+    GlobalTextElement getSuffix();
+    GlobalTextElement getBelowName();
+    GlobalTextElement getAboveName();
 
     class NameTagBuilder extends AbstractVisualBuilder<CrispyNametag> {
         private CrispyNametag nametag;
         private final NameTagData data = new NameTagData(null, null, null, null, null, false, false);
 
-        public NameTagBuilder setPrefix(TextElement prefix) {
+        public NameTagBuilder setPrefix(GlobalTextElement prefix) {
             this.data.setPrefix(prefix);
             this.data.getPrefix().setUpdate(() -> nametag.update());
             return this;
         }
 
-        public NameTagBuilder setSuffix(TextElement suffix) {
+        public NameTagBuilder setSuffix(GlobalTextElement suffix) {
             this.data.setSuffix(suffix);
             this.data.getSuffix().setUpdate(() -> nametag.update());
             return this;
         }
 
-        public NameTagBuilder setAbpveName(TextElement aboveName) {
+        public NameTagBuilder setAbpveName(GlobalTextElement aboveName) {
             this.data.setAboveName(aboveName);
             this.data.getAboveName().setUpdate(() -> nametag.update());
             return this;
         }
 
-        public NameTagBuilder setBelowName(TextElement belowName) {
+        public NameTagBuilder setBelowName(GlobalTextElement belowName) {
             this.data.setBelowName(belowName);
             this.data.getBelowName().setUpdate(() -> nametag.update());
             return this;

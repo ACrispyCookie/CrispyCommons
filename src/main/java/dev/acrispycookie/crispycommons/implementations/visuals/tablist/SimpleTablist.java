@@ -2,7 +2,7 @@ package dev.acrispycookie.crispycommons.implementations.visuals.tablist;
 
 import dev.acrispycookie.crispycommons.CrispyCommons;
 import dev.acrispycookie.crispycommons.implementations.visuals.tablist.wrappers.TablistData;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TextElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GlobalTextElement;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import org.bukkit.OfflinePlayer;
@@ -22,15 +22,15 @@ public class SimpleTablist extends AbstractTablist {
         Component header = Component.empty();
         Component footer = Component.empty();
         for (int i = 0; i < getHeader().size(); i++) {
-            TextElement t = getHeader().get(i);
-            header = header.append(t.getRaw());
+            GlobalTextElement t = getHeader().get(i);
+            header = header.append(t.getRaw(null));
             if (i != getHeader().size() - 1) {
                 header = header.appendNewline();
             }
         }
         for (int i = 0; i < getFooter().size(); i++) {
-            TextElement t = getFooter().get(i);
-            footer = footer.append(t.getRaw());
+            GlobalTextElement t = getFooter().get(i);
+            footer = footer.append(t.getRaw(null));
             if (i != getFooter().size() - 1) {
                 footer = footer.appendNewline();
             }

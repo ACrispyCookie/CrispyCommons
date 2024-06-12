@@ -3,7 +3,7 @@ package dev.acrispycookie.crispycommons.implementations.visuals.title;
 import dev.acrispycookie.crispycommons.api.visuals.title.CrispyTitle;
 import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.visual.AbstractVisual;
 import dev.acrispycookie.crispycommons.implementations.visuals.title.wrappers.TitleData;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TextElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GlobalTextElement;
 import org.bukkit.OfflinePlayer;
 
 import java.util.Set;
@@ -30,12 +30,12 @@ public abstract class AbstractTitle extends AbstractVisual<TitleData> implements
     }
 
     @Override
-    public void setTitle(TextElement text) {
+    public void setTitle(GlobalTextElement text) {
         this.data.setTitle(text);
     }
 
     @Override
-    public void setSubtitle(TextElement text) {
+    public void setSubtitle(GlobalTextElement text) {
         this.data.setSubtitle(text);
     }
 
@@ -50,12 +50,12 @@ public abstract class AbstractTitle extends AbstractVisual<TitleData> implements
     }
 
     @Override
-    public TextElement getTitle() {
+    public GlobalTextElement getTitle() {
         return this.data.getTitle();
     }
 
     @Override
-    public TextElement getSubtitle() {
+    public GlobalTextElement getSubtitle() {
         return this.data.getSubtitle();
     }
 

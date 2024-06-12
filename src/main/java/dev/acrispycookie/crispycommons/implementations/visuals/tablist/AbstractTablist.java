@@ -3,7 +3,7 @@ package dev.acrispycookie.crispycommons.implementations.visuals.tablist;
 import dev.acrispycookie.crispycommons.api.visuals.tablist.CrispyTablist;
 import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.visual.AbstractVisual;
 import dev.acrispycookie.crispycommons.implementations.visuals.tablist.wrappers.TablistData;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TextElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GlobalTextElement;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
@@ -22,31 +22,31 @@ public abstract class AbstractTablist extends AbstractVisual<TablistData> implem
 
     @Override
     protected void prepareShow() {
-        data.getHeader().forEach(TextElement::start);
-        data.getFooter().forEach(TextElement::start);
+        data.getHeader().forEach(GlobalTextElement::start);
+        data.getFooter().forEach(GlobalTextElement::start);
     }
 
     @Override
     protected void prepareHide() {
-        data.getHeader().forEach(TextElement::stop);
-        data.getFooter().forEach(TextElement::stop);
+        data.getHeader().forEach(GlobalTextElement::stop);
+        data.getFooter().forEach(GlobalTextElement::stop);
     }
 
     @Override
-    public void setHeader(List<TextElement> elements) {
+    public void setHeader(List<GlobalTextElement> elements) {
         this.data.setHeader(elements);
     }
 
     @Override
-    public void setFooter(List<TextElement> elements) {
+    public void setFooter(List<GlobalTextElement> elements) {
         this.data.setFooter(elements);
     }
 
-    public List<TextElement> getHeader() {
+    public List<GlobalTextElement> getHeader() {
         return this.data.getHeader();
     }
 
-    public List<TextElement> getFooter() {
+    public List<GlobalTextElement> getFooter() {
         return this.data.getFooter();
     }
 }

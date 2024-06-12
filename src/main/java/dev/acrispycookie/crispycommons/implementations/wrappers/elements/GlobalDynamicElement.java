@@ -7,17 +7,18 @@ import org.bukkit.scheduler.BukkitTask;
 
 import java.util.HashMap;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
-public abstract class DynamicElement<T> extends AbstractElement<T> {
+public abstract class GlobalDynamicElement<T> extends GlobalAbstractElement<T> {
 
-    protected Function<OfflinePlayer, ? extends T> supplier;
+    protected Supplier<? extends T> supplier;
     private final int period;
     protected boolean async;
     private BukkitTask bukkitTask;
     protected Runnable update;
 
-    protected DynamicElement(Function<OfflinePlayer, ? extends T> supplier, int period, boolean async) {
-        super(new HashMap<>());
+    protected GlobalDynamicElement(Supplier<? extends T> supplier, int period, boolean async) {
+        super(supplier.get());
         this.supplier = supplier;
         this.period = period;
         this.async = async;
@@ -31,7 +32,7 @@ public abstract class DynamicElement<T> extends AbstractElement<T> {
             bukkitTask = new BukkitRunnable() {
                 @Override
                 public void run() {
-                elements.forEach((p, element) -> elements.put(p, getRaw(p)));
+                element = supplier.get();
                 update.run();
                 }
             }.runTaskTimerAsynchronously(CrispyCommons.getPlugin(), period, period);
@@ -41,7 +42,7 @@ public abstract class DynamicElement<T> extends AbstractElement<T> {
         bukkitTask = new BukkitRunnable() {
             @Override
             public void run() {
-                elements.forEach((p, element) -> elements.put(p, getRaw(p)));
+                element = supplier.get();
                 update.run();
             }
         }.runTaskTimer(CrispyCommons.getPlugin(), period, period);
@@ -59,7 +60,7 @@ public abstract class DynamicElement<T> extends AbstractElement<T> {
     }
 
     public boolean isGlobal() {
-        return false;
+        return true;
     }
 
     public int getPeriod() {

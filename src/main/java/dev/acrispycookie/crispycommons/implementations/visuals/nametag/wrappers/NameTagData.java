@@ -1,20 +1,20 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.nametag.wrappers;
 
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.VisualData;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TextElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GlobalTextElement;
 import org.bukkit.entity.Player;
 
 public class NameTagData implements VisualData {
 
     private Player player;
-    private TextElement prefix;
-    private TextElement suffix;
-    private TextElement belowName;
-    private TextElement aboveName;
+    private GlobalTextElement prefix;
+    private GlobalTextElement suffix;
+    private GlobalTextElement belowName;
+    private GlobalTextElement aboveName;
     private boolean hologramName;
     private boolean hologramBelowName;
 
-    public NameTagData(Player player, TextElement prefix, TextElement suffix, TextElement belowName, TextElement aboveName, boolean hologramName, boolean hologramBelowName) {
+    public NameTagData(Player player, GlobalTextElement prefix, GlobalTextElement suffix, GlobalTextElement belowName, GlobalTextElement aboveName, boolean hologramName, boolean hologramBelowName) {
         this.player = player;
         this.prefix = prefix;
         this.suffix = suffix;
@@ -32,35 +32,35 @@ public class NameTagData implements VisualData {
         this.player = player;
     }
 
-    public TextElement getPrefix() {
+    public GlobalTextElement getPrefix() {
         return prefix;
     }
 
-    public void setPrefix(TextElement prefix) {
+    public void setPrefix(GlobalTextElement prefix) {
         this.prefix = prefix;
     }
 
-    public TextElement getSuffix() {
+    public GlobalTextElement getSuffix() {
         return suffix;
     }
 
-    public void setSuffix(TextElement suffix) {
+    public void setSuffix(GlobalTextElement suffix) {
         this.suffix = suffix;
     }
 
-    public TextElement getBelowName() {
+    public GlobalTextElement getBelowName() {
         return belowName;
     }
 
-    public void setBelowName(TextElement belowName) {
+    public void setBelowName(GlobalTextElement belowName) {
         this.belowName = belowName;
     }
 
-    public TextElement getAboveName() {
+    public GlobalTextElement getAboveName() {
         return aboveName;
     }
 
-    public void setAboveName(TextElement aboveName) {
+    public void setAboveName(GlobalTextElement aboveName) {
         this.aboveName = aboveName;
     }
 

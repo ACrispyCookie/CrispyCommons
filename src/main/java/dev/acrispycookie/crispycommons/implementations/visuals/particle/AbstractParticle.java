@@ -4,7 +4,7 @@ import dev.acrispycookie.crispycommons.api.visuals.particle.CrispyParticle;
 import dev.acrispycookie.crispycommons.api.wrappers.particle.Effect;
 import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.visual.AbstractVisual;
 import dev.acrispycookie.crispycommons.implementations.visuals.particle.wrappers.ParticleData;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.ParticleElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GlobalParticleElement;
 import org.bukkit.OfflinePlayer;
 
 import java.util.Set;
@@ -27,12 +27,12 @@ public abstract class AbstractParticle<T extends Effect> extends AbstractVisual<
     }
 
     @Override
-    public ParticleElement<T> getElement() {
+    public GlobalParticleElement<T> getElement() {
         return data.getElement();
     }
 
     @Override
-    public void setElement(ParticleElement<T> element) {
+    public void setElement(GlobalParticleElement<T> element) {
         data.setElement(element);
     }
 }

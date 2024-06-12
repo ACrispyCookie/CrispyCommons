@@ -4,21 +4,21 @@ import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.CrispyVisu
 import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.builder.AbstractVisualBuilder;
 import dev.acrispycookie.crispycommons.implementations.visuals.actionbar.SimpleActionbar;
 import dev.acrispycookie.crispycommons.implementations.visuals.actionbar.wrappers.ActionbarData;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TextElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GlobalTextElement;
 
 public interface CrispyActionbar extends CrispyVisual {
 
     static ActionbarBuilder builder() {
         return new ActionbarBuilder();
     }
-    void setText(TextElement text);
-    TextElement getText();
+    void setText(GlobalTextElement text);
+    GlobalTextElement getText();
 
     class ActionbarBuilder extends AbstractVisualBuilder<CrispyActionbar> {
 
         private final ActionbarData data = new ActionbarData(null);
 
-        public ActionbarBuilder setText(TextElement element) {
+        public ActionbarBuilder setText(GlobalTextElement element) {
             this.data.setText(element);
             this.data.getText().setUpdate(() -> toBuild.update());
             return this;

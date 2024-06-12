@@ -21,7 +21,7 @@ public class SimpleNameTag extends AbstractNametag {
     public SimpleNameTag(NameTagData data, Set<? extends OfflinePlayer> receivers, long timeToLive) {
         super(data, receivers, timeToLive, UpdateMode.PER_PLAYER);
         Bukkit.getOnlinePlayers().forEach(this::addPlayer);
-        if (!StringUtils.isEmptyOrWhitespaceOnly(LegacyComponentSerializer.legacyAmpersand().serialize(data.getAboveName().getRaw())))
+        if (!StringUtils.isEmptyOrWhitespaceOnly(LegacyComponentSerializer.legacyAmpersand().serialize(data.getAboveName().getRaw(null))))
             //TODO: Add hologram builder
             return;
     }
@@ -36,7 +36,7 @@ public class SimpleNameTag extends AbstractNametag {
         if (!p.canSee(data.getPlayer()))
             return;
 
-        if (!StringUtils.isEmptyOrWhitespaceOnly(LegacyComponentSerializer.legacyAmpersand().serialize(data.getAboveName().getRaw())))
+        if (!StringUtils.isEmptyOrWhitespaceOnly(LegacyComponentSerializer.legacyAmpersand().serialize(data.getAboveName().getRaw(null))))
             aboveNameHologram.addPlayer(p);
     }
 

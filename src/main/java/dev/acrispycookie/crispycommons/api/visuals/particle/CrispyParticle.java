@@ -7,7 +7,7 @@ import dev.acrispycookie.crispycommons.implementations.visuals.particle.ColoredP
 import dev.acrispycookie.crispycommons.implementations.visuals.particle.RenderedParticle;
 import dev.acrispycookie.crispycommons.implementations.visuals.particle.SimpleParticle;
 import dev.acrispycookie.crispycommons.implementations.visuals.particle.wrappers.ParticleData;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.ParticleElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GlobalParticleElement;
 import dev.acrispycookie.crispycommons.implementations.wrappers.particle.ColoredEffect;
 import dev.acrispycookie.crispycommons.implementations.wrappers.particle.RenderedEffect;
 import dev.acrispycookie.crispycommons.implementations.wrappers.particle.SimpleEffect;
@@ -23,14 +23,14 @@ public interface CrispyParticle<T extends Effect> extends CrispyVisual {
     static RenderedParticleBuilder renderedBuilder() {
         return new RenderedParticleBuilder();
     }
-    void setElement(ParticleElement<T> element);
-    ParticleElement<T> getElement();
+    void setElement(GlobalParticleElement<T> element);
+    GlobalParticleElement<T> getElement();
 
     abstract class ParticleBuilder<T extends Effect> extends AbstractVisualBuilder<CrispyParticle<?>> {
 
         protected final ParticleData<T> data = new ParticleData<>(null);
 
-        public ParticleBuilder<T> setParticle(ParticleElement<T> element) {
+        public ParticleBuilder<T> setParticle(GlobalParticleElement<T> element) {
             data.setElement(element);
             return this;
         }

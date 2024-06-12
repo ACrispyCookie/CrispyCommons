@@ -4,7 +4,7 @@ import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.CrispyVisu
 import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.builder.AbstractVisualBuilder;
 import dev.acrispycookie.crispycommons.implementations.visuals.bossbar.SimpleBossbar;
 import dev.acrispycookie.crispycommons.implementations.visuals.bossbar.wrappers.BossbarData;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TextElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GlobalTextElement;
 import net.kyori.adventure.bossbar.BossBar;
 
 public interface CrispyBossbar extends CrispyVisual {
@@ -12,11 +12,11 @@ public interface CrispyBossbar extends CrispyVisual {
     static BossbarBuilder builder() {
         return new BossbarBuilder();
     }
-    void setText(TextElement text);
+    void setText(GlobalTextElement text);
     void setProgress(float progress);
     void setColor(BossBar.Color color);
     void setOverlay(BossBar.Overlay overlay);
-    TextElement getText();
+    GlobalTextElement getText();
     float getProgress();
     BossBar.Color getColor();
     BossBar.Overlay getOverlay();
@@ -26,7 +26,7 @@ public interface CrispyBossbar extends CrispyVisual {
         private CrispyBossbar bossbar;
         private final BossbarData data = new BossbarData( -1, null, null, null);
 
-        public BossbarBuilder setText(TextElement text) {
+        public BossbarBuilder setText(GlobalTextElement text) {
             this.data.setText(text);
             this.data.getText().setUpdate(() -> bossbar.update());
             return this;

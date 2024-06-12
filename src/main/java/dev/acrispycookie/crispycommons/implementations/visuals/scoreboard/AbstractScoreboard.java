@@ -3,7 +3,7 @@ package dev.acrispycookie.crispycommons.implementations.visuals.scoreboard;
 import dev.acrispycookie.crispycommons.api.visuals.scoreboard.CrispyScoreboard;
 import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.visual.AbstractVisual;
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.wrappers.ScoreboardData;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TextElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GlobalTextElement;
 import org.bukkit.OfflinePlayer;
 
 import java.util.ArrayList;
@@ -20,17 +20,17 @@ public abstract class AbstractScoreboard extends AbstractVisual<ScoreboardData> 
     @Override
     protected void prepareShow() {
         this.data.getTitle().start();
-        this.data.getLines().forEach(TextElement::start);
+        this.data.getLines().forEach(GlobalTextElement::start);
     }
 
     @Override
     protected void prepareHide() {
         this.data.getTitle().stop();
-        this.data.getLines().forEach(TextElement::stop);
+        this.data.getLines().forEach(GlobalTextElement::stop);
     }
 
     @Override
-    public void addLine(int index, TextElement line) {
+    public void addLine(int index, GlobalTextElement line) {
         if (index > data.getLines().size()) {
             return;
         }
@@ -39,7 +39,7 @@ public abstract class AbstractScoreboard extends AbstractVisual<ScoreboardData> 
     }
 
     @Override
-    public void addLine(TextElement line) {
+    public void addLine(GlobalTextElement line) {
         addLine(data.getLines().size(), line);
     }
 
@@ -52,21 +52,21 @@ public abstract class AbstractScoreboard extends AbstractVisual<ScoreboardData> 
     }
 
     @Override
-    public void setLines(Collection<? extends TextElement> lines) {
+    public void setLines(Collection<? extends GlobalTextElement> lines) {
         data.setLines(new ArrayList<>(lines));
     }
 
-    public List<TextElement> getLines() {
+    public List<GlobalTextElement> getLines() {
         return data.getLines();
     }
 
     @Override
-    public void setTitle(TextElement title) {
+    public void setTitle(GlobalTextElement title) {
         data.setTitle(title);
     }
 
     @Override
-    public TextElement getTitle() {
+    public GlobalTextElement getTitle() {
         return data.getTitle();
     }
 

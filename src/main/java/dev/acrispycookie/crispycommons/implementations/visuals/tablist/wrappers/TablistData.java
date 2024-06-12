@@ -1,37 +1,37 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.tablist.wrappers;
 
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.VisualData;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TextElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GlobalTextElement;
 
 import java.util.List;
 
 public class TablistData implements VisualData {
 
-    private List<TextElement> header;
-    private List<TextElement> footer;
+    private List<GlobalTextElement> header;
+    private List<GlobalTextElement> footer;
 
-    public TablistData(List<TextElement> header, List<TextElement> footer) {
+    public TablistData(List<GlobalTextElement> header, List<GlobalTextElement> footer) {
         this.header = header;
         this.footer = footer;
     }
 
-    public List<TextElement> getHeader() {
+    public List<GlobalTextElement> getHeader() {
         return header;
     }
 
-    public List<TextElement> getFooter() {
+    public List<GlobalTextElement> getFooter() {
         return footer;
     }
 
-    public void setHeader(List<TextElement> header) {
+    public void setHeader(List<GlobalTextElement> header) {
         this.header = header;
     }
 
-    public void addHeaderLine(TextElement text) {
+    public void addHeaderLine(GlobalTextElement text) {
         this.header.add(text);
     }
 
-    public void addHeaderLine(int index, TextElement text) {
+    public void addHeaderLine(int index, GlobalTextElement text) {
         this.header.add(index, text);
     }
 
@@ -39,15 +39,15 @@ public class TablistData implements VisualData {
         this.header.remove(index);
     }
 
-    public void setFooter(List<TextElement> footer) {
+    public void setFooter(List<GlobalTextElement> footer) {
         this.footer = footer;
     }
 
-    public void addFooterLine(TextElement text) {
+    public void addFooterLine(GlobalTextElement text) {
         this.footer.add(text);
     }
 
-    public void addFooterLine(int index, TextElement text) {
+    public void addFooterLine(int index, GlobalTextElement text) {
         this.footer.add(index, text);
     }
 
