@@ -59,7 +59,7 @@ public class SimpleScoreboard extends AbstractScoreboard {
 
         Objective obj = bukkitScoreboard.getObjective("[CrispyCommons]");
         Team team = bukkitScoreboard.getTeam(String.valueOf(index));
-        String line = ChatColor.translateAlternateColorCodes('&', LegacyComponentSerializer.legacyAmpersand().serialize(element.getRaw(null)));
+        String line = ChatColor.translateAlternateColorCodes('&', LegacyComponentSerializer.legacyAmpersand().serialize(element.getRaw()));
         line = line.substring(0, Math.min(line.length(), 32));
         String teamEntry = team.getEntries().iterator().next();
         String prefix = getPrefix(line);
@@ -77,7 +77,7 @@ public class SimpleScoreboard extends AbstractScoreboard {
         Objective obj = bukkitScoreboard.getObjective("[CrispyCommons]");
         Team team = bukkitScoreboard.getTeam(String.valueOf(index));
 
-        String line = ChatColor.translateAlternateColorCodes('&', LegacyComponentSerializer.legacyAmpersand().serialize(data.getLines().get(index).getRaw(null)));
+        String line = ChatColor.translateAlternateColorCodes('&', LegacyComponentSerializer.legacyAmpersand().serialize(data.getLines().get(index).getRaw()));
         line = line.substring(0, Math.min(line.length(), 32));
         String teamEntry = team.getEntries().iterator().next();
         String prefix = getPrefix(line);
@@ -89,14 +89,14 @@ public class SimpleScoreboard extends AbstractScoreboard {
 
     private void initTitle() {
         Objective obj = bukkitScoreboard.getObjective("[CrispyCommons]");
-        obj.setDisplayName(ChatColor.translateAlternateColorCodes('&', LegacyComponentSerializer.legacyAmpersand().serialize(data.getTitle().getRaw(null))));
+        obj.setDisplayName(ChatColor.translateAlternateColorCodes('&', LegacyComponentSerializer.legacyAmpersand().serialize(data.getTitle().getRaw())));
     }
 
     private void initLines() {
         for (int i = 0; i < data.getLines().size(); i++) {
             Objective obj = bukkitScoreboard.getObjective("[CrispyCommons]");
 
-            String line = ChatColor.translateAlternateColorCodes('&', LegacyComponentSerializer.legacyAmpersand().serialize(data.getLines().get(i).getRaw(null)));
+            String line = ChatColor.translateAlternateColorCodes('&', LegacyComponentSerializer.legacyAmpersand().serialize(data.getLines().get(i).getRaw()));
             String teamEntry = getEntry(line, bukkitScoreboard);
             Team team = bukkitScoreboard.registerNewTeam(String.valueOf(i));
             team.addEntry(teamEntry);

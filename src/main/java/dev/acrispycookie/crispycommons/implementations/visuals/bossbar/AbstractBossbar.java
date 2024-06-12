@@ -27,7 +27,7 @@ public abstract class AbstractBossbar extends AbstractVisual<BossbarData> implem
 
     @Override
     protected void globalUpdate() {
-        data.getBossBar().name(data.getText().getRaw(null));
+        data.getBossBar().name(data.getText().getRaw());
     }
 
     @Override

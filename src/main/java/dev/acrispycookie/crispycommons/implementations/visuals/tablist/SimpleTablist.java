@@ -23,14 +23,14 @@ public class SimpleTablist extends AbstractTablist {
         Component footer = Component.empty();
         for (int i = 0; i < getHeader().size(); i++) {
             GlobalTextElement t = getHeader().get(i);
-            header = header.append(t.getRaw(null));
+            header = header.append(t.getRaw());
             if (i != getHeader().size() - 1) {
                 header = header.appendNewline();
             }
         }
         for (int i = 0; i < getFooter().size(); i++) {
             GlobalTextElement t = getFooter().get(i);
-            footer = footer.append(t.getRaw(null));
+            footer = footer.append(t.getRaw());
             if (i != getFooter().size() - 1) {
                 footer = footer.appendNewline();
             }

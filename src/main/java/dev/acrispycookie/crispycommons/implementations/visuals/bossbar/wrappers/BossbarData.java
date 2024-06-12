@@ -70,6 +70,6 @@ public class BossbarData implements VisualData {
         if (progress < 0 || progress > 1)
             throw new VisualNotReadyException("The bossbar progress must be between 0 and 1!");
 
-        this.bossBar = BossBar.bossBar(text.getRaw(null), progress, color, overlay);
+        this.bossBar = BossBar.bossBar(text.getRaw(), progress, color, overlay);
     }
 }

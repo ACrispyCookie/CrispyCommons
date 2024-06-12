@@ -1,6 +1,7 @@
 package dev.acrispycookie.crispycommons.api.wrappers.entity;
 
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.AnimatedElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.GlobalAnimatedElement;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GlobalItemElement;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GlobalTextElement;
 import dev.acrispycookie.crispycommons.implementations.wrappers.entity.ItemEntity;
@@ -10,7 +11,7 @@ import org.bukkit.entity.Player;
 
 public interface Entity {
 
-    static Entity of(AnimatedElement<?> element) {
+    static Entity of(GlobalAnimatedElement<?> element) {
         if (element instanceof GlobalItemElement)
             return new ItemEntity((GlobalItemElement) element);
         else if (element instanceof GlobalTextElement)

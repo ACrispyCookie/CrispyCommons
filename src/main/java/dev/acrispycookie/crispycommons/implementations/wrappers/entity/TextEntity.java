@@ -25,7 +25,7 @@ public class TextEntity extends ClickableEntity<GlobalTextElement> {
 
     @Override
     public void spawn(Location location, Player player) {
-        String text = LegacyComponentSerializer.legacyAmpersand().serialize(element.getRaw(null));
+        String text = LegacyComponentSerializer.legacyAmpersand().serialize(element.getRaw());
 
         if (StringUtils.isEmptyOrWhitespaceOnly(text)) {
             return;
@@ -57,7 +57,7 @@ public class TextEntity extends ClickableEntity<GlobalTextElement> {
 
     @Override
     public void update(Location location, Player player) {
-        String content = LegacyComponentSerializer.legacyAmpersand().serialize(element.getRaw(null));
+        String content = LegacyComponentSerializer.legacyAmpersand().serialize(element.getRaw());
         String name = StringUtils.isEmptyOrWhitespaceOnly(content) ? " " : ChatColor.translateAlternateColorCodes('&', content);
 
         if(as != null) {

@@ -1,6 +1,7 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.title.wrappers;
 
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.VisualData;
+import dev.acrispycookie.crispycommons.api.wrappers.elements.CrispyElement;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.DynamicElement;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GlobalTextElement;
 
@@ -37,12 +38,12 @@ public class TitleData implements VisualData {
 
     public void setTitle(GlobalTextElement title) {
         this.title = title;
-        this.smallestPeriod = DynamicElement.getMinimumPeriod(title, subtitle);
+        this.smallestPeriod = CrispyElement.getMinimumPeriod(title, subtitle);
     }
 
     public void setSubtitle(GlobalTextElement subtitle) {
         this.subtitle = subtitle;
-        this.smallestPeriod = DynamicElement.getMinimumPeriod(title, subtitle);
+        this.smallestPeriod = CrispyElement.getMinimumPeriod(title, subtitle);
     }
 
     public void setFadeIn(int fadeIn) {
@@ -63,6 +64,6 @@ public class TitleData implements VisualData {
             throw new VisualNotReadyException("The title was not set!");
         if (subtitle == null)
             throw new VisualNotReadyException("The subtitle was not set!");
-        this.smallestPeriod = DynamicElement.getMinimumPeriod(title, subtitle);
+        this.smallestPeriod = CrispyElement.getMinimumPeriod(title, subtitle);
     }
 }

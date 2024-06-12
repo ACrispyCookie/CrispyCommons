@@ -20,7 +20,7 @@ public abstract class AbstractSection implements Section {
     protected void updateItem(GlobalItemElement item) {
         Set<InventoryInfo> inventories = dynamicItems.get(item);
 
-        inventories.forEach((info) -> info.getInventory().setItem(info.getPasteSlot(), item.getRaw(null)));
+        inventories.forEach((info) -> info.getInventory().setItem(info.getPasteSlot(), item.getRaw()));
     }
 
     @Override
@@ -61,7 +61,7 @@ public abstract class AbstractSection implements Section {
         }
 
         item.load(() -> renderValidItem(player, data, toRender, pasteSlot, startingIndex));
-        toRender.setItem(pasteSlot, item.getDisplay().getRaw(null));
+        toRender.setItem(pasteSlot, item.getDisplay().getRaw());
     }
 
     protected void addDynamicItem(MenuItem item, Inventory toRender, int pasteSlot) {

@@ -15,7 +15,7 @@ public class ColoredParticle extends AbstractParticle<ColoredEffect> {
 
     @Override
     protected void show(Player player) {
-        ColoredEffect effect = data.getElement().getRaw(null);
+        ColoredEffect effect = data.getElement().getRaw();
         player.spigot().playEffect(effect.getLocation(), effect.getEffect(), 0, 1, effect.getRed(), effect.getGreen(), effect.getBlue(), 1, 0, 160);
     }
 
