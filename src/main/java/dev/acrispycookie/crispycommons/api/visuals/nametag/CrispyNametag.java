@@ -4,7 +4,7 @@ import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.CrispyVisu
 import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.builder.AbstractVisualBuilder;
 import dev.acrispycookie.crispycommons.implementations.visuals.nametag.SimpleNameTag;
 import dev.acrispycookie.crispycommons.implementations.visuals.nametag.wrappers.NameTagData;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GlobalTextElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalTextElement;
 import org.bukkit.entity.Player;
 
 public interface CrispyNametag extends CrispyVisual {

@@ -3,7 +3,7 @@ package dev.acrispycookie.crispycommons.implementations.visuals.tablist;
 import dev.acrispycookie.crispycommons.api.visuals.tablist.CrispyTablist;
 import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.visual.AbstractVisual;
 import dev.acrispycookie.crispycommons.implementations.visuals.tablist.wrappers.TablistData;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GlobalTextElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalTextElement;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 

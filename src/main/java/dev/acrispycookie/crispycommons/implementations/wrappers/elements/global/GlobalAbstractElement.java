@@ -1,8 +1,8 @@
-package dev.acrispycookie.crispycommons.implementations.wrappers.elements;
+package dev.acrispycookie.crispycommons.implementations.wrappers.elements.global;
 
-import dev.acrispycookie.crispycommons.api.wrappers.elements.GlobalCrispyElement;
+import dev.acrispycookie.crispycommons.api.wrappers.elements.GlobalElement;
 
-public abstract class GlobalAbstractElement<T> implements GlobalCrispyElement<T> {
+public abstract class GlobalAbstractElement<T> implements GlobalElement<T> {
 
     protected T element;
 

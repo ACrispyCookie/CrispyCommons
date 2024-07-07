@@ -2,7 +2,7 @@ package dev.acrispycookie.crispycommons.implementations.visuals.particle.wrapper
 
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.VisualData;
 import dev.acrispycookie.crispycommons.api.wrappers.particle.Effect;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GlobalParticleElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalParticleElement;
 
 public class ParticleData<T extends Effect> implements VisualData {
     private GlobalParticleElement<T> element;

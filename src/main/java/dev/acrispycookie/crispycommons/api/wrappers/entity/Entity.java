@@ -1,9 +1,8 @@
 package dev.acrispycookie.crispycommons.api.wrappers.entity;
 
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.AnimatedElement;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.GlobalAnimatedElement;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GlobalItemElement;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GlobalTextElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.GlobalAnimatedElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalItemElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalTextElement;
 import dev.acrispycookie.crispycommons.implementations.wrappers.entity.ItemEntity;
 import dev.acrispycookie.crispycommons.implementations.wrappers.entity.TextEntity;
 import org.bukkit.Location;
@@ -21,7 +20,7 @@ public interface Entity {
     }
     double offsetPerLine();
     Location getLocation();
-    AnimatedElement<?> getElement();
+    GlobalAnimatedElement<?> getElement();
     void spawn(Location location, Player player);
     void destroy(Player player);
     void update(Location location, Player player);

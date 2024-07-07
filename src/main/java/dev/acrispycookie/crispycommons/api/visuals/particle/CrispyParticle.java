@@ -7,7 +7,7 @@ import dev.acrispycookie.crispycommons.implementations.visuals.particle.ColoredP
 import dev.acrispycookie.crispycommons.implementations.visuals.particle.RenderedParticle;
 import dev.acrispycookie.crispycommons.implementations.visuals.particle.SimpleParticle;
 import dev.acrispycookie.crispycommons.implementations.visuals.particle.wrappers.ParticleData;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GlobalParticleElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalParticleElement;
 import dev.acrispycookie.crispycommons.implementations.wrappers.particle.ColoredEffect;
 import dev.acrispycookie.crispycommons.implementations.wrappers.particle.RenderedEffect;
 import dev.acrispycookie.crispycommons.implementations.wrappers.particle.SimpleEffect;
@@ -32,25 +32,29 @@ public interface CrispyParticle<T extends Effect> extends CrispyVisual {
 
         public ParticleBuilder<T> setParticle(GlobalParticleElement<T> element) {
             data.setElement(element);
+            this.data.getElement().setUpdate(() -> toBuild.update());
             return this;
         }
     }
 
     class SimpleParticleBuilder extends ParticleBuilder<SimpleEffect> {
         public CrispyParticle<SimpleEffect> build() {
-            return new SimpleParticle(data, receivers, timeToLive);
+            toBuild = new SimpleParticle(data, receivers, timeToLive);
+            return (CrispyParticle<SimpleEffect>) toBuild;
         }
     }
 
     class ColoredParticleBuilder extends ParticleBuilder<ColoredEffect> {
         public CrispyParticle<ColoredEffect> build() {
-            return new ColoredParticle(data, receivers, timeToLive);
+            toBuild = new ColoredParticle(data, receivers, timeToLive);
+            return (CrispyParticle<ColoredEffect>) toBuild;
         }
     }
 
     class RenderedParticleBuilder extends ParticleBuilder<RenderedEffect> {
         public CrispyParticle<RenderedEffect> build() {
-            return new RenderedParticle(data, receivers, timeToLive);
+            toBuild = new RenderedParticle(data, receivers, timeToLive);
+            return (CrispyParticle<RenderedEffect>) toBuild;
         }
     }
 }

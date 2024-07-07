@@ -21,7 +21,6 @@ public class SimpleParticle extends AbstractParticle<SimpleEffect> {
 
     @Override
     protected void hide(Player player) {
-
     }
 
     @Override

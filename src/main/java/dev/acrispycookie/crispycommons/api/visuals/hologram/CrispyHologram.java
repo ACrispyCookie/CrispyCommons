@@ -5,7 +5,7 @@ import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.build
 import dev.acrispycookie.crispycommons.implementations.visuals.hologram.PublicHologram;
 import dev.acrispycookie.crispycommons.implementations.visuals.hologram.SimpleHologram;
 import dev.acrispycookie.crispycommons.implementations.visuals.hologram.wrappers.HologramData;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.AnimatedElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.GlobalAnimatedElement;
 import org.bukkit.Location;
 
 import java.util.ArrayList;
@@ -17,12 +17,12 @@ public interface CrispyHologram extends CrispyVisual {
     static HologramBuilder builder() {
         return new HologramBuilder();
     }
-    void addLine(AnimatedElement<?> line);
-    void addLine(int index, AnimatedElement<?> line);
+    void addLine(GlobalAnimatedElement<?> line);
+    void addLine(int index, GlobalAnimatedElement<?> line);
     void removeLine(int index);
-    void setLines(Collection<? extends AnimatedElement<?>> lines);
+    void setLines(Collection<? extends GlobalAnimatedElement<?>> lines);
     void setLocation(Location location);
-    List<AnimatedElement<?>> getLines();
+    List<GlobalAnimatedElement<?>> getLines();
     Location getLocation();
 
     class HologramBuilder extends AbstractVisualBuilder<CrispyHologram> {
@@ -36,7 +36,7 @@ public interface CrispyHologram extends CrispyVisual {
             return this;
         }
 
-        public HologramBuilder addLine(AnimatedElement<?> element) {
+        public HologramBuilder addLine(GlobalAnimatedElement<?> element) {
             this.data.getLines().add(element);
             element.setUpdate(() -> hologram.update());
             return this;

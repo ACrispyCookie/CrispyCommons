@@ -1,14 +1,14 @@
-package dev.acrispycookie.crispycommons.implementations.wrappers.elements.types;
+package dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type;
 
+import dev.acrispycookie.crispycommons.api.wrappers.elements.types.ItemElement;
 import dev.acrispycookie.crispycommons.api.wrappers.itemstack.CrispyItemStack;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.AnimatedElement;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.GlobalAnimatedElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.GlobalAnimatedElement;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.function.Supplier;
 
-public abstract class GlobalItemElement extends GlobalAnimatedElement<CrispyItemStack> {
+public abstract class GlobalItemElement extends GlobalAnimatedElement<CrispyItemStack> implements ItemElement {
     public GlobalItemElement(Collection<? extends CrispyItemStack> frames, int period) {
         super(new ArrayList<>(frames), period, false);
     }

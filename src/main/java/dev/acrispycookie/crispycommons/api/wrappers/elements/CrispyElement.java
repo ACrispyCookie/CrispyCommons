@@ -1,14 +1,14 @@
 package dev.acrispycookie.crispycommons.api.wrappers.elements;
 
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.DynamicElement;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.GlobalDynamicElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.GlobalDynamicElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.personal.PersonalDynamicElement;
 
 public interface CrispyElement<T> extends Cloneable {
     boolean isDynamic();
 
-    static int getMinimumPeriod(DynamicElement<?>... elements) {
+    static int getMinimumPeriod(PersonalDynamicElement<?>... elements) {
         int period = -1;
-        for (DynamicElement<?> element : elements) {
+        for (PersonalDynamicElement<?> element : elements) {
             if (element == null || !element.isDynamic())
                 continue;
             if (period == -1) {

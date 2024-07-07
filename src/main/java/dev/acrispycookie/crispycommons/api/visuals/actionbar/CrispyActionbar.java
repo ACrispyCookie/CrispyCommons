@@ -4,7 +4,7 @@ import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.CrispyVisu
 import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.builder.AbstractVisualBuilder;
 import dev.acrispycookie.crispycommons.implementations.visuals.actionbar.SimpleActionbar;
 import dev.acrispycookie.crispycommons.implementations.visuals.actionbar.wrappers.ActionbarData;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GlobalTextElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalTextElement;
 
 public interface CrispyActionbar extends CrispyVisual {
 

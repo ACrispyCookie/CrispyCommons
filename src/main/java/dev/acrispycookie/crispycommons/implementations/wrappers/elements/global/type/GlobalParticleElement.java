@@ -1,13 +1,14 @@
-package dev.acrispycookie.crispycommons.implementations.wrappers.elements.types;
+package dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type;
 
+import dev.acrispycookie.crispycommons.api.wrappers.elements.types.ParticleElement;
 import dev.acrispycookie.crispycommons.api.wrappers.particle.Effect;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.GlobalAnimatedElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.GlobalAnimatedElement;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.function.Supplier;
 
-public abstract class GlobalParticleElement<T extends Effect> extends GlobalAnimatedElement<T> {
+public abstract class GlobalParticleElement<T extends Effect> extends GlobalAnimatedElement<T> implements ParticleElement<T> {
     protected GlobalParticleElement(Collection<? extends T> frames, int period) {
         super(new ArrayList<>(frames), period, false);
     }
@@ -17,8 +18,7 @@ public abstract class GlobalParticleElement<T extends Effect> extends GlobalAnim
     }
 
     protected GlobalParticleElement(T effect) {
-        this(() -> effect, -1);
-        setUpdate(() -> {});
+        this(() -> effect, 1);
     }
 
     @Override

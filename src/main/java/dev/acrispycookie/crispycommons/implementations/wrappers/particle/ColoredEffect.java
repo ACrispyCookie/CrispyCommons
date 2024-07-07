@@ -16,56 +16,68 @@ public class ColoredEffect extends AbstractEffect {
 
     public ColoredEffect(Location location, Color color) {
         super(location);
-        this.r = color.getRed();
-        this.g = color.getGreen();
-        this.b = color.getBlue();
+        this.r = (float) color.getRed() / 255;
+        this.g = (float) color.getGreen() / 255;
+        this.b = (float) color.getBlue() / 255;
     }
 
     public ColoredEffect(Location location, int r, int b, int g) {
         super(location);
-        this.r = r;
-        this.g = g;
-        this.b = b;
+        this.r = (float) r / 255;
+        this.g = (float) g / 255;
+        this.b = (float) b / 255;
     }
 
     public ColoredEffect color(Color color) {
-        this.r = color.getRed();
-        this.g = color.getGreen();
-        this.b = color.getBlue();
+        this.r = (float) color.getRed() / 255;
+        this.g = (float) color.getGreen() / 255;
+        this.b = (float) color.getBlue() / 255;
         return this;
     }
 
     public ColoredEffect color(float r, float g, float b) {
-        this.r = r;
-        this.g = g;
-        this.b = b;
+        this.r = r / 255;
+        this.g = g / 255;
+        this.b = b / 255;
         return this;
     }
 
     public ColoredEffect red(float red) {
-        this.r = red;
+        this.r = red / 255;
         return this;
     }
 
     public ColoredEffect green(float green) {
-        this.g = green;
+        this.g = green / 255;
         return this;
     }
 
     public ColoredEffect blue(float blue) {
-        this.b = blue;
+        this.b = blue / 255;
         return this;
     }
 
     public float getRed() {
-        return r;
+        return r * 255;
     }
 
     public float getGreen() {
-        return g;
+        return g * 255;
     }
 
     public float getBlue() {
+        return b * 255;
+    }
+
+    public float getNormalisedRed() {
+        return r;
+    }
+
+    public float getNormalisedGreen() {
+        return g;
+    }
+
+    public float getNormalisedBlue() {
         return b;
     }
 

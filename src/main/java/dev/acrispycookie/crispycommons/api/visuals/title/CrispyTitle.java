@@ -5,7 +5,7 @@ import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.build
 import dev.acrispycookie.crispycommons.implementations.visuals.title.SimpleTitle;
 import dev.acrispycookie.crispycommons.implementations.visuals.title.UpdatingTitle;
 import dev.acrispycookie.crispycommons.implementations.visuals.title.wrappers.TitleData;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GlobalTextElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalTextElement;
 
 
 public interface CrispyTitle extends CrispyVisual {

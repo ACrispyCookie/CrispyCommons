@@ -1,21 +1,19 @@
-package dev.acrispycookie.crispycommons.implementations.wrappers.elements;
+package dev.acrispycookie.crispycommons.implementations.wrappers.elements.personal;
 
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
-public abstract class AnimatedElement<T> extends DynamicElement<T> {
+public abstract class PersonalAnimatedElement<T> extends PersonalDynamicElement<T> {
 
     private final HashMap<OfflinePlayer, ArrayList<T>> frames = new HashMap<>();
     private int frame;
 
-    protected AnimatedElement(Map<OfflinePlayer, Collection<? extends T>> frames, int period, boolean async) {
+    protected PersonalAnimatedElement(Map<OfflinePlayer, Collection<? extends T>> frames, int period, boolean async) {
         super((p) -> null, period, async);
         frames.forEach((p, t) -> this.frames.put(p, new ArrayList<>(t)));
         this.frame = 0;
@@ -24,9 +22,12 @@ public abstract class AnimatedElement<T> extends DynamicElement<T> {
             this.frame = this.frame + 1 >= frames.size() ? 0 : this.frame + 1;
             return frame;
         };
+        frames.forEach((p, c) -> {
+            this.elements.put(p, supplier.apply(p));
+        });
     }
 
-    protected AnimatedElement(Function<OfflinePlayer, ? extends T> supplier, int period, boolean async) {
+    protected PersonalAnimatedElement(Function<OfflinePlayer, ? extends T> supplier, int period, boolean async) {
         super(supplier, period, async);
         this.frame = 0;
     }

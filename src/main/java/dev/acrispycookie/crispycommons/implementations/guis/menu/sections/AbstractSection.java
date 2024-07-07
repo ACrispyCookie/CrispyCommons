@@ -3,7 +3,7 @@ package dev.acrispycookie.crispycommons.implementations.guis.menu.sections;
 import dev.acrispycookie.crispycommons.api.guis.menu.MenuItem;
 import dev.acrispycookie.crispycommons.api.guis.menu.sections.Section;
 import dev.acrispycookie.crispycommons.implementations.guis.menu.wrappers.MenuData;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GlobalItemElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalItemElement;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 

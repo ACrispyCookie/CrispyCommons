@@ -4,7 +4,7 @@ import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.CrispyVisu
 import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.builder.AbstractVisualBuilder;
 import dev.acrispycookie.crispycommons.implementations.visuals.bossbar.SimpleBossbar;
 import dev.acrispycookie.crispycommons.implementations.visuals.bossbar.wrappers.BossbarData;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GlobalTextElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalTextElement;
 import net.kyori.adventure.bossbar.BossBar;
 
 public interface CrispyBossbar extends CrispyVisual {

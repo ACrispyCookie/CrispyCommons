@@ -1,4 +1,4 @@
-package dev.acrispycookie.crispycommons.implementations.wrappers.elements;
+package dev.acrispycookie.crispycommons.implementations.wrappers.elements.personal;
 
 import dev.acrispycookie.crispycommons.CrispyCommons;
 import org.bukkit.OfflinePlayer;
@@ -7,18 +7,17 @@ import org.bukkit.scheduler.BukkitTask;
 
 import java.util.HashMap;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
-public abstract class GlobalDynamicElement<T> extends GlobalAbstractElement<T> {
+public abstract class PersonalDynamicElement<T> extends PersonalAbstractElement<T> {
 
-    protected Supplier<? extends T> supplier;
+    protected Function<OfflinePlayer, ? extends T> supplier;
     private final int period;
     protected boolean async;
     private BukkitTask bukkitTask;
     protected Runnable update;
 
-    protected GlobalDynamicElement(Supplier<? extends T> supplier, int period, boolean async) {
-        super(supplier.get());
+    protected PersonalDynamicElement(Function<OfflinePlayer, ? extends T> supplier, int period, boolean async) {
+        super(new HashMap<>());
         this.supplier = supplier;
         this.period = period;
         this.async = async;
@@ -32,7 +31,7 @@ public abstract class GlobalDynamicElement<T> extends GlobalAbstractElement<T> {
             bukkitTask = new BukkitRunnable() {
                 @Override
                 public void run() {
-                element = supplier.get();
+                elements.forEach((p, element) -> elements.put(p, getRaw(p)));
                 update.run();
                 }
             }.runTaskTimerAsynchronously(CrispyCommons.getPlugin(), period, period);
@@ -42,7 +41,7 @@ public abstract class GlobalDynamicElement<T> extends GlobalAbstractElement<T> {
         bukkitTask = new BukkitRunnable() {
             @Override
             public void run() {
-                element = supplier.get();
+                elements.forEach((p, element) -> elements.put(p, getRaw(p)));
                 update.run();
             }
         }.runTaskTimer(CrispyCommons.getPlugin(), period, period);
@@ -60,7 +59,7 @@ public abstract class GlobalDynamicElement<T> extends GlobalAbstractElement<T> {
     }
 
     public boolean isGlobal() {
-        return true;
+        return false;
     }
 
     public int getPeriod() {

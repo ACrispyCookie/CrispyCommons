@@ -2,8 +2,7 @@ package dev.acrispycookie.crispycommons.implementations.visuals.title.wrappers;
 
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.VisualData;
 import dev.acrispycookie.crispycommons.api.wrappers.elements.CrispyElement;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.DynamicElement;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GlobalTextElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalTextElement;
 
 public class TitleData implements VisualData {
 

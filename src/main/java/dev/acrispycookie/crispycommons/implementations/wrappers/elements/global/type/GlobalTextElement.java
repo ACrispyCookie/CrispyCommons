@@ -1,7 +1,8 @@
-package dev.acrispycookie.crispycommons.implementations.wrappers.elements.types;
+package dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type;
 
 import dev.acrispycookie.crispycommons.api.wrappers.elements.CrispyElement;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.GlobalAnimatedElement;
+import dev.acrispycookie.crispycommons.api.wrappers.elements.types.TextElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.GlobalAnimatedElement;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
@@ -10,7 +11,7 @@ import java.util.Collection;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-public abstract class GlobalTextElement extends GlobalAnimatedElement<Component> {
+public abstract class GlobalTextElement extends GlobalAnimatedElement<Component> implements TextElement {
 
     protected GlobalTextElement(Collection<? extends Component> frames, int period) {
         super(new ArrayList<>(frames), period, false);
@@ -54,7 +55,6 @@ public abstract class GlobalTextElement extends GlobalAnimatedElement<Component>
     }
 
     public static GlobalTextElement dynamic(Supplier<? extends String> supplier, int period) {
-
         return dynamicComponent(() -> LegacyComponentSerializer.legacyAmpersand().deserialize(supplier.get()), period);
     }
 

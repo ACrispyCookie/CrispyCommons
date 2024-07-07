@@ -1,10 +1,7 @@
-package dev.acrispycookie.crispycommons.implementations.wrappers.elements;
-
-import org.bukkit.OfflinePlayer;
+package dev.acrispycookie.crispycommons.implementations.wrappers.elements.global;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 public abstract class GlobalAnimatedElement<T> extends GlobalDynamicElement<T> {
@@ -21,6 +18,7 @@ public abstract class GlobalAnimatedElement<T> extends GlobalDynamicElement<T> {
             this.frame = this.frame + 1 >= frames.size() ? 0 : this.frame + 1;
             return frame;
         };
+        this.element = supplier.get();
     }
 
     protected GlobalAnimatedElement(Supplier<? extends T> supplier, int period, boolean async) {

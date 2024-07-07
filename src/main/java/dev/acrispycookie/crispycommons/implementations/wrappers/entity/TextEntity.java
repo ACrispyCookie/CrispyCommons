@@ -1,7 +1,7 @@
 package dev.acrispycookie.crispycommons.implementations.wrappers.entity;
 
 import com.mysql.jdbc.StringUtils;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GlobalTextElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalTextElement;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.ChatColor;

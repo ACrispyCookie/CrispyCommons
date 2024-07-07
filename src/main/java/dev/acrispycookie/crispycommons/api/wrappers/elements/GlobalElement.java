@@ -1,6 +1,6 @@
 package dev.acrispycookie.crispycommons.api.wrappers.elements;
 
 
-public interface GlobalCrispyElement<T> extends CrispyElement<T> {
+public interface GlobalElement<T> extends CrispyElement<T> {
     T getRaw();
 }

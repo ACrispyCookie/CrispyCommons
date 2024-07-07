@@ -4,7 +4,7 @@ import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.CrispyVisu
 import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.builder.AbstractVisualBuilder;
 import dev.acrispycookie.crispycommons.implementations.visuals.tablist.SimpleTablist;
 import dev.acrispycookie.crispycommons.implementations.visuals.tablist.wrappers.TablistData;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GlobalTextElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalTextElement;
 
 import java.util.ArrayList;
 import java.util.List;

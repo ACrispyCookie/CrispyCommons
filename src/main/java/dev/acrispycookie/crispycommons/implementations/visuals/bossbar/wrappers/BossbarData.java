@@ -1,7 +1,7 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.bossbar.wrappers;
 
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.VisualData;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GlobalTextElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalTextElement;
 import net.kyori.adventure.bossbar.BossBar;
 
 public class BossbarData implements VisualData {
