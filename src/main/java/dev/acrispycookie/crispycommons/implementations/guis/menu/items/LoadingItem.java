@@ -1,14 +1,15 @@
 package dev.acrispycookie.crispycommons.implementations.guis.menu.items;
 
 import dev.acrispycookie.crispycommons.CrispyCommons;
+import dev.acrispycookie.crispycommons.api.wrappers.elements.types.ItemElement;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalItemElement;
 import org.bukkit.Bukkit;
 
 public abstract class LoadingItem extends AbstractMenuItem {
 
-    protected abstract GlobalItemElement loadItem();
+    protected abstract ItemElement loadItem();
 
-    public LoadingItem(GlobalItemElement loadingDisplay) {
+    public LoadingItem(ItemElement loadingDisplay) {
         super(null, loadingDisplay);
     }
 

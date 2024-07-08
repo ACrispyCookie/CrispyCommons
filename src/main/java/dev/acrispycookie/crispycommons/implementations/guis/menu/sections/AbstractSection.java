@@ -2,25 +2,34 @@ package dev.acrispycookie.crispycommons.implementations.guis.menu.sections;
 
 import dev.acrispycookie.crispycommons.api.guis.menu.MenuItem;
 import dev.acrispycookie.crispycommons.api.guis.menu.sections.Section;
+import dev.acrispycookie.crispycommons.api.wrappers.elements.types.ItemElement;
 import dev.acrispycookie.crispycommons.implementations.guis.menu.wrappers.MenuData;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalItemElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.personal.types.PersonalItemElement;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public abstract class AbstractSection implements Section {
 
-    protected final HashMap<GlobalItemElement, Set<InventoryInfo>> dynamicItems = new HashMap<>();
-    protected final HashMap<Inventory, Set<GlobalItemElement>> dynamicItemInventories = new HashMap<>();
+    protected final HashMap<ItemElement, Set<InventoryInfo>> dynamicItems = new HashMap<>();
+    protected final HashMap<Inventory, Set<ItemElement>> dynamicItemInventories = new HashMap<>();
 
-    protected void updateItem(GlobalItemElement item) {
+    protected void updateItem(ItemElement item) {
         Set<InventoryInfo> inventories = dynamicItems.get(item);
 
-        inventories.forEach((info) -> info.getInventory().setItem(info.getPasteSlot(), item.getRaw()));
+        if (item instanceof GlobalItemElement)
+            inventories.forEach((info) -> info.getInventory().setItem(info.getPasteSlot(), ((GlobalItemElement) item).getRaw()));
+        else
+            inventories.forEach((info) -> {
+                info.getInventory().setItem(info.getPasteSlot(), ((PersonalItemElement) item).getRaw(info.getPlayer()));
+            });
     }
 
     @Override
@@ -57,20 +66,23 @@ public abstract class AbstractSection implements Section {
             return;
 
         if (item.getDisplay().isDynamic()) {
-            addDynamicItem(item, toRender, pasteSlot);
+            addDynamicItem(item, player, toRender, pasteSlot);
         }
 
         item.load(() -> renderValidItem(player, data, toRender, pasteSlot, startingIndex));
-        toRender.setItem(pasteSlot, item.getDisplay().getRaw());
+        if (item.getDisplay() instanceof GlobalItemElement)
+            toRender.setItem(pasteSlot, ((GlobalItemElement) item.getDisplay()).getRaw());
+        else
+            toRender.setItem(pasteSlot, ((PersonalItemElement) item.getDisplay()).getRaw(player));
     }
 
-    protected void addDynamicItem(MenuItem item, Inventory toRender, int pasteSlot) {
+    protected void addDynamicItem(MenuItem item, Player player, Inventory toRender, int pasteSlot) {
         boolean started = dynamicItems.containsKey(item.getDisplay());
         Set<InventoryInfo> elements = started ? dynamicItems.get(item.getDisplay()) : new HashSet<>();
-        elements.add(new InventoryInfo(toRender, pasteSlot));
+        elements.add(new InventoryInfo(player, toRender, pasteSlot));
         dynamicItems.put(item.getDisplay(), elements);
 
-        Set<GlobalItemElement> items = dynamicItemInventories.getOrDefault(toRender, new HashSet<>());
+        Set<ItemElement> items = dynamicItemInventories.getOrDefault(toRender, new HashSet<>());
         items.add(item.getDisplay());
         dynamicItemInventories.put(toRender, items);
 
@@ -81,12 +93,18 @@ public abstract class AbstractSection implements Section {
     }
 
     protected static class InventoryInfo {
+        private final OfflinePlayer player;
         private final Inventory inventory;
         private final int pasteSlot;
 
-        public InventoryInfo(Inventory inventory, int pasteSlot) {
+        public InventoryInfo(OfflinePlayer player, Inventory inventory, int pasteSlot) {
+            this.player = player;
             this.inventory = inventory;
             this.pasteSlot = pasteSlot;
+        }
+
+        public OfflinePlayer getPlayer() {
+            return player;
         }
 
         public Inventory getInventory() {

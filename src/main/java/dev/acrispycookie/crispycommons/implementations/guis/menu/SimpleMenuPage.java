@@ -25,7 +25,7 @@ public abstract class SimpleMenuPage implements MenuPage {
     private final int columns;
     private final ArrayList<SectionInfo> sections = new ArrayList<>();
     private final HashMap<Integer, SectionInfo> schema = new HashMap<>();
-    private Inventory cachedInventory;
+    private final HashMap<Player, Inventory> cachedInventory = new HashMap<>();
 
     public SimpleMenuPage(String title, int rows, int columns) throws InvalidMenuConfiguration {
         if (columns != 9 && columns != 3) {
@@ -38,7 +38,7 @@ public abstract class SimpleMenuPage implements MenuPage {
 
     @Override
     public void renderItem(Player player, int index) {
-        if(cachedInventory == null)
+        if(!cachedInventory.containsKey(player))
             return;
         if (!isValidSlot(index))
             return;
@@ -47,33 +47,33 @@ public abstract class SimpleMenuPage implements MenuPage {
 
         SectionInfo info = schema.get(index);
         Section section = info.getSection();
-        section.renderItem(player, data, cachedInventory, index, info.getStartIndex() + index);
+        section.renderItem(player, data, cachedInventory.get(player), index, info.getStartIndex() + index);
     }
 
     @Override
     public void renderItems(Player player) {
-        if(cachedInventory == null)
+        if(!cachedInventory.containsKey(player))
             return;
 
         for (SectionInfo info : sections) {
             Section section = info.getSection();
 
             if (section instanceof DynamicSection) {
-                ((DynamicSection) section).renderItems(player, data, cachedInventory, info.getStartIndex(), info.getEndIndex(), info.getOffset());
+                ((DynamicSection) section).renderItems(player, data, cachedInventory.get(player), info.getStartIndex(), info.getEndIndex(), info.getOffset());
             } else {
-                ((StaticSection) section).renderItems(player, data, cachedInventory, info.getStartIndex(), info.getOffset());
+                ((StaticSection) section).renderItems(player, data, cachedInventory.get(player), info.getStartIndex(), info.getOffset());
             }
         }
     }
 
     @Override
     public Inventory render(Player player) {
-        if (cachedInventory == null) {
-            cachedInventory = new Holder(title, rows, columns, this).getInventory();
+        if (!cachedInventory.containsKey(player)) {
+            cachedInventory.put(player, new Holder(title, rows, columns, this).getInventory());
             renderItems(player);
         }
 
-        return cachedInventory;
+        return cachedInventory.get(player);
     }
 
     @Override
@@ -155,9 +155,11 @@ public abstract class SimpleMenuPage implements MenuPage {
     @Override
     public void onClose() {
         for (SectionInfo info : sections) {
-            info.getSection().onClose(cachedInventory);
+            cachedInventory.forEach((p, i) -> {
+                info.getSection().onClose(i);
+            });
         }
-        this.cachedInventory = null;
+        this.cachedInventory.clear();
     }
 
     @Override

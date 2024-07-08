@@ -14,6 +14,7 @@ public interface Section {
     void removeItem(int index);
     void clearItems();
     boolean isSlotValid(int slot);
+    boolean hasDynamicItems();
 
     static boolean isSlotValid(int slot, Inventory inventory) {
         return slot >= 0 && slot < inventory.getSize();

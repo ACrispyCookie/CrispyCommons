@@ -68,4 +68,12 @@ public abstract class AbstractDynamicSection extends AbstractSection implements 
     public boolean isSlotValid(int index) {
         return index >=0 && index < items.size();
     }
+
+    public boolean hasDynamicItems() {
+        for (MenuItem item : items) {
+            if (item.getDisplay().isDynamic())
+                return true;
+        }
+        return false;
+    }
 }

@@ -100,6 +100,14 @@ public abstract class AbstractStaticSection extends AbstractSection implements S
         return slot >=0 && slot < height * width;
     }
 
+    public boolean hasDynamicItems() {
+        for (MenuItem item : items.values()) {
+            if (item.getDisplay().isDynamic())
+                return true;
+        }
+        return false;
+    }
+
     private int pointToIndex(Point point) {
         return point.x + point.y * width;
     }

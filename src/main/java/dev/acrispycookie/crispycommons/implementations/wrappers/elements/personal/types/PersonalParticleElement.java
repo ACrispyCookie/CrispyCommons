@@ -20,7 +20,6 @@ public abstract class PersonalParticleElement<T extends Effect> extends Personal
 
     protected PersonalParticleElement(Map<OfflinePlayer, T> effects) {
         this(effects::get, 1);
-        setUpdate(() -> {});
     }
 
     @Override

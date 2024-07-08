@@ -31,7 +31,7 @@ public abstract class PersonalDynamicElement<T> extends PersonalAbstractElement<
             bukkitTask = new BukkitRunnable() {
                 @Override
                 public void run() {
-                elements.forEach((p, element) -> elements.put(p, getRaw(p)));
+                elements.forEach((p, element) -> elements.put(p, supplier.apply(p)));
                 update.run();
                 }
             }.runTaskTimerAsynchronously(CrispyCommons.getPlugin(), period, period);
@@ -41,10 +41,17 @@ public abstract class PersonalDynamicElement<T> extends PersonalAbstractElement<
         bukkitTask = new BukkitRunnable() {
             @Override
             public void run() {
-                elements.forEach((p, element) -> elements.put(p, getRaw(p)));
+                elements.forEach((p, element) -> elements.put(p, supplier.apply(p)));
                 update.run();
             }
         }.runTaskTimer(CrispyCommons.getPlugin(), period, period);
+    }
+
+    @Override
+    public T getRaw(OfflinePlayer player) {
+        if (!elements.containsKey(player))
+            elements.put(player, supplier.apply(player));
+        return elements.get(player);
     }
 
     public void stop() {
