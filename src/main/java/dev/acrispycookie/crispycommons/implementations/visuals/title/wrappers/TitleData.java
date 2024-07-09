@@ -66,6 +66,10 @@ public class TitleData implements VisualData {
             throw new VisualNotReadyException("The title was not set!");
         if (subtitle == null || (subtitle instanceof PersonalTextElement && ((PersonalTextElement) subtitle).getRaw(player) == null))
             throw new VisualNotReadyException("The subtitle was not set!");
+        if (fadeIn.isDynamic())
+            throw new VisualNotReadyException("The fade in cannot be dynamic!");
+        if (fadeOut.isDynamic())
+            throw new VisualNotReadyException("The fade out cannot be dynamic!");
         this.smallestPeriod = CrispyElement.getMinimumPeriod(title, subtitle);
     }
 }
