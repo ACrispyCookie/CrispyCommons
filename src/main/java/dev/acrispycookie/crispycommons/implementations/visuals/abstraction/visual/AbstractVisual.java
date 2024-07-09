@@ -27,8 +27,8 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
     private final Set<UUID> receivers = new HashSet<>();
     private final Set<UUID> currentlyDisplaying = new HashSet<>();
     private final UpdateMode updateMode;
-    private final Map<UUID, BukkitTask> personalTtl = new HashMap<>();
-    private BukkitTask globalTtl;
+    private final Map<UUID, BukkitTask> personalTtlTasks = new HashMap<>();
+    private BukkitTask globalTtlTask;
     protected long onlineReceivers;
     protected T data;
     protected boolean isDisplayed = false;
@@ -51,40 +51,47 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onJoin(PlayerJoinEvent event) {
-        if (receivers.contains(event.getPlayer().getUniqueId())) {
-            if (isDisplayed)
-                showInternal(event.getPlayer());
+        if (!isDisplayed)
+            return;
+        if (receivers.contains(event.getPlayer().getUniqueId()) && shouldDisplay(event.getPlayer())) {
             ++onlineReceivers;
             if (onlineReceivers == 1)
                 prepareShow();
+            if (isDisplayed)
+                showInternal(event.getPlayer());
         }
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onLeave(PlayerQuitEvent event) {
-        if (receivers.contains(event.getPlayer().getUniqueId())) {
-            if (isDisplayed) {
-                hide(event.getPlayer());
-            }
+        if (!isDisplayed)
+            return;
+        if (receivers.contains(event.getPlayer().getUniqueId()) && currentlyDisplaying.contains(event.getPlayer().getUniqueId())) {
             --onlineReceivers;
             if (onlineReceivers == 0)
                 prepareHide();
+
+            if (isDisplayed) {
+                hide(event.getPlayer());
+            }
         }
     }
 
     protected void showInternal(Player p) {
-        if (personalTtl.containsKey(p.getUniqueId())) {
+        if (personalTtlTasks.containsKey(p.getUniqueId()) && Bukkit.getScheduler().isCurrentlyRunning(personalTtlTasks.get(p.getUniqueId()).getTaskId())) {
             show(p);
             return;
         }
+
         if (timeToLive instanceof PersonalGeneralElement && ((PersonalGeneralElement<Long>) timeToLive).getRaw(p) > 0) {
-            personalTtl.put(p.getUniqueId(), new BukkitRunnable() {
+            personalTtlTasks.put(p.getUniqueId(), new BukkitRunnable() {
                 @Override
                 public void run() {
                     hideInternal(p);
                 }
             }.runTaskLater(CrispyCommons.getPlugin(), ((PersonalGeneralElement<Long>) timeToLive).getRaw(p)));
         }
+
         if (currentlyDisplaying.isEmpty())
             prepareShow();
         currentlyDisplaying.add(p.getUniqueId());
@@ -92,15 +99,14 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
     }
 
     protected void hideInternal(Player p) {
-        if (personalTtl.containsKey(p.getUniqueId())) {
-            personalTtl.get(p.getUniqueId()).cancel();
-            personalTtl.remove(p.getUniqueId());
+        if (personalTtlTasks.containsKey(p.getUniqueId()) && Bukkit.getScheduler().isCurrentlyRunning(personalTtlTasks.get(p.getUniqueId()).getTaskId())) {
+            personalTtlTasks.get(p.getUniqueId()).cancel();
         }
+
         currentlyDisplaying.remove(p.getUniqueId());
         if (currentlyDisplaying.isEmpty())
             prepareHide();
-        else
-            hide(p);
+        hide(p);
     }
 
     @Override
@@ -115,7 +121,7 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
         isDisplayed = true;
 
         if (timeToLive instanceof GlobalGeneralElement && ((GlobalGeneralElement<Long>) timeToLive).getRaw() > 0)
-            new BukkitRunnable() {
+            globalTtlTask = new BukkitRunnable() {
                 @Override
                 public void run() {
                     hide();
@@ -131,6 +137,9 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
     public void hide() {
         if (!isDisplayed) return;
         isDisplayed = false;
+
+        if (Bukkit.getScheduler().isCurrentlyRunning(globalTtlTask.getTaskId()))
+            globalTtlTask.cancel();
 
         if (onlineReceivers > 0)
             prepareHide();
@@ -164,12 +173,12 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
 
         receivers.add(player.getUniqueId());
         if (player.isOnline()) {
-            if (isDisplayed)
-                showInternal(player.getPlayer());
-
             ++onlineReceivers;
-            if (onlineReceivers == 1)
-                prepareShow();
+            if (isDisplayed) {
+                if (onlineReceivers == 1)
+                    prepareShow();
+                showInternal(player.getPlayer());
+            }
         }
     }
 
@@ -178,12 +187,12 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
         if (!receivers.contains(player.getUniqueId())) return;
 
         if (player.isOnline()) {
-            if (isDisplayed)
-                hideInternal(player.getPlayer());
-
             --onlineReceivers;
-            if (onlineReceivers == 0)
-                prepareHide();
+            if (isDisplayed) {
+                if (onlineReceivers == 0)
+                    prepareHide();
+                hideInternal(player.getPlayer());
+            }
         }
         receivers.remove(player.getUniqueId());
     }
@@ -218,6 +227,21 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
 
     protected T getData() {
         return data;
+    }
+
+    private boolean shouldDisplay(Player p) {
+        boolean isGlobal =  timeToLive instanceof GlobalGeneralElement
+                && ((GlobalGeneralElement<Long>) timeToLive).getRaw() > 0
+                && globalTtlTask != null
+                && Bukkit.getScheduler().isCurrentlyRunning(globalTtlTask.getTaskId());
+        boolean isPersonal =  timeToLive instanceof PersonalGeneralElement
+                && ((PersonalGeneralElement<Long>) timeToLive).getRaw(p) > 0
+                && personalTtlTasks.containsKey(p.getUniqueId())
+                && Bukkit.getScheduler().isCurrentlyRunning(personalTtlTasks.get(p.getUniqueId()).getTaskId());
+        boolean isInfinite = timeToLive instanceof GlobalGeneralElement
+                && ((GlobalGeneralElement<Long>) timeToLive).getRaw() == -1;
+
+        return isGlobal || isPersonal || isInfinite;
     }
 
     public enum UpdateMode {
