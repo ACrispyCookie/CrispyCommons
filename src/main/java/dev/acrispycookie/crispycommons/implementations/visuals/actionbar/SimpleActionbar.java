@@ -2,7 +2,10 @@ package dev.acrispycookie.crispycommons.implementations.visuals.actionbar;
 
 import dev.acrispycookie.crispycommons.CrispyCommons;
 import dev.acrispycookie.crispycommons.implementations.visuals.actionbar.wrappers.ActionbarData;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalTextElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.personal.types.PersonalTextElement;
 import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.text.Component;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
@@ -16,8 +19,11 @@ public class SimpleActionbar extends AbstractActionbar {
 
     @Override
     protected void show(Player p) {
+        Component text = data.getText() instanceof PersonalTextElement ?
+                ((PersonalTextElement) data.getText()).getRaw(p) :
+                ((GlobalTextElement) data.getText()).getRaw();
         Audience audience = CrispyCommons.getBukkitAudiences().player(p);
-        audience.sendActionBar(data.getText().getRaw());
+        audience.sendActionBar(text);
     }
 
     @Override

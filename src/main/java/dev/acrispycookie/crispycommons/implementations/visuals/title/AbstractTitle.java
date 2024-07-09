@@ -1,6 +1,7 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.title;
 
 import dev.acrispycookie.crispycommons.api.visuals.title.CrispyTitle;
+import dev.acrispycookie.crispycommons.api.wrappers.elements.types.TextElement;
 import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.visual.AbstractVisual;
 import dev.acrispycookie.crispycommons.implementations.visuals.title.wrappers.TitleData;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalTextElement;
@@ -30,12 +31,12 @@ public abstract class AbstractTitle extends AbstractVisual<TitleData> implements
     }
 
     @Override
-    public void setTitle(GlobalTextElement text) {
+    public void setTitle(TextElement text) {
         this.data.setTitle(text);
     }
 
     @Override
-    public void setSubtitle(GlobalTextElement text) {
+    public void setSubtitle(TextElement text) {
         this.data.setSubtitle(text);
     }
 
@@ -50,12 +51,12 @@ public abstract class AbstractTitle extends AbstractVisual<TitleData> implements
     }
 
     @Override
-    public GlobalTextElement getTitle() {
+    public TextElement getTitle() {
         return this.data.getTitle();
     }
 
     @Override
-    public GlobalTextElement getSubtitle() {
+    public TextElement getSubtitle() {
         return this.data.getSubtitle();
     }
 

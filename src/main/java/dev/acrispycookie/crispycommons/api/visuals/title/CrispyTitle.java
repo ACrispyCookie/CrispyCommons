@@ -1,6 +1,7 @@
 package dev.acrispycookie.crispycommons.api.visuals.title;
 
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.CrispyVisual;
+import dev.acrispycookie.crispycommons.api.wrappers.elements.types.TextElement;
 import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.builder.AbstractVisualBuilder;
 import dev.acrispycookie.crispycommons.implementations.visuals.title.SimpleTitle;
 import dev.acrispycookie.crispycommons.implementations.visuals.title.UpdatingTitle;
@@ -15,12 +16,12 @@ public interface CrispyTitle extends CrispyVisual {
     static UpdatingTitleBuilder updatingBuilder() {
         return new UpdatingTitleBuilder();
     }
-    void setTitle(GlobalTextElement text);
-    void setSubtitle(GlobalTextElement text);
+    void setTitle(TextElement text);
+    void setSubtitle(TextElement text);
     void setFadeIn(int fadeIn);
     void setFadeOut(int fadeOut);
-    GlobalTextElement getTitle();
-    GlobalTextElement getSubtitle();
+    TextElement getTitle();
+    TextElement getSubtitle();
     int getFadeIn();
     int getFadeOut();
 
@@ -29,13 +30,13 @@ public interface CrispyTitle extends CrispyVisual {
         protected CrispyTitle title;
         protected final TitleData data = new TitleData(null, null, 0,0);
 
-        public TitleBuilder setTitle(GlobalTextElement text) {
+        public TitleBuilder setTitle(TextElement text) {
             text.setUpdate(() -> title.update());
             this.data.setTitle(text);
             return this;
         }
 
-        public TitleBuilder setSubtitle(GlobalTextElement text) {
+        public TitleBuilder setSubtitle(TextElement text) {
             text.setUpdate(() -> title.update());
             this.data.setSubtitle(text);
             return this;

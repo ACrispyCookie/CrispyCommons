@@ -6,23 +6,9 @@ import dev.acrispycookie.crispycommons.implementations.wrappers.elements.persona
 public interface CrispyElement<T> extends Cloneable {
     boolean isDynamic();
 
-    static int getMinimumPeriod(PersonalDynamicElement<?>... elements) {
+    static int getMinimumPeriod(DynamicElement<?>... elements) {
         int period = -1;
-        for (PersonalDynamicElement<?> element : elements) {
-            if (element == null || !element.isDynamic())
-                continue;
-            if (period == -1) {
-                period = element.getPeriod();
-                continue;
-            }
-            period = Math.min(period, element.getPeriod());
-        }
-        return period;
-    }
-
-    static int getMinimumPeriod(GlobalDynamicElement<?>... elements) {
-        int period = -1;
-        for (GlobalDynamicElement<?> element : elements) {
+        for (DynamicElement<?> element : elements) {
             if (element == null || !element.isDynamic())
                 continue;
             if (period == -1) {

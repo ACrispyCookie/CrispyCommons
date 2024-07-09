@@ -19,11 +19,6 @@ public abstract class PersonalAbstractElement<T> implements PersonalElement<T> {
     }
 
     @Override
-    public Map<OfflinePlayer, T> getAllPlayers() {
-        return elements;
-    }
-
-    @Override
     public boolean isDynamic() {
         return false;
     }

@@ -1,21 +1,21 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.actionbar.wrappers;
 
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.VisualData;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalTextElement;
+import dev.acrispycookie.crispycommons.api.wrappers.elements.types.TextElement;
 
 public class ActionbarData implements VisualData {
 
-    private GlobalTextElement text;
+    private TextElement text;
 
-    public ActionbarData(GlobalTextElement text) {
+    public ActionbarData(TextElement text) {
         this.text = text;
     }
 
-    public GlobalTextElement getText() {
+    public TextElement getText() {
         return text;
     }
 
-    public void setText(GlobalTextElement text) {
+    public void setText(TextElement text) {
         this.text = text;
     }
 
