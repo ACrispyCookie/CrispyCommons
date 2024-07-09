@@ -1,6 +1,8 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.particle;
 
 import dev.acrispycookie.crispycommons.implementations.visuals.particle.wrappers.ParticleData;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalParticleElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.personal.types.PersonalParticleElement;
 import dev.acrispycookie.crispycommons.implementations.wrappers.particle.ColoredEffect;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -15,7 +17,9 @@ public class ColoredParticle extends AbstractParticle<ColoredEffect> {
 
     @Override
     protected void show(Player player) {
-        ColoredEffect effect = data.getElement().getRaw();
+        ColoredEffect effect = data.getElement() instanceof PersonalParticleElement<?> ?
+                ((GlobalParticleElement<ColoredEffect>) data.getElement()).getRaw() :
+                ((PersonalParticleElement<ColoredEffect>) data.getElement()).getRaw(player);
         player.spigot().playEffect(effect.getLocation(), effect.getEffect(), 0, 1, effect.getNormalisedRed(), effect.getNormalisedGreen(), effect.getNormalisedBlue(),
                 1, 0, 160);
     }

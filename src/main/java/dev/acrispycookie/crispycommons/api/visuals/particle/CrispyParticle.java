@@ -1,6 +1,7 @@
 package dev.acrispycookie.crispycommons.api.visuals.particle;
 
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.CrispyVisual;
+import dev.acrispycookie.crispycommons.api.wrappers.elements.types.ParticleElement;
 import dev.acrispycookie.crispycommons.api.wrappers.particle.Effect;
 import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.builder.AbstractVisualBuilder;
 import dev.acrispycookie.crispycommons.implementations.visuals.particle.ColoredParticle;
@@ -23,14 +24,14 @@ public interface CrispyParticle<T extends Effect> extends CrispyVisual {
     static RenderedParticleBuilder renderedBuilder() {
         return new RenderedParticleBuilder();
     }
-    void setElement(GlobalParticleElement<T> element);
-    GlobalParticleElement<T> getElement();
+    void setElement(ParticleElement<T> element);
+    ParticleElement<T> getElement();
 
     abstract class ParticleBuilder<T extends Effect> extends AbstractVisualBuilder<CrispyParticle<?>> {
 
         protected final ParticleData<T> data = new ParticleData<>(null);
 
-        public ParticleBuilder<T> setParticle(GlobalParticleElement<T> element) {
+        public ParticleBuilder<T> setParticle(ParticleElement<T> element) {
             data.setElement(element);
             this.data.getElement().setUpdate(() -> toBuild.update());
             return this;
