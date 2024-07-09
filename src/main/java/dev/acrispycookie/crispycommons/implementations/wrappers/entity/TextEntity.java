@@ -28,7 +28,7 @@ public class TextEntity extends ClickableEntity<dev.acrispycookie.crispycommons.
 
     @Override
     public void spawn(Location location, Player player) {
-        Component elementValue = element instanceof TextElement ? ((GlobalTextElement) element).getRaw() : ((PersonalTextElement) element).getRaw(player);
+        Component elementValue = element instanceof GlobalTextElement ? ((GlobalTextElement) element).getRaw() : ((PersonalTextElement) element).getRaw(player);
         String text = LegacyComponentSerializer.legacyAmpersand().serialize(
                 elementValue == null ? Component.text("") : elementValue
         );
