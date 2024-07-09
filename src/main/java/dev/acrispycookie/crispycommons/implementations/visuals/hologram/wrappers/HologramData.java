@@ -2,6 +2,7 @@ package dev.acrispycookie.crispycommons.implementations.visuals.hologram.wrapper
 
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.VisualData;
 import dev.acrispycookie.crispycommons.api.wrappers.elements.DynamicElement;
+import dev.acrispycookie.crispycommons.api.wrappers.elements.types.GeneralElement;
 import org.bukkit.Location;
 
 import java.util.ArrayList;
@@ -11,9 +12,9 @@ import java.util.List;
 public class HologramData implements VisualData {
 
     private final List<DynamicElement<?>> lines;
-    private Location location;
+    private GeneralElement<Location> location;
 
-    public HologramData(Collection<? extends DynamicElement<?>> lines, Location location) {
+    public HologramData(Collection<? extends DynamicElement<?>> lines, GeneralElement<Location> location) {
         this.lines = new ArrayList<>(lines);
         this.location = location;
     }
@@ -35,11 +36,11 @@ public class HologramData implements VisualData {
         this.lines.add(index, element);
     }
 
-    public Location getLocation() {
+    public GeneralElement<Location> getLocation() {
         return location;
     }
 
-    public void setLocation(Location location) {
+    public void setLocation(GeneralElement<Location> location) {
         this.location = location;
     }
 
