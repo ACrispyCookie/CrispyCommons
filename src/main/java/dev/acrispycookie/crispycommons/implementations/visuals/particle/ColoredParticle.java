@@ -21,7 +21,7 @@ public class ColoredParticle extends AbstractParticle<ColoredEffect> {
         ColoredEffect effect = data.getElement() instanceof GlobalParticleElement<?> ?
                 ((GlobalParticleElement<ColoredEffect>) data.getElement()).getRaw() :
                 ((PersonalParticleElement<ColoredEffect>) data.getElement()).getRaw(player);
-        player.spigot().playEffect(effect.getLocation(), effect.getEffect(), 0, 1, effect.getNormalisedRed(), effect.getNormalisedGreen(), effect.getNormalisedBlue(),
+        player.spigot().playEffect(getLocation(player), effect.getEffect(), 0, 1, effect.getNormalisedRed(), effect.getNormalisedGreen(), effect.getNormalisedBlue(),
                 1, 0, 160);
     }
 
@@ -39,4 +39,6 @@ public class ColoredParticle extends AbstractParticle<ColoredEffect> {
     protected void globalUpdate() {
 
     }
+
+
 }

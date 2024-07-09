@@ -1,44 +1,49 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.bossbar.wrappers;
 
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.VisualData;
+import dev.acrispycookie.crispycommons.api.wrappers.elements.types.GeneralElement;
 import dev.acrispycookie.crispycommons.api.wrappers.elements.types.TextElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalGeneralElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalTextElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.personal.types.PersonalGeneralElement;
 import net.kyori.adventure.bossbar.BossBar;
+import org.bukkit.entity.Player;
 
 public class BossbarData implements VisualData {
 
-    private float progress;
-    private BossBar.Color color;
-    private BossBar.Overlay overlay;
+    private GeneralElement<Float> progress;
+    private GeneralElement<BossBar.Color> color;
+    private GeneralElement<BossBar.Overlay> overlay;
     private TextElement text;
 
-    public BossbarData(float progress, BossBar.Color color, BossBar.Overlay overlay, TextElement text) {
+    public BossbarData(GeneralElement<Float> progress, GeneralElement<BossBar.Color> color, GeneralElement<BossBar.Overlay> overlay, TextElement text) {
         this.progress = progress;
         this.color = color;
         this.overlay = overlay;
         this.text = text;
     }
 
-    public float getProgress() {
+    public GeneralElement<Float> getProgress() {
         return progress;
     }
 
-    public void setProgress(float progress) {
+    public void setProgress(GeneralElement<Float> progress) {
         this.progress = progress;
     }
 
-    public BossBar.Color getColor() {
+    public GeneralElement<BossBar.Color> getColor() {
         return color;
     }
 
-    public void setColor(BossBar.Color color) {
+    public void setColor(GeneralElement<BossBar.Color> color) {
         this.color = color;
     }
 
-    public BossBar.Overlay getOverlay() {
+    public GeneralElement<BossBar.Overlay> getOverlay() {
         return overlay;
     }
 
-    public void setOverlay(BossBar.Overlay overlay) {
+    public void setOverlay(GeneralElement<BossBar.Overlay> overlay) {
         this.overlay = overlay;
     }
 
@@ -51,14 +56,21 @@ public class BossbarData implements VisualData {
     }
 
     @Override
-    public void assertReady() {
+    public void assertReady(Player player) {
         if (text == null)
             throw new VisualNotReadyException("The bossbar text was not set!");
         if (color == null)
             throw new VisualNotReadyException("The bossbar color was not set!");
         if (overlay == null)
             throw new VisualNotReadyException("The bossbar overlay was not set!");
-        if (progress < 0 || progress > 1)
+        if (progressCheck(player))
             throw new VisualNotReadyException("The bossbar progress must be between 0 and 1!");
+    }
+
+    private boolean progressCheck(Player player) {
+        return progress instanceof GlobalGeneralElement &&
+                (((GlobalGeneralElement<Float>) progress).getRaw() < 0 || ((GlobalGeneralElement<Float>) progress).getRaw() > 1) ||
+                progress instanceof PersonalGeneralElement &&
+                (((PersonalGeneralElement<Float>) progress).getRaw(player) < 0 || ((PersonalGeneralElement<Float>) progress).getRaw(player) > 1);
     }
 }

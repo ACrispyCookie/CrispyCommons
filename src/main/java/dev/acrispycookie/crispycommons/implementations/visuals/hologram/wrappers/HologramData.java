@@ -3,7 +3,10 @@ package dev.acrispycookie.crispycommons.implementations.visuals.hologram.wrapper
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.VisualData;
 import dev.acrispycookie.crispycommons.api.wrappers.elements.DynamicElement;
 import dev.acrispycookie.crispycommons.api.wrappers.elements.types.GeneralElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalGeneralElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.personal.types.PersonalGeneralElement;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -45,10 +48,11 @@ public class HologramData implements VisualData {
     }
 
     @Override
-    public void assertReady() {
+    public void assertReady(Player player) {
         if (lines.isEmpty())
             throw new VisualNotReadyException("The hologram's lines were not set!");
-        if (location == null)
+        if ((location instanceof GlobalGeneralElement && ((GlobalGeneralElement<Location>) location).getRaw() == null) ||
+                ((PersonalGeneralElement<Location>) location).getRaw(player) == null)
             throw new VisualNotReadyException("The hologram's location was not set!");
     }
 }

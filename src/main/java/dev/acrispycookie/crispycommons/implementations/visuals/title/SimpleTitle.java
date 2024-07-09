@@ -25,10 +25,17 @@ public class SimpleTitle extends AbstractTitle {
 
     @Override
     protected void show(Player p) {
-        long timeToLive = this.timeToLive instanceof GlobalGeneralElement ?
-                ((GlobalGeneralElement<Long>) this.timeToLive).getRaw() :
-                ((PersonalGeneralElement<Long>) this.timeToLive).getRaw(p);
-        showTitle(p, data.getFadeIn() * 50L, timeToLive * 50L, data.getFadeOut() * 50L);
+        Audience audience = CrispyCommons.getBukkitAudiences().player(p);
+        Title toSend = Title.title(
+                getTitle(p.getPlayer()),
+                getSubtitle(p.getPlayer()),
+                Title.Times.times(
+                    Duration.ofMillis(getFadeIn(p.getPlayer()) * 50L),
+                    Duration.ofMillis(getTTL(p.getPlayer()) * 50L),
+                    Duration.ofMillis(getFadeOut(p.getPlayer()) * 50L)
+                )
+        );
+        audience.showTitle(toSend);
     }
 
     @Override
@@ -44,18 +51,5 @@ public class SimpleTitle extends AbstractTitle {
     @Override
     protected void globalUpdate() {
 
-    }
-
-    private void showTitle(Player p, long fadeIn, long duration, long fadeOut) {
-        Audience audience = CrispyCommons.getBukkitAudiences().player(p);
-        Component title = data.getTitle() instanceof GlobalTextElement ?
-                ((GlobalTextElement) data.getTitle()).getRaw() :
-                ((PersonalTextElement) data.getTitle()).getRaw(p);
-        Component subtitle = data.getSubtitle() instanceof GlobalTextElement ?
-                ((GlobalTextElement) data.getSubtitle()).getRaw() :
-                ((PersonalTextElement) data.getSubtitle()).getRaw(p);
-        Title toSend = Title.title(title, subtitle,
-                Title.Times.times(Duration.ofMillis(fadeIn), Duration.ofMillis(duration), Duration.ofMillis(fadeOut)));
-        audience.showTitle(toSend);
     }
 }

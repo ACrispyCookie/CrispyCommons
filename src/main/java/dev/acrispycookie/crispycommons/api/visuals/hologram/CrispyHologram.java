@@ -28,19 +28,18 @@ public interface CrispyHologram extends CrispyVisual {
 
     class HologramBuilder extends AbstractVisualBuilder<CrispyHologram> {
 
-        SimpleHologram hologram;
         private final HologramData data = new HologramData(new ArrayList<>(), null);
         private boolean isPublic = false;
 
         public HologramBuilder setLocation(GeneralElement<Location> location) {
             this.data.setLocation(location);
-            location.setUpdate(() -> hologram.update());
+            location.setUpdate(() -> toBuild.update());
             return this;
         }
 
         public HologramBuilder addLine(DynamicElement<?> element) {
             this.data.getLines().add(element);
-            element.setUpdate(() -> hologram.update());
+            element.setUpdate(() -> toBuild.update());
             return this;
         }
 
@@ -51,12 +50,12 @@ public interface CrispyHologram extends CrispyVisual {
 
         public CrispyHologram build() {
             if(isPublic) {
-                hologram = new PublicHologram(data, receivers, timeToLive);
+                toBuild = new PublicHologram(data, receivers, timeToLive);
             } else {
-                hologram = new SimpleHologram(data, receivers, timeToLive);
+                toBuild = new SimpleHologram(data, receivers, timeToLive);
             }
 
-            return hologram;
+            return toBuild;
         }
     }
 }

@@ -2,6 +2,8 @@ package dev.acrispycookie.crispycommons.implementations.visuals.tablist.wrappers
 
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.VisualData;
 import dev.acrispycookie.crispycommons.api.wrappers.elements.types.TextElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.personal.types.PersonalTextElement;
+import org.bukkit.entity.Player;
 
 import java.util.List;
 
@@ -56,10 +58,10 @@ public class TablistData implements VisualData {
     }
 
     @Override
-    public void assertReady() {
-        if (header == null)
+    public void assertReady(Player player) {
+        if (header == null || (header instanceof PersonalTextElement && ((PersonalTextElement) header).getRaw(player) == null))
             throw new VisualNotReadyException("The tablist header was not set!");
-        if (footer == null)
+        if (footer == null || (footer instanceof PersonalTextElement && ((PersonalTextElement) footer).getRaw(player) == null))
             throw new VisualNotReadyException("The tablist footer was not set!");
     }
 }

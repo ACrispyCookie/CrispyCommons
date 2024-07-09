@@ -2,7 +2,6 @@ package dev.acrispycookie.crispycommons.implementations.wrappers.particle;
 
 import org.bukkit.Color;
 import org.bukkit.Effect;
-import org.bukkit.Location;
 
 public class ColoredEffect extends AbstractEffect {
 
@@ -10,19 +9,13 @@ public class ColoredEffect extends AbstractEffect {
     private float g = 0;
     private float b = 0;
 
-    public ColoredEffect(Location location) {
-        super(location);
-    }
-
-    public ColoredEffect(Location location, Color color) {
-        super(location);
+    public ColoredEffect(Color color) {
         this.r = (float) color.getRed() / 255;
         this.g = (float) color.getGreen() / 255;
         this.b = (float) color.getBlue() / 255;
     }
 
-    public ColoredEffect(Location location, int r, int b, int g) {
-        super(location);
+    public ColoredEffect(int r, int b, int g) {
         this.r = (float) r / 255;
         this.g = (float) g / 255;
         this.b = (float) b / 255;

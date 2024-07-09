@@ -26,19 +26,18 @@ public interface CrispyScoreboard extends CrispyVisual {
 
     class ScoreboardBuilder extends AbstractVisualBuilder<CrispyScoreboard> {
 
-        private CrispyScoreboard scoreboard;
         private final ScoreboardData data = new ScoreboardData(null, new ArrayList<>());
         private boolean isPublic = false;
 
         public ScoreboardBuilder setTitle(TextElement title) {
             this.data.setTitle(title);
-            title.setUpdate(() -> scoreboard.update());
+            title.setUpdate(() -> toBuild.update());
             return this;
         }
 
         public ScoreboardBuilder addTextLine(TextElement text) {
             this.data.addLine(text);
-            text.setUpdate(() -> scoreboard.update());
+            text.setUpdate(() -> toBuild.update());
             return this;
         }
 
@@ -49,12 +48,12 @@ public interface CrispyScoreboard extends CrispyVisual {
 
         public CrispyScoreboard build() {
             if(isPublic) {
-                scoreboard = new PublicScoreboard(data, receivers, timeToLive);
+                toBuild = new PublicScoreboard(data, receivers, timeToLive);
             } else {
-                scoreboard = new SimpleScoreboard(data, receivers, timeToLive);
+                toBuild = new SimpleScoreboard(data, receivers, timeToLive);
             }
 
-            return scoreboard;
+            return toBuild;
         }
 
 

@@ -21,25 +21,24 @@ public interface CrispyTablist extends CrispyVisual {
 
     class TablistBuilder extends AbstractVisualBuilder<CrispyTablist> {
 
-        private SimpleTablist tablist;
         private final TablistData data = new TablistData(new ArrayList<>(), new ArrayList<>());
 
         public TablistBuilder addHeaderLine(TextElement text) {
-            text.setUpdate(() -> tablist.update());
+            text.setUpdate(() -> toBuild.update());
             this.data.addHeaderLine(text);
             return this;
         }
 
         public TablistBuilder addFooterLine(TextElement text) {
-            text.setUpdate(() -> tablist.update());
+            text.setUpdate(() -> toBuild.update());
             this.data.addFooterLine(text);
             return this;
         }
 
         @Override
         public CrispyTablist build() {
-            tablist = new SimpleTablist(data, receivers, timeToLive);
-            return tablist;
+            toBuild = new SimpleTablist(data, receivers, timeToLive);
+            return toBuild;
         }
     }
 }

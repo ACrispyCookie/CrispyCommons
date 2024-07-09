@@ -6,7 +6,11 @@ import dev.acrispycookie.crispycommons.api.wrappers.elements.types.ParticleEleme
 import dev.acrispycookie.crispycommons.api.wrappers.particle.Effect;
 import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.visual.AbstractVisual;
 import dev.acrispycookie.crispycommons.implementations.visuals.particle.wrappers.ParticleData;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalGeneralElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.personal.types.PersonalGeneralElement;
+import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 
 import java.util.Set;
 
@@ -35,5 +39,21 @@ public abstract class AbstractParticle<T extends Effect> extends AbstractVisual<
     @Override
     public void setElement(ParticleElement<T> element) {
         data.setElement(element);
+    }
+
+    @Override
+    public GeneralElement<Location> getLocation() {
+        return data.getLocation();
+    }
+
+    @Override
+    public void setLocation(GeneralElement<Location> location) {
+        data.setLocation(location);
+    }
+
+    protected Location getLocation(Player player) {
+        return data.getLocation() instanceof GlobalGeneralElement ?
+                ((GlobalGeneralElement<Location>) data.getLocation()).getRaw() :
+                ((PersonalGeneralElement<Location>) data.getLocation()).getRaw(player);
     }
 }

@@ -3,7 +3,9 @@ package dev.acrispycookie.crispycommons.implementations.visuals.bossbar;
 import dev.acrispycookie.crispycommons.CrispyCommons;
 import dev.acrispycookie.crispycommons.api.wrappers.elements.types.GeneralElement;
 import dev.acrispycookie.crispycommons.implementations.visuals.bossbar.wrappers.BossbarData;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalGeneralElement;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalTextElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.personal.types.PersonalGeneralElement;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.personal.types.PersonalTextElement;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.bossbar.BossBar;
@@ -24,7 +26,7 @@ public class SimpleBossbar extends AbstractBossbar {
 
     @Override
     protected void show(Player p) {
-        bossBars.put(p, constructBar(p));
+        bossBars.put(p, BossBar.bossBar(getText(p), getProgress(p), getColor(p), getOverlay(p)));
         Audience audience = CrispyCommons.getBukkitAudiences().player(p);
         audience.showBossBar(bossBars.get(p));
     }
@@ -37,18 +39,34 @@ public class SimpleBossbar extends AbstractBossbar {
 
     @Override
     protected void perPlayerUpdate(Player p) {
-        Component text = data.getText() instanceof PersonalTextElement ?
-                ((PersonalTextElement) data.getText()).getRaw(p) :
-                ((GlobalTextElement) data.getText()).getRaw();
         BossBar bossBar = bossBars.get(p);
-        bossBar.name(text);
+        bossBar.name(getText(p));
+        bossBar.color(getColor(p));
+        bossBar.progress(getProgress(p));
+        bossBar.overlay(getOverlay(p));
     }
 
-    private BossBar constructBar(Player p) {
-        Component text = data.getText() instanceof PersonalTextElement ?
+    private Component getText(Player p) {
+        return data.getText() instanceof PersonalTextElement ?
                 ((PersonalTextElement) data.getText()).getRaw(p) :
                 ((GlobalTextElement) data.getText()).getRaw();
+    }
 
-        return BossBar.bossBar(text, data.getProgress(), data.getColor(), data.getOverlay());
+    private float getProgress(Player p) {
+        return data.getProgress() instanceof PersonalGeneralElement ?
+                ((PersonalGeneralElement<Float>) data.getProgress()).getRaw(p) :
+                ((GlobalGeneralElement<Float>) data.getProgress()).getRaw();
+    }
+
+    private BossBar.Color getColor(Player p) {
+        return data.getColor() instanceof PersonalGeneralElement ?
+                ((PersonalGeneralElement<BossBar.Color>) data.getColor()).getRaw(p) :
+                ((GlobalGeneralElement<BossBar.Color>) data.getColor()).getRaw();
+    }
+
+    private BossBar.Overlay getOverlay(Player p) {
+        return data.getOverlay() instanceof PersonalGeneralElement ?
+                ((PersonalGeneralElement<BossBar.Overlay>) data.getOverlay()).getRaw(p) :
+                ((GlobalGeneralElement<BossBar.Overlay>) data.getOverlay()).getRaw();
     }
 }

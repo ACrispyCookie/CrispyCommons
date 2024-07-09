@@ -21,7 +21,7 @@ public class SimpleParticle extends AbstractParticle<SimpleEffect> {
         SimpleEffect effect = data.getElement() instanceof GlobalParticleElement<?> ?
                 ((GlobalParticleElement<SimpleEffect>) data.getElement()).getRaw() :
                 ((PersonalParticleElement<SimpleEffect>) data.getElement()).getRaw(player);
-        player.spigot().playEffect(effect.getLocation(), effect.getEffect(), effect.getData(), effect.getData(), 0, 0, 0, 1, 100, 160);
+        player.spigot().playEffect(getLocation(player), effect.getEffect(), effect.getData(), effect.getData(), 0, 0, 0, 1, 100, 160);
     }
 
     @Override

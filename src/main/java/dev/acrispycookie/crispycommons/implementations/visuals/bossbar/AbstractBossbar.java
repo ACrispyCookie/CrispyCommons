@@ -37,17 +37,17 @@ public abstract class AbstractBossbar extends AbstractVisual<BossbarData> implem
     }
 
     @Override
-    public void setProgress(float progress) {
+    public void setProgress(GeneralElement<Float> progress) {
         data.setProgress(progress);
     }
 
     @Override
-    public void setColor(BossBar.Color color) {
+    public void setColor(GeneralElement<BossBar.Color> color) {
         data.setColor(color);
     }
 
     @Override
-    public void setOverlay(BossBar.Overlay overlay) {
+    public void setOverlay(GeneralElement<BossBar.Overlay> overlay) {
         data.setOverlay(overlay);
     }
 
@@ -57,17 +57,17 @@ public abstract class AbstractBossbar extends AbstractVisual<BossbarData> implem
     }
 
     @Override
-    public float getProgress() {
+    public GeneralElement<Float> getProgress() {
         return data.getProgress();
     }
 
     @Override
-    public BossBar.Color getColor() {
+    public GeneralElement<BossBar.Color> getColor() {
         return data.getColor();
     }
 
     @Override
-    public BossBar.Overlay getOverlay() {
+    public GeneralElement<BossBar.Overlay> getOverlay() {
         return data.getOverlay();
     }
 }

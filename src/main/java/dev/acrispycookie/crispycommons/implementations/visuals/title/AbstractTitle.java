@@ -5,7 +5,13 @@ import dev.acrispycookie.crispycommons.api.wrappers.elements.types.GeneralElemen
 import dev.acrispycookie.crispycommons.api.wrappers.elements.types.TextElement;
 import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.visual.AbstractVisual;
 import dev.acrispycookie.crispycommons.implementations.visuals.title.wrappers.TitleData;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalGeneralElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalTextElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.personal.types.PersonalGeneralElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.personal.types.PersonalTextElement;
+import net.kyori.adventure.text.Component;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 
 import java.util.Set;
 
@@ -38,12 +44,12 @@ public abstract class AbstractTitle extends AbstractVisual<TitleData> implements
     }
 
     @Override
-    public void setFadeIn(int fadeIn) {
+    public void setFadeIn(GeneralElement<Integer> fadeIn) {
         this.data.setFadeIn(fadeIn);
     }
 
     @Override
-    public void setFadeOut(int fadeOut) {
+    public void setFadeOut(GeneralElement<Integer> fadeOut) {
         this.data.setFadeOut(fadeOut);
     }
 
@@ -58,12 +64,42 @@ public abstract class AbstractTitle extends AbstractVisual<TitleData> implements
     }
 
     @Override
-    public int getFadeIn() {
+    public GeneralElement<Integer> getFadeIn() {
         return this.data.getFadeIn();
     }
 
     @Override
-    public int getFadeOut() {
+    public GeneralElement<Integer> getFadeOut() {
         return this.data.getFadeOut();
+    }
+
+    protected Component getTitle(Player player) {
+        return data.getTitle() instanceof GlobalTextElement ?
+                ((GlobalTextElement) data.getTitle()).getRaw() :
+                ((PersonalTextElement) data.getTitle()).getRaw(player);
+    }
+
+    protected Component getSubtitle(Player player) {
+        return data.getSubtitle() instanceof GlobalTextElement ?
+                ((GlobalTextElement) data.getSubtitle()).getRaw() :
+                ((PersonalTextElement) data.getSubtitle()).getRaw(player);
+    }
+
+    protected int getFadeIn(Player player) {
+        return data.getFadeIn() instanceof GlobalGeneralElement ?
+                ((GlobalGeneralElement<Integer>) data.getFadeIn()).getRaw() :
+                ((PersonalGeneralElement<Integer>) data.getFadeIn()).getRaw(player);
+    }
+
+    protected long getTTL(Player player) {
+        return timeToLive instanceof GlobalGeneralElement ?
+                ((GlobalGeneralElement<Long>) timeToLive).getRaw() :
+                ((PersonalGeneralElement<Long>) timeToLive).getRaw(player);
+    }
+
+    protected long getFadeOut(Player player) {
+        return data.getFadeOut() instanceof GlobalGeneralElement ?
+                ((GlobalGeneralElement<Integer>) data.getFadeOut()).getRaw() :
+                ((PersonalGeneralElement<Integer>) data.getFadeOut()).getRaw(player);
     }
 }

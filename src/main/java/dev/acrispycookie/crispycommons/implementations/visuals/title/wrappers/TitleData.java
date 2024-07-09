@@ -2,17 +2,20 @@ package dev.acrispycookie.crispycommons.implementations.visuals.title.wrappers;
 
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.VisualData;
 import dev.acrispycookie.crispycommons.api.wrappers.elements.CrispyElement;
+import dev.acrispycookie.crispycommons.api.wrappers.elements.types.GeneralElement;
 import dev.acrispycookie.crispycommons.api.wrappers.elements.types.TextElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.personal.types.PersonalTextElement;
+import org.bukkit.entity.Player;
 
 public class TitleData implements VisualData {
 
     private TextElement title;
     private TextElement subtitle;
-    private int fadeIn;
-    private int fadeOut;
+    private GeneralElement<Integer> fadeIn;
+    private GeneralElement<Integer> fadeOut;
     private int smallestPeriod;
 
-    public TitleData(TextElement title, TextElement subtitle, int fadeIn, int fadeOut) {
+    public TitleData(TextElement title, TextElement subtitle, GeneralElement<Integer> fadeIn, GeneralElement<Integer> fadeOut) {
         this.title = title;
         this.subtitle = subtitle;
         this.fadeIn = fadeIn;
@@ -27,11 +30,11 @@ public class TitleData implements VisualData {
         return subtitle;
     }
 
-    public int getFadeIn() {
+    public GeneralElement<Integer> getFadeIn() {
         return fadeIn;
     }
 
-    public int getFadeOut() {
+    public GeneralElement<Integer> getFadeOut() {
         return fadeOut;
     }
 
@@ -45,11 +48,11 @@ public class TitleData implements VisualData {
         this.smallestPeriod = CrispyElement.getMinimumPeriod(title, subtitle);
     }
 
-    public void setFadeIn(int fadeIn) {
+    public void setFadeIn(GeneralElement<Integer> fadeIn) {
         this.fadeIn = fadeIn;
     }
 
-    public void setFadeOut(int fadeOut) {
+    public void setFadeOut(GeneralElement<Integer> fadeOut) {
         this.fadeOut = fadeOut;
     }
 
@@ -58,10 +61,10 @@ public class TitleData implements VisualData {
     }
 
     @Override
-    public void assertReady() {
-        if (title == null)
+    public void assertReady(Player player) {
+        if (title == null || (title instanceof PersonalTextElement && ((PersonalTextElement) title).getRaw(player) == null))
             throw new VisualNotReadyException("The title was not set!");
-        if (subtitle == null)
+        if (subtitle == null || (subtitle instanceof PersonalTextElement && ((PersonalTextElement) subtitle).getRaw(player) == null))
             throw new VisualNotReadyException("The subtitle was not set!");
         this.smallestPeriod = CrispyElement.getMinimumPeriod(title, subtitle);
     }

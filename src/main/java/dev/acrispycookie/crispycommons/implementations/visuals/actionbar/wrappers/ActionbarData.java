@@ -2,6 +2,8 @@ package dev.acrispycookie.crispycommons.implementations.visuals.actionbar.wrappe
 
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.VisualData;
 import dev.acrispycookie.crispycommons.api.wrappers.elements.types.TextElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.personal.types.PersonalTextElement;
+import org.bukkit.entity.Player;
 
 public class ActionbarData implements VisualData {
 
@@ -20,8 +22,8 @@ public class ActionbarData implements VisualData {
     }
 
     @Override
-    public void assertReady() {
-        if (text == null)
+    public void assertReady(Player p) {
+        if (text == null || (text instanceof PersonalTextElement && ((PersonalTextElement) text).getRaw(p) == null))
             throw new VisualNotReadyException("The actionbar text was not set!");
     }
 }

@@ -81,7 +81,7 @@ public class NameTagData implements VisualData {
     }
 
     @Override
-    public void assertReady() {
+    public void assertReady(Player player) {
         if (player == null)
             throw new VisualNotReadyException("The nametag player was not set!");
         if (prefix == null)

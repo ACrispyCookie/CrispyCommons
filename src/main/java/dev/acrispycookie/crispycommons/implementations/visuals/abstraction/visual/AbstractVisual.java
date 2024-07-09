@@ -112,12 +112,6 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
     @Override
     public void show() {
         if (isDisplayed) return;
-        try {
-            data.assertReady();
-        } catch (VisualData.VisualNotReadyException e) {
-            CrispyLogger.printException(CrispyCommons.getPlugin(), e, "This visual is not ready to be displayed!");
-            return;
-        }
         isDisplayed = true;
 
         if (timeToLive instanceof GlobalGeneralElement && ((GlobalGeneralElement<Long>) timeToLive).getRaw() > 0)
@@ -130,7 +124,14 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
 
         if (onlineReceivers > 0)
             prepareShow();
-        receivers.stream().map(Bukkit::getOfflinePlayer).filter(OfflinePlayer::isOnline).forEach(p -> showInternal(p.getPlayer()));
+        receivers.stream().map(Bukkit::getOfflinePlayer).filter(OfflinePlayer::isOnline).forEach(p -> {
+            try {
+                data.assertReady(p.getPlayer());
+                showInternal(p.getPlayer());
+            } catch (VisualData.VisualNotReadyException e) {
+                CrispyLogger.printException(CrispyCommons.getPlugin(), e, "This visual couldn't be displayed to the player: " + p.getName());
+            }
+        });
     }
 
     @Override

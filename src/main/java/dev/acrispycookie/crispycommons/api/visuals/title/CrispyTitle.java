@@ -1,11 +1,13 @@
 package dev.acrispycookie.crispycommons.api.visuals.title;
 
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.CrispyVisual;
+import dev.acrispycookie.crispycommons.api.wrappers.elements.types.GeneralElement;
 import dev.acrispycookie.crispycommons.api.wrappers.elements.types.TextElement;
 import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.builder.AbstractVisualBuilder;
 import dev.acrispycookie.crispycommons.implementations.visuals.title.SimpleTitle;
 import dev.acrispycookie.crispycommons.implementations.visuals.title.UpdatingTitle;
 import dev.acrispycookie.crispycommons.implementations.visuals.title.wrappers.TitleData;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalGeneralElement;
 
 
 public interface CrispyTitle extends CrispyVisual {
@@ -17,52 +19,53 @@ public interface CrispyTitle extends CrispyVisual {
     }
     void setTitle(TextElement text);
     void setSubtitle(TextElement text);
-    void setFadeIn(int fadeIn);
-    void setFadeOut(int fadeOut);
+    void setFadeIn(GeneralElement<Integer> fadeIn);
+    void setFadeOut(GeneralElement<Integer> fadeOut);
     TextElement getTitle();
     TextElement getSubtitle();
-    int getFadeIn();
-    int getFadeOut();
+    GeneralElement<Integer> getFadeIn();
+    GeneralElement<Integer> getFadeOut();
 
     abstract class TitleBuilder extends AbstractVisualBuilder<CrispyTitle> {
 
-        protected CrispyTitle title;
-        protected final TitleData data = new TitleData(null, null, 0,0);
+        protected final TitleData data = new TitleData(null, null, GlobalGeneralElement.simple(0),GlobalGeneralElement.simple(0));
 
         public TitleBuilder setTitle(TextElement text) {
-            text.setUpdate(() -> title.update());
+            text.setUpdate(() -> toBuild.update());
             this.data.setTitle(text);
             return this;
         }
 
         public TitleBuilder setSubtitle(TextElement text) {
-            text.setUpdate(() -> title.update());
+            text.setUpdate(() -> toBuild.update());
             this.data.setSubtitle(text);
             return this;
         }
 
-        public TitleBuilder setFadeIn(int fadeIn) {
+        public TitleBuilder setFadeIn(GeneralElement<Integer> fadeIn) {
             this.data.setFadeIn(fadeIn);
+            this.data.getFadeIn().setUpdate(() -> toBuild.update());
             return this;
         }
 
-        public TitleBuilder setFadeOut(int fadeOut) {
+        public TitleBuilder setFadeOut(GeneralElement<Integer> fadeOut) {
             this.data.setFadeOut(fadeOut);
+            this.data.getFadeOut().setUpdate(() -> toBuild.update());
             return this;
         }
     }
 
     class SimpleTitleBuilder extends TitleBuilder {
         public SimpleTitle build() {
-            this.title = new SimpleTitle(data, receivers, timeToLive);
-            return (SimpleTitle) title;
+            this.toBuild = new SimpleTitle(data, receivers, timeToLive);
+            return (SimpleTitle) toBuild;
         }
     }
 
     class UpdatingTitleBuilder extends TitleBuilder {
         public UpdatingTitle build() {
-            this.title = new UpdatingTitle(data, receivers, timeToLive);
-            return (UpdatingTitle) title;
+            this.toBuild = new UpdatingTitle(data, receivers, timeToLive);
+            return (UpdatingTitle) toBuild;
         }
     }
 }

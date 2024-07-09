@@ -2,6 +2,8 @@ package dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.wrapp
 
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.VisualData;
 import dev.acrispycookie.crispycommons.api.wrappers.elements.types.TextElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.personal.types.PersonalTextElement;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -46,8 +48,8 @@ public class ScoreboardData implements VisualData {
     }
 
     @Override
-    public void assertReady() {
-        if (title == null)
+    public void assertReady(Player player) {
+        if (title == null || (title instanceof PersonalTextElement && ((PersonalTextElement) title).getRaw(player) == null))
             throw new VisualNotReadyException("The scoreboard title was not set!");
         if (lines == null)
             throw new VisualNotReadyException("The scoreboard lines were not set!");
