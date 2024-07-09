@@ -1,9 +1,9 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.hologram;
 
 import dev.acrispycookie.crispycommons.api.visuals.hologram.CrispyHologram;
+import dev.acrispycookie.crispycommons.api.wrappers.elements.DynamicElement;
 import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.visual.AbstractVisual;
 import dev.acrispycookie.crispycommons.implementations.visuals.hologram.wrappers.HologramData;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.GlobalAnimatedElement;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 
@@ -20,17 +20,17 @@ public abstract class AbstractHologram extends AbstractVisual<HologramData> impl
 
     @Override
     protected void prepareShow() {
-        data.getLines().forEach(GlobalAnimatedElement::start);
+        data.getLines().forEach(DynamicElement::start);
     }
 
     @Override
     protected void prepareHide() {
-        data.getLines().forEach(GlobalAnimatedElement::stop);
+        data.getLines().forEach(DynamicElement::stop);
     }
 
 
     @Override
-    public void addLine(int index, GlobalAnimatedElement<?> line) {
+    public void addLine(int index, DynamicElement<?> line) {
         if (index > data.getLines().size())
             return;
 
@@ -38,7 +38,7 @@ public abstract class AbstractHologram extends AbstractVisual<HologramData> impl
     }
 
     @Override
-    public void addLine(GlobalAnimatedElement<?> line) {
+    public void addLine(DynamicElement<?> line) {
         addLine(data.getLines().size(), line);
     }
 
@@ -51,7 +51,7 @@ public abstract class AbstractHologram extends AbstractVisual<HologramData> impl
     }
 
     @Override
-    public void setLines(Collection<? extends GlobalAnimatedElement<?>> lines) {
+    public void setLines(Collection<? extends DynamicElement<?>> lines) {
         data.setLines(new ArrayList<>(lines));
     }
 
@@ -67,7 +67,7 @@ public abstract class AbstractHologram extends AbstractVisual<HologramData> impl
 
 
     @Override
-    public List<GlobalAnimatedElement<?>> getLines() {
+    public List<DynamicElement<?>> getLines() {
         return data.getLines();
     }
 }
