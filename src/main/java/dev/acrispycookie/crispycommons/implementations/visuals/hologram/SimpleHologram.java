@@ -26,6 +26,7 @@ public class SimpleHologram extends AbstractHologram {
     @Override
     protected void show(Player p) {
         List<EntityInfo> entities = constructHologram(data.getLines(), p);
+        this.entities.put(p, entities);
         entities.forEach((info) -> {
             Entity e = info.getEntity();
             e.spawn(getEntityLocation(e, info.getIndex()), p);
@@ -39,7 +40,7 @@ public class SimpleHologram extends AbstractHologram {
 
     @Override
     protected void perPlayerUpdate(Player p) {
-        constructHologram(data.getLines(), p).forEach((info) -> {
+        entities.get(p).forEach((info) -> {
             Entity e = info.getEntity();
             e.update(getEntityLocation(e, info.getIndex()), p);
         });
