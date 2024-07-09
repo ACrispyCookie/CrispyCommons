@@ -6,7 +6,6 @@ import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.visua
 import dev.acrispycookie.crispycommons.implementations.visuals.bossbar.wrappers.BossbarData;
 import net.kyori.adventure.bossbar.BossBar;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
 
 import java.util.Set;
 

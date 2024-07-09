@@ -1,7 +1,6 @@
 package dev.acrispycookie.crispycommons.implementations.wrappers.entity;
 
 import com.mysql.jdbc.StringUtils;
-import dev.acrispycookie.crispycommons.api.wrappers.elements.types.TextElement;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalTextElement;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.personal.types.PersonalTextElement;
 import net.kyori.adventure.text.Component;
@@ -64,7 +63,7 @@ public class TextEntity extends ClickableEntity<dev.acrispycookie.crispycommons.
     @Override
     public void update(Location location, Player player) {
         String content = LegacyComponentSerializer.legacyAmpersand().serialize(
-                element instanceof TextElement ? ((GlobalTextElement) element).getRaw() : ((PersonalTextElement) element).getRaw(player)
+                element instanceof GlobalTextElement ? ((GlobalTextElement) element).getRaw() : ((PersonalTextElement) element).getRaw(player)
         );
         String name = StringUtils.isEmptyOrWhitespaceOnly(content) ? " " : ChatColor.translateAlternateColorCodes('&', content);
 

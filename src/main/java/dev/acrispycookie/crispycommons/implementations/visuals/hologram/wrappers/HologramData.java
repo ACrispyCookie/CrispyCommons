@@ -45,7 +45,7 @@ public class HologramData implements VisualData {
 
     @Override
     public void assertReady() {
-        if (lines == null)
+        if (lines.isEmpty())
             throw new VisualNotReadyException("The hologram's lines were not set!");
         if (location == null)
             throw new VisualNotReadyException("The hologram's location was not set!");

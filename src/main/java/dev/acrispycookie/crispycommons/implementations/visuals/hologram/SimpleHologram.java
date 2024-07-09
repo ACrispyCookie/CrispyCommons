@@ -98,9 +98,9 @@ public class SimpleHologram extends AbstractHologram {
         return data.getLocation().clone().add(0, (index * entity.offsetPerLine()), 0);
     }
 
-    private class EntityInfo {
-        private int index;
-        private Entity entity;
+    private static class EntityInfo {
+        private final int index;
+        private final Entity entity;
 
         public EntityInfo(int index, Entity entity) {
             this.index = index;

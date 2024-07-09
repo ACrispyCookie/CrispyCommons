@@ -6,8 +6,6 @@ import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.personal.types.PersonalTextElement;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.bossbar.BossBar;
-import net.kyori.adventure.identity.Identity;
-import net.kyori.adventure.pointer.Pointer;
 import net.kyori.adventure.text.Component;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -17,7 +15,7 @@ import java.util.Set;
 
 public class SimpleBossbar extends AbstractBossbar {
 
-    private HashMap<OfflinePlayer, BossBar> bossBars = new HashMap<>();
+    private final HashMap<OfflinePlayer, BossBar> bossBars = new HashMap<>();
 
     public SimpleBossbar(BossbarData data, Set<? extends OfflinePlayer> receivers, long timeToLive) {
         super(data, receivers, timeToLive);

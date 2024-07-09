@@ -2,7 +2,6 @@ package dev.acrispycookie.crispycommons.implementations.visuals.title;
 
 import dev.acrispycookie.crispycommons.CrispyCommons;
 import dev.acrispycookie.crispycommons.implementations.visuals.title.wrappers.TitleData;
-import dev.acrispycookie.crispycommons.api.wrappers.elements.types.TextElement;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalTextElement;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.personal.types.PersonalTextElement;
 import net.kyori.adventure.audience.Audience;
@@ -42,10 +41,10 @@ public class UpdatingTitle extends AbstractTitle {
 
     private void showTitle(Player p, long fadeIn, long duration, long fadeOut) {
         Audience audience = CrispyCommons.getBukkitAudiences().player(p);
-        Component title = data.getTitle() instanceof TextElement ?
+        Component title = data.getTitle() instanceof GlobalTextElement ?
                 ((GlobalTextElement) data.getTitle()).getRaw() :
                 ((PersonalTextElement) data.getTitle()).getRaw(p);
-        Component subtitle = data.getSubtitle() instanceof TextElement ?
+        Component subtitle = data.getSubtitle() instanceof GlobalTextElement ?
                 ((GlobalTextElement) data.getSubtitle()).getRaw() :
                 ((PersonalTextElement) data.getSubtitle()).getRaw(p);
         Title toSend = Title.title(title, subtitle,

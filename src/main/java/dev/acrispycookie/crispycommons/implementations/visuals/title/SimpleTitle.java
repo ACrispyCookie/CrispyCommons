@@ -42,10 +42,10 @@ public class SimpleTitle extends AbstractTitle {
 
     private void showTitle(Player p, long fadeIn, long duration, long fadeOut) {
         Audience audience = CrispyCommons.getBukkitAudiences().player(p);
-        Component title = data.getTitle() instanceof TextElement ?
+        Component title = data.getTitle() instanceof GlobalTextElement ?
                 ((GlobalTextElement) data.getTitle()).getRaw() :
                 ((PersonalTextElement) data.getTitle()).getRaw(p);
-        Component subtitle = data.getSubtitle() instanceof TextElement ?
+        Component subtitle = data.getSubtitle() instanceof GlobalTextElement ?
                 ((GlobalTextElement) data.getSubtitle()).getRaw() :
                 ((PersonalTextElement) data.getSubtitle()).getRaw(p);
         Title toSend = Title.title(title, subtitle,

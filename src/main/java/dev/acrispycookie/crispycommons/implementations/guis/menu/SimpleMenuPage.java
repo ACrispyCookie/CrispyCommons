@@ -155,9 +155,7 @@ public abstract class SimpleMenuPage implements MenuPage {
     @Override
     public void onClose() {
         for (SectionInfo info : sections) {
-            cachedInventory.forEach((p, i) -> {
-                info.getSection().onClose(i);
-            });
+            cachedInventory.forEach((p, i) -> info.getSection().onClose(i));
         }
         this.cachedInventory.clear();
     }

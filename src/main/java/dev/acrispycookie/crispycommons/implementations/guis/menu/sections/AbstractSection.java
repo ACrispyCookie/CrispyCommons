@@ -26,9 +26,7 @@ public abstract class AbstractSection implements Section {
         if (item instanceof GlobalItemElement)
             inventories.forEach((info) -> info.getInventory().setItem(info.getPasteSlot(), ((GlobalItemElement) item).getRaw()));
         else
-            inventories.forEach((info) -> {
-                info.getInventory().setItem(info.getPasteSlot(), ((PersonalItemElement) item).getRaw(info.getPlayer()));
-            });
+            inventories.forEach((info) -> info.getInventory().setItem(info.getPasteSlot(), ((PersonalItemElement) item).getRaw(info.getPlayer())));
     }
 
     @Override
