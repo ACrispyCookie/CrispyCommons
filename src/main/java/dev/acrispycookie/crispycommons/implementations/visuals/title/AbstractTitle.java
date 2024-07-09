@@ -10,15 +10,12 @@ import java.util.Set;
 
 public abstract class AbstractTitle extends AbstractVisual<TitleData> implements CrispyTitle {
 
-    protected long timeStarted;
-
     AbstractTitle(TitleData data, Set<? extends OfflinePlayer> receivers, long timeToLive, UpdateMode updateMode) {
         super(data, receivers, timeToLive, updateMode);
     }
 
     @Override
     protected void prepareShow() {
-        timeStarted = System.currentTimeMillis();
         data.getTitle().start();
         data.getSubtitle().start();
     }

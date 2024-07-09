@@ -1,5 +1,6 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.scoreboard;
 
+import dev.acrispycookie.crispycommons.CrispyCommons;
 import dev.acrispycookie.crispycommons.api.visuals.scoreboard.CrispyScoreboard;
 import dev.acrispycookie.crispycommons.api.wrappers.elements.types.TextElement;
 import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.visual.AbstractVisual;

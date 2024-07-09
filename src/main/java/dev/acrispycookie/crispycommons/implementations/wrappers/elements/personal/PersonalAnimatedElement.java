@@ -5,26 +5,25 @@ import org.bukkit.OfflinePlayer;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.function.Function;
 
 public abstract class PersonalAnimatedElement<T> extends PersonalDynamicElement<T> {
 
-    private int frame;
+    private final HashMap<OfflinePlayer, Integer> currentFrames = new HashMap<>();
 
     protected PersonalAnimatedElement(Function<OfflinePlayer, Collection<? extends T>> supplier, int period, boolean async) {
         super((p) -> null, period, async);
-        this.frame = 0;
         this.supplier = (p) -> {
             ArrayList<T> playerFrames = new ArrayList<>(supplier.apply(p));
-            T frame = playerFrames.get(this.frame);
-            this.frame = this.frame + 1 >= playerFrames.size() ? 0 : this.frame + 1;
-            return frame;
+            int frame = currentFrames.getOrDefault(p, 0);
+            currentFrames.put(p, frame + 1 >= playerFrames.size() ? 0 : frame + 1);
+            return playerFrames.get(frame);
         };
     }
 
     protected PersonalAnimatedElement(TSupplier<T> supplier, int period, boolean async) {
         super(supplier.getFunction(), period, async);
-        this.frame = 0;
     }
 
 }

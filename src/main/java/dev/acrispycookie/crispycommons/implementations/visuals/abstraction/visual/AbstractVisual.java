@@ -25,6 +25,7 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
 
     private final Set<UUID> receivers = new HashSet<>();
     private final UpdateMode updateMode;
+    protected long onlineReceivers;
     protected T data;
     protected boolean isDisplayed = false;
     protected long timeToLive;
@@ -39,21 +40,30 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
         this.data = data;
         this.updateMode = mode;
         this.receivers.addAll(receivers.stream().map(OfflinePlayer::getUniqueId).collect(Collectors.toSet()));
+        onlineReceivers = this.receivers.stream().map(Bukkit::getOfflinePlayer).filter(OfflinePlayer::isOnline).count();
         this.timeToLive = timeToLive;
         Bukkit.getPluginManager().registerEvents(this, CrispyCommons.getPlugin());
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onJoin(PlayerJoinEvent event) {
-        if (isDisplayed && receivers.contains(event.getPlayer().getUniqueId())) {
-            show(event.getPlayer());
+        if (receivers.contains(event.getPlayer().getUniqueId())) {
+            if (isDisplayed)
+                show(event.getPlayer());
+            ++onlineReceivers;
+            if (onlineReceivers == 1)
+                prepareShow();
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onLeave(PlayerQuitEvent event) {
-        if (isDisplayed && receivers.contains(event.getPlayer().getUniqueId())) {
-            hide(event.getPlayer());
+        if (receivers.contains(event.getPlayer().getUniqueId())) {
+            if (isDisplayed)
+                hide(event.getPlayer());
+            --onlineReceivers;
+            if (onlineReceivers == 0)
+                prepareHide();
         }
     }
 
@@ -76,7 +86,8 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
             }
         }.runTaskLater(CrispyCommons.getPlugin(), timeToLive);
 
-        prepareShow();
+        if (onlineReceivers > 0)
+            prepareShow();
         receivers.stream().map(Bukkit::getOfflinePlayer).filter(OfflinePlayer::isOnline).forEach(p -> show(p.getPlayer()));
     }
 
@@ -85,7 +96,8 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
         if (!isDisplayed) return;
         isDisplayed = false;
 
-        prepareHide();
+        if (onlineReceivers > 0)
+            prepareHide();
         receivers.stream().map(Bukkit::getOfflinePlayer).filter(OfflinePlayer::isOnline).forEach(p -> hide(p.getPlayer()));
     }
 
@@ -115,8 +127,13 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
         if (receivers.contains(player.getUniqueId())) return;
 
         receivers.add(player.getUniqueId());
-        if (player.isOnline() && isDisplayed) {
-            show(player.getPlayer());
+        if (player.isOnline()) {
+            if (isDisplayed)
+                show(player.getPlayer());
+
+            ++onlineReceivers;
+            if (onlineReceivers == 1)
+                prepareShow();
         }
     }
 
@@ -124,8 +141,14 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
     public void removePlayer(OfflinePlayer player) {
         if (!receivers.contains(player.getUniqueId())) return;
 
-        if (player.isOnline() && isDisplayed)
-            hide(player.getPlayer());
+        if (player.isOnline()) {
+            if (isDisplayed)
+                hide(player.getPlayer());
+
+            --onlineReceivers;
+            if (onlineReceivers == 0)
+                prepareHide();
+        }
         receivers.remove(player.getUniqueId());
     }
 
