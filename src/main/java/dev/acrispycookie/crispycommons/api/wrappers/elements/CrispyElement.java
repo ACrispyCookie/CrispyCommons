@@ -1,8 +1,5 @@
 package dev.acrispycookie.crispycommons.api.wrappers.elements;
 
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.GlobalDynamicElement;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.personal.PersonalDynamicElement;
-
 public interface CrispyElement<T> extends Cloneable {
     boolean isDynamic();
 

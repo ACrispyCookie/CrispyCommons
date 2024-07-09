@@ -1,7 +1,10 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.scoreboard;
 
+import dev.acrispycookie.crispycommons.api.wrappers.elements.types.TextElement;
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.wrappers.ScoreboardData;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalTextElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.personal.types.PersonalTextElement;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -13,27 +16,23 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 
 public class SimpleScoreboard extends AbstractScoreboard {
 
-    private final Scoreboard bukkitScoreboard;
+    private final HashMap<OfflinePlayer, Scoreboard> scoreboards = new HashMap<>();
 
     public SimpleScoreboard(ScoreboardData data, Collection<? extends OfflinePlayer> receivers, long timeToLive) {
-        super(data, new HashSet<>(receivers), timeToLive, UpdateMode.GLOBAL);
-        this.bukkitScoreboard = getNewBoard();
-    }
-
-    @Override
-    protected void prepareShow() {
-        super.prepareShow();
-        initTitle();
-        initLines();
+        super(data, new HashSet<>(receivers), timeToLive, UpdateMode.PER_PLAYER);
     }
 
     @Override
     protected void show(Player p) {
-        p.setScoreboard(bukkitScoreboard);
+        scoreboards.put(p, getNewBoard());
+        initTitle(p);
+        initLines(p);
+        p.setScoreboard(scoreboards.get(p));
     }
 
     @Override
@@ -43,23 +42,27 @@ public class SimpleScoreboard extends AbstractScoreboard {
 
     @Override
     protected void perPlayerUpdate(Player p) {
-
+        initTitle(p);
+        for (int i = 0; i < data.getLines().size(); i++) {
+            updateLine(p, i);
+        }
     }
 
     @Override
     protected void globalUpdate() {
-        initTitle();
-        for (int i = 0; i < data.getLines().size(); i++) {
-            updateLine(i);
-        }
+
     }
 
-    private void showLine(int index) {
-        GlobalTextElement element = data.getLines().get(index);
+    private void showLine(Player player, int index) {
+        Scoreboard scoreboard = scoreboards.get(player);
+        TextElement element = data.getLines().get(index);
+        Component text = element instanceof GlobalTextElement ?
+                ((GlobalTextElement) element).getRaw() :
+                ((PersonalTextElement) element).getRaw(player);
+        Objective obj = scoreboard.getObjective("[CrispyCommons]");
+        Team team = scoreboard.getTeam(String.valueOf(index));
 
-        Objective obj = bukkitScoreboard.getObjective("[CrispyCommons]");
-        Team team = bukkitScoreboard.getTeam(String.valueOf(index));
-        String line = ChatColor.translateAlternateColorCodes('&', LegacyComponentSerializer.legacyAmpersand().serialize(element.getRaw()));
+        String line = ChatColor.translateAlternateColorCodes('&', LegacyComponentSerializer.legacyAmpersand().serialize(text));
         line = line.substring(0, Math.min(line.length(), 32));
         String teamEntry = team.getEntries().iterator().next();
         String prefix = getPrefix(line);
@@ -69,15 +72,20 @@ public class SimpleScoreboard extends AbstractScoreboard {
         obj.getScore(teamEntry).setScore(15 - index);
     }
 
-    private void hideLine(int index) {
+    private void hideLine(Player player, int index) {
 
     }
 
-    private void updateLine(int index) {
-        Objective obj = bukkitScoreboard.getObjective("[CrispyCommons]");
-        Team team = bukkitScoreboard.getTeam(String.valueOf(index));
+    private void updateLine(Player player, int index) {
+        Scoreboard scoreboard = scoreboards.get(player);
+        TextElement element = data.getLines().get(index);
+        Component text = element instanceof GlobalTextElement ?
+                ((GlobalTextElement) element).getRaw() :
+                ((PersonalTextElement) element).getRaw(player);
+        Objective obj = scoreboard.getObjective("[CrispyCommons]");
+        Team team = scoreboard.getTeam(String.valueOf(index));
 
-        String line = ChatColor.translateAlternateColorCodes('&', LegacyComponentSerializer.legacyAmpersand().serialize(data.getLines().get(index).getRaw()));
+        String line = ChatColor.translateAlternateColorCodes('&', LegacyComponentSerializer.legacyAmpersand().serialize(text));
         line = line.substring(0, Math.min(line.length(), 32));
         String teamEntry = team.getEntries().iterator().next();
         String prefix = getPrefix(line);
@@ -87,18 +95,26 @@ public class SimpleScoreboard extends AbstractScoreboard {
         obj.getScore(teamEntry).setScore(15 - index);
     }
 
-    private void initTitle() {
-        Objective obj = bukkitScoreboard.getObjective("[CrispyCommons]");
-        obj.setDisplayName(ChatColor.translateAlternateColorCodes('&', LegacyComponentSerializer.legacyAmpersand().serialize(data.getTitle().getRaw())));
+    private void initTitle(Player player) {
+        Objective obj = scoreboards.get(player).getObjective("[CrispyCommons]");
+        Component text = data.getTitle() instanceof GlobalTextElement ?
+                ((GlobalTextElement) data.getTitle()).getRaw() :
+                ((PersonalTextElement) data.getTitle()).getRaw(player);
+        obj.setDisplayName(ChatColor.translateAlternateColorCodes('&', LegacyComponentSerializer.legacyAmpersand().serialize(text)));
     }
 
-    private void initLines() {
+    private void initLines(Player player) {
+        Scoreboard scoreboard = scoreboards.get(player);
         for (int i = 0; i < data.getLines().size(); i++) {
-            Objective obj = bukkitScoreboard.getObjective("[CrispyCommons]");
+            Objective obj = scoreboard.getObjective("[CrispyCommons]");
 
-            String line = ChatColor.translateAlternateColorCodes('&', LegacyComponentSerializer.legacyAmpersand().serialize(data.getLines().get(i).getRaw()));
-            String teamEntry = getEntry(line, bukkitScoreboard);
-            Team team = bukkitScoreboard.registerNewTeam(String.valueOf(i));
+            TextElement element = data.getLines().get(i);
+            Component text = element instanceof GlobalTextElement ?
+                    ((GlobalTextElement) element).getRaw() :
+                    ((PersonalTextElement) element).getRaw(player);
+            String line = ChatColor.translateAlternateColorCodes('&', LegacyComponentSerializer.legacyAmpersand().serialize(text));
+            String teamEntry = getEntry(line, scoreboard);
+            Team team = scoreboard.registerNewTeam(String.valueOf(i));
             team.addEntry(teamEntry);
             team.setPrefix(getPrefix(line));
             team.setSuffix(getSuffix(line, teamEntry));

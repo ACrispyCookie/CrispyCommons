@@ -2,11 +2,8 @@ package dev.acrispycookie.crispycommons.implementations.visuals.hologram;
 
 import dev.acrispycookie.crispycommons.api.wrappers.elements.DynamicElement;
 import dev.acrispycookie.crispycommons.api.wrappers.elements.GlobalElement;
-import dev.acrispycookie.crispycommons.api.wrappers.elements.PersonalElement;
-import dev.acrispycookie.crispycommons.api.wrappers.elements.types.TextElement;
 import dev.acrispycookie.crispycommons.api.wrappers.entity.Entity;
 import dev.acrispycookie.crispycommons.implementations.visuals.hologram.wrappers.HologramData;
-import dev.acrispycookie.crispycommons.implementations.wrappers.entity.TextEntity;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;

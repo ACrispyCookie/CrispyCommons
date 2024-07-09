@@ -2,12 +2,15 @@ package dev.acrispycookie.crispycommons.implementations.visuals.tablist;
 
 import dev.acrispycookie.crispycommons.CrispyCommons;
 import dev.acrispycookie.crispycommons.implementations.visuals.tablist.wrappers.TablistData;
+import dev.acrispycookie.crispycommons.api.wrappers.elements.types.TextElement;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalTextElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.personal.types.PersonalTextElement;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
+import java.util.List;
 import java.util.Set;
 
 public class SimpleTablist extends AbstractTablist {
@@ -19,22 +22,8 @@ public class SimpleTablist extends AbstractTablist {
     @Override
     protected void show(Player p) {
         Audience audience = CrispyCommons.getBukkitAudiences().filter(cs -> (cs instanceof Player && getPlayers().contains(((Player) cs))));
-        Component header = Component.empty();
-        Component footer = Component.empty();
-        for (int i = 0; i < getHeader().size(); i++) {
-            GlobalTextElement t = getHeader().get(i);
-            header = header.append(t.getRaw());
-            if (i != getHeader().size() - 1) {
-                header = header.appendNewline();
-            }
-        }
-        for (int i = 0; i < getFooter().size(); i++) {
-            GlobalTextElement t = getFooter().get(i);
-            footer = footer.append(t.getRaw());
-            if (i != getFooter().size() - 1) {
-                footer = footer.appendNewline();
-            }
-        }
+        Component header = constructComponent(getHeader(), p);
+        Component footer = constructComponent(getFooter(), p);
         audience.sendPlayerListHeaderAndFooter(header, footer);
     }
 
@@ -54,5 +43,21 @@ public class SimpleTablist extends AbstractTablist {
     @Override
     protected void globalUpdate() {
 
+    }
+
+    private Component constructComponent(List<dev.acrispycookie.crispycommons.api.wrappers.elements.types.TextElement> elements, OfflinePlayer player) {
+        Component component = Component.empty();
+        for (int i = 0; i < elements.size(); i++) {
+            dev.acrispycookie.crispycommons.api.wrappers.elements.types.TextElement t = elements.get(i);
+            Component toAdd = t instanceof PersonalTextElement ? ((PersonalTextElement) t).getRaw(player) : ((GlobalTextElement) t).getRaw();
+            if (toAdd == null)
+                continue;
+            component = component.append(toAdd);
+            if (i != elements.size() - 1) {
+                component = component.appendNewline();
+            }
+        }
+
+        return component;
     }
 }

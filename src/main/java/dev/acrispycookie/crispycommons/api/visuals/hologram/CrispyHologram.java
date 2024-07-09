@@ -6,7 +6,6 @@ import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.build
 import dev.acrispycookie.crispycommons.implementations.visuals.hologram.PublicHologram;
 import dev.acrispycookie.crispycommons.implementations.visuals.hologram.SimpleHologram;
 import dev.acrispycookie.crispycommons.implementations.visuals.hologram.wrappers.HologramData;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.GlobalAnimatedElement;
 import org.bukkit.Location;
 
 import java.util.ArrayList;

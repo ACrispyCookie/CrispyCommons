@@ -1,7 +1,7 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.bossbar.wrappers;
 
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.VisualData;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalTextElement;
+import dev.acrispycookie.crispycommons.api.wrappers.elements.types.TextElement;
 import net.kyori.adventure.bossbar.BossBar;
 
 public class BossbarData implements VisualData {
@@ -9,10 +9,9 @@ public class BossbarData implements VisualData {
     private float progress;
     private BossBar.Color color;
     private BossBar.Overlay overlay;
-    private BossBar bossBar;
-    private GlobalTextElement text;
+    private TextElement text;
 
-    public BossbarData(float progress, BossBar.Color color, BossBar.Overlay overlay, GlobalTextElement text) {
+    public BossbarData(float progress, BossBar.Color color, BossBar.Overlay overlay, TextElement text) {
         this.progress = progress;
         this.color = color;
         this.overlay = overlay;
@@ -43,19 +42,11 @@ public class BossbarData implements VisualData {
         this.overlay = overlay;
     }
 
-    public BossBar getBossBar() {
-        return bossBar;
-    }
-
-    public void setBossBar(BossBar bossBar) {
-        this.bossBar = bossBar;
-    }
-
-    public GlobalTextElement getText() {
+    public TextElement getText() {
         return text;
     }
 
-    public void setText(GlobalTextElement text) {
+    public void setText(TextElement text) {
         this.text = text;
     }
 
@@ -69,7 +60,5 @@ public class BossbarData implements VisualData {
             throw new VisualNotReadyException("The bossbar overlay was not set!");
         if (progress < 0 || progress > 1)
             throw new VisualNotReadyException("The bossbar progress must be between 0 and 1!");
-
-        this.bossBar = BossBar.bossBar(text.getRaw(), progress, color, overlay);
     }
 }

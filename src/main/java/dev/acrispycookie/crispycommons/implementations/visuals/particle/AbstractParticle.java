@@ -5,7 +5,6 @@ import dev.acrispycookie.crispycommons.api.wrappers.elements.types.ParticleEleme
 import dev.acrispycookie.crispycommons.api.wrappers.particle.Effect;
 import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.visual.AbstractVisual;
 import dev.acrispycookie.crispycommons.implementations.visuals.particle.wrappers.ParticleData;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalParticleElement;
 import org.bukkit.OfflinePlayer;
 
 import java.util.Set;

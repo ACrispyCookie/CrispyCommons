@@ -7,7 +7,6 @@ import dev.acrispycookie.crispycommons.utility.elements.TSupplier;
 import org.bukkit.OfflinePlayer;
 
 import java.util.Collection;
-import java.util.Map;
 import java.util.function.Function;
 
 public abstract class PersonalParticleElement<T extends Effect> extends PersonalAnimatedElement<T> implements ParticleElement<T> {

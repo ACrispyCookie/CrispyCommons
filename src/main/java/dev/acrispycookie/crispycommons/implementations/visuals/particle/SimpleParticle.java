@@ -1,6 +1,5 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.particle;
 
-import dev.acrispycookie.crispycommons.api.wrappers.elements.PersonalElement;
 import dev.acrispycookie.crispycommons.implementations.visuals.particle.wrappers.ParticleData;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalParticleElement;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.personal.types.PersonalParticleElement;

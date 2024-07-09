@@ -8,7 +8,6 @@ import dev.acrispycookie.crispycommons.implementations.visuals.particle.ColoredP
 import dev.acrispycookie.crispycommons.implementations.visuals.particle.RenderedParticle;
 import dev.acrispycookie.crispycommons.implementations.visuals.particle.SimpleParticle;
 import dev.acrispycookie.crispycommons.implementations.visuals.particle.wrappers.ParticleData;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalParticleElement;
 import dev.acrispycookie.crispycommons.implementations.wrappers.particle.ColoredEffect;
 import dev.acrispycookie.crispycommons.implementations.wrappers.particle.RenderedEffect;
 import dev.acrispycookie.crispycommons.implementations.wrappers.particle.SimpleEffect;

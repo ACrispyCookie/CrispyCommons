@@ -2,9 +2,7 @@ package dev.acrispycookie.crispycommons.implementations.wrappers.entity;
 
 import com.mysql.jdbc.StringUtils;
 import dev.acrispycookie.crispycommons.api.wrappers.elements.types.TextElement;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalItemElement;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalTextElement;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.personal.types.PersonalItemElement;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.personal.types.PersonalTextElement;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
@@ -15,11 +13,11 @@ import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
-public class TextEntity extends ClickableEntity<TextElement> {
+public class TextEntity extends ClickableEntity<dev.acrispycookie.crispycommons.api.wrappers.elements.types.TextElement> {
 
     private EntityArmorStand as = null;
 
-    public TextEntity(TextElement element) {
+    public TextEntity(dev.acrispycookie.crispycommons.api.wrappers.elements.types.TextElement element) {
         super(element);
     }
 
@@ -30,7 +28,7 @@ public class TextEntity extends ClickableEntity<TextElement> {
 
     @Override
     public void spawn(Location location, Player player) {
-        Component elementValue = element instanceof GlobalTextElement ? ((GlobalTextElement) element).getRaw() : ((PersonalTextElement) element).getRaw(player);
+        Component elementValue = element instanceof TextElement ? ((GlobalTextElement) element).getRaw() : ((PersonalTextElement) element).getRaw(player);
         String text = LegacyComponentSerializer.legacyAmpersand().serialize(
                 elementValue == null ? Component.text("") : elementValue
         );
@@ -66,7 +64,7 @@ public class TextEntity extends ClickableEntity<TextElement> {
     @Override
     public void update(Location location, Player player) {
         String content = LegacyComponentSerializer.legacyAmpersand().serialize(
-                element instanceof GlobalTextElement ? ((GlobalTextElement) element).getRaw() : ((PersonalTextElement) element).getRaw(player)
+                element instanceof TextElement ? ((GlobalTextElement) element).getRaw() : ((PersonalTextElement) element).getRaw(player)
         );
         String name = StringUtils.isEmptyOrWhitespaceOnly(content) ? " " : ChatColor.translateAlternateColorCodes('&', content);
 

@@ -3,7 +3,6 @@ package dev.acrispycookie.crispycommons.implementations.guis.menu.items;
 import dev.acrispycookie.crispycommons.api.guis.menu.MenuItem;
 import dev.acrispycookie.crispycommons.api.wrappers.elements.types.ItemElement;
 import dev.acrispycookie.crispycommons.implementations.guis.menu.wrappers.MenuData;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalItemElement;
 import org.bukkit.entity.Player;
 
 import java.util.function.BiFunction;

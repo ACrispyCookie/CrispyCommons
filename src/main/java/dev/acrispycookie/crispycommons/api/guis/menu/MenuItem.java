@@ -4,7 +4,6 @@ import dev.acrispycookie.crispycommons.api.wrappers.elements.types.ItemElement;
 import dev.acrispycookie.crispycommons.implementations.guis.menu.items.LoadedItem;
 import dev.acrispycookie.crispycommons.implementations.guis.menu.items.LoadingItem;
 import dev.acrispycookie.crispycommons.implementations.guis.menu.wrappers.MenuData;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalItemElement;
 import org.bukkit.entity.Player;
 
 import java.util.function.BiFunction;

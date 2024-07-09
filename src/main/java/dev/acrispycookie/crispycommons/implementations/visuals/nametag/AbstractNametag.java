@@ -1,9 +1,9 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.nametag;
 
 import dev.acrispycookie.crispycommons.api.visuals.nametag.CrispyNametag;
+import dev.acrispycookie.crispycommons.api.wrappers.elements.types.TextElement;
 import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.visual.AbstractVisual;
 import dev.acrispycookie.crispycommons.implementations.visuals.nametag.wrappers.NameTagData;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalTextElement;
 import org.bukkit.OfflinePlayer;
 
 import java.util.Set;
@@ -31,42 +31,42 @@ public abstract class AbstractNametag extends AbstractVisual<NameTagData> implem
     }
 
     @Override
-    public void setPrefix(GlobalTextElement prefix) {
+    public void setPrefix(TextElement prefix) {
         data.setPrefix(prefix);
     }
 
     @Override
-    public void setSuffix(GlobalTextElement suffix) {
+    public void setSuffix(TextElement suffix) {
         data.setSuffix(suffix);
     }
 
     @Override
-    public void setBelowName(GlobalTextElement belowName) {
+    public void setBelowName(TextElement belowName) {
         data.setBelowName(belowName);
     }
 
     @Override
-    public void setAboveName(GlobalTextElement aboveName) {
+    public void setAboveName(TextElement aboveName) {
         data.setAboveName(aboveName);
     }
 
     @Override
-    public GlobalTextElement getPrefix() {
+    public TextElement getPrefix() {
         return data.getPrefix();
     }
 
     @Override
-    public GlobalTextElement getSuffix() {
+    public TextElement getSuffix() {
         return data.getSuffix();
     }
 
     @Override
-    public GlobalTextElement getBelowName() {
+    public TextElement getBelowName() {
         return data.getBelowName();
     }
 
     @Override
-    public GlobalTextElement getAboveName() {
+    public TextElement getAboveName() {
         return data.getAboveName();
     }
 }

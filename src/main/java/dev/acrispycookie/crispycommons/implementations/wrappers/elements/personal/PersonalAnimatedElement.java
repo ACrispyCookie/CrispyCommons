@@ -5,8 +5,6 @@ import org.bukkit.OfflinePlayer;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.function.Function;
 
 public abstract class PersonalAnimatedElement<T> extends PersonalDynamicElement<T> {
