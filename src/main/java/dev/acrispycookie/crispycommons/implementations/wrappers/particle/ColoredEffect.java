@@ -15,7 +15,7 @@ public class ColoredEffect extends AbstractEffect {
         this.b = (float) color.getBlue() / 255;
     }
 
-    public ColoredEffect(int r, int b, int g) {
+    public ColoredEffect(float r, float b, float g) {
         this.r = (float) r / 255;
         this.g = (float) g / 255;
         this.b = (float) b / 255;
