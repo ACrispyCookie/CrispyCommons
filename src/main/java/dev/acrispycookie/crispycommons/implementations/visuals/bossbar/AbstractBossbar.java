@@ -1,6 +1,7 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.bossbar;
 
 import dev.acrispycookie.crispycommons.api.visuals.bossbar.CrispyBossbar;
+import dev.acrispycookie.crispycommons.api.wrappers.elements.types.GeneralElement;
 import dev.acrispycookie.crispycommons.api.wrappers.elements.types.TextElement;
 import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.visual.AbstractVisual;
 import dev.acrispycookie.crispycommons.implementations.visuals.bossbar.wrappers.BossbarData;
@@ -11,7 +12,7 @@ import java.util.Set;
 
 public abstract class AbstractBossbar extends AbstractVisual<BossbarData> implements CrispyBossbar {
 
-    AbstractBossbar(BossbarData data, Set<? extends OfflinePlayer> receivers, long timeToLive) {
+    AbstractBossbar(BossbarData data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long> timeToLive) {
         super(data, receivers, timeToLive, UpdateMode.PER_PLAYER);
     }
 

@@ -2,6 +2,7 @@ package dev.acrispycookie.crispycommons.implementations.visuals.nametag;
 
 import com.mysql.jdbc.StringUtils;
 import dev.acrispycookie.crispycommons.api.visuals.hologram.CrispyHologram;
+import dev.acrispycookie.crispycommons.api.wrappers.elements.types.GeneralElement;
 import dev.acrispycookie.crispycommons.implementations.visuals.nametag.wrappers.NameTagData;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalTextElement;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.personal.types.PersonalTextElement;
@@ -21,7 +22,7 @@ public class SimpleNameTag extends AbstractNametag {
     private CrispyHologram aboveNameHologram;
     private CrispyHologram belowNameHologram;
 
-    public SimpleNameTag(NameTagData data, Set<? extends OfflinePlayer> receivers, long timeToLive) {
+    public SimpleNameTag(NameTagData data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long> timeToLive) {
         super(data, receivers, timeToLive, UpdateMode.PER_PLAYER);
         Bukkit.getOnlinePlayers().forEach(this::addPlayer);
         Component aboveName = null; // FIX

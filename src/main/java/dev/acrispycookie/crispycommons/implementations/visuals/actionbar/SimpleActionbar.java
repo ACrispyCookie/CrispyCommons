@@ -1,6 +1,7 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.actionbar;
 
 import dev.acrispycookie.crispycommons.CrispyCommons;
+import dev.acrispycookie.crispycommons.api.wrappers.elements.types.GeneralElement;
 import dev.acrispycookie.crispycommons.implementations.visuals.actionbar.wrappers.ActionbarData;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalTextElement;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.personal.types.PersonalTextElement;
@@ -13,7 +14,7 @@ import java.util.Set;
 
 public class SimpleActionbar extends AbstractActionbar {
 
-    public SimpleActionbar(ActionbarData data, Set<? extends OfflinePlayer> receivers, long timeToLive) {
+    public SimpleActionbar(ActionbarData data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long> timeToLive) {
         super(data, receivers, timeToLive, UpdateMode.PER_PLAYER);
     }
 

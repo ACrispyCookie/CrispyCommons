@@ -1,6 +1,7 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.bossbar;
 
 import dev.acrispycookie.crispycommons.CrispyCommons;
+import dev.acrispycookie.crispycommons.api.wrappers.elements.types.GeneralElement;
 import dev.acrispycookie.crispycommons.implementations.visuals.bossbar.wrappers.BossbarData;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalTextElement;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.personal.types.PersonalTextElement;
@@ -17,7 +18,7 @@ public class SimpleBossbar extends AbstractBossbar {
 
     private final HashMap<OfflinePlayer, BossBar> bossBars = new HashMap<>();
 
-    public SimpleBossbar(BossbarData data, Set<? extends OfflinePlayer> receivers, long timeToLive) {
+    public SimpleBossbar(BossbarData data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long> timeToLive) {
         super(data, receivers, timeToLive);
     }
 

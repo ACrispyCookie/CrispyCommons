@@ -1,6 +1,8 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.tablist;
 
 import dev.acrispycookie.crispycommons.CrispyCommons;
+import dev.acrispycookie.crispycommons.api.wrappers.elements.types.GeneralElement;
+import dev.acrispycookie.crispycommons.api.wrappers.elements.types.TextElement;
 import dev.acrispycookie.crispycommons.implementations.visuals.tablist.wrappers.TablistData;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalTextElement;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.personal.types.PersonalTextElement;
@@ -14,7 +16,7 @@ import java.util.Set;
 
 public class SimpleTablist extends AbstractTablist {
 
-    public SimpleTablist(TablistData data, Set<? extends OfflinePlayer> receivers, long timeToLive) {
+    public SimpleTablist(TablistData data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long> timeToLive) {
         super(data, receivers, timeToLive, UpdateMode.PER_PLAYER);
     }
 
@@ -44,10 +46,10 @@ public class SimpleTablist extends AbstractTablist {
 
     }
 
-    private Component constructComponent(List<dev.acrispycookie.crispycommons.api.wrappers.elements.types.TextElement> elements, OfflinePlayer player) {
+    private Component constructComponent(List<TextElement> elements, OfflinePlayer player) {
         Component component = Component.empty();
         for (int i = 0; i < elements.size(); i++) {
-            dev.acrispycookie.crispycommons.api.wrappers.elements.types.TextElement t = elements.get(i);
+            TextElement t = elements.get(i);
             Component toAdd = t instanceof PersonalTextElement ? ((PersonalTextElement) t).getRaw(player) : ((GlobalTextElement) t).getRaw();
             if (toAdd == null)
                 continue;

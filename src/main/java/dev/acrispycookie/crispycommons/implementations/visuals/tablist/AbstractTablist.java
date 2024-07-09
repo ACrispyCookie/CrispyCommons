@@ -1,6 +1,7 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.tablist;
 
 import dev.acrispycookie.crispycommons.api.visuals.tablist.CrispyTablist;
+import dev.acrispycookie.crispycommons.api.wrappers.elements.types.GeneralElement;
 import dev.acrispycookie.crispycommons.api.wrappers.elements.types.TextElement;
 import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.visual.AbstractVisual;
 import dev.acrispycookie.crispycommons.implementations.visuals.tablist.wrappers.TablistData;
@@ -16,7 +17,7 @@ public abstract class AbstractTablist extends AbstractVisual<TablistData> implem
     protected abstract void hide(Player p);
     protected abstract void perPlayerUpdate(Player p);
 
-    AbstractTablist(TablistData data, Set<? extends OfflinePlayer> receivers, long timeToLive, UpdateMode updateMode) {
+    AbstractTablist(TablistData data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long> timeToLive, UpdateMode updateMode) {
         super(data, receivers, timeToLive, updateMode);
     }
 

@@ -3,6 +3,9 @@ package dev.acrispycookie.crispycommons.implementations.visuals.abstraction.visu
 import dev.acrispycookie.crispycommons.CrispyCommons;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.CrispyVisual;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.VisualData;
+import dev.acrispycookie.crispycommons.api.wrappers.elements.types.GeneralElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalGeneralElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.personal.types.PersonalGeneralElement;
 import dev.acrispycookie.crispycommons.utility.logging.CrispyLogger;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -28,7 +31,7 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
     protected long onlineReceivers;
     protected T data;
     protected boolean isDisplayed = false;
-    protected long timeToLive;
+    protected GeneralElement<Long> timeToLive;
     protected abstract void prepareShow();
     protected abstract void prepareHide();
     protected abstract void globalUpdate();
@@ -36,7 +39,7 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
     protected abstract void hide(Player p);
     protected abstract void perPlayerUpdate(Player p);
 
-    public AbstractVisual(T data, Set<? extends OfflinePlayer> receivers, long timeToLive, UpdateMode mode) {
+    public AbstractVisual(T data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long> timeToLive, UpdateMode mode) {
         this.data = data;
         this.updateMode = mode;
         this.receivers.addAll(receivers.stream().map(OfflinePlayer::getUniqueId).collect(Collectors.toSet()));
@@ -49,7 +52,7 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
     public void onJoin(PlayerJoinEvent event) {
         if (receivers.contains(event.getPlayer().getUniqueId())) {
             if (isDisplayed)
-                show(event.getPlayer());
+                showInternal(event.getPlayer());
             ++onlineReceivers;
             if (onlineReceivers == 1)
                 prepareShow();
@@ -67,6 +70,17 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
         }
     }
 
+    protected void showInternal(Player p) {
+        if (timeToLive instanceof PersonalGeneralElement && ((PersonalGeneralElement<Long>) timeToLive).getRaw(p) > 0)
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    hide(p);
+                }
+            }.runTaskLater(CrispyCommons.getPlugin(), ((PersonalGeneralElement<Long>) timeToLive).getRaw(p));
+        show(p);
+    }
+
     @Override
     public void show() {
         if (isDisplayed) return;
@@ -78,17 +92,17 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
         }
         isDisplayed = true;
 
-        if (timeToLive > 0)
+        if (timeToLive instanceof GlobalGeneralElement && ((GlobalGeneralElement<Long>) timeToLive).getRaw() > 0)
             new BukkitRunnable() {
-            @Override
-            public void run() {
-                hide();
-            }
-        }.runTaskLater(CrispyCommons.getPlugin(), timeToLive);
+                @Override
+                public void run() {
+                    hide();
+                }
+            }.runTaskLater(CrispyCommons.getPlugin(), ((GlobalGeneralElement<Long>) timeToLive).getRaw());
 
         if (onlineReceivers > 0)
             prepareShow();
-        receivers.stream().map(Bukkit::getOfflinePlayer).filter(OfflinePlayer::isOnline).forEach(p -> show(p.getPlayer()));
+        receivers.stream().map(Bukkit::getOfflinePlayer).filter(OfflinePlayer::isOnline).forEach(p -> showInternal(p.getPlayer()));
     }
 
     @Override
@@ -129,7 +143,7 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
         receivers.add(player.getUniqueId());
         if (player.isOnline()) {
             if (isDisplayed)
-                show(player.getPlayer());
+                showInternal(player.getPlayer());
 
             ++onlineReceivers;
             if (onlineReceivers == 1)
@@ -166,12 +180,12 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
     }
 
     @Override
-    public void setTimeToLive(long timeToLive) {
+    public void setTimeToLive(GeneralElement<Long> timeToLive) {
         this.timeToLive = timeToLive;
     }
 
     @Override
-    public long getTimeToLive() {
+    public GeneralElement<Long> getTimeToLive() {
         return timeToLive;
     }
 

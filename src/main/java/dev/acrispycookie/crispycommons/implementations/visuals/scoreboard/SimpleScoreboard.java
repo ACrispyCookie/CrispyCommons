@@ -1,5 +1,6 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.scoreboard;
 
+import dev.acrispycookie.crispycommons.api.wrappers.elements.types.GeneralElement;
 import dev.acrispycookie.crispycommons.api.wrappers.elements.types.TextElement;
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.wrappers.ScoreboardData;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalTextElement;
@@ -23,7 +24,7 @@ public class SimpleScoreboard extends AbstractScoreboard {
 
     private final HashMap<OfflinePlayer, Scoreboard> scoreboards = new HashMap<>();
 
-    public SimpleScoreboard(ScoreboardData data, Collection<? extends OfflinePlayer> receivers, long timeToLive) {
+    public SimpleScoreboard(ScoreboardData data, Collection<? extends OfflinePlayer> receivers, GeneralElement<Long> timeToLive) {
         super(data, new HashSet<>(receivers), timeToLive, UpdateMode.PER_PLAYER);
     }
 

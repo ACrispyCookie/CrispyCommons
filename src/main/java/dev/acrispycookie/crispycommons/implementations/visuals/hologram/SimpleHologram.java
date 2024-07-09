@@ -3,6 +3,7 @@ package dev.acrispycookie.crispycommons.implementations.visuals.hologram;
 import dev.acrispycookie.crispycommons.api.wrappers.elements.DynamicElement;
 import dev.acrispycookie.crispycommons.api.wrappers.elements.GlobalElement;
 import dev.acrispycookie.crispycommons.api.wrappers.elements.PersonalElement;
+import dev.acrispycookie.crispycommons.api.wrappers.elements.types.GeneralElement;
 import dev.acrispycookie.crispycommons.api.wrappers.elements.types.TextElement;
 import dev.acrispycookie.crispycommons.api.wrappers.entity.Entity;
 import dev.acrispycookie.crispycommons.implementations.visuals.hologram.wrappers.HologramData;
@@ -19,7 +20,7 @@ public class SimpleHologram extends AbstractHologram {
 
     private final HashMap<OfflinePlayer, List<EntityInfo>> entities = new HashMap<>();
 
-    public SimpleHologram(HologramData data, Collection<? extends OfflinePlayer> receivers, long timeToLive) {
+    public SimpleHologram(HologramData data, Collection<? extends OfflinePlayer> receivers, GeneralElement<Long> timeToLive) {
         super(data, new HashSet<>(receivers), timeToLive, UpdateMode.PER_PLAYER);
     }
 

@@ -1,5 +1,6 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.particle;
 
+import dev.acrispycookie.crispycommons.api.wrappers.elements.types.GeneralElement;
 import dev.acrispycookie.crispycommons.implementations.visuals.particle.wrappers.ParticleData;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalParticleElement;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.personal.types.PersonalParticleElement;
@@ -11,7 +12,7 @@ import java.util.Set;
 
 public class ColoredParticle extends AbstractParticle<ColoredEffect> {
 
-    public ColoredParticle(ParticleData<ColoredEffect> data, Set<? extends OfflinePlayer> receivers, long timeToLive) {
+    public ColoredParticle(ParticleData<ColoredEffect> data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long> timeToLive) {
         super(data, receivers, timeToLive, UpdateMode.PER_PLAYER);
     }
 

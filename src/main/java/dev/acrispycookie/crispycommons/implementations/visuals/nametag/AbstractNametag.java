@@ -1,6 +1,7 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.nametag;
 
 import dev.acrispycookie.crispycommons.api.visuals.nametag.CrispyNametag;
+import dev.acrispycookie.crispycommons.api.wrappers.elements.types.GeneralElement;
 import dev.acrispycookie.crispycommons.api.wrappers.elements.types.TextElement;
 import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.visual.AbstractVisual;
 import dev.acrispycookie.crispycommons.implementations.visuals.nametag.wrappers.NameTagData;
@@ -10,7 +11,7 @@ import java.util.Set;
 
 public abstract class AbstractNametag extends AbstractVisual<NameTagData> implements CrispyNametag {
 
-    AbstractNametag(NameTagData data, Set<? extends OfflinePlayer> receivers, long timeToLive, UpdateMode updateMode) {
+    AbstractNametag(NameTagData data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long> timeToLive, UpdateMode updateMode) {
         super(data, receivers, timeToLive, updateMode);
     }
 

@@ -2,6 +2,7 @@ package dev.acrispycookie.crispycommons.implementations.visuals.scoreboard;
 
 import dev.acrispycookie.crispycommons.CrispyCommons;
 import dev.acrispycookie.crispycommons.api.visuals.scoreboard.CrispyScoreboard;
+import dev.acrispycookie.crispycommons.api.wrappers.elements.types.GeneralElement;
 import dev.acrispycookie.crispycommons.api.wrappers.elements.types.TextElement;
 import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.visual.AbstractVisual;
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.wrappers.ScoreboardData;
@@ -14,7 +15,7 @@ import java.util.Set;
 
 public abstract class AbstractScoreboard extends AbstractVisual<ScoreboardData> implements CrispyScoreboard {
 
-    AbstractScoreboard(ScoreboardData data, Set<? extends OfflinePlayer> receivers, long timeToLive, UpdateMode updateMode) {
+    AbstractScoreboard(ScoreboardData data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long> timeToLive, UpdateMode updateMode) {
         super(data, receivers, timeToLive, updateMode);
     }
 

@@ -1,5 +1,6 @@
 package dev.acrispycookie.crispycommons.api.visuals.abstraction.visual;
 
+import dev.acrispycookie.crispycommons.api.wrappers.elements.types.GeneralElement;
 import org.bukkit.OfflinePlayer;
 
 import java.util.Collection;
@@ -11,11 +12,11 @@ public interface CrispyVisual {
     void hide();
     void update();
     void destroy();
-    void setTimeToLive(long timeToLive);
+    void setTimeToLive(GeneralElement<Long> timeToLive);
     void addPlayer(OfflinePlayer player);
     void removePlayer(OfflinePlayer player);
     void setPlayers(Collection<? extends OfflinePlayer> players);
     Set<OfflinePlayer> getPlayers();
-    long getTimeToLive();
+    GeneralElement<Long> getTimeToLive();
     boolean isDisplayed();
 }

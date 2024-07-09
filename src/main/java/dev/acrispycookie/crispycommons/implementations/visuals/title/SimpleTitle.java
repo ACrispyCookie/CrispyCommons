@@ -1,9 +1,12 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.title;
 
 import dev.acrispycookie.crispycommons.CrispyCommons;
+import dev.acrispycookie.crispycommons.api.wrappers.elements.types.GeneralElement;
 import dev.acrispycookie.crispycommons.implementations.visuals.title.wrappers.TitleData;
 import dev.acrispycookie.crispycommons.api.wrappers.elements.types.TextElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalGeneralElement;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalTextElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.personal.types.PersonalGeneralElement;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.personal.types.PersonalTextElement;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
@@ -16,12 +19,15 @@ import java.util.Set;
 
 public class SimpleTitle extends AbstractTitle {
 
-    public SimpleTitle(TitleData data, Set<? extends OfflinePlayer> receivers, long timeToLive) {
+    public SimpleTitle(TitleData data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long> timeToLive) {
         super(data, receivers, timeToLive, UpdateMode.PER_PLAYER);
     }
 
     @Override
     protected void show(Player p) {
+        long timeToLive = this.timeToLive instanceof GlobalGeneralElement ?
+                ((GlobalGeneralElement<Long>) this.timeToLive).getRaw() :
+                ((PersonalGeneralElement<Long>) this.timeToLive).getRaw(p);
         showTitle(p, data.getFadeIn() * 50L, timeToLive * 50L, data.getFadeOut() * 50L);
     }
 

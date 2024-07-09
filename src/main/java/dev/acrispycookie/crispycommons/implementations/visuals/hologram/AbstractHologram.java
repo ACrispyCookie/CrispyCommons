@@ -2,6 +2,7 @@ package dev.acrispycookie.crispycommons.implementations.visuals.hologram;
 
 import dev.acrispycookie.crispycommons.api.visuals.hologram.CrispyHologram;
 import dev.acrispycookie.crispycommons.api.wrappers.elements.DynamicElement;
+import dev.acrispycookie.crispycommons.api.wrappers.elements.types.GeneralElement;
 import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.visual.AbstractVisual;
 import dev.acrispycookie.crispycommons.implementations.visuals.hologram.wrappers.HologramData;
 import org.bukkit.Location;
@@ -14,7 +15,7 @@ import java.util.Set;
 
 public abstract class AbstractHologram extends AbstractVisual<HologramData> implements CrispyHologram {
 
-    AbstractHologram(HologramData data, Set<? extends OfflinePlayer> receivers, long timeToLive, UpdateMode updateMode) {
+    AbstractHologram(HologramData data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long> timeToLive, UpdateMode updateMode) {
         super(data, receivers, timeToLive, updateMode);
     }
 

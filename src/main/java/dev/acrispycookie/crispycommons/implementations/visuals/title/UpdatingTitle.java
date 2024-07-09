@@ -1,6 +1,7 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.title;
 
 import dev.acrispycookie.crispycommons.CrispyCommons;
+import dev.acrispycookie.crispycommons.api.wrappers.elements.types.GeneralElement;
 import dev.acrispycookie.crispycommons.implementations.visuals.title.wrappers.TitleData;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalTextElement;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.personal.types.PersonalTextElement;
@@ -15,7 +16,7 @@ import java.util.Set;
 
 public class UpdatingTitle extends AbstractTitle {
 
-    public UpdatingTitle(TitleData data, Set<? extends OfflinePlayer> receivers, long timeToLive) {
+    public UpdatingTitle(TitleData data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long> timeToLive) {
         super(data, receivers, timeToLive, UpdateMode.PER_PLAYER);
     }
 
