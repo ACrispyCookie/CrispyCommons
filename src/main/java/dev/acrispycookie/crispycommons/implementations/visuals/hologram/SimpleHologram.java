@@ -2,8 +2,13 @@ package dev.acrispycookie.crispycommons.implementations.visuals.hologram;
 
 import dev.acrispycookie.crispycommons.api.wrappers.elements.DynamicElement;
 import dev.acrispycookie.crispycommons.api.wrappers.elements.GlobalElement;
+import dev.acrispycookie.crispycommons.api.wrappers.elements.PersonalElement;
+import dev.acrispycookie.crispycommons.api.wrappers.elements.types.TextElement;
 import dev.acrispycookie.crispycommons.api.wrappers.entity.Entity;
 import dev.acrispycookie.crispycommons.implementations.visuals.hologram.wrappers.HologramData;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalTextElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.personal.types.PersonalTextElement;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -11,81 +16,32 @@ import org.bukkit.entity.Player;
 import java.util.*;
 
 public class SimpleHologram extends AbstractHologram {
-    private final HashMap<OfflinePlayer, List<EntityInfo>> personalEntities = new HashMap<>();
-    private final List<EntityInfo> globalEntities = new ArrayList<>();
+
+    private final HashMap<OfflinePlayer, List<EntityInfo>> entities = new HashMap<>();
 
     public SimpleHologram(HologramData data, Collection<? extends OfflinePlayer> receivers, long timeToLive) {
         super(data, new HashSet<>(receivers), timeToLive, UpdateMode.PER_PLAYER);
     }
 
     @Override
-    public void prepareShow() {
-        initGlobalEntities();
-        super.prepareShow();
-    }
-
-    private void initGlobalEntities() {
-        for (int i = 0; i < data.getLines().size(); i++) {
-            DynamicElement<?> element = data.getLines().get(i);
-
-            if (element instanceof GlobalElement<?>) {
-                globalEntities.add(new EntityInfo(i, Entity.of(element)));
-            }
-        }
-    }
-
-    private List<EntityInfo> getPersonalEntities(Player p) {
-        List<EntityInfo> playerEntities = new ArrayList<>();
-        for (int i = 0; i < data.getLines().size(); i++) {
-            DynamicElement<?> element = data.getLines().get(i);
-
-            playerEntities.add(new EntityInfo(i, Entity.of(element)));
-        }
-        return playerEntities;
-    }
-
-    @Override
     protected void show(Player p) {
-        if (!personalEntities.containsKey(p))
-            personalEntities.put(p, getPersonalEntities(p));
-
-        globalEntities.forEach((global) -> {
-            Entity entity = global.getEntity();
-            entity.spawn(getEntityLocation(entity, global.getIndex()), p);
-        });
-        personalEntities.get(p).forEach((personal) -> {
-            Entity entity = personal.getEntity();
-            entity.spawn(getEntityLocation(entity, personal.getIndex()), p);
+        List<EntityInfo> entities = constructHologram(data.getLines(), p);
+        entities.forEach((info) -> {
+            Entity e = info.getEntity();
+            e.spawn(getEntityLocation(e, info.getIndex()), p);
         });
     }
 
     @Override
     protected void hide(Player p) {
-        globalEntities.forEach((global) -> {
-            Entity entity = global.getEntity();
-            entity.destroy(p);
-        });
-
-        if (!personalEntities.containsKey(p))
-            return;
-        personalEntities.get(p).forEach((personal) -> {
-            Entity entity = personal.getEntity();
-            entity.destroy(p);
-        });
+        entities.get(p).forEach((info) -> info.getEntity().destroy(p));
     }
 
     @Override
     protected void perPlayerUpdate(Player p) {
-        globalEntities.forEach((global) -> {
-            Entity entity = global.getEntity();
-            entity.update(getEntityLocation(entity, global.getIndex()), p);
-        });
-
-        if (!personalEntities.containsKey(p))
-            return;
-        personalEntities.get(p).forEach((personal) -> {
-            Entity entity = personal.getEntity();
-            entity.update(getEntityLocation(entity, personal.getIndex()), p);
+        constructHologram(data.getLines(), p).forEach((info) -> {
+            Entity e = info.getEntity();
+            e.update(getEntityLocation(e, info.getIndex()), p);
         });
     }
 
@@ -96,6 +52,19 @@ public class SimpleHologram extends AbstractHologram {
 
     private Location getEntityLocation(Entity entity, int index) {
         return data.getLocation().clone().add(0, (index * entity.offsetPerLine()), 0);
+    }
+
+    private List<EntityInfo> constructHologram(List<DynamicElement<?>> elements, OfflinePlayer player) {
+        List<EntityInfo> entities = new ArrayList<>();
+        for (int i = 0; i < elements.size(); i++) {
+            DynamicElement<?> t = elements.get(i);
+            Object toAdd = t instanceof PersonalElement<?> ? ((PersonalElement<?>) t).getRaw(player) : ((GlobalElement<?>) t).getRaw();
+            if (toAdd == null)
+                continue;
+            entities.add(new EntityInfo(i, Entity.of(t)));
+        }
+
+        return entities;
     }
 
     private static class EntityInfo {
