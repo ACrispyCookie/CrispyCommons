@@ -57,24 +57,12 @@ public abstract class AbstractTitle extends AbstractVisual<TitleData> implements
 
     @Override
     public void setFadeIn(GeneralElement<Integer> fadeIn) {
-        data.getFadeIn().stop();
         data.setFadeIn(fadeIn);
-        data.getFadeIn().setUpdate(this::update);
-        if (isDisplayed) {
-            data.getFadeIn().start();
-            update();
-        }
     }
 
     @Override
     public void setFadeOut(GeneralElement<Integer> fadeOut) {
-        data.getFadeOut().stop();
         data.setFadeOut(fadeOut);
-        data.getFadeOut().setUpdate(this::update);
-        if (isDisplayed) {
-            data.getFadeOut().start();
-            update();
-        }
     }
 
     @Override

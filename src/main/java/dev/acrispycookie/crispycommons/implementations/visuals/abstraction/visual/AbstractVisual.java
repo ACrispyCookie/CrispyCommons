@@ -42,7 +42,6 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
     protected abstract void show(Player p);
     protected abstract void hide(Player p);
     protected abstract void perPlayerUpdate(Player p);
-    protected abstract void updateDataField(DynamicElement<?> element, Supplier<?> getter, Function<?, Void> setter);
 
     public AbstractVisual(T data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long> timeToLive, UpdateMode mode) {
         this.data = data;
