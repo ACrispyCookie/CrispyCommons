@@ -35,12 +35,24 @@ public abstract class AbstractTablist extends AbstractVisual<TablistData> implem
 
     @Override
     public void setHeader(List<TextElement> elements) {
-        this.data.setHeader(elements);
+        data.getHeader().forEach(TextElement::stop);
+        data.setHeader(elements);
+        data.getHeader().forEach(e -> e.setUpdate(this::update));
+        if (isDisplayed) {
+            data.getHeader().forEach(TextElement::start);
+            update();
+        }
     }
 
     @Override
     public void setFooter(List<TextElement> elements) {
-        this.data.setFooter(elements);
+        data.getFooter().forEach(TextElement::stop);
+        data.setFooter(elements);
+        data.getFooter().forEach(e -> e.setUpdate(this::update));
+        if (isDisplayed) {
+            data.getFooter().forEach(TextElement::start);
+            update();
+        }
     }
 
     public List<TextElement> getHeader() {

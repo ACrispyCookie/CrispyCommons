@@ -3,6 +3,7 @@ package dev.acrispycookie.crispycommons.implementations.visuals.abstraction.visu
 import dev.acrispycookie.crispycommons.CrispyCommons;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.CrispyVisual;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.VisualData;
+import dev.acrispycookie.crispycommons.api.wrappers.elements.DynamicElement;
 import dev.acrispycookie.crispycommons.api.wrappers.elements.types.GeneralElement;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalGeneralElement;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.personal.types.PersonalGeneralElement;
@@ -20,6 +21,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.util.*;
+import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public abstract class AbstractVisual<T extends VisualData> implements CrispyVisual, Listener {
@@ -39,6 +42,7 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
     protected abstract void show(Player p);
     protected abstract void hide(Player p);
     protected abstract void perPlayerUpdate(Player p);
+    protected abstract void updateDataField(DynamicElement<?> element, Supplier<?> getter, Function<?, Void> setter);
 
     public AbstractVisual(T data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long> timeToLive, UpdateMode mode) {
         this.data = data;

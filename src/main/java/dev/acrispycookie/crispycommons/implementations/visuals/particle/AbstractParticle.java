@@ -1,6 +1,7 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.particle;
 
 import dev.acrispycookie.crispycommons.api.visuals.particle.CrispyParticle;
+import dev.acrispycookie.crispycommons.api.wrappers.elements.DynamicElement;
 import dev.acrispycookie.crispycommons.api.wrappers.elements.types.GeneralElement;
 import dev.acrispycookie.crispycommons.api.wrappers.elements.types.ParticleElement;
 import dev.acrispycookie.crispycommons.api.wrappers.particle.Effect;
@@ -13,6 +14,8 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.util.Set;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 public abstract class AbstractParticle<T extends Effect> extends AbstractVisual<ParticleData<T>> implements CrispyParticle<T> {
 
@@ -40,7 +43,13 @@ public abstract class AbstractParticle<T extends Effect> extends AbstractVisual<
 
     @Override
     public void setElement(ParticleElement<T> element) {
+        data.getElement().stop();
         data.setElement(element);
+        data.getElement().setUpdate(this::update);
+        if (isDisplayed) {
+            data.getElement().start();
+            update();
+        }
     }
 
     @Override
@@ -50,7 +59,13 @@ public abstract class AbstractParticle<T extends Effect> extends AbstractVisual<
 
     @Override
     public void setLocation(GeneralElement<Location> location) {
+        data.getLocation().stop();
         data.setLocation(location);
+        data.getLocation().setUpdate(this::update);
+        if (isDisplayed) {
+            data.getLocation().start();
+            update();
+        }
     }
 
     protected Location getLocation(Player player) {
