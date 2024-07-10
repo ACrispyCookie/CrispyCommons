@@ -29,7 +29,13 @@ public abstract class AbstractActionbar extends AbstractVisual<ActionbarData> im
 
     @Override
     public void setText(TextElement text) {
+        data.getText().stop();
         data.setText(text);
+        data.getText().setUpdate(this::update);
+        if (isDisplayed) {
+            data.getText().start();
+            update();
+        }
     }
 
     @Override
