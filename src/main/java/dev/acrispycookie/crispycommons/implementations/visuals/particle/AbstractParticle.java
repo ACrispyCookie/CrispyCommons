@@ -24,11 +24,13 @@ public abstract class AbstractParticle<T extends Effect> extends AbstractVisual<
     @Override
     protected void prepareShow() {
         data.getElement().start();
+        data.getLocation().start();
     }
 
     @Override
     protected void prepareHide() {
         data.getElement().stop();
+        data.getLocation().stop();
     }
 
     @Override
