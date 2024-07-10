@@ -33,22 +33,46 @@ public abstract class AbstractBossbar extends AbstractVisual<BossbarData> implem
 
     @Override
     public void setText(TextElement text) {
+        data.getText().stop();
         data.setText(text);
+        data.getText().setUpdate(this::update);
+        if (isDisplayed) {
+            data.getText().start();
+            update();
+        }
     }
 
     @Override
     public void setProgress(GeneralElement<Float> progress) {
+        data.getProgress().stop();
         data.setProgress(progress);
+        data.getProgress().setUpdate(this::update);
+        if (isDisplayed) {
+            data.getProgress().start();
+            update();
+        }
     }
 
     @Override
     public void setColor(GeneralElement<BossBar.Color> color) {
+        data.getColor().stop();
         data.setColor(color);
+        data.getColor().setUpdate(this::update);
+        if (isDisplayed) {
+            data.getColor().start();
+            update();
+        }
     }
 
     @Override
     public void setOverlay(GeneralElement<BossBar.Overlay> overlay) {
+        data.getOverlay().stop();
         data.setOverlay(overlay);
+        data.getOverlay().setUpdate(this::update);
+        if (isDisplayed) {
+            data.getOverlay().start();
+            update();
+        }
     }
 
     @Override
