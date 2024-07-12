@@ -1,26 +1,20 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.particle;
 
 import dev.acrispycookie.crispycommons.api.visuals.particle.CrispyParticle;
-import dev.acrispycookie.crispycommons.api.wrappers.elements.DynamicElement;
-import dev.acrispycookie.crispycommons.api.wrappers.elements.types.GeneralElement;
-import dev.acrispycookie.crispycommons.api.wrappers.elements.types.ParticleElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GeneralElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.ParticleElement;
 import dev.acrispycookie.crispycommons.api.wrappers.particle.Effect;
 import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.visual.AbstractVisual;
 import dev.acrispycookie.crispycommons.implementations.visuals.particle.wrappers.ParticleData;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalGeneralElement;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.personal.types.PersonalGeneralElement;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
 
 import java.util.Set;
-import java.util.function.Function;
-import java.util.function.Supplier;
 
 public abstract class AbstractParticle<T extends Effect> extends AbstractVisual<ParticleData<T>> implements CrispyParticle<T> {
 
 
-    AbstractParticle(ParticleData<T> data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long> timeToLive, UpdateMode updateMode) {
+    AbstractParticle(ParticleData<T> data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long, ?> timeToLive, UpdateMode updateMode) {
         super(data, receivers, timeToLive, updateMode);
     }
 
@@ -37,12 +31,12 @@ public abstract class AbstractParticle<T extends Effect> extends AbstractVisual<
     }
 
     @Override
-    public ParticleElement<T> getElement() {
+    public ParticleElement<T, ?> getElement() {
         return data.getElement();
     }
 
     @Override
-    public void setElement(ParticleElement<T> element) {
+    public void setElement(ParticleElement<T, ?> element) {
         data.getElement().stop();
         data.setElement(element);
         data.getElement().setUpdate(this::update);
@@ -53,12 +47,12 @@ public abstract class AbstractParticle<T extends Effect> extends AbstractVisual<
     }
 
     @Override
-    public GeneralElement<Location> getLocation() {
+    public GeneralElement<Location, ?> getLocation() {
         return data.getLocation();
     }
 
     @Override
-    public void setLocation(GeneralElement<Location> location) {
+    public void setLocation(GeneralElement<Location, ?> location) {
         data.getLocation().stop();
         data.setLocation(location);
         data.getLocation().setUpdate(this::update);
@@ -66,11 +60,5 @@ public abstract class AbstractParticle<T extends Effect> extends AbstractVisual<
             data.getLocation().start();
             update();
         }
-    }
-
-    protected Location getLocation(Player player) {
-        return data.getLocation() instanceof GlobalGeneralElement ?
-                ((GlobalGeneralElement<Location>) data.getLocation()).getRaw() :
-                ((PersonalGeneralElement<Location>) data.getLocation()).getRaw(player);
     }
 }

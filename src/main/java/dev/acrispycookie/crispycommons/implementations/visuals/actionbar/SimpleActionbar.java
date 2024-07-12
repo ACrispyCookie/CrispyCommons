@@ -1,10 +1,8 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.actionbar;
 
 import dev.acrispycookie.crispycommons.CrispyCommons;
-import dev.acrispycookie.crispycommons.api.wrappers.elements.types.GeneralElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GeneralElement;
 import dev.acrispycookie.crispycommons.implementations.visuals.actionbar.wrappers.ActionbarData;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalTextElement;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.personal.types.PersonalTextElement;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import org.bukkit.OfflinePlayer;
@@ -14,15 +12,13 @@ import java.util.Set;
 
 public class SimpleActionbar extends AbstractActionbar {
 
-    public SimpleActionbar(ActionbarData data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long> timeToLive) {
+    public SimpleActionbar(ActionbarData data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long, ?> timeToLive) {
         super(data, receivers, timeToLive, UpdateMode.PER_PLAYER);
     }
 
     @Override
     protected void show(Player p) {
-        Component text = data.getText() instanceof PersonalTextElement ?
-                ((PersonalTextElement) data.getText()).getRaw(p) :
-                ((GlobalTextElement) data.getText()).getRaw();
+        Component text = data.getText().getFromContext(OfflinePlayer.class, p);
         Audience audience = CrispyCommons.getBukkitAudiences().player(p);
         audience.sendActionBar(text);
     }

@@ -1,9 +1,8 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.scoreboard;
 
-import dev.acrispycookie.crispycommons.CrispyCommons;
 import dev.acrispycookie.crispycommons.api.visuals.scoreboard.CrispyScoreboard;
-import dev.acrispycookie.crispycommons.api.wrappers.elements.types.GeneralElement;
-import dev.acrispycookie.crispycommons.api.wrappers.elements.types.TextElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GeneralElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TextElement;
 import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.visual.AbstractVisual;
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.wrappers.ScoreboardData;
 import org.bukkit.OfflinePlayer;
@@ -15,7 +14,7 @@ import java.util.Set;
 
 public abstract class AbstractScoreboard extends AbstractVisual<ScoreboardData> implements CrispyScoreboard {
 
-    AbstractScoreboard(ScoreboardData data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long> timeToLive, UpdateMode updateMode) {
+    AbstractScoreboard(ScoreboardData data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long, ?> timeToLive, UpdateMode updateMode) {
         super(data, receivers, timeToLive, updateMode);
     }
 
@@ -32,7 +31,7 @@ public abstract class AbstractScoreboard extends AbstractVisual<ScoreboardData> 
     }
 
     @Override
-    public void addLine(int index, TextElement line) {
+    public void addLine(int index, TextElement<?> line) {
         if (index > data.getLines().size()) {
             return;
         }
@@ -41,7 +40,7 @@ public abstract class AbstractScoreboard extends AbstractVisual<ScoreboardData> 
     }
 
     @Override
-    public void addLine(TextElement line) {
+    public void addLine(TextElement<?> line) {
         addLine(data.getLines().size(), line);
     }
 
@@ -54,21 +53,21 @@ public abstract class AbstractScoreboard extends AbstractVisual<ScoreboardData> 
     }
 
     @Override
-    public void setLines(Collection<? extends TextElement> lines) {
+    public void setLines(Collection<? extends TextElement<?>> lines) {
         data.setLines(new ArrayList<>(lines));
     }
 
-    public List<TextElement> getLines() {
+    public List<TextElement<?>> getLines() {
         return data.getLines();
     }
 
     @Override
-    public void setTitle(TextElement title) {
+    public void setTitle(TextElement<?> title) {
         data.setTitle(title);
     }
 
     @Override
-    public TextElement getTitle() {
+    public TextElement<?> getTitle() {
         return data.getTitle();
     }
 

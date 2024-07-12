@@ -2,9 +2,7 @@ package dev.acrispycookie.crispycommons.implementations.visuals.abstraction.buil
 
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.builder.VisualBuilder;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.CrispyVisual;
-import dev.acrispycookie.crispycommons.api.wrappers.elements.GlobalElement;
-import dev.acrispycookie.crispycommons.api.wrappers.elements.types.GeneralElement;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalGeneralElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GeneralElement;
 import org.bukkit.OfflinePlayer;
 
 import java.util.Collection;
@@ -15,7 +13,7 @@ public abstract class AbstractVisualBuilder<T extends CrispyVisual> implements V
 
     protected T toBuild;
     protected final Set<OfflinePlayer> receivers = new HashSet<>();
-    protected GeneralElement<Long> timeToLive = GlobalGeneralElement.simple((long) -1);
+    protected GeneralElement<Long, ?> timeToLive = GeneralElement.simple((long) -1);
 
     @Override
     public AbstractVisualBuilder<T> addPlayer(OfflinePlayer p) {
@@ -43,7 +41,7 @@ public abstract class AbstractVisualBuilder<T extends CrispyVisual> implements V
     }
 
     @Override
-    public AbstractVisualBuilder<T> setTimeToLive(GeneralElement<Long> timeToLive) {
+    public AbstractVisualBuilder<T> setTimeToLive(GeneralElement<Long, ?> timeToLive) {
         this.timeToLive = timeToLive;
         return this;
     }

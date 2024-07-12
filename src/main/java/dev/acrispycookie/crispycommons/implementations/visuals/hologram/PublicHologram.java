@@ -1,6 +1,6 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.hologram;
 
-import dev.acrispycookie.crispycommons.api.wrappers.elements.types.GeneralElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GeneralElement;
 import dev.acrispycookie.crispycommons.implementations.visuals.hologram.wrappers.HologramData;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -11,7 +11,7 @@ import java.util.Collection;
 
 public class PublicHologram extends SimpleHologram {
 
-    public PublicHologram(HologramData data, Collection<? extends OfflinePlayer> receivers, GeneralElement<Long> timeToLive) {
+    public PublicHologram(HologramData data, Collection<? extends OfflinePlayer> receivers, GeneralElement<Long, ?> timeToLive) {
         super(data, receivers, timeToLive);
         Bukkit.getOnlinePlayers().forEach(this::addPlayer);
     }

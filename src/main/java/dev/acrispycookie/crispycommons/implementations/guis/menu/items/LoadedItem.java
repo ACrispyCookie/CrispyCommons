@@ -1,12 +1,12 @@
 package dev.acrispycookie.crispycommons.implementations.guis.menu.items;
 
-import dev.acrispycookie.crispycommons.api.wrappers.elements.types.ItemElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.ItemElement;
 import dev.acrispycookie.crispycommons.implementations.guis.menu.wrappers.MenuData;
 import org.bukkit.entity.Player;
 
 public abstract class LoadedItem extends AbstractMenuItem {
 
-    public LoadedItem(ItemElement display) {
+    public LoadedItem(ItemElement<?> display) {
         super(display, display);
     }
 

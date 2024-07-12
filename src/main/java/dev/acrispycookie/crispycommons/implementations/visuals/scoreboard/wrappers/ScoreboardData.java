@@ -1,8 +1,8 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.wrappers;
 
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.VisualData;
-import dev.acrispycookie.crispycommons.api.wrappers.elements.types.TextElement;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.personal.types.PersonalTextElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TextElement;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -11,31 +11,31 @@ import java.util.List;
 
 public class ScoreboardData implements VisualData {
 
-    private TextElement title;
-    private List<TextElement> lines;
+    private TextElement<?> title;
+    private List<TextElement<?>> lines;
 
-    public ScoreboardData(TextElement title, Collection<? extends TextElement> lines) {
+    public ScoreboardData(TextElement<?> title, Collection<? extends TextElement<?>> lines) {
         this.title = title;
         this.lines = new ArrayList<>(lines);
     }
 
-    public TextElement getTitle() {
+    public TextElement<?> getTitle() {
         return title;
     }
 
-    public void setTitle(TextElement title) {
+    public void setTitle(TextElement<?> title) {
         this.title = title;
     }
 
-    public List<TextElement> getLines() {
+    public List<TextElement<?>> getLines() {
         return lines;
     }
 
-    public void addLine(TextElement line) {
+    public void addLine(TextElement<?> line) {
         this.lines.add(line);
     }
 
-    public void addLine(int index, TextElement line) {
+    public void addLine(int index, TextElement<?> line) {
         this.lines.add(index, line);
     }
 
@@ -43,15 +43,15 @@ public class ScoreboardData implements VisualData {
         this.lines.remove(index);
     }
 
-    public void setLines(List<TextElement> lines) {
+    public void setLines(List<TextElement<?>> lines) {
         this.lines = lines;
     }
 
     @Override
     public void assertReady(Player player) {
-        if (title == null || (title instanceof PersonalTextElement && ((PersonalTextElement) title).getRaw(player) == null))
+        if (title.getFromContext(OfflinePlayer.class, player) == null)
             throw new VisualNotReadyException("The scoreboard title was not set!");
-        if (lines == null)
+        if (lines.isEmpty())
             throw new VisualNotReadyException("The scoreboard lines were not set!");
     }
 }

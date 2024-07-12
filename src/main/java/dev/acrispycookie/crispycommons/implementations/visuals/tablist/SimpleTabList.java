@@ -1,11 +1,9 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.tablist;
 
 import dev.acrispycookie.crispycommons.CrispyCommons;
-import dev.acrispycookie.crispycommons.api.wrappers.elements.types.GeneralElement;
-import dev.acrispycookie.crispycommons.api.wrappers.elements.types.TextElement;
-import dev.acrispycookie.crispycommons.implementations.visuals.tablist.wrappers.TablistData;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalTextElement;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.personal.types.PersonalTextElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GeneralElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TextElement;
+import dev.acrispycookie.crispycommons.implementations.visuals.tablist.wrappers.TabListData;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import org.bukkit.OfflinePlayer;
@@ -14,9 +12,9 @@ import org.bukkit.entity.Player;
 import java.util.List;
 import java.util.Set;
 
-public class SimpleTablist extends AbstractTablist {
+public class SimpleTabList extends AbstractTabList {
 
-    public SimpleTablist(TablistData data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long> timeToLive) {
+    public SimpleTabList(TabListData data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long, ?> timeToLive) {
         super(data, receivers, timeToLive, UpdateMode.PER_PLAYER);
     }
 
@@ -46,11 +44,10 @@ public class SimpleTablist extends AbstractTablist {
 
     }
 
-    private Component constructComponent(List<TextElement> elements, OfflinePlayer player) {
+    private Component constructComponent(List<TextElement<?>> elements, OfflinePlayer player) {
         Component component = Component.empty();
         for (int i = 0; i < elements.size(); i++) {
-            TextElement t = elements.get(i);
-            Component toAdd = t instanceof PersonalTextElement ? ((PersonalTextElement) t).getRaw(player) : ((GlobalTextElement) t).getRaw();
+            Component toAdd = elements.get(i).getFromContext(OfflinePlayer.class, player);
             if (toAdd == null)
                 continue;
             component = component.append(toAdd);

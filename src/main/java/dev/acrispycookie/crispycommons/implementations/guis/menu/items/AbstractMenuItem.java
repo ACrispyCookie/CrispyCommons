@@ -1,7 +1,7 @@
 package dev.acrispycookie.crispycommons.implementations.guis.menu.items;
 
 import dev.acrispycookie.crispycommons.api.guis.menu.MenuItem;
-import dev.acrispycookie.crispycommons.api.wrappers.elements.types.ItemElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.ItemElement;
 import dev.acrispycookie.crispycommons.implementations.guis.menu.wrappers.MenuData;
 import org.bukkit.entity.Player;
 
@@ -13,10 +13,10 @@ public abstract class AbstractMenuItem implements MenuItem {
     private BiFunction<MenuData, Player, Boolean> canSee;
     private BiFunction<MenuData, Player, Boolean> canSeeUnloaded;
     private BiFunction<MenuData, Player, Boolean> canTake;
-    private ItemElement display;
-    private ItemElement loadingDisplay;
+    private ItemElement<?> display;
+    private ItemElement<?> loadingDisplay;
 
-    AbstractMenuItem(ItemElement display, ItemElement unloadedDisplay) {
+    AbstractMenuItem(ItemElement<?> display, ItemElement<?> unloadedDisplay) {
         this.display = display;
         this.loadingDisplay = unloadedDisplay;
         this.canSee = (page, player) -> true;
@@ -63,18 +63,18 @@ public abstract class AbstractMenuItem implements MenuItem {
     }
 
     @Override
-    public ItemElement getDisplay() {
+    public ItemElement<?> getDisplay() {
         return isLoaded ? display : loadingDisplay;
     }
 
     @Override
-    public void setLoadedDisplay(ItemElement element) {
+    public void setLoadedDisplay(ItemElement<?> element) {
         this.display = element;
 
     }
 
     @Override
-    public void setLoadingDisplay(ItemElement element) {
+    public void setLoadingDisplay(ItemElement<?> element) {
         this.loadingDisplay = element;
     }
 }

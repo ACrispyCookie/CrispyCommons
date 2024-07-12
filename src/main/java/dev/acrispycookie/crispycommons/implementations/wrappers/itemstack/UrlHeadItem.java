@@ -25,7 +25,7 @@ public class UrlHeadItem extends CrispyHeadItem {
     @Override
     public UrlHeadItem update() {
         SkullMeta meta = (SkullMeta) getItemMeta();
-        meta = setSkinToUrl(meta, url);
+        setSkinToUrl(meta, url);
         setItemMeta(meta);
         return this;
     }

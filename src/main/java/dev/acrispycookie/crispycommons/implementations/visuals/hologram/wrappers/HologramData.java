@@ -2,10 +2,9 @@ package dev.acrispycookie.crispycommons.implementations.visuals.hologram.wrapper
 
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.VisualData;
 import dev.acrispycookie.crispycommons.api.wrappers.elements.DynamicElement;
-import dev.acrispycookie.crispycommons.api.wrappers.elements.types.GeneralElement;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalGeneralElement;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.personal.types.PersonalGeneralElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GeneralElement;
 import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -14,19 +13,19 @@ import java.util.List;
 
 public class HologramData implements VisualData {
 
-    private final List<DynamicElement<?>> lines;
-    private GeneralElement<Location> location;
+    private final List<DynamicElement<?, ?>> lines;
+    private GeneralElement<Location, ?> location;
 
-    public HologramData(Collection<? extends DynamicElement<?>> lines, GeneralElement<Location> location) {
+    public HologramData(Collection<? extends DynamicElement<?, ?>> lines, GeneralElement<Location, ?> location) {
         this.lines = new ArrayList<>(lines);
         this.location = location;
     }
 
-    public List<DynamicElement<?>> getLines() {
+    public List<DynamicElement<?, ?>> getLines() {
         return lines;
     }
 
-    public void setLines(List<DynamicElement<?>> lines) {
+    public void setLines(List<DynamicElement<?, ?>> lines) {
         this.lines.clear();
         this.lines.addAll(lines);
     }
@@ -35,15 +34,15 @@ public class HologramData implements VisualData {
         this.lines.remove(index);
     }
 
-    public void addLine(int index, DynamicElement<?> element) {
+    public void addLine(int index, DynamicElement<?, ?> element) {
         this.lines.add(index, element);
     }
 
-    public GeneralElement<Location> getLocation() {
+    public GeneralElement<Location, ?> getLocation() {
         return location;
     }
 
-    public void setLocation(GeneralElement<Location> location) {
+    public void setLocation(GeneralElement<Location, ?> location) {
         this.location = location;
     }
 
@@ -51,8 +50,7 @@ public class HologramData implements VisualData {
     public void assertReady(Player player) {
         if (lines.isEmpty())
             throw new VisualNotReadyException("The hologram's lines were not set!");
-        if ((location instanceof GlobalGeneralElement && ((GlobalGeneralElement<Location>) location).getRaw() == null) ||
-                ((PersonalGeneralElement<Location>) location).getRaw(player) == null)
+        if (location.getFromContext(OfflinePlayer.class, player) == null)
             throw new VisualNotReadyException("The hologram's location was not set!");
     }
 }

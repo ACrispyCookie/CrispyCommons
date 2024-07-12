@@ -12,7 +12,7 @@ public interface CrispyItem {
     CrispyItem material(Material mat);
     CrispyItem durability(short dur);
     CrispyItem lore(String s);
-    CrispyItem addEnchant(Enchantment ench, int level);
+    CrispyItem addEnchant(Enchantment enchantment, int level);
     CrispyItem addFlag(ItemFlag flag);
     CrispyItem removeFlag(ItemFlag flag);
     CrispyItem unbreakable(boolean unb);

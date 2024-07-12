@@ -2,7 +2,7 @@ package dev.acrispycookie.crispycommons.implementations.visuals.hologram;
 
 import dev.acrispycookie.crispycommons.api.visuals.hologram.CrispyHologram;
 import dev.acrispycookie.crispycommons.api.wrappers.elements.DynamicElement;
-import dev.acrispycookie.crispycommons.api.wrappers.elements.types.GeneralElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GeneralElement;
 import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.visual.AbstractVisual;
 import dev.acrispycookie.crispycommons.implementations.visuals.hologram.wrappers.HologramData;
 import org.bukkit.Location;
@@ -17,7 +17,7 @@ public abstract class AbstractHologram extends AbstractVisual<HologramData> impl
 
     protected abstract void updateEntities();
 
-    AbstractHologram(HologramData data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long> timeToLive, UpdateMode updateMode) {
+    AbstractHologram(HologramData data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long, ?> timeToLive, UpdateMode updateMode) {
         super(data, receivers, timeToLive, updateMode);
     }
 
@@ -35,7 +35,7 @@ public abstract class AbstractHologram extends AbstractVisual<HologramData> impl
 
 
     @Override
-    public void addLine(int index, DynamicElement<?> line) {
+    public void addLine(int index, DynamicElement<?, ?> line) {
         if (index > data.getLines().size())
             return;
 
@@ -44,7 +44,7 @@ public abstract class AbstractHologram extends AbstractVisual<HologramData> impl
     }
 
     @Override
-    public void addLine(DynamicElement<?> line) {
+    public void addLine(DynamicElement<?, ?> line) {
         addLine(data.getLines().size(), line);
     }
 
@@ -58,24 +58,24 @@ public abstract class AbstractHologram extends AbstractVisual<HologramData> impl
     }
 
     @Override
-    public void setLines(Collection<? extends DynamicElement<?>> lines) {
+    public void setLines(Collection<? extends DynamicElement<?, ?>> lines) {
         data.setLines(new ArrayList<>(lines));
         updateEntities();
     }
 
     @Override
-    public void setLocation(GeneralElement<Location> location) {
+    public void setLocation(GeneralElement<Location, ?> location) {
         data.setLocation(location);
     }
 
     @Override
-    public GeneralElement<Location> getLocation() {
+    public GeneralElement<Location, ?> getLocation() {
         return data.getLocation();
     }
 
 
     @Override
-    public List<DynamicElement<?>> getLines() {
+    public List<DynamicElement<?, ?>> getLines() {
         return data.getLines();
     }
 }

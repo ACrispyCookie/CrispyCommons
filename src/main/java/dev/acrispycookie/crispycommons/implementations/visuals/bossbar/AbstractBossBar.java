@@ -1,18 +1,18 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.bossbar;
 
-import dev.acrispycookie.crispycommons.api.visuals.bossbar.CrispyBossbar;
-import dev.acrispycookie.crispycommons.api.wrappers.elements.types.GeneralElement;
-import dev.acrispycookie.crispycommons.api.wrappers.elements.types.TextElement;
+import dev.acrispycookie.crispycommons.api.visuals.bossbar.CrispyBossBar;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GeneralElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TextElement;
 import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.visual.AbstractVisual;
-import dev.acrispycookie.crispycommons.implementations.visuals.bossbar.wrappers.BossbarData;
+import dev.acrispycookie.crispycommons.implementations.visuals.bossbar.wrappers.BossBarData;
 import net.kyori.adventure.bossbar.BossBar;
 import org.bukkit.OfflinePlayer;
 
 import java.util.Set;
 
-public abstract class AbstractBossbar extends AbstractVisual<BossbarData> implements CrispyBossbar {
+public abstract class AbstractBossBar extends AbstractVisual<BossBarData> implements CrispyBossBar {
 
-    AbstractBossbar(BossbarData data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long> timeToLive) {
+    AbstractBossBar(BossBarData data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long, ?> timeToLive) {
         super(data, receivers, timeToLive, UpdateMode.PER_PLAYER);
     }
 
@@ -32,7 +32,7 @@ public abstract class AbstractBossbar extends AbstractVisual<BossbarData> implem
     }
 
     @Override
-    public void setText(TextElement text) {
+    public void setText(TextElement<?> text) {
         data.getText().stop();
         data.setText(text);
         data.getText().setUpdate(this::update);
@@ -43,7 +43,7 @@ public abstract class AbstractBossbar extends AbstractVisual<BossbarData> implem
     }
 
     @Override
-    public void setProgress(GeneralElement<Float> progress) {
+    public void setProgress(GeneralElement<Float, ?> progress) {
         data.getProgress().stop();
         data.setProgress(progress);
         data.getProgress().setUpdate(this::update);
@@ -54,7 +54,7 @@ public abstract class AbstractBossbar extends AbstractVisual<BossbarData> implem
     }
 
     @Override
-    public void setColor(GeneralElement<BossBar.Color> color) {
+    public void setColor(GeneralElement<BossBar.Color, ?> color) {
         data.getColor().stop();
         data.setColor(color);
         data.getColor().setUpdate(this::update);
@@ -65,7 +65,7 @@ public abstract class AbstractBossbar extends AbstractVisual<BossbarData> implem
     }
 
     @Override
-    public void setOverlay(GeneralElement<BossBar.Overlay> overlay) {
+    public void setOverlay(GeneralElement<BossBar.Overlay, ?> overlay) {
         data.getOverlay().stop();
         data.setOverlay(overlay);
         data.getOverlay().setUpdate(this::update);
@@ -76,22 +76,22 @@ public abstract class AbstractBossbar extends AbstractVisual<BossbarData> implem
     }
 
     @Override
-    public TextElement getText() {
+    public TextElement<?> getText() {
         return data.getText();
     }
 
     @Override
-    public GeneralElement<Float> getProgress() {
+    public GeneralElement<Float, ?> getProgress() {
         return data.getProgress();
     }
 
     @Override
-    public GeneralElement<BossBar.Color> getColor() {
+    public GeneralElement<BossBar.Color, ?> getColor() {
         return data.getColor();
     }
 
     @Override
-    public GeneralElement<BossBar.Overlay> getOverlay() {
+    public GeneralElement<BossBar.Overlay, ?> getOverlay() {
         return data.getOverlay();
     }
 }

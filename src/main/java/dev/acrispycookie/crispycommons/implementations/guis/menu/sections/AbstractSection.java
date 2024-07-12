@@ -2,10 +2,8 @@ package dev.acrispycookie.crispycommons.implementations.guis.menu.sections;
 
 import dev.acrispycookie.crispycommons.api.guis.menu.MenuItem;
 import dev.acrispycookie.crispycommons.api.guis.menu.sections.Section;
-import dev.acrispycookie.crispycommons.api.wrappers.elements.types.ItemElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.ItemElement;
 import dev.acrispycookie.crispycommons.implementations.guis.menu.wrappers.MenuData;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalItemElement;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.personal.types.PersonalItemElement;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -17,16 +15,13 @@ import java.util.stream.Collectors;
 
 public abstract class AbstractSection implements Section {
 
-    protected final HashMap<ItemElement, Set<InventoryInfo>> dynamicItems = new HashMap<>();
-    protected final HashMap<Inventory, Set<ItemElement>> dynamicItemInventories = new HashMap<>();
+    protected final HashMap<ItemElement<?>, Set<InventoryInfo>> dynamicItems = new HashMap<>();
+    protected final HashMap<Inventory, Set<ItemElement<?>>> dynamicItemInventories = new HashMap<>();
 
-    protected void updateItem(ItemElement item) {
+    protected void updateItem(ItemElement<?> item) {
         Set<InventoryInfo> inventories = dynamicItems.get(item);
 
-        if (item instanceof GlobalItemElement)
-            inventories.forEach((info) -> info.getInventory().setItem(info.getPasteSlot(), ((GlobalItemElement) item).getRaw()));
-        else
-            inventories.forEach((info) -> info.getInventory().setItem(info.getPasteSlot(), ((PersonalItemElement) item).getRaw(info.getPlayer())));
+        inventories.forEach((info) -> info.getInventory().setItem(info.getPasteSlot(), item.getFromContext(OfflinePlayer.class, info.getPlayer())));
     }
 
     @Override
@@ -67,10 +62,7 @@ public abstract class AbstractSection implements Section {
         }
 
         item.load(() -> renderValidItem(player, data, toRender, pasteSlot, startingIndex));
-        if (item.getDisplay() instanceof GlobalItemElement)
-            toRender.setItem(pasteSlot, ((GlobalItemElement) item.getDisplay()).getRaw());
-        else
-            toRender.setItem(pasteSlot, ((PersonalItemElement) item.getDisplay()).getRaw(player));
+        toRender.setItem(pasteSlot, item.getDisplay().getFromContext(OfflinePlayer.class, player));
     }
 
     protected void addDynamicItem(MenuItem item, Player player, Inventory toRender, int pasteSlot) {
@@ -79,7 +71,7 @@ public abstract class AbstractSection implements Section {
         elements.add(new InventoryInfo(player, toRender, pasteSlot));
         dynamicItems.put(item.getDisplay(), elements);
 
-        Set<ItemElement> items = dynamicItemInventories.getOrDefault(toRender, new HashSet<>());
+        Set<ItemElement<?>> items = dynamicItemInventories.getOrDefault(toRender, new HashSet<>());
         items.add(item.getDisplay());
         dynamicItemInventories.put(toRender, items);
 

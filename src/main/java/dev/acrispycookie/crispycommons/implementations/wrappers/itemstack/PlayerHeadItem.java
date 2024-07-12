@@ -31,7 +31,7 @@ public class PlayerHeadItem extends CrispyHeadItem {
         if (Bukkit.getPlayer(uuid) != null) {
             meta.setOwner(Bukkit.getPlayer(uuid).getName());
         } else {
-            meta = setSkinToBase64(meta, getOfflinePlayerSkin(uuid));
+            setSkinToBase64(meta, getOfflinePlayerSkin(uuid));
         }
         setItemMeta(meta);
         return this;

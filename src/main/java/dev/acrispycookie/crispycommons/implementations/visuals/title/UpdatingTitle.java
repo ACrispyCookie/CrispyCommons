@@ -1,7 +1,7 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.title;
 
 import dev.acrispycookie.crispycommons.CrispyCommons;
-import dev.acrispycookie.crispycommons.api.wrappers.elements.types.GeneralElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GeneralElement;
 import dev.acrispycookie.crispycommons.implementations.visuals.title.wrappers.TitleData;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.title.Title;
@@ -13,18 +13,18 @@ import java.util.Set;
 
 public class UpdatingTitle extends AbstractTitle {
 
-    public UpdatingTitle(TitleData data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long> timeToLive) {
+    public UpdatingTitle(TitleData data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long, ?> timeToLive) {
         super(data, receivers, timeToLive, UpdateMode.PER_PLAYER);
     }
 
     @Override
     protected void show(Player p) {
-        showTitle(p, getFadeIn(p.getPlayer()) * 50L, data.getSmallestPeriod() * 150L, 0);
+        showTitle(p, data.getFadeIn().getFromContext(OfflinePlayer.class, p) * 50L, data.getSmallestPeriod() * 150L, 0);
     }
 
     @Override
     public void hide(Player p) {
-        showTitle(p, 0, 1, getFadeOut(p) * 50L);
+        showTitle(p, 0, 1, data.getFadeOut().getFromContext(OfflinePlayer.class, p) * 50L);
     }
 
     @Override
@@ -40,8 +40,8 @@ public class UpdatingTitle extends AbstractTitle {
     private void showTitle(Player p, long fadeIn, long duration, long fadeOut) {
         Audience audience = CrispyCommons.getBukkitAudiences().player(p);
         Title toSend = Title.title(
-                getTitle(p),
-                getSubtitle(p),
+                data.getTitle().getFromContext(OfflinePlayer.class, p),
+                data.getSubtitle().getFromContext(OfflinePlayer.class, p),
                 Title.Times.times(
                         Duration.ofMillis(fadeIn),
                         Duration.ofMillis(duration),

@@ -1,23 +1,23 @@
-package dev.acrispycookie.crispycommons.implementations.wrappers.elements.personal;
+package dev.acrispycookie.crispycommons.implementations.wrappers.elements;
 
 import dev.acrispycookie.crispycommons.CrispyCommons;
-import org.bukkit.OfflinePlayer;
+import dev.acrispycookie.crispycommons.api.wrappers.elements.DynamicElement;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.util.HashMap;
 import java.util.function.Function;
 
-public abstract class PersonalDynamicElement<T> extends PersonalAbstractElement<T> {
+public abstract class AbstractDynamicElement<T, K> extends AbstractElement<T, K> implements DynamicElement<T, K> {
 
-    protected Function<OfflinePlayer, ? extends T> supplier;
+    protected Function<K, ? extends T> supplier;
     private final int period;
-    protected boolean async;
+    protected final boolean async;
     private BukkitTask bukkitTask;
     protected Runnable update;
 
-    protected PersonalDynamicElement(Function<OfflinePlayer, ? extends T> supplier, int period, boolean async) {
-        super(new HashMap<>());
+    protected AbstractDynamicElement(Function<K, ? extends T> supplier, int period, boolean async, Class<K> kClass) {
+        super(new HashMap<>(), kClass);
         this.supplier = supplier;
         this.period = period;
         this.async = async;
@@ -31,8 +31,8 @@ public abstract class PersonalDynamicElement<T> extends PersonalAbstractElement<
             bukkitTask = new BukkitRunnable() {
                 @Override
                 public void run() {
-                elements.forEach((p, element) -> elements.put(p, supplier.apply(p)));
-                update.run();
+                    elements.forEach((p, element) -> elements.put(p, supplier.apply(p)));
+                    update.run();
                 }
             }.runTaskTimerAsynchronously(CrispyCommons.getPlugin(), period, period);
             return;
@@ -48,7 +48,7 @@ public abstract class PersonalDynamicElement<T> extends PersonalAbstractElement<
     }
 
     @Override
-    public T getRaw(OfflinePlayer player) {
+    public T getRaw(K player) {
         if (!elements.containsKey(player))
             elements.put(player, supplier.apply(player));
         return elements.get(player);
@@ -63,10 +63,6 @@ public abstract class PersonalDynamicElement<T> extends PersonalAbstractElement<
 
     public boolean isDynamic() {
         return period > 0;
-    }
-
-    public boolean isGlobal() {
-        return false;
     }
 
     public int getPeriod() {

@@ -1,11 +1,18 @@
 package dev.acrispycookie.crispycommons.api.wrappers.elements;
 
-public interface CrispyElement<T> extends Cloneable {
-    boolean isDynamic();
+import java.util.Map;
 
-    static int getMinimumPeriod(DynamicElement<?>... elements) {
+public interface CrispyElement<T, K> extends Cloneable {
+    T getRaw(K context);
+    <C> T getFromContext(Map<Class<C>, C> contexts);
+    <C> T getFromContext(Class<C> clazz, C value);
+    boolean isDynamic();
+    Class<K> getContextClass();
+    boolean isContext(Class<?> clazz);
+
+    static int getMinimumPeriod(DynamicElement<?, ?>... elements) {
         int period = -1;
-        for (DynamicElement<?> element : elements) {
+        for (DynamicElement<?, ?> element : elements) {
             if (element == null || !element.isDynamic())
                 continue;
             if (period == -1) {

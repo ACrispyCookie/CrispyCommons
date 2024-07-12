@@ -1,10 +1,7 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.scoreboard;
 
-import dev.acrispycookie.crispycommons.api.wrappers.elements.types.GeneralElement;
-import dev.acrispycookie.crispycommons.api.wrappers.elements.types.TextElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GeneralElement;
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.wrappers.ScoreboardData;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalTextElement;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.personal.types.PersonalTextElement;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
@@ -24,7 +21,7 @@ public class SimpleScoreboard extends AbstractScoreboard {
 
     private final HashMap<OfflinePlayer, Scoreboard> scoreboards = new HashMap<>();
 
-    public SimpleScoreboard(ScoreboardData data, Collection<? extends OfflinePlayer> receivers, GeneralElement<Long> timeToLive) {
+    public SimpleScoreboard(ScoreboardData data, Collection<? extends OfflinePlayer> receivers, GeneralElement<Long, ?> timeToLive) {
         super(data, new HashSet<>(receivers), timeToLive, UpdateMode.PER_PLAYER);
     }
 
@@ -56,10 +53,7 @@ public class SimpleScoreboard extends AbstractScoreboard {
 
     private void showLine(Player player, int index) {
         Scoreboard scoreboard = scoreboards.get(player);
-        TextElement element = data.getLines().get(index);
-        Component text = element instanceof GlobalTextElement ?
-                ((GlobalTextElement) element).getRaw() :
-                ((PersonalTextElement) element).getRaw(player);
+        Component text = data.getLines().get(index).getFromContext(OfflinePlayer.class, player);
         Objective obj = scoreboard.getObjective("[CrispyCommons]");
         Team team = scoreboard.getTeam(String.valueOf(index));
 
@@ -79,10 +73,7 @@ public class SimpleScoreboard extends AbstractScoreboard {
 
     private void updateLine(Player player, int index) {
         Scoreboard scoreboard = scoreboards.get(player);
-        TextElement element = data.getLines().get(index);
-        Component text = element instanceof GlobalTextElement ?
-                ((GlobalTextElement) element).getRaw() :
-                ((PersonalTextElement) element).getRaw(player);
+        Component text = data.getLines().get(index).getFromContext(OfflinePlayer.class, player);
         Objective obj = scoreboard.getObjective("[CrispyCommons]");
         Team team = scoreboard.getTeam(String.valueOf(index));
 
@@ -98,9 +89,7 @@ public class SimpleScoreboard extends AbstractScoreboard {
 
     private void initTitle(Player player) {
         Objective obj = scoreboards.get(player).getObjective("[CrispyCommons]");
-        Component text = data.getTitle() instanceof GlobalTextElement ?
-                ((GlobalTextElement) data.getTitle()).getRaw() :
-                ((PersonalTextElement) data.getTitle()).getRaw(player);
+        Component text = data.getTitle().getFromContext(OfflinePlayer.class, player);
         obj.setDisplayName(ChatColor.translateAlternateColorCodes('&', LegacyComponentSerializer.legacyAmpersand().serialize(text)));
     }
 
@@ -109,10 +98,7 @@ public class SimpleScoreboard extends AbstractScoreboard {
         for (int i = 0; i < data.getLines().size(); i++) {
             Objective obj = scoreboard.getObjective("[CrispyCommons]");
 
-            TextElement element = data.getLines().get(i);
-            Component text = element instanceof GlobalTextElement ?
-                    ((GlobalTextElement) element).getRaw() :
-                    ((PersonalTextElement) element).getRaw(player);
+            Component text = data.getLines().get(i).getFromContext(OfflinePlayer.class, player);
             String line = ChatColor.translateAlternateColorCodes('&', LegacyComponentSerializer.legacyAmpersand().serialize(text));
             String teamEntry = getEntry(line, scoreboard);
             Team team = scoreboard.registerNewTeam(String.valueOf(i));

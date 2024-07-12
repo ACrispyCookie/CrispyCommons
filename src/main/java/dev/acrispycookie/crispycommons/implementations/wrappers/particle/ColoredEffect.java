@@ -5,9 +5,9 @@ import org.bukkit.Effect;
 
 public class ColoredEffect extends AbstractEffect {
 
-    private float r = 0;
-    private float g = 0;
-    private float b = 0;
+    private float r;
+    private float g;
+    private float b;
 
     public ColoredEffect(Color color) {
         this.r = (float) color.getRed() / 255;
@@ -16,9 +16,9 @@ public class ColoredEffect extends AbstractEffect {
     }
 
     public ColoredEffect(float r, float b, float g) {
-        this.r = (float) r / 255;
-        this.g = (float) g / 255;
-        this.b = (float) b / 255;
+        this.r = r / 255;
+        this.g = g / 255;
+        this.b = b / 255;
     }
 
     public ColoredEffect color(Color color) {

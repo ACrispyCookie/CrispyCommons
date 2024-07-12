@@ -1,6 +1,6 @@
 package dev.acrispycookie.crispycommons.api.guis.menu;
 
-import dev.acrispycookie.crispycommons.api.wrappers.elements.types.ItemElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.ItemElement;
 import dev.acrispycookie.crispycommons.implementations.guis.menu.items.LoadedItem;
 import dev.acrispycookie.crispycommons.implementations.guis.menu.items.LoadingItem;
 import dev.acrispycookie.crispycommons.implementations.guis.menu.wrappers.MenuData;
@@ -11,7 +11,7 @@ import java.util.function.Supplier;
 
 public interface MenuItem {
 
-    static LoadedItem loadedItem(ItemElement display, BiFunction<MenuData, Player, Void> onClick) {
+    static LoadedItem loadedItem(ItemElement<?> display, BiFunction<MenuData, Player, Void> onClick) {
         return new LoadedItem(display) {
             @Override
             public void onClick(MenuData data, Player player) {
@@ -20,7 +20,7 @@ public interface MenuItem {
         };
     }
 
-    static LoadingItem loadingItem(ItemElement display, BiFunction<MenuData, Player, Void> onClick, BiFunction<MenuData, Player, Void> onClickUnloaded, Supplier<ItemElement> elementSupplier) {
+    static LoadingItem loadingItem(ItemElement<?> display, BiFunction<MenuData, Player, Void> onClick, BiFunction<MenuData, Player, Void> onClickUnloaded, Supplier<ItemElement<?>> elementSupplier) {
         return new LoadingItem(display) {
             @Override
             public void onClickUnloaded(MenuData data, Player player) {
@@ -33,7 +33,7 @@ public interface MenuItem {
             }
 
             @Override
-            public ItemElement loadItem() {
+            public ItemElement<?> loadItem() {
                 return elementSupplier.get();
             }
         };
@@ -49,7 +49,7 @@ public interface MenuItem {
     MenuItem setCanSeeUnloaded(BiFunction<MenuData, Player, Boolean> supplier);
     MenuItem setCanTake(BiFunction<MenuData, Player, Boolean> supplier);
     boolean isLoaded();
-    ItemElement getDisplay();
-    void setLoadedDisplay(ItemElement element);
-    void setLoadingDisplay(ItemElement element);
+    ItemElement<?> getDisplay();
+    void setLoadedDisplay(ItemElement<?> element);
+    void setLoadingDisplay(ItemElement<?> element);
 }

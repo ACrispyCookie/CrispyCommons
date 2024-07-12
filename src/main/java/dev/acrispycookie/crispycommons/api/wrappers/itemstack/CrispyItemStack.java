@@ -62,9 +62,9 @@ public class CrispyItemStack extends ItemStack implements CrispyItem {
         return this;
     }
 
-    public CrispyItemStack addEnchant(Enchantment ench, int level) {
+    public CrispyItemStack addEnchant(Enchantment enchantment, int level) {
         ItemMeta meta = this.getItemMeta();
-        meta.addEnchant(ench, level, true);
+        meta.addEnchant(enchantment, level, true);
         this.setItemMeta(meta);
         return this;
     }

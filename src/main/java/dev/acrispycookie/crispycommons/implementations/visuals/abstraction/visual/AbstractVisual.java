@@ -3,10 +3,7 @@ package dev.acrispycookie.crispycommons.implementations.visuals.abstraction.visu
 import dev.acrispycookie.crispycommons.CrispyCommons;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.CrispyVisual;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.VisualData;
-import dev.acrispycookie.crispycommons.api.wrappers.elements.DynamicElement;
-import dev.acrispycookie.crispycommons.api.wrappers.elements.types.GeneralElement;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.global.type.GlobalGeneralElement;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.personal.types.PersonalGeneralElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GeneralElement;
 import dev.acrispycookie.crispycommons.utility.logging.CrispyLogger;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -21,8 +18,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.util.*;
-import java.util.function.Function;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public abstract class AbstractVisual<T extends VisualData> implements CrispyVisual, Listener {
@@ -35,7 +30,7 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
     protected long onlineReceivers;
     protected T data;
     protected boolean isDisplayed = false;
-    protected GeneralElement<Long> timeToLive;
+    protected GeneralElement<Long, ?> timeToLive;
     protected abstract void prepareShow();
     protected abstract void prepareHide();
     protected abstract void globalUpdate();
@@ -43,7 +38,7 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
     protected abstract void hide(Player p);
     protected abstract void perPlayerUpdate(Player p);
 
-    public AbstractVisual(T data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long> timeToLive, UpdateMode mode) {
+    public AbstractVisual(T data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long, ?> timeToLive, UpdateMode mode) {
         this.data = data;
         this.updateMode = mode;
         this.receivers.addAll(receivers.stream().map(OfflinePlayer::getUniqueId).collect(Collectors.toSet()));
@@ -86,13 +81,13 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
             return;
         }
 
-        if (timeToLive instanceof PersonalGeneralElement && ((PersonalGeneralElement<Long>) timeToLive).getRaw(p) > 0) {
+        if (timeToLive.isContext(OfflinePlayer.class) && timeToLive.getFromContext(OfflinePlayer.class, p) > 0) {
             personalTtlTasks.put(p.getUniqueId(), new BukkitRunnable() {
                 @Override
                 public void run() {
                     hideInternal(p);
                 }
-            }.runTaskLater(CrispyCommons.getPlugin(), ((PersonalGeneralElement<Long>) timeToLive).getRaw(p)));
+            }.runTaskLater(CrispyCommons.getPlugin(), timeToLive.getFromContext(OfflinePlayer.class, p)));
         }
 
         if (currentlyDisplaying.isEmpty())
@@ -117,13 +112,13 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
         if (isDisplayed) return;
         isDisplayed = true;
 
-        if (timeToLive instanceof GlobalGeneralElement && ((GlobalGeneralElement<Long>) timeToLive).getRaw() > 0)
+        if (timeToLive.isContext(Void.class) && timeToLive.getRaw(null) > 0)
             globalTtlTask = new BukkitRunnable() {
                 @Override
                 public void run() {
                     hide();
                 }
-            }.runTaskLater(CrispyCommons.getPlugin(), ((GlobalGeneralElement<Long>) timeToLive).getRaw());
+            }.runTaskLater(CrispyCommons.getPlugin(), timeToLive.getRaw(null));
 
         if (onlineReceivers > 0)
             prepareShow();
@@ -215,12 +210,12 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
     }
 
     @Override
-    public void setTimeToLive(GeneralElement<Long> timeToLive) {
+    public void setTimeToLive(GeneralElement<Long, ?> timeToLive) {
         this.timeToLive = timeToLive;
     }
 
     @Override
-    public GeneralElement<Long> getTimeToLive() {
+    public GeneralElement<Long, ?> getTimeToLive() {
         return timeToLive;
     }
 
@@ -234,16 +229,16 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
     }
 
     private boolean shouldDisplay(Player p) {
-        boolean isGlobal =  timeToLive instanceof GlobalGeneralElement
-                && ((GlobalGeneralElement<Long>) timeToLive).getRaw() > 0
+        boolean isGlobal =  timeToLive.isContext(Void.class)
+                && timeToLive.getRaw(null) > 0
                 && globalTtlTask != null
                 && Bukkit.getScheduler().isCurrentlyRunning(globalTtlTask.getTaskId());
-        boolean isPersonal =  timeToLive instanceof PersonalGeneralElement
-                && ((PersonalGeneralElement<Long>) timeToLive).getRaw(p) > 0
+        boolean isPersonal =  timeToLive.isContext(OfflinePlayer.class)
+                && timeToLive.getFromContext(OfflinePlayer.class, p) > 0
                 && personalTtlTasks.containsKey(p.getUniqueId())
                 && Bukkit.getScheduler().isCurrentlyRunning(personalTtlTasks.get(p.getUniqueId()).getTaskId());
-        boolean isInfinite = timeToLive instanceof GlobalGeneralElement
-                && ((GlobalGeneralElement<Long>) timeToLive).getRaw() == -1;
+        boolean isInfinite = timeToLive.isContext(Void.class)
+                && timeToLive.getRaw(null) == -1;
 
         return isGlobal || isPersonal || isInfinite;
     }
@@ -251,6 +246,6 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
     public enum UpdateMode {
         PER_PLAYER,
         GLOBAL,
-        BOTH;
+        BOTH
     }
 }
