@@ -4,7 +4,7 @@ import dev.acrispycookie.crispycommons.api.visuals.nametag.CrispyNameTag;
 import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.visual.AbstractVisual;
 import dev.acrispycookie.crispycommons.implementations.visuals.nametag.wrappers.NameTagData;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GeneralElement;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TextElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.NameTagElement;
 import org.bukkit.OfflinePlayer;
 
 import java.util.Set;
@@ -32,7 +32,7 @@ public abstract class AbstractNameTag extends AbstractVisual<NameTagData> implem
     }
 
     @Override
-    public void setPrefix(TextElement<?> prefix) {
+    public void setPrefix(NameTagElement<?> prefix) {
         data.getPrefix().stop();
         data.setPrefix(prefix);
         data.getPrefix().setUpdate(this::update);
@@ -43,7 +43,7 @@ public abstract class AbstractNameTag extends AbstractVisual<NameTagData> implem
     }
 
     @Override
-    public void setSuffix(TextElement<?> suffix) {
+    public void setSuffix(NameTagElement<?> suffix) {
         data.getSuffix().stop();
         data.setSuffix(suffix);
         data.getSuffix().setUpdate(this::update);
@@ -54,7 +54,7 @@ public abstract class AbstractNameTag extends AbstractVisual<NameTagData> implem
     }
 
     @Override
-    public void setBelowName(TextElement<?> belowName) {
+    public void setBelowName(NameTagElement<?> belowName) {
         data.getBelowName().stop();
         data.setBelowName(belowName);
         data.getBelowName().setUpdate(this::update);
@@ -65,7 +65,7 @@ public abstract class AbstractNameTag extends AbstractVisual<NameTagData> implem
     }
 
     @Override
-    public void setAboveName(TextElement<?> aboveName) {
+    public void setAboveName(NameTagElement<?> aboveName) {
         data.getAboveName().stop();
         data.setAboveName(aboveName);
         data.getAboveName().setUpdate(this::update);
@@ -76,22 +76,22 @@ public abstract class AbstractNameTag extends AbstractVisual<NameTagData> implem
     }
 
     @Override
-    public TextElement<?> getPrefix() {
+    public NameTagElement<?> getPrefix() {
         return data.getPrefix();
     }
 
     @Override
-    public TextElement<?> getSuffix() {
+    public NameTagElement<?> getSuffix() {
         return data.getSuffix();
     }
 
     @Override
-    public TextElement<?> getBelowName() {
+    public NameTagElement<?> getBelowName() {
         return data.getBelowName();
     }
 
     @Override
-    public TextElement<?> getAboveName() {
+    public NameTagElement<?> getAboveName() {
         return data.getAboveName();
     }
 }
