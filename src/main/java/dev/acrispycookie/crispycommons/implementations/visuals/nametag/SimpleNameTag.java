@@ -1,8 +1,11 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.nametag;
 
 import dev.acrispycookie.crispycommons.api.visuals.hologram.CrispyHologram;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.context.NameTagContext;
 import dev.acrispycookie.crispycommons.implementations.visuals.nametag.wrappers.NameTagData;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GeneralElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.NameTagElement;
+import dev.acrispycookie.crispycommons.utility.elements.ContextMap;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
@@ -20,8 +23,8 @@ public class SimpleNameTag extends AbstractNameTag {
 
     @Override
     protected void show(Player p) {
-//        if (!p.canSee(data.getPlayer().getFromContext(OfflinePlayer.class, p)))
-//            return;
+        if (!p.canSee(data.getPlayer().getFromContext(OfflinePlayer.class, p)))
+            return;
 
     }
 
@@ -32,13 +35,20 @@ public class SimpleNameTag extends AbstractNameTag {
 
     @Override
     protected void perPlayerUpdate(Player p) {
-//        if (!p.canSee(data.getPlayer().getFromContext(OfflinePlayer.class, p)))
-//            return;
+        if (!p.canSee(data.getPlayer().getFromContext(OfflinePlayer.class, p)))
+            return;
 
     }
 
     @Override
     protected void globalUpdate() {
 
+    }
+
+    private String getElement(NameTagElement<?> element, Player player, Player receiver) {
+        ContextMap co = new ContextMap()
+                .add(OfflinePlayer.class, player)
+                .add(NameTagContext.class, new NameTagContext(player, receiver));
+        return element.getFromContext(co);
     }
 }

@@ -2,8 +2,7 @@ package dev.acrispycookie.crispycommons.implementations.wrappers.elements;
 
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.CrispyVisual;
 import dev.acrispycookie.crispycommons.api.wrappers.elements.CrispyElement;
-import dev.acrispycookie.crispycommons.api.wrappers.itemstack.CrispyItemStack;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.ItemElement;
+import dev.acrispycookie.crispycommons.utility.elements.ContextMap;
 
 import java.util.Map;
 
@@ -24,10 +23,10 @@ public abstract class AbstractElement<T, K> implements CrispyElement<T, K> {
 
     @Override
     @SuppressWarnings("unchecked")
-    public <C> T getFromContext(Map<Class<C>, C> contexts) {
-        for (Class<C> key : contexts.keySet()) {
-            if (isContext(key))
-                return ((AbstractElement<T, C>) this).getRaw(contexts.get(key));
+    public <C> T getFromContext(ContextMap contexts) {
+        for (Map.Entry<Class<?>, Object> context : contexts.get().entrySet()) {
+            if (isContext(context.getKey()))
+                return ((AbstractElement<T, C>) this).getRaw((C) context.getValue());
         }
         if (isContext(Void.class))
             return getRaw(null);
@@ -36,6 +35,10 @@ public abstract class AbstractElement<T, K> implements CrispyElement<T, K> {
 
     @Override
     @SuppressWarnings("unchecked")
+    /*
+    Checks if the element is of context C and returns the value of the element if it is,
+    or checks if it doesn't have any context.
+     */
     public <C> T getFromContext(Class<C> clazz, C value) {
         if (isContext(clazz))
             return ((AbstractElement<T, C>) this).getRaw(value);

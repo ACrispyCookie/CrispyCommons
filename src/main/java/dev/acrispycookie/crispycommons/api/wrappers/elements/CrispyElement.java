@@ -1,10 +1,10 @@
 package dev.acrispycookie.crispycommons.api.wrappers.elements;
 
-import java.util.Map;
+import dev.acrispycookie.crispycommons.utility.elements.ContextMap;
 
 public interface CrispyElement<T, K> extends Cloneable {
     T getRaw(K context);
-    <C> T getFromContext(Map<Class<C>, C> contexts);
+    <C> T getFromContext(ContextMap contexts);
     <C> T getFromContext(Class<C> clazz, C value);
     boolean isDynamic();
     Class<K> getContextClass();

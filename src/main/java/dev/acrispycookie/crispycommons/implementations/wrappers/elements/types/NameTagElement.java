@@ -1,7 +1,7 @@
 package dev.acrispycookie.crispycommons.implementations.wrappers.elements.types;
 
 import dev.acrispycookie.crispycommons.api.wrappers.itemstack.CrispyItemStack;
-import dev.acrispycookie.crispycommons.implementations.visuals.nametag.wrappers.NameTagContext;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.context.NameTagContext;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.AbstractAnimatedElement;
 import dev.acrispycookie.crispycommons.utility.elements.MyElementSupplier;
 import org.bukkit.OfflinePlayer;

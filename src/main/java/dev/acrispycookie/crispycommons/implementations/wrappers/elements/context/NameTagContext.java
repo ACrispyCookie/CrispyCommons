@@ -1,4 +1,4 @@
-package dev.acrispycookie.crispycommons.implementations.visuals.nametag.wrappers;
+package dev.acrispycookie.crispycommons.implementations.wrappers.elements.context;
 
 import org.bukkit.entity.Player;
 

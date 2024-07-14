@@ -12,8 +12,6 @@ import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
-import java.util.Collections;
-
 public class TextEntity extends ClickableEntity<TextElement<?>> {
 
     private EntityArmorStand as = null;
@@ -29,7 +27,7 @@ public class TextEntity extends ClickableEntity<TextElement<?>> {
 
     @Override
     public void spawn(Location location, Player player) {
-        Component elementValue = element.getFromContext(Collections.singletonMap(OfflinePlayer.class, player));
+        Component elementValue = element.getFromContext(OfflinePlayer.class, player);
         String text = LegacyComponentSerializer.legacyAmpersand().serialize(
                 elementValue == null ? Component.text("") : elementValue
         );
@@ -64,7 +62,7 @@ public class TextEntity extends ClickableEntity<TextElement<?>> {
 
     @Override
     public void update(Location location, Player player) {
-        Component text = element.getFromContext(Collections.singletonMap(OfflinePlayer.class, player));
+        Component text = element.getFromContext(OfflinePlayer.class, player);
         String content = LegacyComponentSerializer.legacyAmpersand().serialize(text);
 
         String name = StringUtils.isEmptyOrWhitespaceOnly(content) ? " " : ChatColor.translateAlternateColorCodes('&', content);
