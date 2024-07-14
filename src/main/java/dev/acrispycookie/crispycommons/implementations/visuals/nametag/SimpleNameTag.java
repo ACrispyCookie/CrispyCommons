@@ -26,6 +26,9 @@ public class SimpleNameTag extends AbstractNameTag {
         if (!p.canSee(data.getPlayer().getFromContext(OfflinePlayer.class, p)))
             return;
 
+        Player owner = data.getPlayer().getFromContext(OfflinePlayer.class, p);
+        String prefix = getElement(data.getPrefix(), owner, p);
+        String suffix = getElement(data.getPrefix(), owner, p);
     }
 
     @Override

@@ -3,6 +3,7 @@ package dev.acrispycookie.crispycommons.implementations.visuals.nametag.wrappers
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.VisualData;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GeneralElement;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.NameTagElement;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 public class NameTagData implements VisualData {
@@ -63,7 +64,7 @@ public class NameTagData implements VisualData {
 
     @Override
     public void assertReady(Player player) {
-        if (player == null)
+        if (this.player.getFromContext(OfflinePlayer.class, player) == null)
             throw new VisualNotReadyException("The name tag player was not set!");
         if (prefix == null)
             throw new VisualNotReadyException("The name tag prefix was not set!");
