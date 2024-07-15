@@ -1,12 +1,16 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.bossbar;
 
+import dev.acrispycookie.crispycommons.CrispyCommons;
 import dev.acrispycookie.crispycommons.api.visuals.bossbar.CrispyBossBar;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GeneralElement;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TextElement;
 import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.visual.AbstractVisual;
 import dev.acrispycookie.crispycommons.implementations.visuals.bossbar.wrappers.BossBarData;
 import net.kyori.adventure.bossbar.BossBar;
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.player.PlayerRespawnEvent;
 
 import java.util.Set;
 
@@ -14,6 +18,12 @@ public abstract class AbstractBossBar extends AbstractVisual<BossBarData> implem
 
     AbstractBossBar(BossBarData data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long, ?> timeToLive) {
         super(data, receivers, timeToLive, UpdateMode.PER_PLAYER);
+    }
+
+    @EventHandler
+    public void onRespawn(PlayerRespawnEvent event) {
+        if (getPlayers().contains(event.getPlayer()) && isDisplayed)
+            Bukkit.getScheduler().runTaskLater(CrispyCommons.getPlugin(), () -> show(event.getPlayer()), 20L);
     }
 
     @Override

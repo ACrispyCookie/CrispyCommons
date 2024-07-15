@@ -56,7 +56,7 @@ public class SimpleNameTag extends AbstractNameTag {
     @Override
     protected void hide(Player p) {
         hideNameTag(p);
-        removeVanillaBelow(p);
+        hideBelowName(p);
         if (aboveNameHologram != null)
             aboveNameHologram.hide();
     }
@@ -78,6 +78,9 @@ public class SimpleNameTag extends AbstractNameTag {
     }
 
     private void showBelowName(Player p) {
+        if (data.getBelowName() == null || data.getBelowNameValue() == null)
+            return;
+
         String below = getElement(data.getBelowName(), data.getPlayer(), p);
         int value = getElement(data.getBelowNameValue(), data.getPlayer(), p);
 
@@ -85,10 +88,20 @@ public class SimpleNameTag extends AbstractNameTag {
     }
 
     private void updateBelowName(Player p) {
+        if (data.getBelowName() == null || data.getBelowNameValue() == null)
+            return;
+
         String below = getElement(data.getBelowName(), data.getPlayer(), p);
         int value = getElement(data.getBelowNameValue(), data.getPlayer(), p);
 
         updateVanillaBelowName(p, below, value);
+    }
+
+    private void hideBelowName(Player p) {
+        if (data.getBelowName() == null || data.getBelowNameValue() == null)
+            return;
+
+        removeVanillaBelowName(p);
     }
 
     private void showAboveName(Player p) {
@@ -179,15 +192,19 @@ public class SimpleNameTag extends AbstractNameTag {
 
     private void setVanillaBelowName(Player receiver, String below, int value) {
         Scoreboard scoreboard = receiver.getScoreboard();
-        Objective objective = scoreboard.registerNewObjective(data.getPlayer().getName(), "dummy");
+        Objective objective = scoreboard.getObjective(data.getPlayer().getName()) == null ?
+                scoreboard.registerNewObjective(data.getPlayer().getName(), "dummy") :
+                scoreboard.getObjective(data.getPlayer().getName());
         objective.setDisplayName(ChatColor.translateAlternateColorCodes('&', below));
         objective.setDisplaySlot(DisplaySlot.BELOW_NAME);
         objective.getScore(data.getPlayer().getName()).setScore(value);
         receiver.setScoreboard(scoreboard);
     }
 
-    private void removeVanillaBelow(Player receiver) {
+    private void removeVanillaBelowName(Player receiver) {
         Scoreboard scoreboard = receiver.getScoreboard();
+        if (scoreboard.getObjective(data.getPlayer().getName()) == null)
+            return;
         scoreboard.getObjective(data.getPlayer().getName()).unregister();
         receiver.setScoreboard(scoreboard);
     }

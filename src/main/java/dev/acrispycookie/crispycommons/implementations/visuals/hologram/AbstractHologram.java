@@ -1,12 +1,17 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.hologram;
 
+import dev.acrispycookie.crispycommons.CrispyCommons;
 import dev.acrispycookie.crispycommons.api.visuals.hologram.CrispyHologram;
 import dev.acrispycookie.crispycommons.api.wrappers.elements.DynamicElement;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GeneralElement;
 import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.visual.AbstractVisual;
 import dev.acrispycookie.crispycommons.implementations.visuals.hologram.wrappers.HologramData;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -19,6 +24,19 @@ public abstract class AbstractHologram extends AbstractVisual<HologramData> impl
 
     AbstractHologram(HologramData data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long, ?> timeToLive, UpdateMode updateMode) {
         super(data, receivers, timeToLive, updateMode);
+    }
+
+    @EventHandler
+    public void onDeath(PlayerDeathEvent event) {
+        if (getPlayers().contains(event.getEntity()) && isDisplayed)
+            hide(event.getEntity());
+    }
+
+    @EventHandler
+    public void onRespawn(PlayerRespawnEvent event) {
+        if (getPlayers().contains(event.getPlayer()) && isDisplayed) {
+            Bukkit.getScheduler().runTaskLater(CrispyCommons.getPlugin(), () -> show(event.getPlayer()), 1L);
+        }
     }
 
     @Override
