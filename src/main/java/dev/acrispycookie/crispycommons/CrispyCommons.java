@@ -5,9 +5,13 @@ import dev.acrispycookie.crispycommons.utility.menus.MenuListener;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_8_R3.CraftServer;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class CrispyCommons {
+public class CrispyCommons implements Listener {
 
     private static JavaPlugin plugin;
     private static BukkitAudiences bukkitAudiences;
@@ -36,6 +40,12 @@ public class CrispyCommons {
         if (settings.isMenusEnabled()) {
             Bukkit.getPluginManager().registerEvents(new MenuListener(), plugin);
         }
+        Bukkit.getPluginManager().registerEvents(new CrispyCommons(), plugin);
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onPlayerJoin(PlayerJoinEvent event) {
+        event.getPlayer().setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
     }
 
 }

@@ -1,22 +1,22 @@
 package dev.acrispycookie.crispycommons.implementations.wrappers.elements.context;
 
-import org.bukkit.entity.Player;
+import org.bukkit.OfflinePlayer;
 
 public class NameTagContext {
 
-    private final Player player;
-    private final Player receiver;
+    private final OfflinePlayer player;
+    private final OfflinePlayer receiver;
 
-    public NameTagContext(Player player, Player receiver) {
+    public NameTagContext(OfflinePlayer player, OfflinePlayer receiver) {
         this.player = player;
         this.receiver = receiver;
     }
 
-    public Player getPlayer() {
+    public OfflinePlayer getPlayer() {
         return player;
     }
 
-    public Player getReceiver() {
+    public OfflinePlayer getReceiver() {
         return receiver;
     }
 }

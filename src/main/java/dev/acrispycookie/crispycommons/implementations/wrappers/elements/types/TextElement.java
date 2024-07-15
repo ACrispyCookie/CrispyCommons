@@ -24,13 +24,28 @@ public class TextElement<K> extends AbstractAnimatedElement<Component, K> {
             setUpdate(() -> {});
     }
 
-    public TextElement<K> add(TextElement<K> element) {
+    public TextElement<K> addSame(TextElement<K> element) {
         int newPeriod = CrispyElement.getMinimumPeriod(this, element);
         if (newPeriod < 0) {
             return new TextElement<>(new MyElementSupplier<>((context) -> getRaw(context).append(element.getRaw(context))), -1, getContextClass());
         } else {
             return new TextElement<>(new MyElementSupplier<>((context) -> getRaw(context).append(element.getRaw(context))), newPeriod, getContextClass());
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    public TextElement<K> add(TextElement<?> element) {
+        if (element.isContext(kClass))
+            return this.addSame((TextElement<K>) element);
+        else if (element.isContext(Void.class)) {
+            int newPeriod = CrispyElement.getMinimumPeriod(this, element);
+            if (newPeriod < 0) {
+                return new TextElement<>(new MyElementSupplier<>((context) -> getRaw(context).append(element.getRaw(null))), -1, getContextClass());
+            } else {
+                return new TextElement<>(new MyElementSupplier<>((context) -> getRaw(context).append(element.getRaw(null))), newPeriod, getContextClass());
+            }
+        }
+        return null;
     }
 
     @Override

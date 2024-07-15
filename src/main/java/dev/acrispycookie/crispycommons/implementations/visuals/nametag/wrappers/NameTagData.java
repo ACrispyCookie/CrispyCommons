@@ -1,78 +1,86 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.nametag.wrappers;
 
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.VisualData;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GeneralElement;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.NameTagElement;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 public class NameTagData implements VisualData {
 
-    private GeneralElement<Player, ?> player;
-    private NameTagElement<?> prefix;
-    private NameTagElement<?> suffix;
-    private NameTagElement<?> belowName;
-    private NameTagElement<?> aboveName;
+    private Player player;
+    private NameTagElement<String, ?> prefix;
+    private NameTagElement<String, ?> suffix;
+    private NameTagElement<Integer, ?> belowNameValue;
+    private NameTagElement<String, ?> belowName;
+    private NameTagElement<String, ?> aboveName;
 
-    public NameTagData(GeneralElement<Player, ?> player, NameTagElement<?> prefix, NameTagElement<?> suffix, NameTagElement<?> belowName, NameTagElement<?> aboveName) {
+    public NameTagData(Player player, NameTagElement<String, ?> prefix, NameTagElement<String, ?> suffix, NameTagElement<Integer, ?> belowNameValue, NameTagElement<String, ?> belowName, NameTagElement<String, ?> aboveName) {
         this.player = player;
         this.prefix = prefix;
         this.suffix = suffix;
         this.belowName = belowName;
+        this.belowNameValue = belowNameValue;
         this.aboveName = aboveName;
     }
 
-    public GeneralElement<Player, ?> getPlayer() {
+    public Player getPlayer() {
         return player;
     }
 
-    public void setPlayer(GeneralElement<Player, ?> player) {
+    public void setPlayer(Player player) {
         this.player = player;
     }
 
-    public NameTagElement<?> getPrefix() {
+    public NameTagElement<String, ?> getPrefix() {
         return prefix;
     }
 
-    public void setPrefix(NameTagElement<?> prefix) {
+    public void setPrefix(NameTagElement<String, ?> prefix) {
         this.prefix = prefix;
     }
 
-    public NameTagElement<?> getSuffix() {
+    public NameTagElement<String, ?> getSuffix() {
         return suffix;
     }
 
-    public void setSuffix(NameTagElement<?> suffix) {
+    public void setSuffix(NameTagElement<String, ?> suffix) {
         this.suffix = suffix;
     }
 
-    public NameTagElement<?> getBelowName() {
+    public NameTagElement<String, ?> getBelowName() {
         return belowName;
     }
 
-    public void setBelowName(NameTagElement<?> belowName) {
+    public void setBelowName(NameTagElement<String, ?> belowName) {
         this.belowName = belowName;
     }
 
-    public NameTagElement<?> getAboveName() {
+    public NameTagElement<Integer, ?> getBelowNameValue() {
+        return belowNameValue;
+    }
+
+    public void setBelowNameValue(NameTagElement<Integer, ?> belowNameValue) {
+        this.belowNameValue = belowNameValue;
+    }
+
+    public NameTagElement<String, ?> getAboveName() {
         return aboveName;
     }
 
-    public void setAboveName(NameTagElement<?> aboveName) {
+    public void setAboveName(NameTagElement<String, ?> aboveName) {
         this.aboveName = aboveName;
     }
 
     @Override
     public void assertReady(Player player) {
-        if (this.player.getFromContext(OfflinePlayer.class, player) == null)
-            throw new VisualNotReadyException("The name tag player was not set!");
+        if (this.player == null)
+            throw new VisualNotReadyException("The name tag's player was not set!");
         if (prefix == null)
-            throw new VisualNotReadyException("The name tag prefix was not set!");
+            throw new VisualNotReadyException("The name tag's prefix was not set!");
         if (suffix == null)
-            throw new VisualNotReadyException("The name tag suffix was not set!");
-        if (belowName == null)
-            throw new VisualNotReadyException("The name tag below name element was not set!");
-        if (aboveName == null)
-            throw new VisualNotReadyException("The name tag above name element was not set!");
+            throw new VisualNotReadyException("The name tag's suffix was not set!");
+        if (belowNameValue != null && belowName == null)
+            throw new VisualNotReadyException("The below name value was set while below name display wasn't set!");
+        if (belowName != null && belowNameValue == null)
+            throw new VisualNotReadyException("The below name display was set while below name value wasn't set!");
     }
 }

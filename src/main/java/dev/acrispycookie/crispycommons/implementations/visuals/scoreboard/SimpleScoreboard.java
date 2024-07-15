@@ -27,7 +27,7 @@ public class SimpleScoreboard extends AbstractScoreboard {
 
     @Override
     protected void show(Player p) {
-        scoreboards.put(p, getNewBoard());
+        scoreboards.put(p, getNewBoard(p));
         initTitle(p);
         initLines(p);
         p.setScoreboard(scoreboards.get(p));
@@ -170,8 +170,8 @@ public class SimpleScoreboard extends AbstractScoreboard {
         return lastColors.substring(lastReset);
     }
 
-    private Scoreboard getNewBoard() {
-        Scoreboard board = Bukkit.getScoreboardManager().getNewScoreboard();
+    private Scoreboard getNewBoard(Player p) {
+        Scoreboard board = p.getScoreboard();
         board.registerNewObjective("[CrispyCommons]", "dummy");
         board.getObjective("[CrispyCommons]").setDisplaySlot(DisplaySlot.SIDEBAR);
         return board;

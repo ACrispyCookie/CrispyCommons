@@ -41,17 +41,19 @@ public abstract class AbstractDynamicElement<T, K> extends AbstractElement<T, K>
         bukkitTask = new BukkitRunnable() {
             @Override
             public void run() {
-                elements.forEach((p, element) -> elements.put(p, supplier.apply(p)));
+                elements.forEach((k, element) -> {
+                    elements.put(k, supplier.apply(k));
+                });
                 update.run();
             }
         }.runTaskTimer(CrispyCommons.getPlugin(), period, period);
     }
 
     @Override
-    public T getRaw(K player) {
-        if (!elements.containsKey(player))
-            elements.put(player, supplier.apply(player));
-        return elements.get(player);
+    public T getRaw(K context ) {
+        if (!elements.containsKey(context))
+            elements.put(context, supplier.apply(context));
+        return elements.get(context);
     }
 
     public void stop() {

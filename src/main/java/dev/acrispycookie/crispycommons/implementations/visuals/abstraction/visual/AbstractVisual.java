@@ -137,7 +137,7 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
         if (!isDisplayed) return;
         isDisplayed = false;
 
-        if (Bukkit.getScheduler().isCurrentlyRunning(globalTtlTask.getTaskId()))
+        if (globalTtlTask != null && Bukkit.getScheduler().isCurrentlyRunning(globalTtlTask.getTaskId()))
             globalTtlTask.cancel();
 
         if (onlineReceivers > 0)
