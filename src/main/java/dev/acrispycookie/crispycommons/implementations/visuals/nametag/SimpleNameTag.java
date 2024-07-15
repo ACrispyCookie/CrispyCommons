@@ -19,9 +19,7 @@ import java.util.Set;
 
 public class SimpleNameTag extends AbstractNameTag {
 
-    private CrispyHologram mainNameHologram;
     private CrispyHologram aboveNameHologram;
-    private CrispyHologram belowNameHologram;
 
     public SimpleNameTag(NameTagData data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long, ?> timeToLive) {
         super(data, receivers, timeToLive, UpdateMode.PER_PLAYER);
@@ -58,7 +56,7 @@ public class SimpleNameTag extends AbstractNameTag {
         hideNameTag(p);
         hideBelowName(p);
         if (aboveNameHologram != null)
-            aboveNameHologram.hide();
+            aboveNameHologram.removePlayer(p);
     }
 
     @Override
@@ -75,6 +73,16 @@ public class SimpleNameTag extends AbstractNameTag {
     @Override
     protected void globalUpdate() {
 
+    }
+
+    private void showAboveName(Player p) {
+        if (data.getAboveName() == null)
+            return;
+        if (aboveNameHologram == null) {
+            aboveNameHologram = getAboveNameHologram();
+            aboveNameHologram.show();
+        }
+        aboveNameHologram.addPlayer(p);
     }
 
     private void showBelowName(Player p) {
@@ -104,59 +112,30 @@ public class SimpleNameTag extends AbstractNameTag {
         removeVanillaBelowName(p);
     }
 
-    private void showAboveName(Player p) {
-        if (data.getAboveName() == null)
-            return;
-        if (aboveNameHologram == null) {
-            aboveNameHologram = getAboveNameHologram();
-            aboveNameHologram.show();
-        }
-        aboveNameHologram.addPlayer(p);
-    }
-
     private void showNameTag(Player p) {
         String prefix = getElement(data.getPrefix(), data.getPlayer(), p);
         String suffix = getElement(data.getSuffix(), data.getPlayer(), p);
-
-        /*
-        if (prefix.length() > 16 || suffix.length() > 16) {
-            if (mainNameHologram == null) {
-                mainNameHologram = getMainHologram();
-                mainNameHologram.show();
-            }
-            mainNameHologram.addPlayer(p);
-            hideVanillaNameTag(p);
-            return;
-        }
-        */
 
         setVanillaNameTag(p, prefix, suffix);
     }
 
     private void updateNameTag(Player p) {
-        if (mainNameHologram != null) {
-            return;
-        }
-
         String prefix = getElement(data.getPrefix(), data.getPlayer(), p);
         String suffix = getElement(data.getSuffix(), data.getPlayer(), p);
         updateVanillaNameTag(p, prefix, suffix);
     }
 
     private void hideNameTag(Player p) {
-        if (mainNameHologram != null) {
-            mainNameHologram.hide();
+        if (data.getPrefix() == null && data.getSuffix() == null)
             return;
-        }
-
         removeVanillaNameTag(p);
     }
 
     private void updateVanillaNameTag(Player receiver, String prefix, String suffix) {
         Scoreboard scoreboard = receiver.getScoreboard();
         Team t = scoreboard.getTeam(data.getPlayer().getName());
-        t.setPrefix(ChatColor.translateAlternateColorCodes('&', prefix.substring(0, 16)));
-        t.setSuffix(ChatColor.translateAlternateColorCodes('&', suffix.substring(0, 16)));
+        t.setPrefix(ChatColor.translateAlternateColorCodes('&', prefix.substring(0, Math.min(16, prefix.length()))));
+        t.setSuffix(ChatColor.translateAlternateColorCodes('&', suffix.substring(0, Math.min(16, suffix.length()))));
     }
 
     private void setVanillaNameTag(Player receiver, String prefix, String suffix) {
@@ -164,8 +143,8 @@ public class SimpleNameTag extends AbstractNameTag {
         Team t = scoreboard.getTeam(data.getPlayer().getName()) == null ?
                 scoreboard.registerNewTeam(data.getPlayer().getName()) :
                 scoreboard.getTeam(data.getPlayer().getName());
-        t.setPrefix(ChatColor.translateAlternateColorCodes('&', prefix.substring(0, 16)));
-        t.setSuffix(ChatColor.translateAlternateColorCodes('&', suffix.substring(0, 16)));
+        t.setPrefix(ChatColor.translateAlternateColorCodes('&', prefix.substring(0, Math.min(16, prefix.length()))));
+        t.setSuffix(ChatColor.translateAlternateColorCodes('&', suffix.substring(0, Math.min(16, suffix.length()))));
         t.setNameTagVisibility(NameTagVisibility.ALWAYS);
         t.addEntry(data.getPlayer().getName());
         receiver.setScoreboard(scoreboard);
@@ -207,17 +186,6 @@ public class SimpleNameTag extends AbstractNameTag {
             return;
         scoreboard.getObjective(data.getPlayer().getName()).unregister();
         receiver.setScoreboard(scoreboard);
-    }
-
-    private CrispyHologram getMainHologram() {
-        TextElement<?> prefix = data.getPrefix().convertToTextElement(data.getPlayer());
-        TextElement<?> suffix = data.getSuffix().convertToTextElement(data.getPlayer());
-        TextElement<?> line = prefix.add(TextElement.simple(data.getPlayer().getName())).add(suffix);
-
-        return CrispyHologram.builder()
-                .addLine(line)
-                .setLocation(GeneralElement.dynamic(() -> data.getPlayer().getLocation().add(0, 0.8, 0), 1, false))
-                .build();
     }
 
     private CrispyHologram getAboveNameHologram() {

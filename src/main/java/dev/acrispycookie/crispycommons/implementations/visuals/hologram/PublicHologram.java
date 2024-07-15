@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.Collection;
 
@@ -19,5 +20,10 @@ public class PublicHologram extends SimpleHologram {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
         addPlayer(e.getPlayer());
+    }
+
+    @EventHandler
+    public void onPlayerQuit(PlayerQuitEvent e) {
+        removePlayer(e.getPlayer());
     }
 }
