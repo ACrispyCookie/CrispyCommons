@@ -54,8 +54,11 @@ public abstract class AbstractSection implements Section {
         MenuItem item = getItem(startingIndex);
         if (item == null)
             return;
-        if (!item.canSee(data, player))
+        if (!item.canSee(data, player)) {
+            item.loadAlternative(() -> renderValidItem(player, data, toRender, pasteSlot, startingIndex));
+            toRender.setItem(pasteSlot, item.getAlternativeDisplay().getFromContext(OfflinePlayer.class, player));
             return;
+        }
 
         if (item.getDisplay().isDynamic()) {
             addDynamicItem(item, player, toRender, pasteSlot);

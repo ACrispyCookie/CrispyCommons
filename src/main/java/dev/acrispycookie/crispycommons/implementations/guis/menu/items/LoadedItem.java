@@ -6,8 +6,8 @@ import org.bukkit.entity.Player;
 
 public abstract class LoadedItem extends AbstractMenuItem {
 
-    public LoadedItem(ItemElement<?> display) {
-        super(display, display);
+    public LoadedItem(ItemElement<?> display, ItemElement<?> alternativeDisplay) {
+        super(display, display, alternativeDisplay);
     }
 
     @Override
@@ -18,5 +18,10 @@ public abstract class LoadedItem extends AbstractMenuItem {
     @Override
     public void load(Runnable onLoad) {
         this.isLoaded = true;
+    }
+
+    @Override
+    public void loadAlternative(Runnable onLoad) {
+        this.isAlternativeLoaded = true;
     }
 }

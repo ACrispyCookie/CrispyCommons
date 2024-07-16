@@ -10,15 +10,18 @@ import java.util.function.BiFunction;
 public abstract class AbstractMenuItem implements MenuItem {
 
     protected boolean isLoaded = false;
+    protected boolean isAlternativeLoaded = false;
     private BiFunction<MenuData, Player, Boolean> canSee;
     private BiFunction<MenuData, Player, Boolean> canSeeUnloaded;
     private BiFunction<MenuData, Player, Boolean> canTake;
     private ItemElement<?> display;
+    private ItemElement<?> alternativeDisplay;
     private ItemElement<?> loadingDisplay;
 
-    AbstractMenuItem(ItemElement<?> display, ItemElement<?> unloadedDisplay) {
+    AbstractMenuItem(ItemElement<?> display, ItemElement<?> unloadedDisplay, ItemElement<?> alternativeDisplay) {
         this.display = display;
         this.loadingDisplay = unloadedDisplay;
+        this.alternativeDisplay = alternativeDisplay;
         this.canSee = (page, player) -> true;
         this.canSeeUnloaded = (page, player) -> true;
         this.canTake = (page, player) -> false;
@@ -63,14 +66,28 @@ public abstract class AbstractMenuItem implements MenuItem {
     }
 
     @Override
+    public boolean isAlternativeLoaded() {
+        return isAlternativeLoaded;
+    }
+
+    @Override
     public ItemElement<?> getDisplay() {
         return isLoaded ? display : loadingDisplay;
     }
 
     @Override
+    public ItemElement<?> getAlternativeDisplay() {
+        return isAlternativeLoaded ? alternativeDisplay : loadingDisplay;
+    }
+
+    @Override
+    public void setAlternativeDisplay(ItemElement<?> element) {
+        this.alternativeDisplay = element;
+    }
+
+    @Override
     public void setLoadedDisplay(ItemElement<?> element) {
         this.display = element;
-
     }
 
     @Override
