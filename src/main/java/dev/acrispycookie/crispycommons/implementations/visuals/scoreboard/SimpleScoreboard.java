@@ -17,6 +17,7 @@ import java.util.*;
 public class SimpleScoreboard extends AbstractScoreboard {
 
     private final HashMap<OfflinePlayer, Scoreboard> scoreboards = new HashMap<>();
+    private final HashMap<OfflinePlayer, HashMap<String, Integer>> timesUsedInEntries = new HashMap<>();
 
     public SimpleScoreboard(ScoreboardData data, Collection<? extends OfflinePlayer> receivers, GeneralElement<Long, ?> timeToLive) {
         super(data, new HashSet<>(receivers), timeToLive, UpdateMode.PER_PLAYER);
@@ -106,7 +107,7 @@ public class SimpleScoreboard extends AbstractScoreboard {
 
             Component text = data.getLines().get(i).getFromContext(OfflinePlayer.class, player);
             String line = ChatColor.translateAlternateColorCodes('&', LegacyComponentSerializer.legacyAmpersand().serialize(text));
-            String teamEntry = getEntry(line, scoreboard);
+            String teamEntry = getEntry(player, line, scoreboard);
             Team team = scoreboard.registerNewTeam(String.valueOf(i));
             team.addEntry(teamEntry);
             team.setPrefix(getPrefix(line));
@@ -133,14 +134,14 @@ public class SimpleScoreboard extends AbstractScoreboard {
         return line.substring(0, 16);
     }
 
-    private String getEntry(String line, Scoreboard bukkitScoreboard) {
+    private String getEntry(Player player, String line, Scoreboard bukkitScoreboard) {
         if (line.length() < 16) {
-            return getUniqueEntry(ChatColor.translateAlternateColorCodes('&', "&r"), bukkitScoreboard);
+            return getUniqueEntry(player, "", bukkitScoreboard);
         }
         if (line.charAt(15) == ChatColor.COLOR_CHAR) {
-            return getUniqueEntry(line.substring(15, 17), bukkitScoreboard);
+            return getUniqueEntry(player, line.substring(15, 17), bukkitScoreboard);
         }
-        return getUniqueEntry(ChatColor.getLastColors(line.substring(0, 16)), bukkitScoreboard);
+        return getUniqueEntry(player, ChatColor.getLastColors(line.substring(0, 16)), bukkitScoreboard);
     }
 
     private String getSuffix(String line, String lastEntry) {
@@ -161,16 +162,27 @@ public class SimpleScoreboard extends AbstractScoreboard {
         }
     }
 
-    private String getUniqueEntry(String suffix, Scoreboard bukkitScoreboard) {
+    private String getUniqueEntry(Player player, String suffix, Scoreboard bukkitScoreboard) {
         StringBuilder finalEntry = new StringBuilder(suffix);
-        for (Team t : bukkitScoreboard.getTeams()) {
-            for (String entry : t.getEntries()) {
-                if (finalEntry.toString().endsWith(entry)) {
-                    finalEntry.insert(0, ChatColor.translateAlternateColorCodes('&', "&r"));
-                }
-            }
+        HashMap<String, Integer> timesUsed;
+        if (!timesUsedInEntries.containsKey(player)) {
+            timesUsed = new HashMap<>();
+            timesUsedInEntries.put(player, timesUsed);
+        } else {
+            timesUsed = timesUsedInEntries.get(player);
         }
 
+        if (!timesUsed.containsKey(suffix)) {
+            timesUsed.put(suffix, 1);
+            return finalEntry.toString();
+        }
+
+        int times = timesUsed.get(suffix);
+        for (int i = 0; i < times; i++) {
+            finalEntry.insert(0, ChatColor.translateAlternateColorCodes('&', "&r"));
+        }
+        timesUsed.put(suffix, times + 1);
+        timesUsedInEntries.put(player, timesUsed);
         return finalEntry.toString();
     }
 
@@ -185,6 +197,7 @@ public class SimpleScoreboard extends AbstractScoreboard {
     }
 
     private void resetScoreboard(Player p, int teamSize) {
+        timesUsedInEntries.put(p, new HashMap<>());
         p.getScoreboard().clearSlot(DisplaySlot.SIDEBAR);
         p.getScoreboard().getObjective("[CrispyCommons]").unregister();
         p.setScoreboard(getNewBoard(p));
