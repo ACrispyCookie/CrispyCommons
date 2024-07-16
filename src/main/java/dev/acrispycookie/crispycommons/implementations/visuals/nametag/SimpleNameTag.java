@@ -28,7 +28,7 @@ public class SimpleNameTag extends AbstractNameTag {
     @EventHandler
     public void onDeath(PlayerDeathEvent event) {
         if (event.getEntity().equals(data.getPlayer())) {
-            if (isDisplayed && aboveNameHologram != null)
+            if (isAnyoneWatching() && aboveNameHologram != null)
                 aboveNameHologram.hide();
         }
     }
@@ -36,7 +36,7 @@ public class SimpleNameTag extends AbstractNameTag {
     @EventHandler
     public void onRespawn(PlayerRespawnEvent event) {
         if (event.getPlayer().equals(data.getPlayer())) {
-            if (isDisplayed && aboveNameHologram != null)
+            if (isAnyoneWatching() && aboveNameHologram != null)
                 aboveNameHologram.show();
         }
     }

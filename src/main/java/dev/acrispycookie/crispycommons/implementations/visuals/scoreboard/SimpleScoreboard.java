@@ -4,7 +4,6 @@ import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.G
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.wrappers.ScoreboardData;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -13,9 +12,7 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 
 public class SimpleScoreboard extends AbstractScoreboard {
 
@@ -29,13 +26,13 @@ public class SimpleScoreboard extends AbstractScoreboard {
     protected void show(Player p) {
         scoreboards.put(p, getNewBoard(p));
         initTitle(p);
-        initLines(p);
+        initLines(p, 0);
         p.setScoreboard(scoreboards.get(p));
     }
 
     @Override
     protected void hide(Player p) {
-        p.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
+        p.setScoreboard(removeSidebar(p));
     }
 
     @Override
@@ -51,24 +48,33 @@ public class SimpleScoreboard extends AbstractScoreboard {
 
     }
 
-    private void showLine(Player player, int index) {
-        Scoreboard scoreboard = scoreboards.get(player);
-        Component text = data.getLines().get(index).getFromContext(OfflinePlayer.class, player);
-        Objective obj = scoreboard.getObjective("[CrispyCommons]");
-        Team team = scoreboard.getTeam(String.valueOf(index));
 
-        String line = ChatColor.translateAlternateColorCodes('&', LegacyComponentSerializer.legacyAmpersand().serialize(text));
-        line = line.substring(0, Math.min(line.length(), 32));
-        String teamEntry = team.getEntries().iterator().next();
-        String prefix = getPrefix(line);
-        String suffix = getSuffix(line, teamEntry);
-        team.setPrefix(prefix);
-        team.setSuffix(suffix);
-        obj.getScore(teamEntry).setScore(15 - index);
+
+    @Override
+    protected void addLineInternal(int index) {
+        for (Player p : getCurrentlyViewing()) {
+            resetScoreboard(p, data.getLines().size() - 1);
+        }
+
+        if (isAnyoneWatching())
+            update();
     }
 
-    private void hideLine(Player player, int index) {
+    @Override
+    protected void removeLineInternal(int index) {
+        for (Player p : getCurrentlyViewing()) {
+            resetScoreboard(p, data.getLines().size() + 1);
+        }
 
+        if (isAnyoneWatching())
+            update();
+    }
+
+    @Override
+    protected void updateLines(int oldSize) {
+        for (Player p : getCurrentlyViewing()) {
+            resetScoreboard(p, oldSize);
+        }
     }
 
     private void updateLine(Player player, int index) {
@@ -93,9 +99,9 @@ public class SimpleScoreboard extends AbstractScoreboard {
         obj.setDisplayName(ChatColor.translateAlternateColorCodes('&', LegacyComponentSerializer.legacyAmpersand().serialize(text)));
     }
 
-    private void initLines(Player player) {
+    private void initLines(Player player, int startIndex) {
         Scoreboard scoreboard = scoreboards.get(player);
-        for (int i = 0; i < data.getLines().size(); i++) {
+        for (int i = startIndex; i < data.getLines().size(); i++) {
             Objective obj = scoreboard.getObjective("[CrispyCommons]");
 
             Component text = data.getLines().get(i).getFromContext(OfflinePlayer.class, player);
@@ -106,6 +112,14 @@ public class SimpleScoreboard extends AbstractScoreboard {
             team.setPrefix(getPrefix(line));
             team.setSuffix(getSuffix(line, teamEntry));
             obj.getScore(teamEntry).setScore(15 - i);
+        }
+    }
+
+    private void removeLines(Player player, int startIndex, int size) {
+        Scoreboard scoreboard = scoreboards.get(player);
+        for (int i = startIndex; i < size; i++) {
+            Team team = scoreboard.getTeam(String.valueOf(i));
+            team.unregister();
         }
     }
 
@@ -170,10 +184,24 @@ public class SimpleScoreboard extends AbstractScoreboard {
         return lastColors.substring(lastReset);
     }
 
+    private void resetScoreboard(Player p, int teamSize) {
+        p.getScoreboard().clearSlot(DisplaySlot.SIDEBAR);
+        p.getScoreboard().getObjective("[CrispyCommons]").unregister();
+        p.setScoreboard(getNewBoard(p));
+        removeLines(p, 0, teamSize);
+        initLines(p, 0);
+    }
+
     private Scoreboard getNewBoard(Player p) {
         Scoreboard board = p.getScoreboard();
         board.registerNewObjective("[CrispyCommons]", "dummy");
         board.getObjective("[CrispyCommons]").setDisplaySlot(DisplaySlot.SIDEBAR);
+        return board;
+    }
+
+    private Scoreboard removeSidebar(Player p) {
+        Scoreboard board = p.getScoreboard();
+        board.getObjective("[CrispyCommons]").unregister();
         return board;
     }
 }

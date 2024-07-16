@@ -40,7 +40,7 @@ public abstract class AbstractParticle<T extends Effect> extends AbstractVisual<
         data.getElement().stop();
         data.setElement(element);
         data.getElement().setUpdate(this::update);
-        if (isDisplayed) {
+        if (isAnyoneWatching()) {
             data.getElement().start();
             update();
         }
@@ -56,7 +56,7 @@ public abstract class AbstractParticle<T extends Effect> extends AbstractVisual<
         data.getLocation().stop();
         data.setLocation(location);
         data.getLocation().setUpdate(this::update);
-        if (isDisplayed) {
+        if (isAnyoneWatching()) {
             data.getLocation().start();
             update();
         }

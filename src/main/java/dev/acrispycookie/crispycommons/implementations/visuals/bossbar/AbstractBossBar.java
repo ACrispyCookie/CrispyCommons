@@ -46,7 +46,7 @@ public abstract class AbstractBossBar extends AbstractVisual<BossBarData> implem
         data.getText().stop();
         data.setText(text);
         data.getText().setUpdate(this::update);
-        if (isDisplayed) {
+        if (isAnyoneWatching()) {
             data.getText().start();
             update();
         }
@@ -57,7 +57,7 @@ public abstract class AbstractBossBar extends AbstractVisual<BossBarData> implem
         data.getProgress().stop();
         data.setProgress(progress);
         data.getProgress().setUpdate(this::update);
-        if (isDisplayed) {
+        if (isAnyoneWatching()) {
             data.getProgress().start();
             update();
         }
@@ -68,7 +68,7 @@ public abstract class AbstractBossBar extends AbstractVisual<BossBarData> implem
         data.getColor().stop();
         data.setColor(color);
         data.getColor().setUpdate(this::update);
-        if (isDisplayed) {
+        if (isAnyoneWatching()) {
             data.getColor().start();
             update();
         }
@@ -79,7 +79,7 @@ public abstract class AbstractBossBar extends AbstractVisual<BossBarData> implem
         data.getOverlay().stop();
         data.setOverlay(overlay);
         data.getOverlay().setUpdate(this::update);
-        if (isDisplayed) {
+        if (isAnyoneWatching()) {
             data.getOverlay().start();
             update();
         }

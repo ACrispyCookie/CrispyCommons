@@ -20,7 +20,9 @@ import java.util.Set;
 
 public abstract class AbstractHologram extends AbstractVisual<HologramData> implements CrispyHologram {
 
-    protected abstract void updateEntities();
+    protected abstract void updateLines();
+    protected abstract void removeLineInternal(int index);
+    protected abstract void addLineInternal(int index);
 
     AbstractHologram(HologramData data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long, ?> timeToLive, UpdateMode updateMode) {
         super(data, receivers, timeToLive, updateMode);
@@ -57,8 +59,12 @@ public abstract class AbstractHologram extends AbstractVisual<HologramData> impl
         if (index > data.getLines().size())
             return;
 
+        line.setUpdate(this::update);
+        if (isAnyoneWatching())
+            line.start();
         data.addLine(index, line);
-        updateEntities();
+        addLineInternal(index);
+
     }
 
     @Override
@@ -71,14 +77,21 @@ public abstract class AbstractHologram extends AbstractVisual<HologramData> impl
         if(index >= data.getLines().size())
             return;
 
+        if (isAnyoneWatching())
+            data.getLines().get(index).stop();
         data.removeLine(index);
-        updateEntities();
+        removeLineInternal(index);
     }
 
     @Override
     public void setLines(Collection<? extends DynamicElement<?, ?>> lines) {
+        lines.forEach((l) -> l.setUpdate(this::update));
+        if (isAnyoneWatching()) {
+            data.getLines().forEach(DynamicElement::stop);
+            lines.forEach(DynamicElement::start);
+        }
         data.setLines(new ArrayList<>(lines));
-        updateEntities();
+        updateLines();
     }
 
     @Override

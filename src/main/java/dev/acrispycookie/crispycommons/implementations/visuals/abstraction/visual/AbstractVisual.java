@@ -27,7 +27,7 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
     private final UpdateMode updateMode;
     private final Map<UUID, BukkitTask> personalTtlTasks = new HashMap<>();
     private BukkitTask globalTtlTask;
-    protected long onlineReceivers;
+    private long onlineReceivers;
     protected T data;
     protected boolean isDisplayed = false;
     protected GeneralElement<Long, ?> timeToLive;
@@ -210,6 +210,11 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
     }
 
     @Override
+    public Set<Player> getCurrentlyViewing() {
+        return currentlyDisplaying.stream().map(Bukkit::getPlayer).collect(Collectors.toSet());
+    }
+
+    @Override
     public void setTimeToLive(GeneralElement<Long, ?> timeToLive) {
         this.timeToLive = timeToLive;
     }
@@ -222,6 +227,11 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
     @Override
     public boolean isDisplayed() {
         return isDisplayed;
+    }
+
+    @Override
+    public boolean isAnyoneWatching() {
+        return isDisplayed && onlineReceivers > 0;
     }
 
     protected T getData() {

@@ -44,6 +44,24 @@ public class SimpleTabList extends AbstractTabList {
 
     }
 
+    @Override
+    protected void addLineInternal(int index, boolean header) {
+        if (isAnyoneWatching())
+            update();
+    }
+
+    @Override
+    protected void removeLineInternal(int index, boolean header) {
+        if (isAnyoneWatching())
+            update();
+    }
+
+    @Override
+    protected void updateLines(boolean header) {
+        if (isAnyoneWatching())
+            update();
+    }
+
     private Component constructComponent(List<TextElement<?>> elements, OfflinePlayer player) {
         Component component = Component.empty();
         for (int i = 0; i < elements.size(); i++) {

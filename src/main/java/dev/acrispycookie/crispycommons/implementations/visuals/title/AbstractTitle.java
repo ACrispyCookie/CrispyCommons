@@ -31,7 +31,7 @@ public abstract class AbstractTitle extends AbstractVisual<TitleData> implements
         data.getTitle().stop();
         data.setTitle(text);
         data.getTitle().setUpdate(this::update);
-        if (isDisplayed) {
+        if (isAnyoneWatching()) {
             data.getTitle().start();
             update();
         }
@@ -42,7 +42,7 @@ public abstract class AbstractTitle extends AbstractVisual<TitleData> implements
         data.getSubtitle().stop();
         data.setSubtitle(text);
         data.getSubtitle().setUpdate(this::update);
-        if (isDisplayed) {
+        if (isAnyoneWatching()) {
             data.getSubtitle().start();
             update();
         }

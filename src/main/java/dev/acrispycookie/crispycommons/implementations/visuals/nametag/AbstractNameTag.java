@@ -48,7 +48,7 @@ public abstract class AbstractNameTag extends AbstractVisual<NameTagData> implem
         data.getPrefix().stop();
         data.setPrefix(prefix);
         data.getPrefix().setUpdate(this::update);
-        if (isDisplayed) {
+        if (isAnyoneWatching()) {
             data.getPrefix().start();
             update();
         }
@@ -59,7 +59,7 @@ public abstract class AbstractNameTag extends AbstractVisual<NameTagData> implem
         data.getSuffix().stop();
         data.setSuffix(suffix);
         data.getSuffix().setUpdate(this::update);
-        if (isDisplayed) {
+        if (isAnyoneWatching()) {
             data.getSuffix().start();
             update();
         }
@@ -70,7 +70,7 @@ public abstract class AbstractNameTag extends AbstractVisual<NameTagData> implem
         data.getBelowName().stop();
         data.setBelowName(belowName);
         data.getBelowName().setUpdate(this::update);
-        if (isDisplayed) {
+        if (isAnyoneWatching()) {
             data.getBelowName().start();
             update();
         }
@@ -81,7 +81,7 @@ public abstract class AbstractNameTag extends AbstractVisual<NameTagData> implem
         data.getBelowNameValue().stop();
         data.setBelowNameValue(belowNameValue);
         data.getBelowNameValue().setUpdate(this::update);
-        if (isDisplayed) {
+        if (isAnyoneWatching()) {
             data.getBelowNameValue().start();
             update();
         }
@@ -92,7 +92,7 @@ public abstract class AbstractNameTag extends AbstractVisual<NameTagData> implem
         data.getAboveName().stop();
         data.setAboveName(aboveName);
         data.getAboveName().setUpdate(this::update);
-        if (isDisplayed) {
+        if (isAnyoneWatching()) {
             data.getAboveName().start();
             update();
         }

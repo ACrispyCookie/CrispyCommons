@@ -7,6 +7,7 @@ import dev.acrispycookie.crispycommons.implementations.visuals.tablist.SimpleTab
 import dev.acrispycookie.crispycommons.implementations.visuals.tablist.wrappers.TabListData;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public interface CrispyTabList extends CrispyVisual {
@@ -14,8 +15,14 @@ public interface CrispyTabList extends CrispyVisual {
     static TabListBuilder builder() {
         return new TabListBuilder();
     }
-    void setHeader(List<TextElement<?>> element);
-    void setFooter(List<TextElement<?>> element);
+    void addHeaderLine(TextElement<?> line);
+    void addHeaderLine(int index, TextElement<?> line);
+    void removeHeaderLine(int index);
+    void addFooterLine(TextElement<?> line);
+    void addFooterLine(int index, TextElement<?> line);
+    void removeFooterLine(int index);
+    void setHeader(Collection<? extends TextElement<?>> element);
+    void setFooter(Collection<? extends TextElement<?>> element);
     List<TextElement<?>> getHeader();
     List<TextElement<?>> getFooter();
 

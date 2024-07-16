@@ -31,7 +31,7 @@ public abstract class AbstractActionbar extends AbstractVisual<ActionbarData> im
         data.getText().stop();
         data.setText(text);
         data.getText().setUpdate(this::update);
-        if (isDisplayed) {
+        if (isAnyoneWatching()) {
             data.getText().start();
             update();
         }
