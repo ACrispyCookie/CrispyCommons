@@ -7,31 +7,51 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
+import java.util.*;
 
 public class MenuData implements GuiData, Listener {
 
     private CrispyMenu menu;
+    private final Set<CrispyMenu.MenuProperty> properties = new HashSet<>();
     private final ArrayList<MenuPage> pages = new ArrayList<>();
     private final HashMap<OfflinePlayer, Integer> currentPages = new HashMap<>();
     private final ArrayList<OfflinePlayer> currentlyChangingPage = new ArrayList<>();
     private final HashMap<Integer, Integer> pageUsage = new HashMap<>();
-    private final int startingPage;
+    private int startingPage;
 
-    public MenuData(int startingPage, Collection<? extends MenuPage> pages) {
+    public MenuData(int startingPage, Collection<? extends MenuPage> pages, Collection<CrispyMenu.MenuProperty> properties) {
         this.startingPage = startingPage;
         this.pages.addAll(pages);
-        this.pages.forEach(p -> p.setMenuData(this));
+        this.properties.addAll(properties);
     }
 
-    public ArrayList<MenuPage> getPages() {
+    public List<MenuPage> getPages() {
         return pages;
     }
 
     public int getStartingPage() {
         return startingPage;
+    }
+
+    public void setStartingPage(int startingPage) {
+        this.startingPage = startingPage;
+    }
+
+    public Set<CrispyMenu.MenuProperty> getProperties() {
+        return properties;
+    }
+
+    public void removeProperty(CrispyMenu.MenuProperty property) {
+        properties.remove(property);
+    }
+
+    public void addProperty(CrispyMenu.MenuProperty property) {
+        properties.add(property);
+    }
+
+    public void setProperties(Collection<CrispyMenu.MenuProperty> newProperties) {
+        properties.clear();
+        properties.addAll(newProperties);
     }
 
     public void offsetPage(OfflinePlayer player, int offset) {
@@ -85,6 +105,7 @@ public class MenuData implements GuiData, Listener {
 
     public void setMenu(CrispyMenu menu) {
         this.menu = menu;
+        this.pages.forEach(p -> p.setMenu(menu));
     }
 
     public boolean isChangingPage(Player player) {

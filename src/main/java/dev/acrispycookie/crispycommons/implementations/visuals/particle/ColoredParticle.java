@@ -1,7 +1,7 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.particle;
 
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GeneralElement;
 import dev.acrispycookie.crispycommons.implementations.visuals.particle.wrappers.ParticleData;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GeneralElement;
 import dev.acrispycookie.crispycommons.implementations.wrappers.particle.ColoredEffect;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;

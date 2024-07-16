@@ -1,10 +1,10 @@
 package dev.acrispycookie.crispycommons.api.visuals.tablist;
 
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.CrispyVisual;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TextElement;
 import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.builder.AbstractVisualBuilder;
 import dev.acrispycookie.crispycommons.implementations.visuals.tablist.SimpleTabList;
 import dev.acrispycookie.crispycommons.implementations.visuals.tablist.wrappers.TabListData;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TextElement;
 
 import java.util.ArrayList;
 import java.util.Collection;

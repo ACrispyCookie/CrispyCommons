@@ -1,9 +1,9 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.particle.wrappers;
 
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.VisualData;
+import dev.acrispycookie.crispycommons.api.wrappers.particle.Effect;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GeneralElement;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.ParticleElement;
-import dev.acrispycookie.crispycommons.api.wrappers.particle.Effect;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;

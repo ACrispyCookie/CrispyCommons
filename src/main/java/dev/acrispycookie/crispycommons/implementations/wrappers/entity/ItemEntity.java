@@ -2,7 +2,9 @@ package dev.acrispycookie.crispycommons.implementations.wrappers.entity;
 
 import dev.acrispycookie.crispycommons.api.wrappers.itemstack.CrispyItemStack;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.ItemElement;
-import net.minecraft.server.v1_8_R3.*;
+import net.minecraft.server.v1_8_R3.EntityItem;
+import net.minecraft.server.v1_8_R3.PacketPlayOutEntityMetadata;
+import net.minecraft.server.v1_8_R3.PacketPlayOutSpawnEntity;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;

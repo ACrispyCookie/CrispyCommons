@@ -2,11 +2,11 @@ package dev.acrispycookie.crispycommons.implementations.visuals.tablist;
 
 import dev.acrispycookie.crispycommons.api.visuals.tablist.CrispyTabList;
 import dev.acrispycookie.crispycommons.api.wrappers.elements.DynamicElement;
+import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.visual.AbstractVisual;
+import dev.acrispycookie.crispycommons.implementations.visuals.tablist.wrappers.TabListData;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.AbstractDynamicElement;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GeneralElement;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TextElement;
-import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.visual.AbstractVisual;
-import dev.acrispycookie.crispycommons.implementations.visuals.tablist.wrappers.TabListData;
 import org.bukkit.OfflinePlayer;
 
 import java.util.ArrayList;

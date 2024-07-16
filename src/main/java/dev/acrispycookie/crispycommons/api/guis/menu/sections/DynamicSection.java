@@ -1,8 +1,8 @@
 package dev.acrispycookie.crispycommons.api.guis.menu.sections;
 
+import dev.acrispycookie.crispycommons.api.guis.menu.CrispyMenu;
 import dev.acrispycookie.crispycommons.api.guis.menu.MenuItem;
 import dev.acrispycookie.crispycommons.implementations.guis.menu.sections.SimpleDynamicSection;
-import dev.acrispycookie.crispycommons.implementations.guis.menu.wrappers.MenuData;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
@@ -20,7 +20,7 @@ public interface DynamicSection extends Section {
         return new SimpleDynamicSection(Collections.emptyList());
     }
 
-    void renderItems(Player player, MenuData data, Inventory inv, int startPasteSlot, int endPasteSlot, int startingIndex);
+    void renderItems(Player player, CrispyMenu menu, Inventory inv, int startPasteSlot, int endPasteSlot, int startingIndex);
     void addItem(int index, MenuItem item);
     void addItem(MenuItem item);
     void sortItems(Comparator<MenuItem> comparator);

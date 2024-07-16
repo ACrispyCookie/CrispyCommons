@@ -1,7 +1,7 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.scoreboard;
 
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GeneralElement;
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.wrappers.ScoreboardData;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GeneralElement;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.ChatColor;
@@ -12,7 +12,9 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 
 public class SimpleScoreboard extends AbstractScoreboard {
 

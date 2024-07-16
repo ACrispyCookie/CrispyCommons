@@ -2,11 +2,11 @@ package dev.acrispycookie.crispycommons.implementations.visuals.scoreboard;
 
 import dev.acrispycookie.crispycommons.api.visuals.scoreboard.CrispyScoreboard;
 import dev.acrispycookie.crispycommons.api.wrappers.elements.DynamicElement;
+import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.visual.AbstractVisual;
+import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.wrappers.ScoreboardData;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.AbstractDynamicElement;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GeneralElement;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TextElement;
-import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.visual.AbstractVisual;
-import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.wrappers.ScoreboardData;
 import org.bukkit.OfflinePlayer;
 
 import java.util.ArrayList;

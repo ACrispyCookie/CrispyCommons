@@ -1,8 +1,8 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.title;
 
 import dev.acrispycookie.crispycommons.CrispyCommons;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GeneralElement;
 import dev.acrispycookie.crispycommons.implementations.visuals.title.wrappers.TitleData;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GeneralElement;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.title.Title;
 import org.bukkit.OfflinePlayer;

@@ -16,7 +16,7 @@ public abstract class AbstractGui<T extends GuiData> implements CrispyGui {
         this.data = data;
     }
 
-    public T getData() {
+    protected T getData() {
         return data;
     }
 

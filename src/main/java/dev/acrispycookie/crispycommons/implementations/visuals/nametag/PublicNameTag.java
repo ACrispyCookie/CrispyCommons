@@ -1,7 +1,7 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.nametag;
 
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GeneralElement;
 import dev.acrispycookie.crispycommons.implementations.visuals.nametag.wrappers.NameTagData;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GeneralElement;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.event.EventHandler;

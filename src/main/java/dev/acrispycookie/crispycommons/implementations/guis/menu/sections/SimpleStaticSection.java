@@ -1,6 +1,6 @@
 package dev.acrispycookie.crispycommons.implementations.guis.menu.sections;
 
-import dev.acrispycookie.crispycommons.implementations.guis.menu.wrappers.MenuData;
+import dev.acrispycookie.crispycommons.api.guis.menu.CrispyMenu;
 import dev.acrispycookie.crispycommons.utility.menus.InventoryWidth;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -12,7 +12,7 @@ public class SimpleStaticSection extends AbstractStaticSection {
     }
 
     @Override
-    public void renderItemsInternal(Player player, MenuData data, Inventory toRender, int pasteSlot, int startingIndex) {
+    public void renderItemsInternal(Player player, CrispyMenu menu, Inventory toRender, int pasteSlot, int startingIndex) {
         int inventoryWidth = InventoryWidth.getType(toRender.getType());
         int height = this.getHeight();
         int width = this.getWidth();
@@ -23,7 +23,7 @@ public class SimpleStaticSection extends AbstractStaticSection {
             if (!items.containsKey(startingIndex))
                 continue;
 
-            renderValidItem(player, data, toRender, pasteSlot, i);
+            renderValidItem(player, menu, toRender, pasteSlot, i);
             pasteSlot += (i - startingIndex + 1) % width == 0 ? inventoryWidth - width + 1 : 1;
         }
     }

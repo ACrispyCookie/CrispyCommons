@@ -1,8 +1,8 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.nametag;
 
 import dev.acrispycookie.crispycommons.api.visuals.hologram.CrispyHologram;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.context.NameTagContext;
 import dev.acrispycookie.crispycommons.implementations.visuals.nametag.wrappers.NameTagData;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.context.NameTagContext;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GeneralElement;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.NameTagElement;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TextElement;

@@ -1,7 +1,7 @@
 package dev.acrispycookie.crispycommons.implementations.guis.menu.sections;
 
+import dev.acrispycookie.crispycommons.api.guis.menu.CrispyMenu;
 import dev.acrispycookie.crispycommons.api.guis.menu.MenuItem;
-import dev.acrispycookie.crispycommons.implementations.guis.menu.wrappers.MenuData;
 import dev.acrispycookie.crispycommons.utility.menus.InventoryWidth;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -15,7 +15,7 @@ public class SimpleDynamicSection extends AbstractDynamicSection {
     }
 
     @Override
-    public void renderItemsInternal(Player player, MenuData data, Inventory toRender, int pasteSlot, int endPasteSlot, int startingIndex) {
+    public void renderItemsInternal(Player player, CrispyMenu menu, Inventory toRender, int pasteSlot, int endPasteSlot, int startingIndex) {
         int inventoryWidth = InventoryWidth.getType(toRender.getType());
         int height = (endPasteSlot - pasteSlot)/inventoryWidth + 1;
         int width = endPasteSlot - (height - 1) * inventoryWidth - pasteSlot + 1;
@@ -26,7 +26,7 @@ public class SimpleDynamicSection extends AbstractDynamicSection {
             if(i >= items.size())
                 break;
 
-            renderValidItem(player, data, toRender, pasteSlot, i);
+            renderValidItem(player, menu, toRender, pasteSlot, i);
             pasteSlot += (i - startingIndex + 1) % width == 0 ? inventoryWidth - width + 1 : 1;
         }
     }

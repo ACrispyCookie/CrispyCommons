@@ -1,14 +1,14 @@
 package dev.acrispycookie.crispycommons.api.visuals.particle;
 
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.CrispyVisual;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GeneralElement;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.ParticleElement;
 import dev.acrispycookie.crispycommons.api.wrappers.particle.Effect;
 import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.builder.AbstractVisualBuilder;
 import dev.acrispycookie.crispycommons.implementations.visuals.particle.ColoredParticle;
 import dev.acrispycookie.crispycommons.implementations.visuals.particle.RenderedParticle;
 import dev.acrispycookie.crispycommons.implementations.visuals.particle.SimpleParticle;
 import dev.acrispycookie.crispycommons.implementations.visuals.particle.wrappers.ParticleData;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GeneralElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.ParticleElement;
 import dev.acrispycookie.crispycommons.implementations.wrappers.particle.ColoredEffect;
 import dev.acrispycookie.crispycommons.implementations.wrappers.particle.RenderedEffect;
 import dev.acrispycookie.crispycommons.implementations.wrappers.particle.SimpleEffect;

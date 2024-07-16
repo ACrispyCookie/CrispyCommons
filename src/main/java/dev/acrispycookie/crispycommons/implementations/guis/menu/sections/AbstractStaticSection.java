@@ -1,9 +1,9 @@
 package dev.acrispycookie.crispycommons.implementations.guis.menu.sections;
 
+import dev.acrispycookie.crispycommons.api.guis.menu.CrispyMenu;
 import dev.acrispycookie.crispycommons.api.guis.menu.MenuItem;
 import dev.acrispycookie.crispycommons.api.guis.menu.sections.Section;
 import dev.acrispycookie.crispycommons.api.guis.menu.sections.StaticSection;
-import dev.acrispycookie.crispycommons.implementations.guis.menu.wrappers.MenuData;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
@@ -16,7 +16,7 @@ public abstract class AbstractStaticSection extends AbstractSection implements S
     protected final int height;
     protected final int width;
     public final SortedMap<Integer, MenuItem> items = new TreeMap<>();
-    protected abstract void renderItemsInternal(Player player, MenuData data, Inventory toRender, int pasteSlot, int startingIndex);
+    protected abstract void renderItemsInternal(Player player, CrispyMenu menu, Inventory toRender, int pasteSlot, int startingIndex);
 
     AbstractStaticSection(int height, int width) {
         this.height = height;
@@ -24,22 +24,22 @@ public abstract class AbstractStaticSection extends AbstractSection implements S
     }
 
     @Override
-    public void renderItems(Player player, MenuData data, Inventory toRender, int pasteSlot, int startingIndex) {
+    public void renderItems(Player player, CrispyMenu menu, Inventory toRender, int pasteSlot, int startingIndex) {
         if(!Section.isSlotValid(pasteSlot, toRender) || !isSlotValid(startingIndex)) {
             return;
         }
 
-        this.renderItemsInternal(player, data, toRender, pasteSlot, startingIndex);
+        this.renderItemsInternal(player, menu, toRender, pasteSlot, startingIndex);
     }
 
     @Override
-    public void renderItem(Player player, MenuData data, Inventory toRender, int pasteSlot, Point startingPoint) {
-        renderItem(player, data, toRender, pasteSlot, pointToIndex(startingPoint));
+    public void renderItem(Player player, CrispyMenu menu, Inventory toRender, int pasteSlot, Point startingPoint) {
+        renderItem(player, menu, toRender, pasteSlot, pointToIndex(startingPoint));
     }
 
     @Override
-    public void renderItems(Player player, MenuData data, Inventory toRender, int pasteSlot, Point startingPoint) {
-        renderItems(player, data, toRender, pasteSlot, pointToIndex(startingPoint));
+    public void renderItems(Player player, CrispyMenu menu, Inventory toRender, int pasteSlot, Point startingPoint) {
+        renderItems(player, menu, toRender, pasteSlot, pointToIndex(startingPoint));
     }
 
     @Override

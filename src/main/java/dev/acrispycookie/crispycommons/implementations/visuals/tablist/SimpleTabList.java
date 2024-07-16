@@ -1,9 +1,9 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.tablist;
 
 import dev.acrispycookie.crispycommons.CrispyCommons;
+import dev.acrispycookie.crispycommons.implementations.visuals.tablist.wrappers.TabListData;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GeneralElement;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TextElement;
-import dev.acrispycookie.crispycommons.implementations.visuals.tablist.wrappers.TabListData;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import org.bukkit.OfflinePlayer;

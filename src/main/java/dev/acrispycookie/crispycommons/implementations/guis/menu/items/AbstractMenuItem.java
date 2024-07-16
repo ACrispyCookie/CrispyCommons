@@ -1,19 +1,20 @@
 package dev.acrispycookie.crispycommons.implementations.guis.menu.items;
 
+import dev.acrispycookie.crispycommons.api.guis.menu.CrispyMenu;
 import dev.acrispycookie.crispycommons.api.guis.menu.MenuItem;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.ItemElement;
-import dev.acrispycookie.crispycommons.implementations.guis.menu.wrappers.MenuData;
 import org.bukkit.entity.Player;
 
 import java.util.function.BiFunction;
+
 
 public abstract class AbstractMenuItem implements MenuItem {
 
     protected boolean isLoaded = false;
     protected boolean isAlternativeLoaded = false;
-    private BiFunction<MenuData, Player, Boolean> canSee;
-    private BiFunction<MenuData, Player, Boolean> canSeeUnloaded;
-    private BiFunction<MenuData, Player, Boolean> canTake;
+    private BiFunction<CrispyMenu, Player, Boolean> canSee;
+    private BiFunction<CrispyMenu, Player, Boolean> canSeeUnloaded;
+    private BiFunction<CrispyMenu, Player, Boolean> canTake;
     private ItemElement<?> display;
     private ItemElement<?> alternativeDisplay;
     private ItemElement<?> loadingDisplay;
@@ -28,34 +29,34 @@ public abstract class AbstractMenuItem implements MenuItem {
     }
 
     @Override
-    public boolean canSee(MenuData data, Player player) {
+    public boolean canSee(CrispyMenu data, Player player) {
         return canSee.apply(data, player);
     }
 
     @Override
-    public boolean canSeeUnloaded(MenuData data, Player player) {
+    public boolean canSeeUnloaded(CrispyMenu data, Player player) {
         return canSeeUnloaded.apply(data, player);
     }
 
     @Override
-    public boolean canTake(MenuData data, Player player) {
+    public boolean canTake(CrispyMenu data, Player player) {
         return canTake.apply(data, player);
     }
 
     @Override
-    public MenuItem setCanSee(BiFunction<MenuData, Player, Boolean> supplier) {
+    public MenuItem setCanSee(BiFunction<CrispyMenu, Player, Boolean> supplier) {
         this.canSee = supplier;
         return this;
     }
 
     @Override
-    public MenuItem setCanSeeUnloaded(BiFunction<MenuData, Player, Boolean> supplier) {
+    public MenuItem setCanSeeUnloaded(BiFunction<CrispyMenu, Player, Boolean> supplier) {
         this.canSeeUnloaded = supplier;
         return this;
     }
 
     @Override
-    public MenuItem setCanTake(BiFunction<MenuData, Player, Boolean> supplier) {
+    public MenuItem setCanTake(BiFunction<CrispyMenu, Player, Boolean> supplier) {
         this.canTake = supplier;
         return this;
     }

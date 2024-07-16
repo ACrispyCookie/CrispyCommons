@@ -1,7 +1,7 @@
 package dev.acrispycookie.crispycommons.implementations.guis.menu.items;
 
+import dev.acrispycookie.crispycommons.api.guis.menu.CrispyMenu;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.ItemElement;
-import dev.acrispycookie.crispycommons.implementations.guis.menu.wrappers.MenuData;
 import org.bukkit.entity.Player;
 
 public abstract class LoadedItem extends AbstractMenuItem {
@@ -11,7 +11,7 @@ public abstract class LoadedItem extends AbstractMenuItem {
     }
 
     @Override
-    public void onClickUnloaded(MenuData data, Player player) {
+    public void onClickUnloaded(CrispyMenu data, Player player) {
 
     }
 

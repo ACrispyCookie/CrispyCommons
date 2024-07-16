@@ -1,10 +1,10 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.actionbar;
 
 import dev.acrispycookie.crispycommons.api.visuals.actionbar.CrispyActionbar;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GeneralElement;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TextElement;
 import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.visual.AbstractVisual;
 import dev.acrispycookie.crispycommons.implementations.visuals.actionbar.wrappers.ActionbarData;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GeneralElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TextElement;
 import org.bukkit.OfflinePlayer;
 
 import java.util.Set;

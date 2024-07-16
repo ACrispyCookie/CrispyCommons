@@ -5,7 +5,6 @@ import dev.acrispycookie.crispycommons.api.guis.menu.sections.DynamicSection;
 import dev.acrispycookie.crispycommons.api.guis.menu.sections.StaticSection;
 import dev.acrispycookie.crispycommons.api.wrappers.itemstack.CrispyItemStack;
 import dev.acrispycookie.crispycommons.implementations.guis.menu.SimpleMenuPage;
-import dev.acrispycookie.crispycommons.implementations.guis.menu.wrappers.MenuData;
 import dev.acrispycookie.crispycommons.implementations.guis.menu.wrappers.SectionInfo;
 import dev.acrispycookie.crispycommons.utility.logging.CrispyLogger;
 import dev.acrispycookie.crispycommons.utility.menus.InvalidMenuConfiguration;
@@ -52,6 +51,6 @@ public interface MenuPage {
     String getTitle();
     int getRows();
     int getColumns();
-    MenuData getMenuData();
-    void setMenuData(MenuData menuData);
+    CrispyMenu getMenu();
+    void setMenu(CrispyMenu menu);
 }

@@ -1,12 +1,12 @@
 package dev.acrispycookie.crispycommons.implementations.guis.menu;
 
+import dev.acrispycookie.crispycommons.api.guis.menu.CrispyMenu;
 import dev.acrispycookie.crispycommons.api.guis.menu.MenuItem;
 import dev.acrispycookie.crispycommons.api.guis.menu.MenuPage;
 import dev.acrispycookie.crispycommons.api.guis.menu.sections.DynamicSection;
 import dev.acrispycookie.crispycommons.api.guis.menu.sections.Section;
 import dev.acrispycookie.crispycommons.api.guis.menu.sections.StaticSection;
 import dev.acrispycookie.crispycommons.implementations.guis.menu.wrappers.Holder;
-import dev.acrispycookie.crispycommons.implementations.guis.menu.wrappers.MenuData;
 import dev.acrispycookie.crispycommons.implementations.guis.menu.wrappers.SectionInfo;
 import dev.acrispycookie.crispycommons.utility.menus.InvalidMenuConfiguration;
 import org.bukkit.entity.Player;
@@ -19,7 +19,7 @@ import java.util.function.Function;
 
 public abstract class SimpleMenuPage implements MenuPage {
 
-    private MenuData data;
+    private CrispyMenu menu;
     private final String title;
     private final int rows;
     private final int columns;
@@ -47,7 +47,7 @@ public abstract class SimpleMenuPage implements MenuPage {
 
         SectionInfo info = schema.get(index);
         Section section = info.getSection();
-        section.renderItem(player, data, cachedInventory.get(player), index, info.getStartIndex() + index);
+        section.renderItem(player, menu, cachedInventory.get(player), index, info.getStartIndex() + index);
     }
 
     @Override
@@ -59,9 +59,9 @@ public abstract class SimpleMenuPage implements MenuPage {
             Section section = info.getSection();
 
             if (section instanceof DynamicSection) {
-                ((DynamicSection) section).renderItems(player, data, cachedInventory.get(player), info.getStartIndex(), info.getEndIndex(), info.getOffset());
+                ((DynamicSection) section).renderItems(player, menu, cachedInventory.get(player), info.getStartIndex(), info.getEndIndex(), info.getOffset());
             } else {
-                ((StaticSection) section).renderItems(player, data, cachedInventory.get(player), info.getStartIndex(), info.getOffset());
+                ((StaticSection) section).renderItems(player, menu, cachedInventory.get(player), info.getStartIndex(), info.getOffset());
             }
         }
     }
@@ -200,13 +200,13 @@ public abstract class SimpleMenuPage implements MenuPage {
     }
 
     @Override
-    public MenuData getMenuData() {
-        return data;
+    public CrispyMenu getMenu() {
+        return menu;
     }
 
     @Override
-    public void setMenuData(MenuData data) {
-        this.data = data;
+    public void setMenu(CrispyMenu menu) {
+        this.menu = menu;
     }
 
     @Override

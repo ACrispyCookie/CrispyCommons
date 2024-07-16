@@ -1,9 +1,9 @@
 package dev.acrispycookie.crispycommons.implementations.guis.menu.sections;
 
+import dev.acrispycookie.crispycommons.api.guis.menu.CrispyMenu;
 import dev.acrispycookie.crispycommons.api.guis.menu.MenuItem;
 import dev.acrispycookie.crispycommons.api.guis.menu.sections.Section;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.ItemElement;
-import dev.acrispycookie.crispycommons.implementations.guis.menu.wrappers.MenuData;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -25,12 +25,12 @@ public abstract class AbstractSection implements Section {
     }
 
     @Override
-    public void renderItem(Player player, MenuData data, Inventory toRender, int pasteSlot, int startingIndex) {
+    public void renderItem(Player player, CrispyMenu menu, Inventory toRender, int pasteSlot, int startingIndex) {
         if (!Section.isSlotValid(pasteSlot, toRender) || !isSlotValid(startingIndex)) {
             return;
         }
 
-        renderValidItem(player, data, toRender, pasteSlot, startingIndex);
+        renderValidItem(player, menu, toRender, pasteSlot, startingIndex);
     }
 
     public void onClose(Inventory inventory) {
@@ -50,12 +50,12 @@ public abstract class AbstractSection implements Section {
         });
     }
 
-    protected void renderValidItem(Player player, MenuData data, Inventory toRender, int pasteSlot, int startingIndex) {
+    protected void renderValidItem(Player player, CrispyMenu menu, Inventory toRender, int pasteSlot, int startingIndex) {
         MenuItem item = getItem(startingIndex);
         if (item == null)
             return;
-        if (!item.canSee(data, player)) {
-            item.loadAlternative(() -> renderValidItem(player, data, toRender, pasteSlot, startingIndex));
+        if (!item.canSee(menu, player)) {
+            item.loadAlternative(() -> renderValidItem(player, menu, toRender, pasteSlot, startingIndex));
             toRender.setItem(pasteSlot, item.getAlternativeDisplay().getFromContext(OfflinePlayer.class, player));
             return;
         }
@@ -64,7 +64,7 @@ public abstract class AbstractSection implements Section {
             addDynamicItem(item, player, toRender, pasteSlot);
         }
 
-        item.load(() -> renderValidItem(player, data, toRender, pasteSlot, startingIndex));
+        item.load(() -> renderValidItem(player, menu, toRender, pasteSlot, startingIndex));
         toRender.setItem(pasteSlot, item.getDisplay().getFromContext(OfflinePlayer.class, player));
     }
 

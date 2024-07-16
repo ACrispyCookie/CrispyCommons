@@ -1,11 +1,11 @@
 package dev.acrispycookie.crispycommons.api.visuals.scoreboard;
 
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.CrispyVisual;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TextElement;
 import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.builder.AbstractVisualBuilder;
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.PublicScoreboard;
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.SimpleScoreboard;
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.wrappers.ScoreboardData;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TextElement;
 
 import java.util.ArrayList;
 import java.util.Collection;

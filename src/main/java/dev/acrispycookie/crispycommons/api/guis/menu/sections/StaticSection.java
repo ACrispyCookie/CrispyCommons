@@ -1,8 +1,8 @@
 package dev.acrispycookie.crispycommons.api.guis.menu.sections;
 
+import dev.acrispycookie.crispycommons.api.guis.menu.CrispyMenu;
 import dev.acrispycookie.crispycommons.api.guis.menu.MenuItem;
 import dev.acrispycookie.crispycommons.implementations.guis.menu.sections.SimpleStaticSection;
-import dev.acrispycookie.crispycommons.implementations.guis.menu.wrappers.MenuData;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
@@ -36,9 +36,9 @@ public interface StaticSection extends Section{
         return new SimpleStaticSection(height, width);
     }
 
-    void renderItem(Player player, MenuData data, Inventory inv, int pasteSlot, Point itemPoint);
-    void renderItems(Player player, MenuData data, Inventory inv, int pasteSlot, int startingIndex);
-    void renderItems(Player player, MenuData data, Inventory inv, int pasteSlot, Point startingPoint);
+    void renderItem(Player player, CrispyMenu menu, Inventory inv, int pasteSlot, Point itemPoint);
+    void renderItems(Player player, CrispyMenu menu, Inventory inv, int pasteSlot, int startingIndex);
+    void renderItems(Player player, CrispyMenu menu, Inventory inv, int pasteSlot, Point startingPoint);
     int getHeight();
     int getWidth();
     MenuItem getItem(Point point);

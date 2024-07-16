@@ -1,11 +1,11 @@
 package dev.acrispycookie.crispycommons.api.visuals.bossbar;
 
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.CrispyVisual;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GeneralElement;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TextElement;
 import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.builder.AbstractVisualBuilder;
 import dev.acrispycookie.crispycommons.implementations.visuals.bossbar.SimpleBossBar;
 import dev.acrispycookie.crispycommons.implementations.visuals.bossbar.wrappers.BossBarData;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GeneralElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TextElement;
 import net.kyori.adventure.bossbar.BossBar;
 
 public interface CrispyBossBar extends CrispyVisual {

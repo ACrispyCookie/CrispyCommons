@@ -1,13 +1,13 @@
 package dev.acrispycookie.crispycommons.api.guis.menu.sections;
 
+import dev.acrispycookie.crispycommons.api.guis.menu.CrispyMenu;
 import dev.acrispycookie.crispycommons.api.guis.menu.MenuItem;
-import dev.acrispycookie.crispycommons.implementations.guis.menu.wrappers.MenuData;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
 public interface Section {
 
-    void renderItem(Player player, MenuData data, Inventory inv, int pasteSlot, int itemIndex);
+    void renderItem(Player player, CrispyMenu menu, Inventory inv, int pasteSlot, int itemIndex);
     void onClose(Inventory inventory);
     MenuItem getItem(int index);
     void setItem(int index, MenuItem item);

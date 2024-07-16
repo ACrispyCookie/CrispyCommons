@@ -1,9 +1,9 @@
 package dev.acrispycookie.crispycommons.implementations.guis.menu.sections;
 
+import dev.acrispycookie.crispycommons.api.guis.menu.CrispyMenu;
 import dev.acrispycookie.crispycommons.api.guis.menu.MenuItem;
 import dev.acrispycookie.crispycommons.api.guis.menu.sections.DynamicSection;
 import dev.acrispycookie.crispycommons.api.guis.menu.sections.Section;
-import dev.acrispycookie.crispycommons.implementations.guis.menu.wrappers.MenuData;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
@@ -14,19 +14,19 @@ import java.util.Comparator;
 public abstract class AbstractDynamicSection extends AbstractSection implements DynamicSection {
 
     protected final ArrayList<MenuItem> items = new ArrayList<>();
-    protected abstract void renderItemsInternal(Player player, MenuData data, Inventory toRender, int startPasteSlot, int endPasteSlot, int startingIndex);
+    protected abstract void renderItemsInternal(Player player, CrispyMenu menu, Inventory toRender, int startPasteSlot, int endPasteSlot, int startingIndex);
 
     AbstractDynamicSection(Collection<? extends MenuItem> items) {
         this.items.addAll(items);
     }
 
     @Override
-    public void renderItems(Player player, MenuData data, Inventory inv, int startPasteSlot, int endPasteSlot, int startingIndex) {
+    public void renderItems(Player player, CrispyMenu menu, Inventory inv, int startPasteSlot, int endPasteSlot, int startingIndex) {
         if(!Section.isSlotValid(startPasteSlot, inv) || !Section.isSlotValid(endPasteSlot, inv)) {
             return;
         }
 
-        this.renderItemsInternal(player, data, inv, startPasteSlot, endPasteSlot, startingIndex);
+        this.renderItemsInternal(player, menu, inv, startPasteSlot, endPasteSlot, startingIndex);
     }
 
     @Override
