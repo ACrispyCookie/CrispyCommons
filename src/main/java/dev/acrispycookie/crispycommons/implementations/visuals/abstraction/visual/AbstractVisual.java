@@ -30,6 +30,7 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
     private long onlineReceivers;
     protected T data;
     protected boolean isDisplayed = false;
+    protected boolean isPublic;
     protected GeneralElement<Long, ?> timeToLive;
     protected abstract void prepareShow();
     protected abstract void prepareHide();
@@ -38,9 +39,10 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
     protected abstract void hide(Player p);
     protected abstract void perPlayerUpdate(Player p);
 
-    public AbstractVisual(T data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long, ?> timeToLive, UpdateMode mode) {
+    public AbstractVisual(T data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long, ?> timeToLive, UpdateMode mode, boolean isPublic) {
         this.data = data;
         this.updateMode = mode;
+        this.isPublic = isPublic;
         this.receivers.addAll(receivers.stream().map(OfflinePlayer::getUniqueId).collect(Collectors.toSet()));
         onlineReceivers = this.receivers.stream().map(Bukkit::getOfflinePlayer).filter(OfflinePlayer::isOnline).count();
         this.timeToLive = timeToLive;
@@ -49,6 +51,8 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onJoin(PlayerJoinEvent event) {
+        if (isPublic)
+            addPlayer(event.getPlayer());
         if (!isDisplayed)
             return;
         if (receivers.contains(event.getPlayer().getUniqueId()) && shouldDisplay(event.getPlayer())) {
@@ -62,6 +66,8 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onLeave(PlayerQuitEvent event) {
+        if (isPublic)
+            removePlayer(event.getPlayer());
         if (!isDisplayed)
             return;
         if (receivers.contains(event.getPlayer().getUniqueId()) && currentlyDisplaying.contains(event.getPlayer().getUniqueId())) {
@@ -232,6 +238,11 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
     @Override
     public boolean isAnyoneWatching() {
         return isDisplayed && onlineReceivers > 0;
+    }
+
+    @Override
+    public boolean isPublic() {
+        return isPublic;
     }
 
     protected T getData() {

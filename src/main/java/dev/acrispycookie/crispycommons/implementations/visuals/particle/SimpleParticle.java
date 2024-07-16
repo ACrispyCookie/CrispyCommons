@@ -11,8 +11,8 @@ import java.util.Set;
 
 public class SimpleParticle extends AbstractParticle<SimpleEffect> {
 
-    public SimpleParticle(ParticleData<SimpleEffect> data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long, ?> timeToLive) {
-        super(data, receivers, timeToLive, UpdateMode.PER_PLAYER);
+    public SimpleParticle(ParticleData<SimpleEffect> data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long, ?> timeToLive, boolean isPublic) {
+        super(data, receivers, timeToLive, UpdateMode.PER_PLAYER, isPublic);
     }
 
     @Override

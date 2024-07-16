@@ -21,8 +21,8 @@ public class SimpleScoreboard extends AbstractScoreboard {
     private final HashMap<OfflinePlayer, Scoreboard> scoreboards = new HashMap<>();
     private final HashMap<OfflinePlayer, HashMap<String, Integer>> timesUsedInEntries = new HashMap<>();
 
-    public SimpleScoreboard(ScoreboardData data, Collection<? extends OfflinePlayer> receivers, GeneralElement<Long, ?> timeToLive) {
-        super(data, new HashSet<>(receivers), timeToLive, UpdateMode.PER_PLAYER);
+    public SimpleScoreboard(ScoreboardData data, Collection<? extends OfflinePlayer> receivers, GeneralElement<Long, ?> timeToLive, boolean isPublic) {
+        super(data, new HashSet<>(receivers), timeToLive, UpdateMode.PER_PLAYER, isPublic);
     }
 
     @Override

@@ -44,7 +44,7 @@ public interface CrispyTabList extends CrispyVisual {
 
         @Override
         public CrispyTabList build() {
-            toBuild = new SimpleTabList(data, receivers, timeToLive);
+            toBuild = new SimpleTabList(data, receivers, timeToLive, isPublic);
             return toBuild;
         }
     }

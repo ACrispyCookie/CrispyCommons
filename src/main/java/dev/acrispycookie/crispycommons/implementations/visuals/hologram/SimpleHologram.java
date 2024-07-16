@@ -15,8 +15,8 @@ public class SimpleHologram extends AbstractHologram {
 
     private final HashMap<UUID, List<EntityInfo>> entities = new HashMap<>();
 
-    public SimpleHologram(HologramData data, Collection<? extends OfflinePlayer> receivers, GeneralElement<Long, ?> timeToLive) {
-        super(data, new HashSet<>(receivers), timeToLive, UpdateMode.PER_PLAYER);
+    public SimpleHologram(HologramData data, Collection<? extends OfflinePlayer> receivers, GeneralElement<Long, ?> timeToLive, boolean isPublic) {
+        super(data, new HashSet<>(receivers), timeToLive, UpdateMode.PER_PLAYER, isPublic);
     }
 
     @Override

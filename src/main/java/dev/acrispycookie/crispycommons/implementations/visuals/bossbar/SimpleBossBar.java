@@ -15,8 +15,8 @@ public class SimpleBossBar extends AbstractBossBar {
 
     private final HashMap<OfflinePlayer, BossBar> bossBars = new HashMap<>();
 
-    public SimpleBossBar(BossBarData data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long, ?> timeToLive) {
-        super(data, receivers, timeToLive);
+    public SimpleBossBar(BossBarData data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long, ?> timeToLive, boolean isPublic) {
+        super(data, receivers, timeToLive, isPublic);
     }
 
     @Override

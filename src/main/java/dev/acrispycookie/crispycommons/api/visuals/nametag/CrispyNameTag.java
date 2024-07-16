@@ -2,7 +2,6 @@ package dev.acrispycookie.crispycommons.api.visuals.nametag;
 
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.CrispyVisual;
 import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.builder.AbstractVisualBuilder;
-import dev.acrispycookie.crispycommons.implementations.visuals.nametag.PublicNameTag;
 import dev.acrispycookie.crispycommons.implementations.visuals.nametag.SimpleNameTag;
 import dev.acrispycookie.crispycommons.implementations.visuals.nametag.wrappers.NameTagData;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.NameTagElement;
@@ -25,8 +24,8 @@ public interface CrispyNameTag extends CrispyVisual {
     NameTagElement<String, ?> getAboveName();
 
     class NameTagBuilder extends AbstractVisualBuilder<CrispyNameTag> {
+
         private final NameTagData data = new NameTagData(null, null, null, null, null, null);
-        private boolean isPublic = false;
 
         public NameTagBuilder setPrefix(NameTagElement<String, ?> prefix) {
             this.data.setPrefix(prefix);
@@ -63,17 +62,10 @@ public interface CrispyNameTag extends CrispyVisual {
             return this;
         }
 
-        public NameTagBuilder setPublic(boolean isPublic) {
-            this.isPublic = isPublic;
-            return this;
-        }
-
         @Override
         public CrispyNameTag build() {
-            if (isPublic)
-                toBuild = new PublicNameTag(data, receivers, timeToLive);
-            else
-                toBuild = new SimpleNameTag(data, receivers, timeToLive);
+            toBuild = new SimpleNameTag(data, receivers, timeToLive, isPublic);
+
             return toBuild;
         }
     }

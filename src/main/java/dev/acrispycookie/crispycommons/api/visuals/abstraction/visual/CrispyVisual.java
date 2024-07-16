@@ -20,6 +20,7 @@ public interface CrispyVisual {
     Set<OfflinePlayer> getPlayers();
     Set<Player> getCurrentlyViewing();
     GeneralElement<Long, ?> getTimeToLive();
+    boolean isPublic();
     boolean isDisplayed();
     boolean isAnyoneWatching();
 

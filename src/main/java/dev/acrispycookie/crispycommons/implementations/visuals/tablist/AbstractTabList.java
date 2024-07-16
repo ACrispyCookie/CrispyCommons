@@ -20,8 +20,8 @@ public abstract class AbstractTabList extends AbstractVisual<TabListData> implem
     protected abstract void removeLineInternal(int index, boolean header);
     protected abstract void addLineInternal(int index, boolean header);
 
-    AbstractTabList(TabListData data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long, ?> timeToLive, UpdateMode updateMode) {
-        super(data, receivers, timeToLive, updateMode);
+    AbstractTabList(TabListData data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long, ?> timeToLive, UpdateMode updateMode, boolean isPublic) {
+        super(data, receivers, timeToLive, updateMode, isPublic);
     }
 
     @Override

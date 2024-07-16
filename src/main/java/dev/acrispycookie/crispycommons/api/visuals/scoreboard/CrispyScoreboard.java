@@ -2,7 +2,6 @@ package dev.acrispycookie.crispycommons.api.visuals.scoreboard;
 
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.CrispyVisual;
 import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.builder.AbstractVisualBuilder;
-import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.PublicScoreboard;
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.SimpleScoreboard;
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.wrappers.ScoreboardData;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TextElement;
@@ -27,7 +26,6 @@ public interface CrispyScoreboard extends CrispyVisual {
     class ScoreboardBuilder extends AbstractVisualBuilder<CrispyScoreboard> {
 
         private final ScoreboardData data = new ScoreboardData(null, new ArrayList<>());
-        private boolean isPublic = false;
 
         public ScoreboardBuilder setTitle(TextElement<?> title) {
             this.data.setTitle(title);
@@ -41,17 +39,8 @@ public interface CrispyScoreboard extends CrispyVisual {
             return this;
         }
 
-        public ScoreboardBuilder setPublic(boolean isPublic) {
-            this.isPublic = isPublic;
-            return this;
-        }
-
         public CrispyScoreboard build() {
-            if(isPublic) {
-                toBuild = new PublicScoreboard(data, receivers, timeToLive);
-            } else {
-                toBuild = new SimpleScoreboard(data, receivers, timeToLive);
-            }
+            toBuild = new SimpleScoreboard(data, receivers, timeToLive, isPublic);
 
             return toBuild;
         }

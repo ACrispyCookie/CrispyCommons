@@ -12,6 +12,7 @@ import java.util.Set;
 public abstract class AbstractVisualBuilder<T extends CrispyVisual> implements VisualBuilder<T> {
 
     protected T toBuild;
+    protected boolean isPublic = false;
     protected final Set<OfflinePlayer> receivers = new HashSet<>();
     protected GeneralElement<Long, ?> timeToLive = GeneralElement.simple((long) -1);
 
@@ -37,6 +38,12 @@ public abstract class AbstractVisualBuilder<T extends CrispyVisual> implements V
     @Override
     public AbstractVisualBuilder<T> addPlayers(Collection<? extends OfflinePlayer> p) {
         receivers.addAll(p);
+        return this;
+    }
+
+    @Override
+    public AbstractVisualBuilder<T> setPublic(boolean isPublic) {
+        this.isPublic = true;
         return this;
     }
 

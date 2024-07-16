@@ -56,14 +56,14 @@ public interface CrispyTitle extends CrispyVisual {
 
     class SimpleTitleBuilder extends TitleBuilder {
         public SimpleTitle build() {
-            this.toBuild = new SimpleTitle(data, receivers, timeToLive);
+            this.toBuild = new SimpleTitle(data, receivers, timeToLive, isPublic);
             return (SimpleTitle) toBuild;
         }
     }
 
     class UpdatingTitleBuilder extends TitleBuilder {
         public UpdatingTitle build() {
-            this.toBuild = new UpdatingTitle(data, receivers, timeToLive);
+            this.toBuild = new UpdatingTitle(data, receivers, timeToLive, isPublic);
             return (UpdatingTitle) toBuild;
         }
     }

@@ -52,7 +52,7 @@ public interface CrispyBossBar extends CrispyVisual {
 
         @Override
         public CrispyBossBar build() {
-            this.toBuild = new SimpleBossBar(data, receivers, timeToLive);
+            this.toBuild = new SimpleBossBar(data, receivers, timeToLive, isPublic);
             return toBuild;
         }
     }

@@ -16,8 +16,8 @@ import java.util.Set;
 
 public abstract class AbstractBossBar extends AbstractVisual<BossBarData> implements CrispyBossBar {
 
-    AbstractBossBar(BossBarData data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long, ?> timeToLive) {
-        super(data, receivers, timeToLive, UpdateMode.PER_PLAYER);
+    AbstractBossBar(BossBarData data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long, ?> timeToLive, boolean isPublic) {
+        super(data, receivers, timeToLive, UpdateMode.PER_PLAYER, isPublic);
     }
 
     @EventHandler

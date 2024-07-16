@@ -11,8 +11,8 @@ import java.util.Set;
 
 public abstract class AbstractTitle extends AbstractVisual<TitleData> implements CrispyTitle {
 
-    AbstractTitle(TitleData data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long, ?> timeToLive, UpdateMode updateMode) {
-        super(data, receivers, timeToLive, updateMode);
+    AbstractTitle(TitleData data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long, ?> timeToLive, UpdateMode updateMode, boolean isPublic) {
+        super(data, receivers, timeToLive, updateMode, isPublic);
     }
 
     @Override

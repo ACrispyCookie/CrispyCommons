@@ -20,8 +20,8 @@ public abstract class AbstractScoreboard extends AbstractVisual<ScoreboardData> 
     protected abstract void removeLineInternal(int index);
     protected abstract void addLineInternal(int index);
 
-    AbstractScoreboard(ScoreboardData data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long, ?> timeToLive, UpdateMode updateMode) {
-        super(data, receivers, timeToLive, updateMode);
+    AbstractScoreboard(ScoreboardData data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long, ?> timeToLive, UpdateMode updateMode, boolean isPublic) {
+        super(data, receivers, timeToLive, updateMode, isPublic);
     }
 
     @Override

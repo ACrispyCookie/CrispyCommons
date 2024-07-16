@@ -3,7 +3,6 @@ package dev.acrispycookie.crispycommons.api.visuals.hologram;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.CrispyVisual;
 import dev.acrispycookie.crispycommons.api.wrappers.elements.DynamicElement;
 import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.builder.AbstractVisualBuilder;
-import dev.acrispycookie.crispycommons.implementations.visuals.hologram.PublicHologram;
 import dev.acrispycookie.crispycommons.implementations.visuals.hologram.SimpleHologram;
 import dev.acrispycookie.crispycommons.implementations.visuals.hologram.wrappers.HologramData;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GeneralElement;
@@ -29,7 +28,6 @@ public interface CrispyHologram extends CrispyVisual {
     class HologramBuilder extends AbstractVisualBuilder<CrispyHologram> {
 
         private final HologramData data = new HologramData(new ArrayList<>(), null);
-        private boolean isPublic = false;
 
         public HologramBuilder setLocation(GeneralElement<Location, ?> location) {
             this.data.setLocation(location);
@@ -43,17 +41,8 @@ public interface CrispyHologram extends CrispyVisual {
             return this;
         }
 
-        public HologramBuilder setPublic(boolean isPublic) {
-            this.isPublic = isPublic;
-            return this;
-        }
-
         public CrispyHologram build() {
-            if(isPublic) {
-                toBuild = new PublicHologram(data, receivers, timeToLive);
-            } else {
-                toBuild = new SimpleHologram(data, receivers, timeToLive);
-            }
+            toBuild = new SimpleHologram(data, receivers, timeToLive, isPublic);
 
             return toBuild;
         }

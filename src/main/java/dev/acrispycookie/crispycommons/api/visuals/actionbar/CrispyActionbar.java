@@ -26,7 +26,7 @@ public interface CrispyActionbar extends CrispyVisual {
 
         @Override
         public CrispyActionbar build() {
-            this.toBuild = new SimpleActionbar(data, receivers, timeToLive);
+            this.toBuild = new SimpleActionbar(data, receivers, timeToLive, isPublic);
             return toBuild;
         }
     }

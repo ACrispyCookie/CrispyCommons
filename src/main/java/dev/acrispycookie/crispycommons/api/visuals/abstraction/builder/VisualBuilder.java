@@ -13,5 +13,6 @@ public interface VisualBuilder<T extends CrispyVisual> {
     VisualBuilder<T> setPlayers(Collection<? extends OfflinePlayer> p);
     VisualBuilder<T> addPlayers(Collection<? extends OfflinePlayer> p);
     VisualBuilder<T> setTimeToLive(GeneralElement<Long, ?> timeToLive);
+    VisualBuilder<T> setPublic(boolean isPublic);
     T build();
 }

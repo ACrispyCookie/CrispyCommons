@@ -11,8 +11,8 @@ import java.util.Set;
 
 public abstract class AbstractNameTag extends AbstractVisual<NameTagData> implements CrispyNameTag {
 
-    AbstractNameTag(NameTagData data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long, ?> timeToLive, UpdateMode updateMode) {
-        super(data, receivers, timeToLive, updateMode);
+    AbstractNameTag(NameTagData data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long, ?> timeToLive, UpdateMode updateMode, boolean isPublic) {
+        super(data, receivers, timeToLive, updateMode, isPublic);
     }
 
     @Override

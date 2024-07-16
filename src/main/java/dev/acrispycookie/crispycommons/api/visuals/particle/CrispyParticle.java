@@ -49,21 +49,21 @@ public interface CrispyParticle<T extends Effect> extends CrispyVisual {
 
     class SimpleParticleBuilder extends ParticleBuilder<SimpleEffect> {
         public CrispyParticle<SimpleEffect> build() {
-            toBuild = new SimpleParticle(data, receivers, timeToLive);
+            toBuild = new SimpleParticle(data, receivers, timeToLive, isPublic);
             return toBuild;
         }
     }
 
     class ColoredParticleBuilder extends ParticleBuilder<ColoredEffect> {
         public CrispyParticle<ColoredEffect> build() {
-            toBuild = new ColoredParticle(data, receivers, timeToLive);
+            toBuild = new ColoredParticle(data, receivers, timeToLive, isPublic);
             return toBuild;
         }
     }
 
     class RenderedParticleBuilder extends ParticleBuilder<RenderedEffect> {
         public CrispyParticle<RenderedEffect> build() {
-            toBuild = new RenderedParticle(data, receivers, timeToLive);
+            toBuild = new RenderedParticle(data, receivers, timeToLive, isPublic);
             return toBuild;
         }
     }

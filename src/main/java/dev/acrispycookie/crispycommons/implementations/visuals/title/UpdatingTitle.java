@@ -13,8 +13,8 @@ import java.util.Set;
 
 public class UpdatingTitle extends AbstractTitle {
 
-    public UpdatingTitle(TitleData data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long, ?> timeToLive) {
-        super(data, receivers, timeToLive, UpdateMode.PER_PLAYER);
+    public UpdatingTitle(TitleData data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long, ?> timeToLive, boolean isPublic) {
+        super(data, receivers, timeToLive, UpdateMode.PER_PLAYER, isPublic);
     }
 
     @Override

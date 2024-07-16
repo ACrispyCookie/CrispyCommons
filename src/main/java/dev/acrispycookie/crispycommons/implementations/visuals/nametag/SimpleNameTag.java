@@ -21,8 +21,8 @@ public class SimpleNameTag extends AbstractNameTag {
 
     private CrispyHologram aboveNameHologram;
 
-    public SimpleNameTag(NameTagData data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long, ?> timeToLive) {
-        super(data, receivers, timeToLive, UpdateMode.PER_PLAYER);
+    public SimpleNameTag(NameTagData data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long, ?> timeToLive, boolean isPublic) {
+        super(data, receivers, timeToLive, UpdateMode.PER_PLAYER, isPublic);
     }
 
     @EventHandler

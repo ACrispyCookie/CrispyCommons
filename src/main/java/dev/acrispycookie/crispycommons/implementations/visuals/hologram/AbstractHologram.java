@@ -24,8 +24,8 @@ public abstract class AbstractHologram extends AbstractVisual<HologramData> impl
     protected abstract void removeLineInternal(int index);
     protected abstract void addLineInternal(int index);
 
-    AbstractHologram(HologramData data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long, ?> timeToLive, UpdateMode updateMode) {
-        super(data, receivers, timeToLive, updateMode);
+    AbstractHologram(HologramData data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long, ?> timeToLive, UpdateMode updateMode, boolean isPublic) {
+        super(data, receivers, timeToLive, updateMode, isPublic);
     }
 
     @EventHandler
