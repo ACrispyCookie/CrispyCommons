@@ -12,14 +12,16 @@ public abstract class AbstractDynamicElement<T, K> extends AbstractElement<T, K>
 
     protected Function<K, ? extends T> supplier;
     private final int period;
+    private final int delay;
     protected final boolean async;
     private BukkitTask bukkitTask;
     protected Runnable update;
 
-    protected AbstractDynamicElement(Function<K, ? extends T> supplier, int period, boolean async, Class<K> kClass) {
+    protected AbstractDynamicElement(Function<K, ? extends T> supplier, int delay, int period, boolean async, Class<K> kClass) {
         super(new HashMap<>(), kClass);
         this.supplier = supplier;
         this.period = period;
+        this.delay = delay;
         this.async = async;
     }
 
@@ -34,7 +36,7 @@ public abstract class AbstractDynamicElement<T, K> extends AbstractElement<T, K>
                     elements.forEach((p, element) -> elements.put(p, supplier.apply(p)));
                     update.run();
                 }
-            }.runTaskTimerAsynchronously(CrispyCommons.getPlugin(), period, period);
+            }.runTaskTimerAsynchronously(CrispyCommons.getPlugin(), delay, period);
             return;
         }
 
@@ -46,7 +48,7 @@ public abstract class AbstractDynamicElement<T, K> extends AbstractElement<T, K>
                 });
                 update.run();
             }
-        }.runTaskTimer(CrispyCommons.getPlugin(), period, period);
+        }.runTaskTimer(CrispyCommons.getPlugin(), delay, period);
     }
 
     @Override
@@ -69,6 +71,10 @@ public abstract class AbstractDynamicElement<T, K> extends AbstractElement<T, K>
 
     public int getPeriod() {
         return period;
+    }
+
+    public int getDelay() {
+        return delay;
     }
 
     public boolean isAsync() {

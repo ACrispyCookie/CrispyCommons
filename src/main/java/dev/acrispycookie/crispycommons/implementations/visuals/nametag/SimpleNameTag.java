@@ -193,7 +193,7 @@ public class SimpleNameTag extends AbstractNameTag {
 
         return CrispyHologram.builder()
                 .addLine(line)
-                .setLocation(GeneralElement.dynamic(() -> data.getPlayer().getLocation().add(0, 1.1, 0), 1, false))
+                .setLocation(GeneralElement.dynamic(() -> data.getPlayer().getLocation().add(0, 1.1, 0), 0, 1, false))
                 .build();
     }
 

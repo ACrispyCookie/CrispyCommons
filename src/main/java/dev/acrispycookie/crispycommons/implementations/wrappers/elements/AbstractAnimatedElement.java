@@ -11,8 +11,8 @@ public abstract class AbstractAnimatedElement<T, K> extends AbstractDynamicEleme
 
     private final HashMap<K, Integer> currentFrames = new HashMap<>();
 
-    protected AbstractAnimatedElement(Function<K, Collection<? extends T>> supplier, int period, boolean async, Class<K> kClass) {
-        super((p) -> null, period, async, kClass);
+    protected AbstractAnimatedElement(Function<K, Collection<? extends T>> supplier, int delay, int period, boolean async, Class<K> kClass) {
+        super((p) -> null, delay, period, async, kClass);
         this.supplier = (p) -> {
             ArrayList<T> playerFrames = new ArrayList<>(supplier.apply(p));
             int frame = currentFrames.getOrDefault(p, 0);
@@ -21,8 +21,8 @@ public abstract class AbstractAnimatedElement<T, K> extends AbstractDynamicEleme
         };
     }
 
-    protected AbstractAnimatedElement(MyElementSupplier<K, T> supplier, int period, boolean async, Class<K> kClass) {
-        super(supplier.getFunction(), period, async, kClass);
+    protected AbstractAnimatedElement(MyElementSupplier<K, T> supplier, int delay, int period, boolean async, Class<K> kClass) {
+        super(supplier.getFunction(), delay, period, async, kClass);
     }
 
 }
