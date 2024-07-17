@@ -20,6 +20,10 @@ public class SimpleMenu extends AbstractTrackedGui<MenuData> implements CrispyMe
 
     @Override
     public void openInternal(Player p) {
+        if (isPlayerViewing(p))
+            return;
+
+        openMenus.put(p, this);
         MenuPage page = data.getPage(data.getPage(p));
         p.openInventory(page.render(p));
         viewers.put(p, true);
@@ -27,6 +31,10 @@ public class SimpleMenu extends AbstractTrackedGui<MenuData> implements CrispyMe
 
     @Override
     public void closeInternal(Player p) {
+        if (!isPlayerViewing(p))
+            return;
+
+        openMenus.remove(p);
         data.onPageClose(p);
         viewers.put(p, false);
         if (p.getOpenInventory() != null)
@@ -35,11 +43,17 @@ public class SimpleMenu extends AbstractTrackedGui<MenuData> implements CrispyMe
 
     @Override
     public void offsetPage(OfflinePlayer player, int offset) {
+        if (!isPlayerViewing(player))
+            return;
+
         data.offsetPage(player, offset);
     }
 
     @Override
     public void setPage(OfflinePlayer player, int page) {
+        if (!isPlayerViewing(player))
+            return;
+
         data.setPage(player, page);
     }
 
