@@ -11,8 +11,8 @@ import java.util.function.Function;
 
 public class NameTagElement<T, K> extends AbstractAnimatedElement<T, K> {
 
-    protected NameTagElement(Function<K, Collection<? extends T>> supplier, int delay, int period, Class<K> kClass) {
-        super(supplier, delay, period, false, kClass);
+    protected NameTagElement(Function<K, Collection<? extends T>> supplier, int startingFrame, int delay, int period, Class<K> kClass) {
+        super(supplier, startingFrame, delay, period, false, kClass);
     }
 
     protected NameTagElement(MyElementSupplier<K, T> supplier, int delay, int period, Class<K> kClass) {
@@ -52,8 +52,8 @@ public class NameTagElement<T, K> extends AbstractAnimatedElement<T, K> {
         return new NameTagElement<>(new MyElementSupplier<>(function), delay, period, OfflinePlayer.class);
     }
 
-    public static <T> NameTagElement<T, OfflinePlayer> animated(Function<OfflinePlayer, Collection<? extends T>> function, int delay, int period) {
-        return new NameTagElement<>(function, delay, period, OfflinePlayer.class);
+    public static <T> NameTagElement<T, OfflinePlayer> animated(Function<OfflinePlayer, Collection<? extends T>> function, int startingFrame, int delay, int period) {
+        return new NameTagElement<>(function, startingFrame, delay, period, OfflinePlayer.class);
     }
 
     public static <T> NameTagElement<T, NameTagContext> simplePersonal(Function<NameTagContext, ? extends T> function) {
@@ -64,7 +64,7 @@ public class NameTagElement<T, K> extends AbstractAnimatedElement<T, K> {
         return new NameTagElement<>(new MyElementSupplier<>(function), delay, period, NameTagContext.class);
     }
 
-    public static <T> NameTagElement<T, NameTagContext> animatedPersonal(Function<NameTagContext, Collection<? extends T>> function, int delay, int period) {
-        return new NameTagElement<>(function, delay, period, NameTagContext.class);
+    public static <T> NameTagElement<T, NameTagContext> animatedPersonal(Function<NameTagContext, Collection<? extends T>> function, int startingFrame, int delay, int period) {
+        return new NameTagElement<>(function, startingFrame, delay, period, NameTagContext.class);
     }
 }

@@ -10,8 +10,8 @@ import java.util.function.Supplier;
 
 public class GeneralElement<T, K> extends AbstractAnimatedElement<T, K> {
 
-    protected GeneralElement(Function<K, Collection<? extends T>> supplier, int delay, int period, boolean async, Class<K> kClass) {
-        super(supplier, delay, period, async, kClass);
+    protected GeneralElement(Function<K, Collection<? extends T>> supplier, int startingFrame, int delay, int period, boolean async, Class<K> kClass) {
+        super(supplier, startingFrame, delay, period, async, kClass);
     }
 
     protected GeneralElement(MyElementSupplier<K, T> supplier, int delay, int period, boolean async, Class<K> kClass) {
@@ -35,8 +35,8 @@ public class GeneralElement<T, K> extends AbstractAnimatedElement<T, K> {
         return new GeneralElement<>(new MyElementSupplier<>((v) -> supplier.get()), delay, period, isAsync, Void.class);
     }
 
-    public static <T> GeneralElement<T, Void> animated(Collection<? extends T> collection, int delay, int period, boolean isAsync) {
-        return new GeneralElement<>((v) -> collection, delay, period, isAsync, Void.class);
+    public static <T> GeneralElement<T, Void> animated(Collection<? extends T> collection, int startingFrame, int delay, int period, boolean isAsync) {
+        return new GeneralElement<>((v) -> collection, startingFrame, delay, period, isAsync, Void.class);
     }
 
     public static <T> GeneralElement<T, OfflinePlayer> simplePersonal(Function<OfflinePlayer, ? extends T> function) {
@@ -47,7 +47,7 @@ public class GeneralElement<T, K> extends AbstractAnimatedElement<T, K> {
         return new GeneralElement<>(new MyElementSupplier<>(function), delay, period, isAsync, OfflinePlayer.class);
     }
 
-    public static <T> GeneralElement<T, OfflinePlayer> animatedPersonal(Function<OfflinePlayer, Collection<? extends T>> function, int delay, int period, boolean isAsync) {
-        return new GeneralElement<>(function, delay, period, isAsync, OfflinePlayer.class);
+    public static <T> GeneralElement<T, OfflinePlayer> animatedPersonal(Function<OfflinePlayer, Collection<? extends T>> function, int startingFrame, int delay, int period, boolean isAsync) {
+        return new GeneralElement<>(function, startingFrame, delay, period, isAsync, OfflinePlayer.class);
     }
 }

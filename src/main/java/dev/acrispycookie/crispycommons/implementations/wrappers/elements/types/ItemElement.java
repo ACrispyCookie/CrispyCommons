@@ -11,8 +11,8 @@ import java.util.function.Supplier;
 
 public class ItemElement<K> extends AbstractAnimatedElement<CrispyItemStack, K> {
 
-    protected ItemElement(Function<K, Collection<? extends CrispyItemStack>> supplier, int delay, int period, Class<K> kClass) {
-        super(supplier, delay, period, false, kClass);
+    protected ItemElement(Function<K, Collection<? extends CrispyItemStack>> supplier, int startingFrame, int delay, int period, Class<K> kClass) {
+        super(supplier, startingFrame, delay, period, false, kClass);
     }
 
     protected ItemElement(MyElementSupplier<K, CrispyItemStack> supplier, int delay, int period, Class<K> kClass) {
@@ -36,8 +36,8 @@ public class ItemElement<K> extends AbstractAnimatedElement<CrispyItemStack, K> 
         return new ItemElement<>(new MyElementSupplier<>((v) -> supplier.get()), delay, period, Void.class);
     }
 
-    public static ItemElement<Void> animated(Collection<? extends CrispyItemStack> collection, int delay, int period) {
-        return new ItemElement<>((v) -> collection, delay, period, Void.class);
+    public static ItemElement<Void> animated(Collection<? extends CrispyItemStack> collection, int startingFrame, int delay, int period) {
+        return new ItemElement<>((v) -> collection, startingFrame, delay, period, Void.class);
     }
 
     public static ItemElement<OfflinePlayer> simplePersonal(Function<OfflinePlayer, ? extends CrispyItemStack> function) {
@@ -48,7 +48,7 @@ public class ItemElement<K> extends AbstractAnimatedElement<CrispyItemStack, K> 
         return new ItemElement<>(new MyElementSupplier<>(function), delay, period, OfflinePlayer.class);
     }
 
-    public static ItemElement<OfflinePlayer> animatedPersonal(Function<OfflinePlayer, Collection<? extends CrispyItemStack>> function, int delay, int period) {
-        return new ItemElement<>(function, delay, period, OfflinePlayer.class);
+    public static ItemElement<OfflinePlayer> animatedPersonal(Function<OfflinePlayer, Collection<? extends CrispyItemStack>> function, int startingFrame, int delay, int period) {
+        return new ItemElement<>(function, startingFrame, delay, period, OfflinePlayer.class);
     }
 }

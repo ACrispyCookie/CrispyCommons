@@ -11,8 +11,8 @@ import java.util.function.Supplier;
 
 public class ParticleElement<T extends Effect, K> extends AbstractAnimatedElement<T, K> {
 
-    protected ParticleElement(Function<K, Collection<? extends T>> supplier, int delay, int period, Class<K> kClass) {
-        super(supplier, delay, period, false, kClass);
+    protected ParticleElement(Function<K, Collection<? extends T>> supplier, int startingFrame, int delay, int period, Class<K> kClass) {
+        super(supplier, startingFrame, delay, period, false, kClass);
     }
 
     protected ParticleElement(MyElementSupplier<K, T> supplier, int delay, int period, Class<K> kClass) {
@@ -36,8 +36,8 @@ public class ParticleElement<T extends Effect, K> extends AbstractAnimatedElemen
         return new ParticleElement<>(new MyElementSupplier<>((v) -> supplier.get()), delay, period, Void.class);
     }
 
-    public static <T extends Effect> ParticleElement<T, Void> animated(Collection<? extends T> collection, int delay, int period) {
-        return new ParticleElement<>((v) -> collection, delay, period, Void.class);
+    public static <T extends Effect> ParticleElement<T, Void> animated(Collection<? extends T> collection, int startingFrame, int delay, int period) {
+        return new ParticleElement<>((v) -> collection, startingFrame, delay, period, Void.class);
     }
 
     public static <T extends Effect> ParticleElement<T, OfflinePlayer> simplePersonal(Function<OfflinePlayer, ? extends T> function) {
@@ -48,7 +48,7 @@ public class ParticleElement<T extends Effect, K> extends AbstractAnimatedElemen
         return new ParticleElement<>(new MyElementSupplier<>(supplier), delay, period, OfflinePlayer.class);
     }
 
-    public static <T extends Effect> ParticleElement<T, OfflinePlayer> animatedPersonal(Function<OfflinePlayer, Collection<? extends T>> supplier, int delay, int period) {
-        return new ParticleElement<>(supplier, delay, period, OfflinePlayer.class);
+    public static <T extends Effect> ParticleElement<T, OfflinePlayer> animatedPersonal(Function<OfflinePlayer, Collection<? extends T>> supplier, int startingFrame, int delay, int period) {
+        return new ParticleElement<>(supplier, startingFrame, delay, period, OfflinePlayer.class);
     }
 }
