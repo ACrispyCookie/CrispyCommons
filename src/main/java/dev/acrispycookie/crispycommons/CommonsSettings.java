@@ -5,15 +5,19 @@ public class CommonsSettings {
     private boolean bookActionEnabled;
     private String bookCommand;
     private boolean menusEnabled;
+    private int maximumMenuHistory;
 
-    public CommonsSettings(boolean bookActionEnabled, String bookCommand, boolean menusEnabled) {
+    public CommonsSettings(boolean bookActionEnabled, String bookCommand, boolean menusEnabled, int maximumMenuHistory) {
         this.bookActionEnabled = bookActionEnabled;
         this.bookCommand = bookCommand;
         this.menusEnabled = menusEnabled;
+        this.maximumMenuHistory = maximumMenuHistory;
     }
 
     public CommonsSettings() {
-
+        this.bookActionEnabled = false;
+        this.menusEnabled = true;
+        this.maximumMenuHistory = 10;
     }
 
     public CommonsSettings bookAction(String bookCommand) {
@@ -33,6 +37,10 @@ public class CommonsSettings {
 
     public String getBookCommand() {
         return bookCommand;
+    }
+
+    public int getMaximumMenuHistory() {
+        return maximumMenuHistory;
     }
 
     public boolean isMenusEnabled() {

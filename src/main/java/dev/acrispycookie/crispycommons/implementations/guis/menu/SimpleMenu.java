@@ -1,15 +1,18 @@
 package dev.acrispycookie.crispycommons.implementations.guis.menu;
 
+import dev.acrispycookie.crispycommons.CrispyCommons;
 import dev.acrispycookie.crispycommons.api.guis.menu.CrispyMenu;
 import dev.acrispycookie.crispycommons.api.guis.menu.MenuPage;
 import dev.acrispycookie.crispycommons.implementations.guis.abstraction.AbstractTrackedGui;
 import dev.acrispycookie.crispycommons.implementations.guis.menu.wrappers.MenuData;
+import dev.acrispycookie.crispycommons.utility.menus.SizedStack;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import java.util.Stack;
 
 public class SimpleMenu extends AbstractTrackedGui<MenuData> implements CrispyMenu {
 
@@ -19,13 +22,27 @@ public class SimpleMenu extends AbstractTrackedGui<MenuData> implements CrispyMe
     }
 
     @Override
-    public void openInternal(Player p) {
+    public void openWithNoHistory(Player p) {
         if (isPlayerViewing(p))
             return;
 
         openMenus.put(p, this);
         MenuPage page = data.getPage(data.getPage(p));
         p.openInventory(page.render(p));
+        viewers.put(p, true);
+    }
+
+    @Override
+    public void openInternal(Player p) {
+        if (isPlayerViewing(p))
+            return;
+
+        Stack<CrispyMenu> stack = history.getOrDefault(p, new SizedStack<>(CrispyCommons.getSettings().getMaximumMenuHistory()));
+        stack.push(this);
+        history.put(p, stack);
+        MenuPage page = data.getPage(data.getPage(p));
+        p.openInventory(page.render(p));
+        openMenus.put(p, this);
         viewers.put(p, true);
     }
 

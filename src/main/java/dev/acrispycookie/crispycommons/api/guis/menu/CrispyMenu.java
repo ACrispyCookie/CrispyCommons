@@ -23,6 +23,7 @@ import java.util.function.BiFunction;
 public interface CrispyMenu extends TrackedGui, Listener {
 
     Map<Player, CrispyMenu> openMenus = new HashMap<>();
+    Map<Player, Stack<CrispyMenu>> history = new HashMap<>();
 
     static MenuBuilder builder() {
         return new MenuBuilder();
@@ -34,6 +35,7 @@ public interface CrispyMenu extends TrackedGui, Listener {
         return new PagedMenuBuilder(title, startingPage, rows, columns);
     }
 
+    void openWithNoHistory(Player player);
     boolean isChangingPage(Player player);
     void offsetPage(OfflinePlayer player, int offset);
     void setPage(OfflinePlayer player, int page);
@@ -50,6 +52,25 @@ public interface CrispyMenu extends TrackedGui, Listener {
 
     static CrispyMenu getOpenMenu(Player player) {
         return openMenus.get(player);
+    }
+
+    static Stack<CrispyMenu> getHistory(Player player) {
+        return history.get(player);
+    }
+
+    static boolean hasHistory(Player player) {
+        return history.containsKey(player) && history.get(player).size() > 1;
+    }
+
+    static void openPrevious(Player player) {
+        if (!hasHistory(player))
+            return;
+        Stack<CrispyMenu> menus = getHistory(player);
+        menus.pop();
+        CrispyMenu toOpen = menus.peek();
+        CrispyMenu toClose = getOpenMenu(player);
+        toClose.close(player);
+        toOpen.openWithNoHistory(player);
     }
 
     class PagedMenuBuilder extends AbstractGuiBuilder<CrispyMenu> {

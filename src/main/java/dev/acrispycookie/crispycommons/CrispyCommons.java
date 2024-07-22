@@ -43,6 +43,10 @@ public class CrispyCommons implements Listener {
         Bukkit.getPluginManager().registerEvents(new CrispyCommons(), plugin);
     }
 
+    public static CommonsSettings getSettings() {
+        return settings;
+    }
+
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerJoin(PlayerJoinEvent event) {
         event.getPlayer().setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
