@@ -1,6 +1,7 @@
 package dev.acrispycookie.crispycommons.api.wrappers.itemstack;
 
 import net.minecraft.server.v1_8_R3.NBTBase;
+import net.minecraft.server.v1_8_R3.NBTTagCompound;
 import net.minecraft.server.v1_8_R3.NBTTagList;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -102,7 +103,11 @@ public class CrispyItemStack extends ItemStack implements CrispyItem {
 
     public CrispyItemStack glint(boolean gl) {
         if(gl && !hasTag("ench")) {
-            addTag("ench", new NBTTagList());
+            if (this.getType() == Material.BOW)
+                addEnchant(Enchantment.PROTECTION_FALL, 1);
+            else
+                addEnchant(Enchantment.ARROW_INFINITE, 1);
+            addFlag(ItemFlag.HIDE_ENCHANTS);
         }
         return this;
     }
