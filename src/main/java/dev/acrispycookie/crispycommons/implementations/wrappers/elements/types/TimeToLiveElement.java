@@ -44,6 +44,6 @@ public class TimeToLiveElement<K> extends AbstractAnimatedElement<Long, K> {
 
     public enum StartMode {
         GLOBAL,
-        PER_PLAYER;
+        PER_PLAYER
     }
 }

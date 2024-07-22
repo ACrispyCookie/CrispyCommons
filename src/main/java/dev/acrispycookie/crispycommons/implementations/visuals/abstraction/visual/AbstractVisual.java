@@ -25,8 +25,8 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
     private final Set<UUID> currentlyDisplaying = new HashSet<>();
     protected TimeToLiveManager timeToLive;
     private final UpdateMode updateMode;
+    protected final boolean isPublic;
     protected boolean isDisplayed = false;
-    protected boolean isPublic;
     protected T data;
     protected abstract void prepareShow();
     protected abstract void prepareHide();

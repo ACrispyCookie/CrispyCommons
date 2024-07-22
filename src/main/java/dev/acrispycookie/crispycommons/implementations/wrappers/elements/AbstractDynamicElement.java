@@ -43,9 +43,7 @@ public abstract class AbstractDynamicElement<T, K> extends AbstractElement<T, K>
         bukkitTask = new BukkitRunnable() {
             @Override
             public void run() {
-                elements.forEach((k, element) -> {
-                    elements.put(k, supplier.apply(k));
-                });
+                elements.forEach((k, element) -> elements.put(k, supplier.apply(k)));
                 update.run();
             }
         }.runTaskTimer(CrispyCommons.getPlugin(), delay, period);
