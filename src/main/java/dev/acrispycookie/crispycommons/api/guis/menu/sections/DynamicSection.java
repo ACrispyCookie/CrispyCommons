@@ -9,6 +9,7 @@ import org.bukkit.inventory.Inventory;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 public interface DynamicSection extends Section {
 
@@ -24,4 +25,5 @@ public interface DynamicSection extends Section {
     void addItem(int index, MenuItem item);
     void addItem(MenuItem item);
     void sortItems(Comparator<MenuItem> comparator);
+    List<MenuItem> getItems();
 }

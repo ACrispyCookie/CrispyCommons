@@ -13,7 +13,7 @@ public class MenuData implements GuiData, Listener {
 
     private CrispyMenu menu;
     private final Set<CrispyMenu.MenuProperty> properties = new HashSet<>();
-    private final ArrayList<MenuPage> pages = new ArrayList<>();
+    protected final ArrayList<MenuPage> pages = new ArrayList<>();
     private final HashMap<OfflinePlayer, Integer> currentPages = new HashMap<>();
     private final ArrayList<OfflinePlayer> currentlyChangingPage = new ArrayList<>();
     private final HashMap<Integer, Integer> pageUsage = new HashMap<>();

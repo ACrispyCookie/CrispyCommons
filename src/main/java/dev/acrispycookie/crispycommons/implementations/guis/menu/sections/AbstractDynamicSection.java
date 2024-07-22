@@ -10,6 +10,7 @@ import org.bukkit.inventory.Inventory;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.List;
 
 public abstract class AbstractDynamicSection extends AbstractSection implements DynamicSection {
 
@@ -62,6 +63,11 @@ public abstract class AbstractDynamicSection extends AbstractSection implements 
     @Override
     public void clearItems() {
         items.clear();
+    }
+
+    @Override
+    public List<MenuItem> getItems() {
+        return items;
     }
 
     @Override

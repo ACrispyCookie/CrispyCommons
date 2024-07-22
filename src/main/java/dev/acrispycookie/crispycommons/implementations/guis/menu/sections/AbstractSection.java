@@ -21,7 +21,10 @@ public abstract class AbstractSection implements Section {
     protected void updateItem(ItemElement<?> item) {
         Set<InventoryInfo> inventories = dynamicItems.get(item);
 
-        inventories.forEach((info) -> info.getInventory().setItem(info.getPasteSlot(), item.getFromContext(OfflinePlayer.class, info.getPlayer())));
+        inventories.forEach((info) -> {
+            info.getInventory().setItem(info.getPasteSlot(), item.getFromContext(OfflinePlayer.class, info.getPlayer()));
+            info.getPlayer().getPlayer().updateInventory();
+        });
     }
 
     @Override
