@@ -22,7 +22,7 @@ public class TextEntity extends ClickableEntity<TextElement<?>> {
 
     @Override
     public double offsetPerLine() {
-        return -0.25;
+        return -0.23;
     }
 
     @Override
@@ -39,6 +39,8 @@ public class TextEntity extends ClickableEntity<TextElement<?>> {
         if (as == null) {
             as = new EntityArmorStand(((CraftWorld) location.getWorld()).getHandle(), location.getX(), location.getY(), location.getZ());
             as.setInvisible(true);
+            as.n(true);
+            as.setBasePlate(true);
             as.setGravity(false);
             as.setCustomNameVisible(true);
             as.setCustomName(ChatColor.translateAlternateColorCodes('&', text));
