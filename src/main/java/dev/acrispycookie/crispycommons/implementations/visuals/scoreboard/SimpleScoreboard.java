@@ -216,7 +216,15 @@ public class SimpleScoreboard extends AbstractScoreboard {
 
     private Scoreboard removeSidebar(Player p) {
         Scoreboard board = p.getScoreboard();
-        board.getObjective("[CrispyCommons]").unregister();
+        Objective objective = board.getObjective("[CrispyCommons]");
+        if (objective != null)
+            objective.unregister();
+
+        for (int i = 0; i < data.getLines().size(); i++) {
+            Team t = board.getTeam(String.valueOf(i));
+            if (t != null)
+                t.unregister();
+        }
         return board;
     }
 }
