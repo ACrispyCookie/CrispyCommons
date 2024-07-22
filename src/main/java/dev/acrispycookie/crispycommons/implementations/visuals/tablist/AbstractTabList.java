@@ -5,8 +5,8 @@ import dev.acrispycookie.crispycommons.api.wrappers.elements.DynamicElement;
 import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.visual.AbstractVisual;
 import dev.acrispycookie.crispycommons.implementations.visuals.tablist.wrappers.TabListData;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.AbstractDynamicElement;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GeneralElement;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TextElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TimeToLiveElement;
 import org.bukkit.OfflinePlayer;
 
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ public abstract class AbstractTabList extends AbstractVisual<TabListData> implem
     protected abstract void removeLineInternal(int index, boolean header);
     protected abstract void addLineInternal(int index, boolean header);
 
-    AbstractTabList(TabListData data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long, ?> timeToLive, UpdateMode updateMode, boolean isPublic) {
+    AbstractTabList(TabListData data, Set<? extends OfflinePlayer> receivers, TimeToLiveElement<?> timeToLive, UpdateMode updateMode, boolean isPublic) {
         super(data, receivers, timeToLive, updateMode, isPublic);
     }
 

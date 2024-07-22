@@ -3,15 +3,15 @@ package dev.acrispycookie.crispycommons.implementations.visuals.nametag;
 import dev.acrispycookie.crispycommons.api.visuals.nametag.CrispyNameTag;
 import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.visual.AbstractVisual;
 import dev.acrispycookie.crispycommons.implementations.visuals.nametag.wrappers.NameTagData;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GeneralElement;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.NameTagElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TimeToLiveElement;
 import org.bukkit.OfflinePlayer;
 
 import java.util.Set;
 
 public abstract class AbstractNameTag extends AbstractVisual<NameTagData> implements CrispyNameTag {
 
-    AbstractNameTag(NameTagData data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long, ?> timeToLive, UpdateMode updateMode, boolean isPublic) {
+    AbstractNameTag(NameTagData data, Set<? extends OfflinePlayer> receivers, TimeToLiveElement<?> timeToLive, UpdateMode updateMode, boolean isPublic) {
         super(data, receivers, timeToLive, updateMode, isPublic);
     }
 

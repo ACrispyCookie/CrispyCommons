@@ -5,13 +5,14 @@ import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.visua
 import dev.acrispycookie.crispycommons.implementations.visuals.title.wrappers.TitleData;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GeneralElement;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TextElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TimeToLiveElement;
 import org.bukkit.OfflinePlayer;
 
 import java.util.Set;
 
 public abstract class AbstractTitle extends AbstractVisual<TitleData> implements CrispyTitle {
 
-    AbstractTitle(TitleData data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long, ?> timeToLive, UpdateMode updateMode, boolean isPublic) {
+    AbstractTitle(TitleData data, Set<? extends OfflinePlayer> receivers, TimeToLiveElement<?> timeToLive, UpdateMode updateMode, boolean isPublic) {
         super(data, receivers, timeToLive, updateMode, isPublic);
     }
 

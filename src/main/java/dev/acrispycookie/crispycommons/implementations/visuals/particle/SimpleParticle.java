@@ -1,7 +1,7 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.particle;
 
 import dev.acrispycookie.crispycommons.implementations.visuals.particle.wrappers.ParticleData;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GeneralElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TimeToLiveElement;
 import dev.acrispycookie.crispycommons.implementations.wrappers.particle.SimpleEffect;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -11,7 +11,7 @@ import java.util.Set;
 
 public class SimpleParticle extends AbstractParticle<SimpleEffect> {
 
-    public SimpleParticle(ParticleData<SimpleEffect> data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long, ?> timeToLive, boolean isPublic) {
+    public SimpleParticle(ParticleData<SimpleEffect> data, Set<? extends OfflinePlayer> receivers, TimeToLiveElement<?> timeToLive, boolean isPublic) {
         super(data, receivers, timeToLive, UpdateMode.PER_PLAYER, isPublic);
     }
 

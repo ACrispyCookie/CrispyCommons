@@ -3,7 +3,7 @@ package dev.acrispycookie.crispycommons.implementations.visuals.hologram;
 import dev.acrispycookie.crispycommons.api.wrappers.elements.DynamicElement;
 import dev.acrispycookie.crispycommons.api.wrappers.entity.Entity;
 import dev.acrispycookie.crispycommons.implementations.visuals.hologram.wrappers.HologramData;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GeneralElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TimeToLiveElement;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -15,7 +15,7 @@ public class SimpleHologram extends AbstractHologram {
 
     private final HashMap<UUID, List<EntityInfo>> entities = new HashMap<>();
 
-    public SimpleHologram(HologramData data, Collection<? extends OfflinePlayer> receivers, GeneralElement<Long, ?> timeToLive, boolean isPublic) {
+    public SimpleHologram(HologramData data, Collection<? extends OfflinePlayer> receivers, TimeToLiveElement<?> timeToLive, boolean isPublic) {
         super(data, new HashSet<>(receivers), timeToLive, UpdateMode.PER_PLAYER, isPublic);
     }
 
@@ -59,7 +59,7 @@ public class SimpleHologram extends AbstractHologram {
             }
             Player p = Bukkit.getPlayer(e.getKey());
             Entity newLine = Entity.of(data.getLines().get(index));
-            if (p != null)
+            if (p != null && isWatching(p))
                 newLine.spawn(getEntityLocation(p, newLine, index), p);
 
             infos.add(index, new EntityInfo(index, newLine));
@@ -85,7 +85,7 @@ public class SimpleHologram extends AbstractHologram {
             Player p = Bukkit.getPlayer(e.getKey());
             if (toRemove == null)
                 return;
-            if (p != null)
+            if (p != null && isWatching(p))
                 toRemove.getEntity().destroy(p);
             infos.remove(toRemove);
             entities.put(e.getKey(), infos);

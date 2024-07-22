@@ -6,6 +6,7 @@ import dev.acrispycookie.crispycommons.implementations.wrappers.elements.context
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GeneralElement;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.NameTagElement;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TextElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TimeToLiveElement;
 import dev.acrispycookie.crispycommons.utility.elements.ContextMap;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -21,7 +22,7 @@ public class SimpleNameTag extends AbstractNameTag {
 
     private CrispyHologram aboveNameHologram;
 
-    public SimpleNameTag(NameTagData data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long, ?> timeToLive, boolean isPublic) {
+    public SimpleNameTag(NameTagData data, Set<? extends OfflinePlayer> receivers, TimeToLiveElement<?> timeToLive, boolean isPublic) {
         super(data, receivers, timeToLive, UpdateMode.PER_PLAYER, isPublic);
     }
 

@@ -1,7 +1,7 @@
 package dev.acrispycookie.crispycommons.implementations.visuals.scoreboard;
 
 import dev.acrispycookie.crispycommons.implementations.visuals.scoreboard.wrappers.ScoreboardData;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GeneralElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TimeToLiveElement;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.ChatColor;
@@ -21,7 +21,7 @@ public class SimpleScoreboard extends AbstractScoreboard {
     private final HashMap<OfflinePlayer, Scoreboard> scoreboards = new HashMap<>();
     private final HashMap<OfflinePlayer, HashMap<String, Integer>> timesUsedInEntries = new HashMap<>();
 
-    public SimpleScoreboard(ScoreboardData data, Collection<? extends OfflinePlayer> receivers, GeneralElement<Long, ?> timeToLive, boolean isPublic) {
+    public SimpleScoreboard(ScoreboardData data, Collection<? extends OfflinePlayer> receivers, TimeToLiveElement<?> timeToLive, boolean isPublic) {
         super(data, new HashSet<>(receivers), timeToLive, UpdateMode.PER_PLAYER, isPublic);
     }
 

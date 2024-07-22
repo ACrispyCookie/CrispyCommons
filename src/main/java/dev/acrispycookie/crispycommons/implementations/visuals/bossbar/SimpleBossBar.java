@@ -2,7 +2,7 @@ package dev.acrispycookie.crispycommons.implementations.visuals.bossbar;
 
 import dev.acrispycookie.crispycommons.CrispyCommons;
 import dev.acrispycookie.crispycommons.implementations.visuals.bossbar.wrappers.BossBarData;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GeneralElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TimeToLiveElement;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.bossbar.BossBar;
 import org.bukkit.OfflinePlayer;
@@ -15,7 +15,7 @@ public class SimpleBossBar extends AbstractBossBar {
 
     private final HashMap<OfflinePlayer, BossBar> bossBars = new HashMap<>();
 
-    public SimpleBossBar(BossBarData data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long, ?> timeToLive, boolean isPublic) {
+    public SimpleBossBar(BossBarData data, Set<? extends OfflinePlayer> receivers, TimeToLiveElement<?> timeToLive, boolean isPublic) {
         super(data, receivers, timeToLive, isPublic);
     }
 

@@ -6,6 +6,7 @@ import dev.acrispycookie.crispycommons.api.wrappers.elements.DynamicElement;
 import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.visual.AbstractVisual;
 import dev.acrispycookie.crispycommons.implementations.visuals.hologram.wrappers.HologramData;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GeneralElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TimeToLiveElement;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -24,7 +25,7 @@ public abstract class AbstractHologram extends AbstractVisual<HologramData> impl
     protected abstract void removeLineInternal(int index);
     protected abstract void addLineInternal(int index);
 
-    AbstractHologram(HologramData data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long, ?> timeToLive, UpdateMode updateMode, boolean isPublic) {
+    AbstractHologram(HologramData data, Set<? extends OfflinePlayer> receivers, TimeToLiveElement<?> timeToLive, UpdateMode updateMode, boolean isPublic) {
         super(data, receivers, timeToLive, updateMode, isPublic);
     }
 
@@ -64,7 +65,6 @@ public abstract class AbstractHologram extends AbstractVisual<HologramData> impl
             line.start();
         data.addLine(index, line);
         addLineInternal(index);
-
     }
 
     @Override

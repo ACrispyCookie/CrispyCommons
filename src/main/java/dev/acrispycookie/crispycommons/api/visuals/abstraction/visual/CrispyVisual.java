@@ -1,6 +1,6 @@
 package dev.acrispycookie.crispycommons.api.visuals.abstraction.visual;
 
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GeneralElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TimeToLiveElement;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
@@ -13,16 +13,21 @@ public interface CrispyVisual {
     void hide();
     void update();
     void destroy();
-    void setTimeToLive(GeneralElement<Long, ?> timeToLive);
+    void setTimeToLive(TimeToLiveElement<?> timeToLive);
     void addPlayer(OfflinePlayer player);
     void removePlayer(OfflinePlayer player);
     void setPlayers(Collection<? extends OfflinePlayer> players);
+    void resetExpired();
+    void resetExpired(Player player);
     Set<OfflinePlayer> getPlayers();
     Set<Player> getCurrentlyViewing();
-    GeneralElement<Long, ?> getTimeToLive();
+    TimeToLiveElement<?> getTimeToLive();
     boolean isPublic();
     boolean isDisplayed();
     boolean isAnyoneWatching();
+    boolean isWatching(Player player);
+    boolean isExpired(OfflinePlayer player);
+    boolean isRunning(OfflinePlayer player);
 
     class ContextNotExpectedException extends RuntimeException {
         public ContextNotExpectedException(String message) {

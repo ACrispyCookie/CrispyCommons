@@ -29,18 +29,18 @@ public abstract class AbstractMenuItem implements MenuItem {
     }
 
     @Override
-    public boolean canSee(CrispyMenu data, Player player) {
-        return canSee.apply(data, player);
+    public boolean canSee(CrispyMenu menu, Player player) {
+        return canSee.apply(menu, player);
     }
 
     @Override
-    public boolean canSeeUnloaded(CrispyMenu data, Player player) {
-        return canSeeUnloaded.apply(data, player);
+    public boolean canSeeUnloaded(CrispyMenu menu, Player player) {
+        return canSeeUnloaded.apply(menu, player);
     }
 
     @Override
-    public boolean canTake(CrispyMenu data, Player player) {
-        return canTake.apply(data, player);
+    public boolean canTake(CrispyMenu menu, Player player) {
+        return canTake.apply(menu, player);
     }
 
     @Override

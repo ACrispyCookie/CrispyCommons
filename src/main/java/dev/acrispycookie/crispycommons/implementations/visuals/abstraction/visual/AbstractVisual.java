@@ -3,8 +3,9 @@ package dev.acrispycookie.crispycommons.implementations.visuals.abstraction.visu
 import dev.acrispycookie.crispycommons.CrispyCommons;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.CrispyVisual;
 import dev.acrispycookie.crispycommons.api.visuals.abstraction.visual.VisualData;
-import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GeneralElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TimeToLiveElement;
 import dev.acrispycookie.crispycommons.utility.logging.CrispyLogger;
+import dev.acrispycookie.crispycommons.utility.visuals.TimeToLiveManager;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -14,8 +15,6 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -24,93 +23,67 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
 
     private final Set<UUID> receivers = new HashSet<>();
     private final Set<UUID> currentlyDisplaying = new HashSet<>();
+    protected TimeToLiveManager timeToLive;
     private final UpdateMode updateMode;
-    private final Map<UUID, BukkitTask> personalTtlTasks = new HashMap<>();
-    private BukkitTask globalTtlTask;
-    private long onlineReceivers;
-    protected T data;
     protected boolean isDisplayed = false;
     protected boolean isPublic;
-    protected GeneralElement<Long, ?> timeToLive;
+    protected T data;
     protected abstract void prepareShow();
     protected abstract void prepareHide();
-    protected abstract void globalUpdate();
     protected abstract void show(Player p);
     protected abstract void hide(Player p);
+    protected abstract void globalUpdate();
     protected abstract void perPlayerUpdate(Player p);
 
-    public AbstractVisual(T data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long, ?> timeToLive, UpdateMode mode, boolean isPublic) {
+    public AbstractVisual(T data, Set<? extends OfflinePlayer> receivers, TimeToLiveElement<?> timeToLive, UpdateMode mode, boolean isPublic) {
         this.data = data;
         this.updateMode = mode;
         this.isPublic = isPublic;
         this.receivers.addAll(receivers.stream().map(OfflinePlayer::getUniqueId).collect(Collectors.toSet()));
-        onlineReceivers = this.receivers.stream().map(Bukkit::getOfflinePlayer).filter(OfflinePlayer::isOnline).count();
-        this.timeToLive = timeToLive;
+        this.timeToLive = new TimeToLiveManager(timeToLive);
         Bukkit.getPluginManager().registerEvents(this, CrispyCommons.getPlugin());
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onJoin(PlayerJoinEvent event) {
-        if (isPublic)
+        if (isPublic) {
             addPlayer(event.getPlayer());
+            return;
+        }
         if (!isDisplayed)
             return;
-        if (receivers.contains(event.getPlayer().getUniqueId()) && shouldDisplay(event.getPlayer())) {
-            ++onlineReceivers;
-            if (onlineReceivers == 1)
-                prepareShow();
-            if (isDisplayed)
-                showInternal(event.getPlayer());
-        }
+        if (receivers.contains(event.getPlayer().getUniqueId()))
+            showInternal(event.getPlayer());
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onLeave(PlayerQuitEvent event) {
-        if (isPublic)
+        if (isPublic) {
             removePlayer(event.getPlayer());
+            return;
+        }
         if (!isDisplayed)
             return;
-        if (receivers.contains(event.getPlayer().getUniqueId()) && currentlyDisplaying.contains(event.getPlayer().getUniqueId())) {
-            --onlineReceivers;
-            if (onlineReceivers == 0)
-                prepareHide();
-
-            if (isDisplayed) {
-                hide(event.getPlayer());
-            }
-        }
+        if (receivers.contains(event.getPlayer().getUniqueId()) && currentlyDisplaying.contains(event.getPlayer().getUniqueId()))
+            hideInternal(event.getPlayer());
     }
 
     protected void showInternal(Player p) {
-        if (personalTtlTasks.containsKey(p.getUniqueId()) && Bukkit.getScheduler().isCurrentlyRunning(personalTtlTasks.get(p.getUniqueId()).getTaskId())) {
-            show(p);
+        if (isExpired(p))
             return;
-        }
-
-        if (timeToLive.isContext(OfflinePlayer.class) && timeToLive.getFromContext(OfflinePlayer.class, p) > 0) {
-            personalTtlTasks.put(p.getUniqueId(), new BukkitRunnable() {
-                @Override
-                public void run() {
-                    hideInternal(p);
-                }
-            }.runTaskLater(CrispyCommons.getPlugin(), timeToLive.getFromContext(OfflinePlayer.class, p)));
-        }
-
         if (currentlyDisplaying.isEmpty())
             prepareShow();
         currentlyDisplaying.add(p.getUniqueId());
         show(p);
+        timeToLive.setupPerPlayer(() -> hideInternal(p), p);
     }
 
     protected void hideInternal(Player p) {
-        if (personalTtlTasks.containsKey(p.getUniqueId()) && Bukkit.getScheduler().isCurrentlyRunning(personalTtlTasks.get(p.getUniqueId()).getTaskId())) {
-            personalTtlTasks.get(p.getUniqueId()).cancel();
-        }
-
         currentlyDisplaying.remove(p.getUniqueId());
         if (currentlyDisplaying.isEmpty())
             prepareHide();
         hide(p);
+        timeToLive.cancelPlayer(p);
     }
 
     @Override
@@ -118,16 +91,6 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
         if (isDisplayed) return;
         isDisplayed = true;
 
-        if (timeToLive.isContext(Void.class) && timeToLive.getRaw(null) > 0)
-            globalTtlTask = new BukkitRunnable() {
-                @Override
-                public void run() {
-                    hide();
-                }
-            }.runTaskLater(CrispyCommons.getPlugin(), timeToLive.getRaw(null));
-
-        if (onlineReceivers > 0)
-            prepareShow();
         receivers.stream().map(Bukkit::getOfflinePlayer).filter(OfflinePlayer::isOnline).forEach(p -> {
             try {
                 data.assertReady(p.getPlayer());
@@ -136,6 +99,11 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
                 CrispyLogger.printException(CrispyCommons.getPlugin(), e, "This visual couldn't be displayed to the player: " + p.getName());
             }
         });
+
+        timeToLive.setupGlobal(this::hide, (p) -> {
+            this.hideInternal((Player) p);
+            return null;
+        }, currentlyDisplaying.stream().map(Bukkit::getOfflinePlayer).collect(Collectors.toSet()));
     }
 
     @Override
@@ -143,12 +111,9 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
         if (!isDisplayed) return;
         isDisplayed = false;
 
-        if (globalTtlTask != null && Bukkit.getScheduler().isCurrentlyRunning(globalTtlTask.getTaskId()))
-            globalTtlTask.cancel();
-
-        if (onlineReceivers > 0)
-            prepareHide();
         receivers.stream().map(Bukkit::getOfflinePlayer).filter(OfflinePlayer::isOnline).forEach(p -> hideInternal(p.getPlayer()));
+
+        timeToLive.cancelGlobal();
     }
 
     @Override
@@ -166,9 +131,12 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
     }
 
     public void destroy() {
-        if (isDisplayed) hide();
+        if (isDisplayed)
+            hide();
         receivers.clear();
+        currentlyDisplaying.clear();
         data = null;
+        timeToLive = null;
         HandlerList.unregisterAll(this);
     }
 
@@ -177,28 +145,16 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
         if (receivers.contains(player.getUniqueId())) return;
 
         receivers.add(player.getUniqueId());
-        if (player.isOnline()) {
-            ++onlineReceivers;
-            if (isDisplayed) {
-                if (onlineReceivers == 1)
-                    prepareShow();
-                showInternal(player.getPlayer());
-            }
-        }
+        if (player.isOnline() && isDisplayed)
+            showInternal(player.getPlayer());
     }
 
     @Override
     public void removePlayer(OfflinePlayer player) {
         if (!receivers.contains(player.getUniqueId())) return;
 
-        if (player.isOnline()) {
-            --onlineReceivers;
-            if (isDisplayed) {
-                if (onlineReceivers == 0)
-                    prepareHide();
-                hideInternal(player.getPlayer());
-            }
-        }
+        if (player.isOnline() && isDisplayed)
+            hideInternal(player.getPlayer());
         receivers.remove(player.getUniqueId());
     }
 
@@ -208,6 +164,39 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
         Set <OfflinePlayer> toAdd = players.stream().filter(p -> !receivers.contains(p.getUniqueId())).collect(Collectors.toSet());
         toRemove.forEach(this::removePlayer);
         toAdd.forEach(this::addPlayer);
+    }
+
+    @Override
+    public void resetExpired() {
+        Set<OfflinePlayer> expired = timeToLive.getExpired();
+        timeToLive.resetExpired((p) -> {
+            hideInternal((Player) p);
+            return null;
+        }, currentlyDisplaying.stream().map(Bukkit::getOfflinePlayer).collect(Collectors.toSet()));
+
+        for (OfflinePlayer player : expired) {
+            if (!player.isOnline())
+                return;
+
+            Player onlinePlayer = (Player) player;
+            if (currentlyDisplaying.isEmpty())
+                prepareShow();
+            currentlyDisplaying.add(onlinePlayer.getUniqueId());
+            show(onlinePlayer);
+        }
+    }
+
+    @Override
+    public void resetExpired(Player player) {
+        if (!isExpired(player))
+            return;
+
+        timeToLive.resetExpired(player.getUniqueId(), () -> hideInternal(player));
+
+        if (currentlyDisplaying.isEmpty())
+            prepareShow();
+        currentlyDisplaying.add(player.getUniqueId());
+        show(player);
     }
 
     @Override
@@ -221,13 +210,13 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
     }
 
     @Override
-    public void setTimeToLive(GeneralElement<Long, ?> timeToLive) {
-        this.timeToLive = timeToLive;
+    public void setTimeToLive(TimeToLiveElement<?> timeToLive) {
+        this.timeToLive.setElement(timeToLive);
     }
 
     @Override
-    public GeneralElement<Long, ?> getTimeToLive() {
-        return timeToLive;
+    public TimeToLiveElement<?> getTimeToLive() {
+        return timeToLive.getElement();
     }
 
     @Override
@@ -237,7 +226,7 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
 
     @Override
     public boolean isAnyoneWatching() {
-        return isDisplayed && onlineReceivers > 0;
+        return isDisplayed && !currentlyDisplaying.isEmpty();
     }
 
     @Override
@@ -245,23 +234,19 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
         return isPublic;
     }
 
-    protected T getData() {
-        return data;
+    @Override
+    public boolean isWatching(Player player) {
+        return isDisplayed && currentlyDisplaying.contains(player.getUniqueId());
     }
 
-    private boolean shouldDisplay(Player p) {
-        boolean isGlobal =  timeToLive.isContext(Void.class)
-                && timeToLive.getRaw(null) > 0
-                && globalTtlTask != null
-                && Bukkit.getScheduler().isCurrentlyRunning(globalTtlTask.getTaskId());
-        boolean isPersonal =  timeToLive.isContext(OfflinePlayer.class)
-                && timeToLive.getFromContext(OfflinePlayer.class, p) > 0
-                && personalTtlTasks.containsKey(p.getUniqueId())
-                && Bukkit.getScheduler().isCurrentlyRunning(personalTtlTasks.get(p.getUniqueId()).getTaskId());
-        boolean isInfinite = timeToLive.isContext(Void.class)
-                && timeToLive.getRaw(null) == -1;
+    @Override
+    public boolean isExpired(OfflinePlayer player) {
+        return timeToLive.isExpired(player);
+    }
 
-        return isGlobal || isPersonal || isInfinite;
+    @Override
+    public boolean isRunning(OfflinePlayer player) {
+        return timeToLive.isRunning(player);
     }
 
     public enum UpdateMode {

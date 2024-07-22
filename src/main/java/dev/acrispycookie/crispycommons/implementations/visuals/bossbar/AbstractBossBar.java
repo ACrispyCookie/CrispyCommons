@@ -6,6 +6,7 @@ import dev.acrispycookie.crispycommons.implementations.visuals.abstraction.visua
 import dev.acrispycookie.crispycommons.implementations.visuals.bossbar.wrappers.BossBarData;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.GeneralElement;
 import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TextElement;
+import dev.acrispycookie.crispycommons.implementations.wrappers.elements.types.TimeToLiveElement;
 import net.kyori.adventure.bossbar.BossBar;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -16,7 +17,7 @@ import java.util.Set;
 
 public abstract class AbstractBossBar extends AbstractVisual<BossBarData> implements CrispyBossBar {
 
-    AbstractBossBar(BossBarData data, Set<? extends OfflinePlayer> receivers, GeneralElement<Long, ?> timeToLive, boolean isPublic) {
+    AbstractBossBar(BossBarData data, Set<? extends OfflinePlayer> receivers, TimeToLiveElement<?> timeToLive, boolean isPublic) {
         super(data, receivers, timeToLive, UpdateMode.PER_PLAYER, isPublic);
     }
 
