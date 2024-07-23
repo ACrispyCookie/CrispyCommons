@@ -46,9 +46,9 @@ public abstract class SimpleMenuPage implements MenuPage {
         if (!schema.containsKey(index))
             return;
 
-        SectionData info = schema.get(index);
-        Section section = info.getSection();
-        section.renderItem(player, menu, cachedInventory.get(player), index, info.getStartIndex() + index);
+        SectionData data = schema.get(index);
+        Section section = data.getSection();
+        section.renderItem(player, menu, cachedInventory.get(player), index, data.getStartIndex() + index);
     }
 
     @Override
@@ -56,13 +56,13 @@ public abstract class SimpleMenuPage implements MenuPage {
         if(!cachedInventory.containsKey(player))
             return;
 
-        for (SectionData info : sections) {
-            Section section = info.getSection();
+        for (SectionData data : sections) {
+            Section section = data.getSection();
 
             if (section instanceof DynamicSection) {
-                ((DynamicSection) section).renderItems(player, menu, cachedInventory.get(player), info.getStartIndex(), info.getEndIndex(), info.getOffset());
+                ((DynamicSection) section).renderItems(player, menu, cachedInventory.get(player), data.getStartIndex(), data.getEndIndex(), data.getOffset());
             } else {
-                ((StaticSection) section).renderItems(player, menu, cachedInventory.get(player), info.getStartIndex(), info.getOffset());
+                ((StaticSection) section).renderItems(player, menu, cachedInventory.get(player), data.getStartIndex(), data.getOffset());
             }
         }
     }
@@ -81,22 +81,22 @@ public abstract class SimpleMenuPage implements MenuPage {
     public @NotNull MenuItem getItem(int index) {
         if (!isValidSlot(index))
             throw new IllegalArgumentException("Invalid index while getting a MenuItem from a MenuPage");
-        SectionData info = schema.get(index);
-        int startIndex = info.getStartIndex();
-        int endIndex = info.getEndIndex();
+        SectionData data = schema.get(index);
+        int startIndex = data.getStartIndex();
+        int endIndex = data.getEndIndex();
 
         int width;
-        if (info.getSection() instanceof StaticSection) {
-            width = ((StaticSection) info.getSection()).getWidth();
+        if (data.getSection() instanceof StaticSection) {
+            width = ((StaticSection) data.getSection()).getWidth();
         } else {
             int height = (endIndex - startIndex)/columns + 1;
             width = endIndex - (height - 1) * columns - startIndex + 1;
         }
         int xPos = (index - startIndex) % columns;
         int yPos  = (index - startIndex) / columns;
-        int sectionIndex = xPos + yPos * width + info.getOffset();
+        int sectionIndex = xPos + yPos * width + data.getOffset();
 
-        return info.getSection().getItem(sectionIndex);
+        return data.getSection().getItem(sectionIndex);
     }
 
     @Override
@@ -106,10 +106,10 @@ public abstract class SimpleMenuPage implements MenuPage {
 
         int endIndex = startIndex + (section.getHeight() - 1) * columns + section.getWidth();
         int width = section.getWidth();
-        SectionData info = new SectionData(startIndex, endIndex, sectionOffset, section);
-        sections.add(info);
+        SectionData data = new SectionData(startIndex, endIndex, sectionOffset, section);
+        sections.add(data);
         fillSection(startIndex, sectionOffset, width, width * section.getHeight(), (slot) -> {
-            schema.put(slot, info);
+            schema.put(slot, data);
             return null;
         });
     }
@@ -121,10 +121,10 @@ public abstract class SimpleMenuPage implements MenuPage {
 
         int height = (endIndex - startIndex)/columns + 1;
         int width = endIndex - (height - 1) * columns - startIndex + 1;
-        SectionData info = new SectionData(startIndex, endIndex, sectionOffset, section);
-        sections.add(info);
+        SectionData data = new SectionData(startIndex, endIndex, sectionOffset, section);
+        sections.add(data);
         fillSection(startIndex, sectionOffset, width, width * height + sectionOffset, (slot) -> {
-            schema.put(slot, info);
+            schema.put(slot, data);
             return null;
         });
     }
@@ -134,31 +134,31 @@ public abstract class SimpleMenuPage implements MenuPage {
         if (!isValidSlot(pointIndex))
             return;
 
-        SectionData info = schema.get(pointIndex);
-        int startIndex = info.getStartIndex();
-        int endIndex = info.getEndIndex();
+        SectionData data = schema.get(pointIndex);
+        int startIndex = data.getStartIndex();
+        int endIndex = data.getEndIndex();
 
         int width, sectionSize;
-        if (info.getSection() instanceof DynamicSection) {
+        if (data.getSection() instanceof DynamicSection) {
             int height = (endIndex - startIndex)/columns + 1;
             width = endIndex - (height - 1) * columns - startIndex + 1;
-            sectionSize = height * width + info.getOffset();
+            sectionSize = height * width + data.getOffset();
         } else {
-            StaticSection section = ((StaticSection) info.getSection());
+            StaticSection section = ((StaticSection) data.getSection());
             width = section.getWidth();
             sectionSize = width * section.getHeight();
         }
 
-        fillSection(startIndex, info.getOffset(), width, sectionSize, (slot) -> {
-            schema.put(slot, info);
+        fillSection(startIndex, data.getOffset(), width, sectionSize, (slot) -> {
+            schema.put(slot, data);
             return null;
         });
     }
 
     @Override
     public void onClose() {
-        for (SectionData info : sections) {
-            cachedInventory.forEach((p, i) -> info.getSection().onClose(i));
+        for (SectionData data : sections) {
+            cachedInventory.forEach((p, i) -> data.getSection().onClose(i));
         }
         this.cachedInventory.clear();
     }
