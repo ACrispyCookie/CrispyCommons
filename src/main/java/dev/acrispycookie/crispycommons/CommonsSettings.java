@@ -31,6 +31,11 @@ public class CommonsSettings {
         return this;
     }
 
+    public CommonsSettings setMaximumMenuHistory(int maximumMenuHistory) {
+        this.maximumMenuHistory = maximumMenuHistory;
+        return this;
+    }
+
     public boolean isBookActionEnabled() {
         return bookActionEnabled;
     }
