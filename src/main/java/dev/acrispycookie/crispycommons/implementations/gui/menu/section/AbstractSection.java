@@ -58,7 +58,8 @@ public abstract class AbstractSection implements Section {
         MenuItem item = getItem(startingIndex);
         if (!item.canSee(menu, player)) {
             item.loadAlternative(() -> renderValidItem(player, menu, toRender, pasteSlot, startingIndex));
-            toRender.setItem(pasteSlot, item.getAlternativeDisplay().getFromContext(OfflinePlayer.class, player));
+            if (item.canSeeUnloaded(menu, player))
+                toRender.setItem(pasteSlot, item.getAlternativeDisplay().getFromContext(OfflinePlayer.class, player));
             return;
         }
 
@@ -67,7 +68,8 @@ public abstract class AbstractSection implements Section {
         }
 
         item.load(() -> renderValidItem(player, menu, toRender, pasteSlot, startingIndex));
-        toRender.setItem(pasteSlot, item.getDisplay().getFromContext(OfflinePlayer.class, player));
+        if (item.canSeeUnloaded(menu, player))
+            toRender.setItem(pasteSlot, item.getDisplay().getFromContext(OfflinePlayer.class, player));
     }
 
     protected void addDynamicItem(MenuItem item, Player player, Inventory toRender, int pasteSlot) {
