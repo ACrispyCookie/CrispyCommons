@@ -47,9 +47,9 @@ public class MenuListener implements Listener {
 
         MenuItem item = page.getItem(event.getSlot());
         event.setCancelled(!item.canTake(menu, player));
-        if (item.canSee(menu, player) && item.isLoaded() || !item.canSee(menu, player) && item.isAlternativeLoaded())
+        if (item.canSee(menu, player) && item.isLoaded())
             item.onClick(menu, player);
-        else if (item.canSeeUnloaded(menu, player))
+        else if (item.canSee(menu, player))
             item.onClickUnloaded(menu, player);
     }
 

@@ -20,9 +20,4 @@ public abstract class LoadedItem extends AbstractMenuItem {
     public void load(@NotNull Runnable onLoad) {
         this.isLoaded = true;
     }
-
-    @Override
-    public void loadAlternative(@NotNull Runnable onLoad) {
-        this.isAlternativeLoaded = true;
-    }
 }

@@ -12,9 +12,9 @@ import java.util.function.BiFunction;
 public abstract class AbstractMenuItem implements MenuItem {
 
     protected boolean isLoaded = false;
-    protected boolean isAlternativeLoaded = false;
+    private BiFunction<CrispyMenu, Player, Void> onClick;
+    private BiFunction<CrispyMenu, Player, Void> onClickUnloaded;
     private BiFunction<CrispyMenu, Player, Boolean> canSee;
-    private BiFunction<CrispyMenu, Player, Boolean> canSeeUnloaded;
     private BiFunction<CrispyMenu, Player, Boolean> canTake;
     private ItemElement<?> display;
     private ItemElement<?> alternativeDisplay;
@@ -25,8 +25,9 @@ public abstract class AbstractMenuItem implements MenuItem {
         this.loadingDisplay = unloadedDisplay;
         this.alternativeDisplay = alternativeDisplay;
         this.canSee = (page, player) -> true;
-        this.canSeeUnloaded = (page, player) -> true;
         this.canTake = (page, player) -> false;
+        this.onClick = (page, player) -> null;
+        this.onClickUnloaded = (page, player) -> null;
     }
 
     @Override
@@ -35,24 +36,23 @@ public abstract class AbstractMenuItem implements MenuItem {
     }
 
     @Override
-    public boolean canSeeUnloaded(@NotNull CrispyMenu menu, @NotNull Player player) {
-        return canSeeUnloaded.apply(menu, player);
-    }
-
-    @Override
     public boolean canTake(@NotNull CrispyMenu menu, @NotNull Player player) {
         return canTake.apply(menu, player);
     }
 
     @Override
-    public @NotNull MenuItem setCanSee(@NotNull BiFunction<CrispyMenu, Player, Boolean> supplier) {
-        this.canSee = supplier;
-        return this;
+    public void onClick(@NotNull CrispyMenu menu, @NotNull Player player) {
+        onClick.apply(menu, player);
     }
 
     @Override
-    public @NotNull MenuItem setCanSeeUnloaded(@NotNull BiFunction<CrispyMenu, Player, Boolean> supplier) {
-        this.canSeeUnloaded = supplier;
+    public void onClickUnloaded(@NotNull CrispyMenu menu, @NotNull Player player) {
+        onClickUnloaded.apply(menu, player);
+    }
+
+    @Override
+    public @NotNull MenuItem setCanSee(@NotNull BiFunction<CrispyMenu, Player, Boolean> supplier) {
+        this.canSee = supplier;
         return this;
     }
 
@@ -63,13 +63,20 @@ public abstract class AbstractMenuItem implements MenuItem {
     }
 
     @Override
-    public boolean isLoaded() {
-        return isLoaded;
+    public @NotNull MenuItem setOnClick(@NotNull BiFunction<CrispyMenu, Player, Void> function) {
+        this.onClick = function;
+        return this;
     }
 
     @Override
-    public boolean isAlternativeLoaded() {
-        return isAlternativeLoaded;
+    public @NotNull MenuItem setOnClickUnloaded(@NotNull BiFunction<CrispyMenu, Player, Void> supplier) {
+        this.onClickUnloaded = supplier;
+        return this;
+    }
+
+    @Override
+    public boolean isLoaded() {
+        return isLoaded;
     }
 
     @Override
@@ -79,7 +86,7 @@ public abstract class AbstractMenuItem implements MenuItem {
 
     @Override
     public @NotNull ItemElement<?> getAlternativeDisplay() {
-        return isAlternativeLoaded ? alternativeDisplay : loadingDisplay;
+        return isLoaded ? alternativeDisplay : loadingDisplay;
     }
 
     @Override
