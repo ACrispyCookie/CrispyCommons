@@ -24,6 +24,7 @@ public interface CrispyVisual {
     TimeToLiveElement<?> getTimeToLive();
     boolean isPublic();
     boolean isDisplayed();
+    boolean isDestroyed();
     boolean isAnyoneWatching();
     boolean isWatching(Player player);
     boolean isExpired(OfflinePlayer player);

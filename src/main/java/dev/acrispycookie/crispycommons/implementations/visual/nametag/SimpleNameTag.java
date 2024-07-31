@@ -20,8 +20,6 @@ import java.util.Set;
 
 public class SimpleNameTag extends AbstractNameTag {
 
-    private CrispyHologram aboveNameHologram;
-
     public SimpleNameTag(NameTagData data, Set<? extends OfflinePlayer> receivers, TimeToLiveElement<?> timeToLive, boolean isPublic) {
         super(data, receivers, timeToLive, UpdateMode.PER_PLAYER, isPublic);
     }

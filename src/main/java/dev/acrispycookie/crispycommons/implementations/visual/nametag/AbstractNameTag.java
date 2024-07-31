@@ -1,5 +1,6 @@
 package dev.acrispycookie.crispycommons.implementations.visual.nametag;
 
+import dev.acrispycookie.crispycommons.api.visual.hologram.CrispyHologram;
 import dev.acrispycookie.crispycommons.api.visual.nametag.CrispyNameTag;
 import dev.acrispycookie.crispycommons.implementations.visual.abstraction.visual.AbstractVisual;
 import dev.acrispycookie.crispycommons.implementations.visual.nametag.data.NameTagData;
@@ -10,6 +11,8 @@ import org.bukkit.OfflinePlayer;
 import java.util.Set;
 
 public abstract class AbstractNameTag extends AbstractVisual<NameTagData> implements CrispyNameTag {
+
+    protected CrispyHologram aboveNameHologram;
 
     AbstractNameTag(NameTagData data, Set<? extends OfflinePlayer> receivers, TimeToLiveElement<?> timeToLive, UpdateMode updateMode, boolean isPublic) {
         super(data, receivers, timeToLive, updateMode, isPublic);
@@ -31,6 +34,8 @@ public abstract class AbstractNameTag extends AbstractVisual<NameTagData> implem
 
     @Override
     protected void prepareHide() {
+        if (aboveNameHologram != null)
+            aboveNameHologram.destroy();
         if (data.getAboveName() != null)
             data.getAboveName().stop();
         if (data.getBelowName() != null)

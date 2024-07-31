@@ -27,6 +27,7 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
     private final UpdateMode updateMode;
     protected final boolean isPublic;
     protected boolean isDisplayed = false;
+    protected boolean isDestroyed = false;
     protected T data;
     protected abstract void prepareShow();
     protected abstract void prepareHide();
@@ -83,15 +84,16 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
 
     protected void hideInternal(Player p) {
         currentlyDisplaying.remove(p.getUniqueId());
-        if (currentlyDisplaying.isEmpty())
+        if (currentlyDisplaying.isEmpty()) {
             prepareHide();
+        }
         hide(p);
         timeToLive.cancelPlayer(p);
     }
 
     @Override
     public void show() {
-        if (isDisplayed) return;
+        if (isDisplayed || isDestroyed) return;
         isDisplayed = true;
 
         receivers.stream().map(Bukkit::getOfflinePlayer).filter(OfflinePlayer::isOnline).forEach(p -> {
@@ -111,7 +113,7 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
 
     @Override
     public void hide() {
-        if (!isDisplayed) return;
+        if (!isDisplayed || isDestroyed) return;
         isDisplayed = false;
 
         receivers.stream().map(Bukkit::getOfflinePlayer).filter(OfflinePlayer::isOnline).forEach(p -> hideInternal(p.getPlayer()));
@@ -121,7 +123,7 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
 
     @Override
     public void update() {
-        if (!isDisplayed) return;
+        if (!isDisplayed || isDestroyed) return;
 
         if (updateMode == UpdateMode.BOTH) {
             globalUpdate();
@@ -134,18 +136,22 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
     }
 
     public void destroy() {
+        if (isDestroyed)
+            return;
         if (isDisplayed)
             hide();
         receivers.clear();
         currentlyDisplaying.clear();
         data = null;
         timeToLive = null;
+        isDestroyed = true;
+        isDisplayed = false;
         HandlerList.unregisterAll(this);
     }
 
     @Override
     public void addPlayer(OfflinePlayer player) {
-        if (receivers.contains(player.getUniqueId())) return;
+        if (receivers.contains(player.getUniqueId()) || isDestroyed) return;
 
         receivers.add(player.getUniqueId());
         if (player.isOnline() && isDisplayed)
@@ -154,7 +160,7 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
 
     @Override
     public void removePlayer(OfflinePlayer player) {
-        if (!receivers.contains(player.getUniqueId())) return;
+        if (!receivers.contains(player.getUniqueId()) || isDestroyed) return;
 
         if (player.isOnline() && isDisplayed)
             hideInternal(player.getPlayer());
@@ -163,6 +169,8 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
 
     @Override
     public void setPlayers(Collection<? extends OfflinePlayer> players) {
+        if (isDestroyed)
+            return;
         Set <OfflinePlayer> toRemove = receivers.stream().map(Bukkit::getOfflinePlayer).filter(p -> !players.contains(p)).collect(Collectors.toSet());
         Set <OfflinePlayer> toAdd = players.stream().filter(p -> !receivers.contains(p.getUniqueId())).collect(Collectors.toSet());
         toRemove.forEach(this::removePlayer);
@@ -171,6 +179,8 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
 
     @Override
     public void resetExpired() {
+        if (isDestroyed)
+            return;
         Set<OfflinePlayer> expired = timeToLive.getExpired();
         timeToLive.resetExpired((p) -> {
             hideInternal((Player) p);
@@ -191,7 +201,7 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
 
     @Override
     public void resetExpired(Player player) {
-        if (!isExpired(player))
+        if (!isExpired(player) || isDestroyed)
             return;
 
         timeToLive.resetExpired(player.getUniqueId(), () -> hideInternal(player));
@@ -235,6 +245,11 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
     @Override
     public boolean isPublic() {
         return isPublic;
+    }
+
+    @Override
+    public boolean isDestroyed() {
+        return isDestroyed;
     }
 
     @Override
