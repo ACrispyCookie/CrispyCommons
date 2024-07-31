@@ -39,7 +39,10 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
         this.data = data;
         this.updateMode = mode;
         this.isPublic = isPublic;
-        this.receivers.addAll(receivers.stream().map(OfflinePlayer::getUniqueId).collect(Collectors.toSet()));
+        if (this.isPublic)
+            this.receivers.addAll(Bukkit.getOnlinePlayers().stream().map(Player::getUniqueId).collect(Collectors.toSet()));
+        else
+            this.receivers.addAll(receivers.stream().map(OfflinePlayer::getUniqueId).collect(Collectors.toSet()));
         this.timeToLive = new TimeToLiveManager(timeToLive);
         Bukkit.getPluginManager().registerEvents(this, CrispyCommons.getPlugin());
     }
