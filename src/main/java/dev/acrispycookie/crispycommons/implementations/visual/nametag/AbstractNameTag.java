@@ -34,8 +34,10 @@ public abstract class AbstractNameTag extends AbstractVisual<NameTagData> implem
 
     @Override
     protected void prepareHide() {
-        if (aboveNameHologram != null)
+        if (aboveNameHologram != null) {
             aboveNameHologram.destroy();
+            aboveNameHologram = null;
+        }
         if (data.getAboveName() != null)
             data.getAboveName().stop();
         if (data.getBelowName() != null)
