@@ -39,6 +39,26 @@ public interface MenuItem {
     }
 
     /**
+     * Creates a {@link LoadedItem} with the specified display element and a click handler.
+     * The {@link LoadedItem} is initialized with the provided {@code display} and a default secondary display element
+     * created with {@link ItemElement#simple(CrispyItemStack)} using an {@link CrispyItemStack} with {@link Material#AIR}.
+     *
+     * @param display the primary {@link ItemElement} to display.
+     * @param onClick a {@link BiFunction} that handles click events on the item. It receives a {@link CrispyMenu}
+     *                and a {@link Player}, and returns nothing.
+     * @return a new {@link LoadedItem} instance with the given display element and click handler.
+     * @throws NullPointerException if {@code display} or {@code onClick} is {@code null}.
+     */
+    static @NotNull LoadedItem loadedItem(@NotNull ItemElement<?> display, @NotNull BiFunction<CrispyMenu, Player, Void> onClick) {
+        return new LoadedItem(display, ItemElement.simple(new CrispyItemStack(Material.AIR))) {
+            @Override
+            public void onClick(@NotNull CrispyMenu menu, @NotNull Player player) {
+                onClick.apply(menu, player);
+            }
+        };
+    }
+
+    /**
      * Creates a {@link LoadingItem} with the specified unloaded {@code unloadedDisplay} element, click handlers, and item element suppliers.
      * The {@link LoadingItem}'s initial unloadedDisplay is the given {@code unloadedDisplay} element. When loaded the item's display is
      * obtained using the {@code displaySupplier} and the alternative display is created with {@link ItemElement#simple(CrispyItemStack)}

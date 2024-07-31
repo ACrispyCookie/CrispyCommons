@@ -28,6 +28,7 @@ public abstract class LoadingItem extends AbstractMenuItem {
             setLoadedDisplay(data.getDisplay());
             setAlternativeDisplay(data.getAlternativeDisplay());
             setCanSee(data.getCanSee());
+            setOnClick(data.getOnClick());
             this.isLoaded = true;
             onLoad.run();
         });
