@@ -26,7 +26,7 @@ public interface GuiData {
         /**
          * Constructs a new {@link GuiNotReadyException} with the specified detail message.
          *
-         * @param message the detail message to be used in the exception.
+         * @param message the message that describes exactly what is missing.
          * @throws NullPointerException if {@code message} is {@code null}.
          */
         public GuiNotReadyException(@NotNull String message) {

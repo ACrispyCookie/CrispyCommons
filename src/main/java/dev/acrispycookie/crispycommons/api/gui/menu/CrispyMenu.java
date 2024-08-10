@@ -22,7 +22,8 @@ import java.util.function.BiFunction;
 
 /**
  * Represents a customizable menu interface for managing and displaying in-game menus.
- * A {@link CrispyMenu} can be opened, closed, and tracked for each player. It supports page navigation and properties that influence its behavior.
+ * A {@link CrispyMenu} can be opened, closed, and tracked for each player. It supports page navigation and
+ * properties that influence its behavior.
  */
 public interface CrispyMenu extends TrackedGui, Listener {
 
@@ -64,12 +65,12 @@ public interface CrispyMenu extends TrackedGui, Listener {
      * @param title         a function to generate the title of each page based on the current page number and the total pages.
      * @param rows          the number of rows in each page.
      * @param columns       the number of columns in each page.
-     * @param startingPage  the page number to start with.
+     * @param defaultPage  the default page that is initially displayed.
      * @return a new {@link PagedMenuBuilder} instance.
      * @throws NullPointerException if {@code title} is {@code null}.
      */
-    static @NotNull PagedMenuBuilder pagedMenuBuilder(@NotNull BiFunction<Integer, Integer, String> title, int rows, int columns, int startingPage) {
-        return new PagedMenuBuilder(title, startingPage, rows, columns);
+    static @NotNull PagedMenuBuilder pagedMenuBuilder(@NotNull BiFunction<Integer, Integer, String> title, int rows, int columns, int defaultPage) {
+        return new PagedMenuBuilder(title, defaultPage, rows, columns);
     }
 
     /**
@@ -93,7 +94,7 @@ public interface CrispyMenu extends TrackedGui, Listener {
      * Changes the current page for the specified offline player by the given amount.
      *
      * @param player the offline player.
-     * @param offset the number of pages to offset by.
+     * @param offset the number of pages to offset by, positive or negative.
      * @throws NullPointerException if {@code player} is {@code null}.
      */
     void offsetPage(@NotNull OfflinePlayer player, int offset);
@@ -102,7 +103,7 @@ public interface CrispyMenu extends TrackedGui, Listener {
      * Sets the current page for the specified offline player.
      *
      * @param player the offline player.
-     * @param page   the page number to set.
+     * @param page   the page index to set.
      * @throws NullPointerException if {@code player} is {@code null}.
      * @throws IllegalArgumentException if {@code page} is out of bounds.
      */
@@ -181,7 +182,7 @@ public interface CrispyMenu extends TrackedGui, Listener {
     void removeProperty(@NotNull MenuProperty property);
 
     /**
-     * Sets multiple properties for the menu.
+     * Sets the properties for the menu.
      *
      * @param properties a collection of properties to set.
      * @throws NullPointerException if {@code properties} or any element in it is {@code null}.
@@ -223,7 +224,8 @@ public interface CrispyMenu extends TrackedGui, Listener {
 
     /**
      * Opens the previous menu in the history for the specified player.
-     * Closes the currently open menu and replaces it with the previous one.
+     * It closes the currently open menu if there is one and it does nothing
+     * if the player has no history of menus.
      *
      * @param player the player whose previous menu is to be opened.
      * @throws NullPointerException if {@code player} is {@code null}.
@@ -235,7 +237,8 @@ public interface CrispyMenu extends TrackedGui, Listener {
         menus.pop();
         CrispyMenu toOpen = menus.peek();
         CrispyMenu toClose = getOpenMenu(player);
-        toClose.close(player);
+        if (toClose != null)
+            toClose.close(player);
         toOpen.openWithNoHistory(player);
     }
 

@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * Represents a customizable book GUI.
- * A CrispyBook consists of multiple pages that players can interact with.
+ * A {@link CrispyBook} consists of multiple pages that players can interact with.
  */
 public interface CrispyBook extends CrispyGui {
 
@@ -28,6 +28,8 @@ public interface CrispyBook extends CrispyGui {
 
     /**
      * Sets the pages of this book using a collection of {@link BookPage}.
+     * Players currently viewing the book will not get the new pages until
+     * the book is reopened.
      *
      * @param pages the collection of pages to set in the book.
      * @throws NullPointerException if {@code pages} is {@code null}.
@@ -36,6 +38,8 @@ public interface CrispyBook extends CrispyGui {
 
     /**
      * Sets the pages of this book using an array of {@link BookPage}.
+     * Players currently viewing the book will not get the new pages until
+     * the book is reopened.
      *
      * @param pages the array of pages to set in the book.
      * @throws NullPointerException if {@code pages} is {@code null}.
