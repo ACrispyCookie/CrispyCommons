@@ -32,15 +32,7 @@ public class CommonsSettings {
     }
 
     /**
-     * Constructs a new {@code CommonsSettings} instance with default configurations.
-     * <p>
-     * The default settings are:
-     * <ul>
-     *     <li>Book action is disabled.</li>
-     *     <li>Menu management is enabled.</li>
-     *     <li>The maximum menu history is set to 10.</li>
-     * </ul>
-     * </p>
+     * Constructs a new {@code CommonsSettings} instance with default configurations.s
      */
     public CommonsSettings() {
         this.bookActionEnabled = false;

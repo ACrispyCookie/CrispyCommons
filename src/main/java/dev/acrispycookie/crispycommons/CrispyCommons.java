@@ -29,6 +29,16 @@ public class CrispyCommons implements Listener {
     private static BukkitAudiences bukkitAudiences;
     private static CommonsSettings settings;
 
+    /**
+     * Initializes the {@code CrispyCommons} with the specified plugin instance and settings.
+     * <p>
+     * This method sets up the plugin environment, including configuring Bukkit audiences and registering commands and
+     * event listeners based on the provided settings.
+     * </p>
+     *
+     * @param instance the {@link JavaPlugin} instance associated with this plugin.
+     * @param settings the {@link CommonsSettings} containing configuration options for the plugin.
+     */
     public static void init(@NotNull JavaPlugin instance, @NotNull CommonsSettings settings) {
         plugin = instance;
         CrispyCommons.settings = settings;
@@ -36,28 +46,58 @@ public class CrispyCommons implements Listener {
         setup();
     }
 
+    /**
+     * Retrieves the {@link JavaPlugin} instance associated with this plugin.
+     *
+     * @return the {@link JavaPlugin} instance.
+     */
     public static @NotNull JavaPlugin getPlugin() {
         return plugin;
     }
 
+    /**
+     * Retrieves the {@link BukkitAudiences} instance used by this plugin for handling audience-related tasks.
+     *
+     * @return the {@link BukkitAudiences} instance.
+     */
     public static @NotNull BukkitAudiences getBukkitAudiences() {
         return bukkitAudiences;
     }
 
+    /**
+     * Performs setup tasks based on the provided {@link CommonsSettings}.
+     * <p>
+     * This includes registering commands and event listeners if the corresponding settings are enabled.
+     * </p>
+     */
     private static void setup() {
-        if (settings.isBookActionEnabled())
+        if (settings.isBookActionEnabled()) {
             ((CraftServer) plugin.getServer()).getCommandMap().register(plugin.getName(),
                     new BookActionCommand(settings.getBookCommand()));
+        }
         if (settings.isMenusEnabled()) {
             Bukkit.getPluginManager().registerEvents(new MenuListener(), plugin);
         }
         Bukkit.getPluginManager().registerEvents(new CrispyCommons(), plugin);
     }
 
+    /**
+     * Retrieves the {@link CommonsSettings} instance containing the configuration for this plugin.
+     *
+     * @return the {@link CommonsSettings} instance.
+     */
     public static @NotNull CommonsSettings getSettings() {
         return settings;
     }
 
+    /**
+     * Handles the {@link PlayerJoinEvent} to reset the player's scoreboard.
+     * <p>
+     * This ensures that players have a fresh scoreboard upon joining the server.
+     * </p>
+     *
+     * @param event the {@link PlayerJoinEvent} triggered when a player joins the server.
+     */
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerJoin(PlayerJoinEvent event) {
         event.getPlayer().setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
