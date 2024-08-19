@@ -15,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.HashMap;
 import java.util.function.Function;
 
@@ -228,7 +229,7 @@ public abstract class SimpleMenuPage implements MenuPage {
     }
 
     @Override
-    public @NotNull ArrayList<SectionData> getSections() {
+    public @NotNull List<SectionData> getSections() {
         return sections;
     }
 

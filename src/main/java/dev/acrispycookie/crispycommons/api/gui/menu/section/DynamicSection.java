@@ -14,8 +14,10 @@ import java.util.List;
 
 /**
  * Represents a section within a menu that dynamically manages a collection of {@link MenuItem} objects.
- * Unlike fixed-size sections, a {@link DynamicSection} does not have predefined dimensions and can be rendered
+ * <p>
+ * Unlike fixed-size {@link StaticSection}, a {@link DynamicSection} does not have predefined dimensions and can be rendered
  * with varying sizes depending on the menu configuration.
+ * </p>
  */
 public interface DynamicSection extends Section {
 
@@ -41,7 +43,9 @@ public interface DynamicSection extends Section {
 
     /**
      * Renders items in the section into the specified inventory, placing them within the given slot range.
+     * <p>
      * If the specified slot or index are invalid the method returns early.
+     * </p>
      *
      * @param player the player for whom the items are rendered.
      * @param menu the menu to which this section belongs.

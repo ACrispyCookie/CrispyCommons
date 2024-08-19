@@ -10,8 +10,10 @@ import org.jetbrains.annotations.NotNull;
 import java.awt.*;
 
 /**
- * Represents a section within a menu that has fixed dimensions and can contain {@link MenuItem} objects at specific positions.
+ * Represents an item section that has fixed dimensions and can contain {@link MenuItem} objects at specific positions.
+ * <p>
  * A {@link StaticSection} is used to display items in a grid-like format with predefined height and width.
+ * </p>
  */
 public interface StaticSection extends Section{
 

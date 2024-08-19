@@ -4,6 +4,7 @@ import dev.acrispycookie.crispycommons.CrispyCommons;
 import dev.acrispycookie.crispycommons.api.element.DynamicElement;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.function.Function;
@@ -79,7 +80,7 @@ public abstract class AbstractDynamicElement<T, K> extends AbstractElement<T, K>
         return async;
     }
 
-    public void setUpdate(Runnable update) {
+    public void setUpdate(@NotNull Runnable update) {
         if (this.update != null)
             return;
         this.update = update;

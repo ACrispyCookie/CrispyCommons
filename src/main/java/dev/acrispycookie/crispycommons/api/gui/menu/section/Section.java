@@ -2,19 +2,24 @@ package dev.acrispycookie.crispycommons.api.gui.menu.section;
 
 import dev.acrispycookie.crispycommons.api.gui.menu.CrispyMenu;
 import dev.acrispycookie.crispycommons.api.gui.menu.MenuItem;
+import dev.acrispycookie.crispycommons.implementations.element.type.ItemElement;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Represents a section that can be used in multiple {@link CrispyMenu} instances.
+ * Represents an item section that can be used in multiple {@link CrispyMenu} instances.
+ * <p>
  * Manages and renders a collection of {@link MenuItem} objects.
+ * </p>
  */
 public interface Section {
 
     /**
      * Renders the item at a specified slot in the given bukkit inventory for the specified player.
+     * <p>
      * If the specified slot or index are invalid the method returns early.
+     * </p>
      *
      * @param player the player for whom the item is rendered.
      * @param menu the menu to which this section belongs.
@@ -74,7 +79,7 @@ public interface Section {
     boolean isSlotValid(int slot);
 
     /**
-     * Checks if this section contains any {@link dev.acrispycookie.crispycommons.implementations.element.type.ItemElement} that are dynamic.
+     * Checks if this section contains any {@link ItemElement} that are dynamic.
      *
      * @return true if this section has dynamic items, false otherwise.
      */

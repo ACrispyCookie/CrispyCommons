@@ -9,6 +9,7 @@ import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 public class ItemEntity extends ClickableEntity<ItemElement<?>> {
 
@@ -25,7 +26,7 @@ public class ItemEntity extends ClickableEntity<ItemElement<?>> {
     }
 
     @Override
-    public void spawn(Location location, Player player) {
+    public void spawn(@NotNull Location location, @NotNull Player player) {
         if (as == null) {
             as = new EntityArmorStand(((CraftWorld) location.getWorld()).getHandle(), location.getX(), location.getY(), location.getZ());
             as.setInvisible(true);
@@ -57,7 +58,7 @@ public class ItemEntity extends ClickableEntity<ItemElement<?>> {
     }
 
     @Override
-    public void destroy(Player player) {
+    public void destroy(@NotNull Player player) {
         if(as != null) {
             as.dead = true;
             PacketPlayOutEntityDestroy spawn = new PacketPlayOutEntityDestroy(as.getId());
@@ -71,7 +72,7 @@ public class ItemEntity extends ClickableEntity<ItemElement<?>> {
     }
 
     @Override
-    public void update(Location location, Player player) {
+    public void update(@NotNull Location location, @NotNull Player player) {
         CrispyItemStack item = element.getFromContext(OfflinePlayer.class, player);
 
         if(as != null && ei != null) {
@@ -85,7 +86,7 @@ public class ItemEntity extends ClickableEntity<ItemElement<?>> {
     }
 
     @Override
-    public Location getLocation() {
+    public @NotNull Location getLocation() {
         return as.getBukkitEntity().getLocation();
     }
 }

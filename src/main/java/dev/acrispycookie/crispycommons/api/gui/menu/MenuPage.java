@@ -13,7 +13,7 @@ import org.bukkit.inventory.Inventory;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.function.BiFunction;
 
 public interface MenuPage {
@@ -82,33 +82,154 @@ public interface MenuPage {
     void renderItems(@NotNull Player player);
 
     /**
-     * Renders and returns the inventory view for the given player.
-     * <p>
-     * This method generates and returns the {@link Inventory} instance that represents the current state of the items
-     * for the specified {@link Player}.
-     * </p>
+     * Renders the page and returns the inventory view for the given player.
      *
-     * @param player the {@link Player} for whom the inventory is rendered.
+     * @param player the {@link Player} for whom the page is rendered.
      * @return the {@link Inventory} representing the rendered view of the items for the specified player.
      * @throws NullPointerException if {@code player} is {@code null}.
      */
     @NotNull Inventory render(@NotNull Player player);
 
-
+    /**
+     * Pastes a static section into the page in the specified point index with an optional offset.
+     * <p>
+     * If the point index is invalid then the method returns early.
+     * </p>
+     *
+     * @param pointIndex the starting index within the page where the section will be added.
+     * @param sectionOffset the offset to apply within the section when adding it to the page.
+     * @param section the {@link StaticSection} to be added to the page.
+     * @throws NullPointerException if {@code section} is {@code null}.
+     */
     void addStaticSection(int pointIndex, int sectionOffset, @NotNull StaticSection section);
+
+    /**
+     * Pastes a dynamic section in the specified region on the page with an optional offset.
+     * <p>
+     * If either indices are invalid the method returns early.
+     * </p>
+     *
+     * @param startIndex the starting index within the page where the section will begin.
+     * @param endIndex the ending index within the page where the section will end.
+     * @param sectionOffset the offset to apply within the section when adding it to the page.
+     * @param section the {@link DynamicSection} to be added to the page.
+     * @throws NullPointerException if {@code section} is {@code null}.
+     */
     void addDynamicSection(int startIndex, int endIndex, int sectionOffset, @NotNull DynamicSection section);
-    void removeSection(int pointIndex);
-    boolean onPlayerItemClick(@NotNull Player player, @NotNull CrispyItemStack itemStack);
-    void onClose();
-    SectionData getSection(int pointIndex);
-    @NotNull ArrayList<SectionData> getSections();
+
+    /**
+     * Pastes a static section into the page in the specified point with an optional offset.
+     * <p>
+     * If the point is invalid the method returns early.
+     * </p>
+     *
+     * @param point the starting index within the page where the section will be added.
+     * @param sectionOffset the offset to apply within the section when adding it to the page.
+     * @param section the {@link StaticSection} to be added to the page.
+     * @throws NullPointerException if {@code section} is {@code null}.
+     */
     void addStaticSection(@NotNull Point point, int sectionOffset, @NotNull StaticSection section);
+
+    /**
+     * Pastes a dynamic section in the specified region on the page with an optional offset.
+     * <p>
+     * If either points are invalid the method returns early.
+     * </p>
+     *
+     * @param start the starting point within the page where the section will begin.
+     * @param end the ending point within the page where the section will end.
+     * @param sectionOffset the offset to apply within the section when adding it to the page.
+     * @param section the {@link DynamicSection} to be added to the page.
+     * @throws NullPointerException if {@code section} is {@code null}.
+     */
     void addDynamicSection(@NotNull Point start, @NotNull Point end, int sectionOffset, @NotNull DynamicSection section);
+
+    /**
+     * Removes a section from the page at the specified point index.
+     *
+     * @param pointIndex the index within the page at which the section will be removed.
+     */
+    void removeSection(int pointIndex);
+
+    /**
+     * Retrieves the {@link SectionData} at the specified point index in the page.
+     *
+     * @param pointIndex the index within the page from which the section data will be retrieved.
+     * @return the {@link SectionData} located at the specified {@code pointIndex}.
+     * @throws IndexOutOfBoundsException if {@code pointIndex} is out of the valid range.
+     */
+    SectionData getSection(int pointIndex);
+
+    /**
+     * Removes a section from the page at the specified point index.
+     *
+     * @param point the point within the page at which the section will be removed.
+     */
     void removeSection(@NotNull Point point);
+
+    /**
+     * Retrieves the {@link SectionData} at the specified point index in the page.
+     *
+     * @param point the point within the page from which the section data will be retrieved.
+     * @return the {@link SectionData} located at the specified {@code pointIndex}.
+     * @throws IndexOutOfBoundsException if {@code pointIndex} is out of the valid range.
+     */
     SectionData getSection(@NotNull Point point);
+
+    /**
+     * Handles a click event on an item on the player's inventory based on the {@link CrispyItemStack} that was clicked.
+     *
+     * @param player the {@link Player} who clicked the item.
+     * @param itemStack the {@link CrispyItemStack} that was clicked.
+     * @return {@code true} if the click event shouldn't be ignored; {@code false} otherwise.
+     * @throws NullPointerException if {@code player} or {@code itemStack} is {@code null}.
+     */
+    boolean onPlayerItemClick(@NotNull Player player, @NotNull CrispyItemStack itemStack);
+
+    /**
+     * Method that runs when the page is closed for every viewer.
+     */
+    void onClose();
+
+    /**
+     * Retrieves the sections that are used in this page.
+     *
+     * @return a {@link List} of {@link SectionData} that contains all the data of the sections in this page.
+     */
+    @NotNull List<SectionData> getSections();
+
+    /**
+     * Retrieves the title of this page.
+     *
+     * @return the title.
+     */
     @NotNull String getTitle();
+
+    /**
+     * Retrieves the number of rows in the page.
+     *
+     * @return the number of rows in the page.
+     */
     int getRows();
+
+    /**
+     * Retrieves the number of columns in the page.
+     *
+     * @return the number of columns in the page.
+     */
     int getColumns();
+
+    /**
+     * Retrieves the parent menu of this page.
+     *
+     * @return the menu that this page belongs to.
+     */
     @NotNull CrispyMenu getMenu();
+
+    /**
+     * Sets the {@link CrispyMenu} to which this page belongs to.
+     *
+     * @param menu the parent menu that contains this page.
+     */
     void setMenu(@NotNull CrispyMenu menu);
 }

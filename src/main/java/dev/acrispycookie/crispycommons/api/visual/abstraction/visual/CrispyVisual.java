@@ -30,9 +30,4 @@ public interface CrispyVisual {
     boolean isExpired(OfflinePlayer player);
     boolean isRunning(OfflinePlayer player);
 
-    class ContextNotExpectedException extends RuntimeException {
-        public ContextNotExpectedException(String message) {
-            super(message);
-        }
-    }
 }

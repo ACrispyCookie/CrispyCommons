@@ -10,8 +10,10 @@ public interface GuiData {
 
     /**
      * Validates the completeness of the data needed for the GUI.
+     * <p>
      * This method checks if all necessary components, such as book pages or menu sections,
      * are properly set.
+     * </p>
      *
      * @throws GuiNotReadyException if any critical data is missing or incomplete.
      */

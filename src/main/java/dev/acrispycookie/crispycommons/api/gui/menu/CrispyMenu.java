@@ -22,8 +22,10 @@ import java.util.function.BiFunction;
 
 /**
  * Represents a customizable menu interface for managing and displaying in-game menus.
+ * <p>
  * A {@link CrispyMenu} can be opened, closed, and tracked for each player. It supports page navigation and
  * properties that influence its behavior.
+ * </p>
  */
 public interface CrispyMenu extends TrackedGui, Listener {
 
@@ -224,8 +226,10 @@ public interface CrispyMenu extends TrackedGui, Listener {
 
     /**
      * Opens the previous menu in the history for the specified player.
+     * <p>
      * It closes the currently open menu if there is one and it does nothing
      * if the player has no history of menus.
+     * </p>
      *
      * @param player the player whose previous menu is to be opened.
      * @throws NullPointerException if {@code player} is {@code null}.

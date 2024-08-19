@@ -11,6 +11,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 public class TextEntity extends ClickableEntity<TextElement<?>> {
 
@@ -26,7 +27,7 @@ public class TextEntity extends ClickableEntity<TextElement<?>> {
     }
 
     @Override
-    public void spawn(Location location, Player player) {
+    public void spawn(@NotNull Location location, @NotNull Player player) {
         Component elementValue = element.getFromContext(OfflinePlayer.class, player);
         String text = LegacyComponentSerializer.legacyAmpersand().serialize(
                 elementValue == null ? Component.text("") : elementValue
@@ -54,7 +55,7 @@ public class TextEntity extends ClickableEntity<TextElement<?>> {
     }
 
     @Override
-    public void destroy(Player player) {
+    public void destroy(@NotNull Player player) {
         if(as != null) {
             as.dead = true;
             PacketPlayOutEntityDestroy spawn = new PacketPlayOutEntityDestroy(as.getId());
@@ -63,7 +64,7 @@ public class TextEntity extends ClickableEntity<TextElement<?>> {
     }
 
     @Override
-    public void update(Location location, Player player) {
+    public void update(@NotNull Location location, @NotNull Player player) {
         Component text = element.getFromContext(OfflinePlayer.class, player);
         String content = LegacyComponentSerializer.legacyAmpersand().serialize(text);
 
@@ -80,7 +81,7 @@ public class TextEntity extends ClickableEntity<TextElement<?>> {
     }
 
     @Override
-    public Location getLocation() {
+    public @NotNull Location getLocation() {
         return as.getBukkitEntity().getLocation();
     }
 }

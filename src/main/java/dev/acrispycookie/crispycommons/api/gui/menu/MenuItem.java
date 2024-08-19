@@ -14,8 +14,10 @@ import java.util.function.Supplier;
 
 /**
  * Represents an item that can be added into a menu and can be interacted with.
+ * <p>
  * A {@link MenuItem} describes the display and behavior associated with a single item within a
  * user interface menu.
+ * </p>
  */
 public interface MenuItem {
 
@@ -40,8 +42,10 @@ public interface MenuItem {
 
     /**
      * Creates a {@link LoadedItem} with the specified display element and a click handler.
+     * <p>
      * The {@link LoadedItem} is initialized with the provided {@code display} and a default secondary display element
      * created with {@link ItemElement#simple(CrispyItemStack)} using an {@link CrispyItemStack} with {@link Material#AIR}.
+     * </p>
      *
      * @param display the primary {@link ItemElement} to display.
      * @param onClick a {@link BiFunction} that handles click events on the item. It receives a {@link CrispyMenu}
@@ -59,10 +63,11 @@ public interface MenuItem {
     }
 
     /**
-     * Creates a {@link LoadingItem} with the specified unloaded {@code unloadedDisplay} element, click handlers, and item element suppliers.
-     * The {@link LoadingItem}'s initial unloadedDisplay is the given {@code unloadedDisplay} element. When loaded the item's display is
-     * obtained using the {@code displaySupplier} and the alternative display is created with {@link ItemElement#simple(CrispyItemStack)}
-     * using an {@link CrispyItemStack} with {@link Material#AIR}.
+     * Creates a {@link LoadingItem} with the specified unloaded {@code unloadedDisplay} element and click handlers, and item load data suppliers.
+     * <p>
+     * The {@link LoadingItem}'s initial unloadedDisplay is the given {@code unloadedDisplay} element. When loaded the item's new display and behaviour is
+     * obtained using the {@code loadDataSupplier}.
+     * </p>
      *
      * @param unloadedDisplay the primary {@link ItemElement} to unloadedDisplay when the item is unloaded.
      * @param onClickUnloaded a {@link BiFunction} that handles click events on the item when it is unloaded. It

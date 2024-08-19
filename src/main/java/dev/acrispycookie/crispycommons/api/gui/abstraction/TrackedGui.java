@@ -5,7 +5,9 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * Represents a GUI that can track whether players are currently viewing it.
+ * <p>
  * Extends the {@link CrispyGui} interface to add tracking capabilities.
+ * </p>
  */
 public interface TrackedGui extends CrispyGui {
 

@@ -1,6 +1,5 @@
 package dev.acrispycookie.crispycommons.implementations.element;
 
-import dev.acrispycookie.crispycommons.api.visual.abstraction.visual.CrispyVisual;
 import dev.acrispycookie.crispycommons.api.element.CrispyElement;
 import dev.acrispycookie.crispycommons.utility.element.ContextMap;
 
@@ -30,7 +29,7 @@ public abstract class AbstractElement<T, K> implements CrispyElement<T, K> {
         }
         if (isContext(Void.class))
             return getRaw(null);
-        throw new CrispyVisual.ContextNotExpectedException("Couldn't get value of this element because the context is of type " + kClass.getName());
+        throw new ContextNotExpectedException("Couldn't get value of this element because the context is of type " + kClass.getName());
     }
 
     @Override
@@ -44,7 +43,7 @@ public abstract class AbstractElement<T, K> implements CrispyElement<T, K> {
             return ((AbstractElement<T, C>) this).getRaw(value);
         if (isContext(Void.class))
             return getRaw(null);
-        throw new CrispyVisual.ContextNotExpectedException("Couldn't get value of this element because the context is of type " + kClass.getName());
+        throw new ContextNotExpectedException("Couldn't get value of this element because the context is of type " + kClass.getName());
     }
 
     @Override

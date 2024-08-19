@@ -2,6 +2,7 @@ package dev.acrispycookie.crispycommons.implementations.entity;
 
 import dev.acrispycookie.crispycommons.api.element.DynamicElement;
 import dev.acrispycookie.crispycommons.api.entity.Entity;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class ClickableEntity<T extends DynamicElement<?, ?>> implements Entity {
 
@@ -11,7 +12,7 @@ public abstract class ClickableEntity<T extends DynamicElement<?, ?>> implements
     }
 
     @Override
-    public T getElement() {
+    public @NotNull T getElement() {
         return element;
     }
 }
