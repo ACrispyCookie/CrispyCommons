@@ -1,6 +1,7 @@
 package dev.acrispycookie.crispycommons.api.element;
 
 import dev.acrispycookie.crispycommons.utility.element.ContextMap;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Represents a generic element that can be context-aware and dynamic.
@@ -36,7 +37,7 @@ public interface CrispyElement<T, K> extends Cloneable {
      * @param <C> the type of the context contained in the {@link ContextMap}.
      * @return the data of type {@code T} based on the context map.
      */
-    <C> T getFromContext(ContextMap contexts);
+    <C> T getFromContext(@NotNull ContextMap contexts);
 
     /**
      * Retrieves the data of the element based on a specific context class and value.
@@ -51,7 +52,7 @@ public interface CrispyElement<T, K> extends Cloneable {
      * @param <C> the type of the context value.
      * @return the data of type {@code T} based on the context class and value.
      */
-    <C> T getFromContext(Class<C> clazz, C value);
+    <C> T getFromContext(@NotNull Class<C> clazz, @NotNull C value);
 
     /**
      * Checks if the element is dynamic.
@@ -65,7 +66,7 @@ public interface CrispyElement<T, K> extends Cloneable {
      *
      * @return the {@link Class} object representing the context type {@code K}.
      */
-    Class<K> getContextClass();
+    @NotNull Class<K> getContextClass();
 
     /**
      * Checks if the element's context is of a specific class type.
@@ -73,7 +74,7 @@ public interface CrispyElement<T, K> extends Cloneable {
      * @param clazz the {@link Class} object representing the context type to check.
      * @return {@code true} if the element's context is of the specified class type; {@code false} otherwise.
      */
-    boolean isContext(Class<?> clazz);
+    boolean isContext(@NotNull Class<?> clazz);
 
     /**
      * Calculates the minimum period among the provided dynamic elements.
@@ -84,10 +85,10 @@ public interface CrispyElement<T, K> extends Cloneable {
      * @param elements the array of {@link DynamicElement} instances to check.
      * @return the minimum period of the provided dynamic elements, or {@code -1} if none are dynamic.
      */
-    static int getMinimumPeriod(DynamicElement<?, ?>... elements) {
+    static int getMinimumPeriod(@NotNull DynamicElement<?, ?>... elements) {
         int period = -1;
         for (DynamicElement<?, ?> element : elements) {
-            if (element == null || !element.isDynamic())
+            if (!element.isDynamic())
                 continue;
             if (period == -1) {
                 period = element.getPeriod();

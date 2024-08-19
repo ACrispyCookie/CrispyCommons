@@ -23,10 +23,19 @@ import org.bukkit.util.Vector;
 
 import java.util.Collection;
 
+/**
+ * A listener class for handling various inventory and player-related events in the {@link CrispyMenu} system.
+ * <p>
+ * This class listens for events related to inventory interactions, including clicking, closing, block breaking
+ * near open menus, and player damage while interacting with open menus. It ensures that CrispyMenu's behavior,
+ * such as item interactions and menu protection, is correctly managed according to the menu's configuration and
+ * properties.
+ * </p>
+ */
 public class MenuListener implements Listener {
 
     @EventHandler
-    public void onClick(InventoryClickEvent event) {
+    private void onClick(InventoryClickEvent event) {
         if(event.getClickedInventory() == null
                 || event.getInventory() == null
                 || !(event.getInventory().getHolder() instanceof Holder)
@@ -54,7 +63,7 @@ public class MenuListener implements Listener {
     }
 
     @EventHandler
-    public void onClose(InventoryCloseEvent event) {
+    private void onClose(InventoryCloseEvent event) {
         if(event.getInventory() == null
                 || event.getInventory() == null
                 || !(event.getInventory().getHolder() instanceof Holder))
@@ -74,7 +83,7 @@ public class MenuListener implements Listener {
     }
 
     @EventHandler
-    public void onBlockBreak(BlockBreakEvent event) {
+    private void onBlockBreak(BlockBreakEvent event) {
         Block block = event.getBlock();
         Location above = block.getLocation().add(new Vector(0, 1, 0));
         Collection<Entity> entities = above.getWorld().getNearbyEntities(above, 0.5, 0.5, 0.5);
@@ -96,7 +105,7 @@ public class MenuListener implements Listener {
     }
 
     @EventHandler
-    public void onPlayerDamage(EntityDamageEvent event) {
+    private void onPlayerDamage(EntityDamageEvent event) {
         Entity entity = event.getEntity();
         if (!(entity instanceof Player))
             return;

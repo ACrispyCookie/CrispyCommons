@@ -10,26 +10,37 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
+/**
+ * The main class for initializing and managing the core features of the CrispyCommons plugin.
+ * <p>
+ * {@link CrispyCommons} handles the setup and configuration of essential plugin components such as
+ * command registration, and event listeners. It also manages the plugin's settings through
+ * {@link CommonsSettings}.
+ * </p>
+ * <p>
+ * This class also listens for player join events to perform actions like setting up a fresh scoreboard.
+ * </p>
+ */
 public class CrispyCommons implements Listener {
 
     private static JavaPlugin plugin;
     private static BukkitAudiences bukkitAudiences;
     private static CommonsSettings settings;
 
-    public static void init(JavaPlugin instance, CommonsSettings settings) {
+    public static void init(@NotNull JavaPlugin instance, @NotNull CommonsSettings settings) {
         plugin = instance;
         CrispyCommons.settings = settings;
         CrispyCommons.bukkitAudiences = BukkitAudiences.create(plugin);
-        if(settings != null)
-            setup();
+        setup();
     }
 
-    public static JavaPlugin getPlugin() {
+    public static @NotNull JavaPlugin getPlugin() {
         return plugin;
     }
 
-    public static BukkitAudiences getBukkitAudiences() {
+    public static @NotNull BukkitAudiences getBukkitAudiences() {
         return bukkitAudiences;
     }
 
@@ -43,7 +54,7 @@ public class CrispyCommons implements Listener {
         Bukkit.getPluginManager().registerEvents(new CrispyCommons(), plugin);
     }
 
-    public static CommonsSettings getSettings() {
+    public static @NotNull CommonsSettings getSettings() {
         return settings;
     }
 

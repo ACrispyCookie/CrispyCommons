@@ -9,6 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
 import java.util.UUID;
@@ -38,7 +39,7 @@ public class PlayerHeadItem extends CrispyHeadItem {
     }
 
     @Override
-    public PlayerHeadItem updateAsync(JavaPlugin plugin) {
+    public @NotNull PlayerHeadItem updateAsync(@NotNull JavaPlugin plugin) {
         new BukkitRunnable() {
             @Override
             public void run() {

@@ -2,6 +2,13 @@ package dev.acrispycookie.crispycommons.utility.enchantment;
 
 import org.bukkit.enchantments.Enchantment;
 
+/**
+ * An enumeration of enchantments in Minecraft, providing user-friendly names for display purposes.
+ * <p>
+ * Each enchantment is mapped to its corresponding friendly name, which is often more intuitive and
+ * recognizable to players. Additionally, this enum can identify if an enchantment is considered a curse.
+ * </p>
+ */
 public enum FriendlyEnchants {
 
     ARROW_DAMAGE("Power"),
@@ -47,23 +54,51 @@ public enum FriendlyEnchants {
     private final String friendlyName;
     private final boolean isCurse;
 
+    /**
+     * Constructs a {@code FriendlyEnchants} enum with the specified friendly name and curse status.
+     *
+     * @param friendlyName the user-friendly name of the enchantment.
+     * @param isCurse      {@code true} if the enchantment is a curse, otherwise {@code false}.
+     */
     FriendlyEnchants(String friendlyName,boolean isCurse) {
         this.friendlyName = friendlyName;
         this.isCurse = isCurse;
     }
 
+    /**
+     * Constructs a {@code FriendlyEnchants} enum with the specified friendly name.
+     * The curse status is set to {@code false} by default.
+     *
+     * @param friendlyName the user-friendly name of the enchantment.
+     */
     FriendlyEnchants(String friendlyName) {
         this(friendlyName,false);
     }
 
+    /**
+     * Returns the {@code FriendlyEnchants} corresponding to the given Minecraft enchantment.
+     *
+     * @param enchant the Minecraft {@link Enchantment} to look up.
+     * @return the corresponding {@code FriendlyEnchants} enum.
+     */
     public static FriendlyEnchants getFriendlyEnchantment(Enchantment enchant) {
         return FriendlyEnchants.valueOf(enchant.getName());
     }
 
+    /**
+     * Gets the user-friendly name of the enchantment.
+     *
+     * @return the friendly name of the enchantment.
+     */
     public String getFriendlyName() {
         return friendlyName;
     }
 
+    /**
+     * Checks if the enchantment is a curse.
+     *
+     * @return {@code true} if the enchantment is a curse, otherwise {@code false}.
+     */
     public boolean isCurse() {
         return isCurse;
     }
