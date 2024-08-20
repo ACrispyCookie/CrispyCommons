@@ -6,61 +6,147 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
+/**
+ * A data class representing the visual data needed to display a tab list with header and footer lines.
+ * <p>
+ * {@code TabListData} encapsulates the header and footer text elements that will be displayed
+ * in the tab list. This class also provides methods to manage and manipulate these elements,
+ * and ensures that the tab list is ready to be displayed.
+ * </p>
+ */
 public class TabListData implements VisualData {
 
+    /**
+     * The list of {@link TextElement} representing the header lines of the tab list.
+     */
     private List<TextElement<?>> header;
+
+    /**
+     * The list of {@link TextElement} representing the footer lines of the tab list.
+     */
     private List<TextElement<?>> footer;
 
+    /**
+     * Constructs a new {@code TabListData} instance with the specified header and footer elements.
+     *
+     * @param header the list of {@link TextElement} representing the header lines.
+     * @param footer the list of {@link TextElement} representing the footer lines.
+     */
     public TabListData(List<TextElement<?>> header, List<TextElement<?>> footer) {
         this.header = header;
         this.footer = footer;
     }
 
+    /**
+     * Retrieves the header lines of the tab list.
+     *
+     * @return a list of {@link TextElement} representing the header lines.
+     */
     public List<TextElement<?>> getHeader() {
         return header;
     }
 
+    /**
+     * Retrieves the footer lines of the tab list.
+     *
+     * @return a list of {@link TextElement} representing the footer lines.
+     */
     public List<TextElement<?>> getFooter() {
         return footer;
     }
 
+    /**
+     * Sets the header lines of the tab list.
+     *
+     * @param header a list of {@link TextElement} representing the new header lines.
+     */
     public void setHeader(List<TextElement<?>> header) {
         this.header = header;
     }
 
+    /**
+     * Adds a line to the end of the current header lines.
+     *
+     * @param text the {@link TextElement} to add to the header.
+     */
     public void addHeaderLine(TextElement<?> text) {
         this.header.add(text);
     }
 
+    /**
+     * Adds a line at the specified index in the header lines.
+     *
+     * @param index the position at which to add the header line.
+     * @param text the {@link TextElement} to add to the header.
+     */
     public void addHeaderLine(int index, TextElement<?> text) {
         this.header.add(index, text);
     }
 
+    /**
+     * Removes a header line at the specified index.
+     *
+     * @param index the index of the header line to remove.
+     */
     public void removeHeaderLine(int index) {
         this.header.remove(index);
     }
 
+    /**
+     * Sets the footer lines of the tab list.
+     *
+     * @param footer a list of {@link TextElement} representing the new footer lines.
+     */
     public void setFooter(List<TextElement<?>> footer) {
         this.footer = footer;
     }
 
+    /**
+     * Adds a line to the end of the current footer lines.
+     *
+     * @param text the {@link TextElement} to add to the footer.
+     */
     public void addFooterLine(TextElement<?> text) {
         this.footer.add(text);
     }
 
+    /**
+     * Adds a line at the specified index in the footer lines.
+     *
+     * @param index the position at which to add the footer line.
+     * @param text the {@link TextElement} to add to the footer.
+     */
     public void addFooterLine(int index, TextElement<?> text) {
         this.footer.add(index, text);
     }
 
+    /**
+     * Removes a footer line at the specified index.
+     *
+     * @param index the index of the footer line to remove.
+     */
     public void removeFooterLine(int index) {
         this.footer.remove(index);
     }
 
+    /**
+     * Asserts that the visual data is ready for display.
+     * <p>
+     * This method checks if the header and footer lists are not empty.
+     * If either is empty, a {@link VisualNotReadyException} is thrown.
+     * </p>
+     *
+     * @param player the player for whom the visual data should be ready.
+     * @throws VisualNotReadyException if the header or footer lines are not set.
+     */
     @Override
     public void assertReady(Player player) {
-        if (header.isEmpty())
+        if (header.isEmpty()) {
             throw new VisualNotReadyException("The tab list header was not set!");
-        if (footer.isEmpty())
+        }
+        if (footer.isEmpty()) {
             throw new VisualNotReadyException("The tab list footer was not set!");
+        }
     }
 }
+

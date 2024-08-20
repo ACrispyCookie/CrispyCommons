@@ -10,14 +10,42 @@ import org.bukkit.OfflinePlayer;
 
 import java.util.Set;
 
+/**
+ * An abstract base class that provides the core functionality for a name tag visual element.
+ * <p>
+ * {@code AbstractNameTag} manages the display of name tag elements such as prefix, suffix,
+ * and additional text above or below the player's name. It extends the {@link AbstractVisual}
+ * class and implements the {@link CrispyNameTag} interface.
+ * </p>
+ */
 public abstract class AbstractNameTag extends AbstractVisual<NameTagData> implements CrispyNameTag {
 
+    /**
+     * An optional hologram that can be displayed above the player's name tag.
+     */
     protected CrispyHologram aboveNameHologram;
 
+    /**
+     * Constructs a new {@code AbstractNameTag} instance with the specified data, receivers, time-to-live,
+     * update mode, and visibility.
+     *
+     * @param data       the {@link NameTagData} containing the data for the name tag elements.
+     * @param receivers  the set of players who will receive the name tag.
+     * @param timeToLive the time-to-live (TTL) element controlling the lifespan of the name tag.
+     * @param updateMode the mode of updating the name tag, whether globally, per player, or both.
+     * @param isPublic   whether the name tag should be visible to all players.
+     */
     AbstractNameTag(NameTagData data, Set<? extends OfflinePlayer> receivers, TimeToLiveElement<?> timeToLive, UpdateMode updateMode, boolean isPublic) {
         super(data, receivers, timeToLive, updateMode, isPublic);
     }
 
+    /**
+     * Prepares the name tag elements for display by starting their updates.
+     * <p>
+     * This method is called before the name tag is shown to ensure all dynamic elements,
+     * such as prefix, suffix, and other name tag texts, are properly initialized.
+     * </p>
+     */
     @Override
     protected void prepareShow() {
         if (data.getAboveName() != null)
@@ -32,6 +60,14 @@ public abstract class AbstractNameTag extends AbstractVisual<NameTagData> implem
             data.getSuffix().start();
     }
 
+    /**
+     * Prepares the name tag elements for hiding by stopping their updates.
+     * <p>
+     * This method is called before the name tag is hidden to ensure all dynamic elements,
+     * such as prefix, suffix, and other name tag texts, are properly stopped. It also
+     * destroys the above-name hologram if it exists.
+     * </p>
+     */
     @Override
     protected void prepareHide() {
         if (aboveNameHologram != null) {
@@ -50,6 +86,15 @@ public abstract class AbstractNameTag extends AbstractVisual<NameTagData> implem
             data.getSuffix().stop();
     }
 
+    /**
+     * Sets the prefix text element for the name tag.
+     * <p>
+     * This method stops the current prefix element, sets the new one, and restarts it if
+     * the name tag is currently being displayed.
+     * </p>
+     *
+     * @param prefix the new prefix {@link NameTagElement} to set.
+     */
     @Override
     public void setPrefix(NameTagElement<String, ?> prefix) {
         data.getPrefix().stop();
@@ -61,6 +106,15 @@ public abstract class AbstractNameTag extends AbstractVisual<NameTagData> implem
         }
     }
 
+    /**
+     * Sets the suffix text element for the name tag.
+     * <p>
+     * This method stops the current suffix element, sets the new one, and restarts it if
+     * the name tag is currently being displayed.
+     * </p>
+     *
+     * @param suffix the new suffix {@link NameTagElement} to set.
+     */
     @Override
     public void setSuffix(NameTagElement<String, ?> suffix) {
         data.getSuffix().stop();
@@ -72,6 +126,15 @@ public abstract class AbstractNameTag extends AbstractVisual<NameTagData> implem
         }
     }
 
+    /**
+     * Sets the below-name text element for the name tag.
+     * <p>
+     * This method stops the current below-name element, sets the new one, and restarts it if
+     * the name tag is currently being displayed.
+     * </p>
+     *
+     * @param belowName the new below-name {@link NameTagElement} to set.
+     */
     @Override
     public void setBelowName(NameTagElement<String, ?> belowName) {
         data.getBelowName().stop();
@@ -83,6 +146,15 @@ public abstract class AbstractNameTag extends AbstractVisual<NameTagData> implem
         }
     }
 
+    /**
+     * Sets the below-name value element for the name tag.
+     * <p>
+     * This method stops the current below-name value element, sets the new one, and restarts it if
+     * the name tag is currently being displayed.
+     * </p>
+     *
+     * @param belowNameValue the new below-name value {@link NameTagElement} to set.
+     */
     @Override
     public void setBelowNameValue(NameTagElement<Integer, ?> belowNameValue) {
         data.getBelowNameValue().stop();
@@ -94,6 +166,15 @@ public abstract class AbstractNameTag extends AbstractVisual<NameTagData> implem
         }
     }
 
+    /**
+     * Sets the above-name text element for the name tag.
+     * <p>
+     * This method stops the current above-name element, sets the new one, and restarts it if
+     * the name tag is currently being displayed.
+     * </p>
+     *
+     * @param aboveName the new above-name {@link NameTagElement} to set.
+     */
     @Override
     public void setAboveName(NameTagElement<String, ?> aboveName) {
         data.getAboveName().stop();
@@ -105,28 +186,54 @@ public abstract class AbstractNameTag extends AbstractVisual<NameTagData> implem
         }
     }
 
+    /**
+     * Retrieves the prefix text element of the name tag.
+     *
+     * @return the prefix {@link NameTagElement}.
+     */
     @Override
     public NameTagElement<String, ?> getPrefix() {
         return data.getPrefix();
     }
 
+    /**
+     * Retrieves the suffix text element of the name tag.
+     *
+     * @return the suffix {@link NameTagElement}.
+     */
     @Override
     public NameTagElement<String, ?> getSuffix() {
         return data.getSuffix();
     }
 
+    /**
+     * Retrieves the below-name text element of the name tag.
+     *
+     * @return the below-name {@link NameTagElement}.
+     */
     @Override
     public NameTagElement<String, ?> getBelowName() {
         return data.getBelowName();
     }
 
+    /**
+     * Retrieves the below-name value element of the name tag.
+     *
+     * @return the below-name value {@link NameTagElement}.
+     */
     @Override
     public NameTagElement<Integer, ?> getBelowNameValue() {
         return data.getBelowNameValue();
     }
 
+    /**
+     * Retrieves the above-name text element of the name tag.
+     *
+     * @return the above-name {@link NameTagElement}.
+     */
     @Override
     public NameTagElement<String, ?> getAboveName() {
         return data.getAboveName();
     }
 }
+

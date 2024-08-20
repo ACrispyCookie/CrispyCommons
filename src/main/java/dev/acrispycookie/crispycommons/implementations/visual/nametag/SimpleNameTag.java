@@ -18,12 +18,34 @@ import org.bukkit.scoreboard.*;
 
 import java.util.Set;
 
+/**
+ * A concrete implementation of {@link AbstractNameTag} that represents a simple name tag visual element.
+ * <p>
+ * {@code SimpleNameTag} manages the display of a player's name tag, including the prefix, suffix,
+ * text above the name, and text below the name. This implementation also integrates with the Minecraft
+ * scoreboard system to handle name tag visibility and display.
+ * </p>
+ */
 public class SimpleNameTag extends AbstractNameTag {
 
+    /**
+     * Constructs a {@code SimpleNameTag} instance with the specified parameters.
+     *
+     * @param data       the {@link NameTagData} containing the data for the name tag elements.
+     * @param receivers  the set of players who will receive the name tag.
+     * @param timeToLive the time-to-live (TTL) element controlling the lifespan of the name tag.
+     * @param isPublic   whether the name tag should be visible to all players.
+     */
     public SimpleNameTag(NameTagData data, Set<? extends OfflinePlayer> receivers, TimeToLiveElement<?> timeToLive, boolean isPublic) {
         super(data, receivers, timeToLive, UpdateMode.PER_PLAYER, isPublic);
     }
 
+    /**
+     * Handles the event where a player dies. If the player is the one associated with this name tag,
+     * the above-name hologram (if present) will be hidden.
+     *
+     * @param event the {@link PlayerDeathEvent} triggered when a player dies.
+     */
     @EventHandler
     public void onDeath(PlayerDeathEvent event) {
         if (event.getEntity().equals(data.getPlayer())) {
@@ -32,6 +54,12 @@ public class SimpleNameTag extends AbstractNameTag {
         }
     }
 
+    /**
+     * Handles the event where a player respawns. If the player is the one associated with this name tag,
+     * the above-name hologram (if present) will be shown again.
+     *
+     * @param event the {@link PlayerRespawnEvent} triggered when a player respawns.
+     */
     @EventHandler
     public void onRespawn(PlayerRespawnEvent event) {
         if (event.getPlayer().equals(data.getPlayer())) {
@@ -40,6 +68,11 @@ public class SimpleNameTag extends AbstractNameTag {
         }
     }
 
+    /**
+     * Shows the name tag to the specified player, including prefix, suffix, above-name, and below-name texts.
+     *
+     * @param p the player to whom the name tag will be shown.
+     */
     @Override
     protected void show(Player p) {
         if (!p.canSee(data.getPlayer()))
@@ -50,6 +83,11 @@ public class SimpleNameTag extends AbstractNameTag {
         showBelowName(p);
     }
 
+    /**
+     * Hides the name tag from the specified player.
+     *
+     * @param p the player from whom the name tag will be hidden.
+     */
     @Override
     protected void hide(Player p) {
         hideNameTag(p);
@@ -58,6 +96,11 @@ public class SimpleNameTag extends AbstractNameTag {
             aboveNameHologram.removePlayer(p);
     }
 
+    /**
+     * Updates the name tag for a specific player, re-showing it if the player can still see the tagged player.
+     *
+     * @param p the player for whom the name tag will be updated.
+     */
     @Override
     protected void perPlayerUpdate(Player p) {
         if (!p.canSee(data.getPlayer())) {
@@ -69,11 +112,19 @@ public class SimpleNameTag extends AbstractNameTag {
         updateBelowName(p);
     }
 
+    /**
+     * This implementation does not use global updates, so this method is left empty.
+     */
     @Override
     protected void globalUpdate() {
-
+        // No global update action needed.
     }
 
+    /**
+     * Shows the above-name hologram to the specified player, initializing it if necessary.
+     *
+     * @param p the player to whom the above-name hologram will be shown.
+     */
     private void showAboveName(Player p) {
         if (data.getAboveName() == null)
             return;
@@ -84,6 +135,11 @@ public class SimpleNameTag extends AbstractNameTag {
         aboveNameHologram.addPlayer(p);
     }
 
+    /**
+     * Shows the below-name text to the specified player.
+     *
+     * @param p the player to whom the below-name text will be shown.
+     */
     private void showBelowName(Player p) {
         if (data.getBelowName() == null || data.getBelowNameValue() == null)
             return;
@@ -94,6 +150,11 @@ public class SimpleNameTag extends AbstractNameTag {
         setVanillaBelowName(p, below, value);
     }
 
+    /**
+     * Updates the below-name text for the specified player.
+     *
+     * @param p the player for whom the below-name text will be updated.
+     */
     private void updateBelowName(Player p) {
         if (data.getBelowName() == null || data.getBelowNameValue() == null)
             return;
@@ -104,6 +165,11 @@ public class SimpleNameTag extends AbstractNameTag {
         updateVanillaBelowName(p, below, value);
     }
 
+    /**
+     * Hides the below-name text from the specified player.
+     *
+     * @param p the player from whom the below-name text will be hidden.
+     */
     private void hideBelowName(Player p) {
         if (data.getBelowName() == null || data.getBelowNameValue() == null)
             return;
@@ -111,6 +177,11 @@ public class SimpleNameTag extends AbstractNameTag {
         removeVanillaBelowName(p);
     }
 
+    /**
+     * Shows the name tag (prefix and suffix) to the specified player.
+     *
+     * @param p the player to whom the name tag will be shown.
+     */
     private void showNameTag(Player p) {
         String prefix = getElement(data.getPrefix(), data.getPlayer(), p);
         String suffix = getElement(data.getSuffix(), data.getPlayer(), p);
@@ -118,18 +189,35 @@ public class SimpleNameTag extends AbstractNameTag {
         setVanillaNameTag(p, prefix, suffix);
     }
 
+    /**
+     * Updates the name tag (prefix and suffix) for the specified player.
+     *
+     * @param p the player for whom the name tag will be updated.
+     */
     private void updateNameTag(Player p) {
         String prefix = getElement(data.getPrefix(), data.getPlayer(), p);
         String suffix = getElement(data.getSuffix(), data.getPlayer(), p);
         updateVanillaNameTag(p, prefix, suffix);
     }
 
+    /**
+     * Hides the name tag from the specified player.
+     *
+     * @param p the player from whom the name tag will be hidden.
+     */
     private void hideNameTag(Player p) {
         if (data.getPrefix() == null && data.getSuffix() == null)
             return;
         removeVanillaNameTag(p);
     }
 
+    /**
+     * Updates the player's vanilla name tag with the specified prefix and suffix.
+     *
+     * @param receiver the player who will see the updated name tag.
+     * @param prefix   the prefix to display on the name tag.
+     * @param suffix   the suffix to display on the name tag.
+     */
     private void updateVanillaNameTag(Player receiver, String prefix, String suffix) {
         Scoreboard scoreboard = receiver.getScoreboard();
         Team t = scoreboard.getTeam(data.getPlayer().getName());
@@ -137,6 +225,13 @@ public class SimpleNameTag extends AbstractNameTag {
         t.setSuffix(ChatColor.translateAlternateColorCodes('&', suffix.substring(0, Math.min(16, suffix.length()))));
     }
 
+    /**
+     * Sets the player's vanilla name tag with the specified prefix and suffix.
+     *
+     * @param receiver the player who will see the name tag.
+     * @param prefix   the prefix to display on the name tag.
+     * @param suffix   the suffix to display on the name tag.
+     */
     private void setVanillaNameTag(Player receiver, String prefix, String suffix) {
         Scoreboard scoreboard = receiver.getScoreboard();
         Team t = scoreboard.getTeam(data.getPlayer().getName()) == null ?
@@ -149,6 +244,11 @@ public class SimpleNameTag extends AbstractNameTag {
         receiver.setScoreboard(scoreboard);
     }
 
+    /**
+     * Removes the player's vanilla name tag.
+     *
+     * @param receiver the player who will no longer see the name tag.
+     */
     private void removeVanillaNameTag(Player receiver) {
         Scoreboard scoreboard = receiver.getScoreboard();
         if (scoreboard.getTeam(data.getPlayer().getName()) == null)
@@ -161,6 +261,13 @@ public class SimpleNameTag extends AbstractNameTag {
         receiver.setScoreboard(scoreboard);
     }
 
+    /**
+     * Updates the player's vanilla below-name text with the specified text and value.
+     *
+     * @param receiver the player who will see the updated below-name text.
+     * @param below    the text to display below the name.
+     * @param value    the value to display below the name.
+     */
     private void updateVanillaBelowName(Player receiver, String below, int value) {
         Scoreboard scoreboard = receiver.getScoreboard();
         Objective objective = scoreboard.getObjective(data.getPlayer().getName());
@@ -168,6 +275,13 @@ public class SimpleNameTag extends AbstractNameTag {
         objective.getScore(data.getPlayer().getName()).setScore(value);
     }
 
+    /**
+     * Sets the player's vanilla below-name text with the specified text and value.
+     *
+     * @param receiver the player who will see the below-name text.
+     * @param below    the text to display below the name.
+     * @param value    the value to display below the name.
+     */
     private void setVanillaBelowName(Player receiver, String below, int value) {
         Scoreboard scoreboard = receiver.getScoreboard();
         Objective objective = scoreboard.getObjective(data.getPlayer().getName()) == null ?
@@ -179,6 +293,11 @@ public class SimpleNameTag extends AbstractNameTag {
         receiver.setScoreboard(scoreboard);
     }
 
+    /**
+     * Removes the player's vanilla below-name text.
+     *
+     * @param receiver the player who will no longer see the below-name text.
+     */
     private void removeVanillaBelowName(Player receiver) {
         Scoreboard scoreboard = receiver.getScoreboard();
         if (scoreboard.getObjective(data.getPlayer().getName()) == null)
@@ -187,6 +306,11 @@ public class SimpleNameTag extends AbstractNameTag {
         receiver.setScoreboard(scoreboard);
     }
 
+    /**
+     * Constructs and returns a hologram to be displayed above the player's name.
+     *
+     * @return the constructed {@link CrispyHologram}.
+     */
     private CrispyHologram getAboveNameHologram() {
         TextElement<?> line = data.getAboveName().convertToTextElement(data.getPlayer());
 
@@ -197,6 +321,15 @@ public class SimpleNameTag extends AbstractNameTag {
                 .build();
     }
 
+    /**
+     * Retrieves the appropriate element value from the context of the player and receiver.
+     *
+     * @param element  the {@link NameTagElement} to retrieve.
+     * @param player   the player associated with the name tag.
+     * @param receiver the player viewing the name tag.
+     * @param <T>      the type of the element.
+     * @return the value of the element from the context.
+     */
     private <T> T getElement(NameTagElement<T, ?> element, Player player, Player receiver) {
         ContextMap co = new ContextMap()
                 .add(OfflinePlayer.class, player)
@@ -204,3 +337,4 @@ public class SimpleNameTag extends AbstractNameTag {
         return element.getFromContext(co);
     }
 }
+
