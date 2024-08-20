@@ -39,7 +39,7 @@ public class TextEntity extends ClickableEntity<TextElement<?>> {
      *
      * @param element the text element associated with this entity.
      */
-    public TextEntity(TextElement<?> element) {
+    public TextEntity(@NotNull TextElement<?> element) {
         super(element);
     }
 

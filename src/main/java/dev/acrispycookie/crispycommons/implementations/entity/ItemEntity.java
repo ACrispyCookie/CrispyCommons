@@ -45,7 +45,7 @@ public class ItemEntity extends ClickableEntity<ItemElement<?>> {
      *
      * @param element the item element associated with this entity.
      */
-    public ItemEntity(ItemElement<?> element) {
+    public ItemEntity(@NotNull ItemElement<?> element) {
         super(element);
     }
 

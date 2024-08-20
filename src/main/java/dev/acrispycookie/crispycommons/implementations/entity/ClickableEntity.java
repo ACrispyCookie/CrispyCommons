@@ -31,7 +31,7 @@ public abstract class ClickableEntity<T extends DynamicElement<?, ?>> implements
      *
      * @throws NullPointerException if {@code element} is {@code null}.
      */
-    public ClickableEntity(T element) {
+    public ClickableEntity(@NotNull T element) {
         this.element = element;
     }
 
