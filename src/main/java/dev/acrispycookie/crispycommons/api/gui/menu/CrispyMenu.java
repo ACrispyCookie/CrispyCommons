@@ -251,8 +251,19 @@ public interface CrispyMenu extends TrackedGui, Listener {
      */
     class PagedMenuBuilder extends AbstractGuiBuilder<CrispyMenu> {
 
+        /**
+         * The information about the pages, including title, rows, columns, and other settings.
+         */
         private final PageInfo pageInfo;
+
+        /**
+         * The dynamic section of the menu, which defines items that can change across pages.
+         */
         private DynamicSection section;
+
+        /**
+         * A set of properties that define the behavior and appearance of the menu.
+         */
         protected final Set<MenuProperty> properties;
 
         /**
@@ -422,8 +433,19 @@ public interface CrispyMenu extends TrackedGui, Listener {
      */
     class MenuBuilder extends AbstractGuiBuilder<CrispyMenu> {
 
+        /**
+         * The list of pages that will be included in the menu.
+         */
         protected final List<MenuPage> pages;
+
+        /**
+         * The set of properties that define the behavior and appearance of the menu.
+         */
         protected final Set<MenuProperty> properties;
+
+        /**
+         * The index of the page that will be displayed when the menu is first opened.
+         */
         protected final int startingPage;
 
         /**
@@ -554,8 +576,17 @@ public interface CrispyMenu extends TrackedGui, Listener {
      * Enum representing different properties that can be applied to a menu.
      */
     enum MenuProperty {
+        /**
+         * Prevent the menu from closing by pressing E or ESC.
+         */
         PREVENT_CLOSING,
+        /**
+         * Prevent damage to the viewers of this menu.
+         */
         PREVENT_DAMAGE,
+        /**
+         * Prevent breaking the block under the viewers of this menu.
+         */
         PREVENT_BELOW_BLOCK_BREAK
     }
 }

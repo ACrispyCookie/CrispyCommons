@@ -107,6 +107,12 @@ public interface CrispyElement<T, K> extends Cloneable {
      * </p>
      */
     class ContextNotExpectedException extends RuntimeException {
+
+        /**
+         * Constructs a new {@code ContextNotExpectedException} with the specified detail message.
+         *
+         * @param message the detail message to be reported when the exception is thrown.
+         */
         public ContextNotExpectedException(String message) {
             super(message);
         }

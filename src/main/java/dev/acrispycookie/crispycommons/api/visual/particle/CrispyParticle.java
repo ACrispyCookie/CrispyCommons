@@ -88,6 +88,9 @@ public interface CrispyParticle<T extends Effect> extends CrispyVisual {
      */
     abstract class ParticleBuilder<T extends Effect> extends AbstractVisualBuilder<CrispyParticle<T>> {
 
+        /**
+         * The data object to be used to build the particle instance.
+         */
         protected final ParticleData<T> data = new ParticleData<>(null, null);
 
         /**

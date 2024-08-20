@@ -97,6 +97,9 @@ public interface CrispyTitle extends CrispyVisual {
      */
     abstract class TitleBuilder extends AbstractVisualBuilder<CrispyTitle> {
 
+        /**
+         * The data object to be used to build the title instance.
+         */
         protected final TitleData data = new TitleData(null, null, GeneralElement.simple(0), GeneralElement.simple(0));
 
         /**

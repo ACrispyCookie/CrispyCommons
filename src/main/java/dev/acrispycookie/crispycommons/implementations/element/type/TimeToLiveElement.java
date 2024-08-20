@@ -95,13 +95,15 @@ public class TimeToLiveElement<K> extends AbstractAnimatedElement<Long, K> {
 
     /**
      * Enum representing the different start modes for the TTL element.
-     * <p>
-     * - {@code GLOBAL}: The TTL starts at the same time for all players.
-     * - {@code PER_PLAYER}: The TTL starts individually for each player.
-     * </p>
      */
     public enum StartMode {
+        /**
+         * The TTL starts at the same time for all players.
+         */
         GLOBAL,
+        /**
+         * The TTL starts individually for each player.
+         */
         PER_PLAYER
     }
 }

@@ -16,6 +16,14 @@ import java.awt.*;
 import java.util.List;
 import java.util.function.BiFunction;
 
+/**
+ * Represents a single page within a menu, containing various items and sections that can be rendered and interacted with by players.
+ * <p>
+ * The {@code MenuPage} interface defines methods for managing and rendering the content of a page, including handling player interactions
+ * with items, managing static and dynamic sections, and supporting pagination. Implementations of this interface are responsible for
+ * defining the behavior of individual pages within a menu.
+ * </p>
+ */
 public interface MenuPage {
 
     /**

@@ -373,15 +373,19 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
 
     /**
      * Enum representing the mode in which updates to the visual should be applied.
-     * <ul>
-     * <li>{@link UpdateMode#PER_PLAYER} - Updates are applied per player.</li>
-     * <li>{@link UpdateMode#GLOBAL} - Updates are applied globally to all players.</li>
-     * <li>{@link UpdateMode#BOTH} - Updates are applied both per player and globally.</li>
-     * </ul>
      */
     public enum UpdateMode {
+        /**
+         * Updates are applied per player.
+         */
         PER_PLAYER,
+        /**
+         * Updates are applied globally to all players.
+         */
         GLOBAL,
+        /**
+         * Updates are applied both per player and globally.
+         */
         BOTH
     }
 }
