@@ -6,24 +6,70 @@ import dev.acrispycookie.crispycommons.implementations.visual.actionbar.SimpleAc
 import dev.acrispycookie.crispycommons.implementations.visual.actionbar.data.ActionbarData;
 import dev.acrispycookie.crispycommons.implementations.element.type.TextElement;
 
+/**
+ * Represents an action bar visual element in the game, extending the {@link CrispyVisual} interface.
+ * <p>
+ * The {@code CrispyActionbar} interface allows for displaying and managing action bars with dynamic text.
+ * It provides methods to set and retrieve the text element displayed on the action bar, and includes a
+ * builder for creating instances of action bars with customizable properties.
+ * </p>
+ */
 public interface CrispyActionbar extends CrispyVisual {
 
+    /**
+     * Creates a new instance of {@link ActionbarBuilder}, which can be used to build a {@code CrispyActionbar}.
+     *
+     * @return a new {@link ActionbarBuilder} instance.
+     */
     static ActionbarBuilder builder() {
         return new ActionbarBuilder();
     }
+
+    /**
+     * Sets the text element to be displayed on the action bar.
+     *
+     * @param text the {@link TextElement} to display on the action bar.
+     */
     void setText(TextElement<?> text);
+
+    /**
+     * Retrieves the text element currently displayed on the action bar.
+     *
+     * @return the {@link TextElement} displayed on the action bar.
+     */
     TextElement<?> getText();
 
+    /**
+     * A builder class for constructing instances of {@link CrispyActionbar}.
+     * <p>
+     * The {@code ActionbarBuilder} extends {@link AbstractVisualBuilder} and allows for the customization
+     * of action bars, including setting the text, players who can view the action bar, and other properties.
+     * </p>
+     */
     class ActionbarBuilder extends AbstractVisualBuilder<CrispyActionbar> {
 
         private final ActionbarData data = new ActionbarData(null);
 
+        /**
+         * Sets the text element to be displayed on the action bar.
+         * <p>
+         * The text element updates the action bar whenever it is updated.
+         * </p>
+         *
+         * @param element the {@link TextElement} to display on the action bar.
+         * @return this {@code ActionbarBuilder} instance for method chaining.
+         */
         public ActionbarBuilder setText(TextElement<?> element) {
             this.data.setText(element);
             this.data.getText().setUpdate(() -> toBuild.update());
             return this;
         }
 
+        /**
+         * Builds and returns the configured {@link CrispyActionbar} instance.
+         *
+         * @return the constructed {@link CrispyActionbar} instance.
+         */
         @Override
         public CrispyActionbar build() {
             this.toBuild = new SimpleActionbar(data, receivers, timeToLive, isPublic);
@@ -31,3 +77,4 @@ public interface CrispyActionbar extends CrispyVisual {
         }
     }
 }
+
