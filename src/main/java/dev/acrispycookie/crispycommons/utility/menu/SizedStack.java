@@ -14,6 +14,9 @@ import java.util.Stack;
  */
 public class SizedStack<T> extends Stack<T> {
 
+    /**
+     * Maximum size of the stack.
+     */
     private final int maxSize;
 
     /**

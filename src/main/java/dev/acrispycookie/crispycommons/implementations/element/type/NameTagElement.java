@@ -9,16 +9,50 @@ import org.bukkit.entity.Player;
 import java.util.Collection;
 import java.util.function.Function;
 
+/**
+ * Represents an animated or dynamic name tag element.
+ * <p>
+ * This class extends {@link AbstractAnimatedElement} to provide various behaviors for name tag elements,
+ * including static, dynamic, and animated name tags. It includes factory methods for creating name tag
+ * elements with different configurations.
+ * </p>
+ *
+ * @param <T> the type of the element value.
+ * @param <K> the type of the context used for element retrieval.
+ */
 public class NameTagElement<T, K> extends AbstractAnimatedElement<T, K> {
 
+    /**
+     * Constructs a {@code NameTagElement} with a frame supplier, starting frame, initial delay, and update period.
+     *
+     * @param supplier the function providing the animation frames.
+     * @param startingFrame the frame to start the animation from.
+     * @param delay the time to wait before the first update occurs, in ticks.
+     * @param period the period between subsequent updates, in ticks.
+     * @param kClass the class type of the context.
+     */
     protected NameTagElement(Function<K, Collection<? extends T>> supplier, int startingFrame, int delay, int period, Class<K> kClass) {
         super(supplier, startingFrame, delay, period, false, kClass);
     }
 
+    /**
+     * Constructs a {@code NameTagElement} with an element supplier, initial delay, and update period.
+     *
+     * @param supplier the supplier providing the element.
+     * @param delay the time to wait before the first update occurs, in ticks.
+     * @param period the period between subsequent updates, in ticks.
+     * @param kClass the class type of the context.
+     */
     protected NameTagElement(MyElementSupplier<K, T> supplier, int delay, int period, Class<K> kClass) {
         super(supplier, delay, period, false, kClass);
     }
 
+    /**
+     * Converts this {@code NameTagElement} to a {@link TextElement} for display.
+     *
+     * @param owner the player owning the name tag element.
+     * @return a {@code TextElement} representing the name tag element.
+     */
     public TextElement<?> convertToTextElement(Player owner) {
         TextElement<?> textElement;
 
@@ -37,6 +71,11 @@ public class NameTagElement<T, K> extends AbstractAnimatedElement<T, K> {
         return textElement;
     }
 
+    /**
+     * Creates a copy of this {@code NameTagElement}.
+     *
+     * @return a new {@code NameTagElement} instance with the same properties as this one.
+     */
     @Override
     public NameTagElement<T, K> clone() {
         if (isDynamic())
@@ -44,26 +83,80 @@ public class NameTagElement<T, K> extends AbstractAnimatedElement<T, K> {
         return new NameTagElement<>(new MyElementSupplier<>(this::getRaw), -1, -1, getContextClass());
     }
 
+    /**
+     * Creates a simple, static {@code NameTagElement} with a personal context for each {@link OfflinePlayer}.
+     *
+     * @param function the function providing the name tag value based on the player context.
+     * @param <T> the type of the element value.
+     * @return a new {@code NameTagElement} instance with the specified personal context.
+     */
     public static <T> NameTagElement<T, OfflinePlayer> simple(Function<OfflinePlayer, ? extends T> function) {
         return dynamic(function, -1, -1);
     }
 
+    /**
+     * Creates a dynamic {@code NameTagElement} with a personal context for each {@link OfflinePlayer},
+     * with a value supplier, initial delay, and update period.
+     *
+     * @param function the function providing the name tag value based on the player context.
+     * @param delay the time to wait before the first update occurs, in ticks.
+     * @param period the period between subsequent updates, in ticks.
+     * @param <T> the type of the element value.
+     * @return a new {@code NameTagElement} instance with dynamic behavior and personal context.
+     */
     public static <T> NameTagElement<T, OfflinePlayer> dynamic(Function<OfflinePlayer, ? extends T> function, int delay, int period) {
         return new NameTagElement<>(new MyElementSupplier<>(function), delay, period, OfflinePlayer.class);
     }
 
+    /**
+     * Creates an animated {@code NameTagElement} that cycles through a collection of name tag values for each {@link OfflinePlayer}.
+     *
+     * @param function the function providing the collection of name tag values to animate through based on the player context.
+     * @param startingFrame the frame to start the animation from.
+     * @param delay the time to wait before the first update occurs, in ticks.
+     * @param period the period between subsequent updates, in ticks.
+     * @param <T> the type of the element value.
+     * @return a new {@code NameTagElement} instance with animated behavior and personal context.
+     */
     public static <T> NameTagElement<T, OfflinePlayer> animated(Function<OfflinePlayer, Collection<? extends T>> function, int startingFrame, int delay, int period) {
         return new NameTagElement<>(function, startingFrame, delay, period, OfflinePlayer.class);
     }
 
+    /**
+     * Creates a simple, static {@code NameTagElement} with a name tag context for each {@link NameTagContext}.
+     *
+     * @param function the function providing the name tag value based on the name tag context.
+     * @param <T> the type of the element value.
+     * @return a new {@code NameTagElement} instance with the specified name tag context.
+     */
     public static <T> NameTagElement<T, NameTagContext> simplePersonal(Function<NameTagContext, ? extends T> function) {
         return dynamicPersonal(function, -1, -1);
     }
 
+    /**
+     * Creates a dynamic {@code NameTagElement} with a name tag context for each {@link NameTagContext},
+     * with a value supplier, initial delay, and update period.
+     *
+     * @param function the function providing the name tag value based on the name tag context.
+     * @param delay the time to wait before the first update occurs, in ticks.
+     * @param period the period between subsequent updates, in ticks.
+     * @param <T> the type of the element value.
+     * @return a new {@code NameTagElement} instance with dynamic behavior and name tag context.
+     */
     public static <T> NameTagElement<T, NameTagContext> dynamicPersonal(Function<NameTagContext, ? extends T> function, int delay, int period) {
         return new NameTagElement<>(new MyElementSupplier<>(function), delay, period, NameTagContext.class);
     }
 
+    /**
+     * Creates an animated {@code NameTagElement} that cycles through a collection of name tag values for each {@link NameTagContext}.
+     *
+     * @param function the function providing the collection of name tag values to animate through based on the name tag context.
+     * @param startingFrame the frame to start the animation from.
+     * @param delay the time to wait before the first update occurs, in ticks.
+     * @param period the period between subsequent updates, in ticks.
+     * @param <T> the type of the element value.
+     * @return a new {@code NameTagElement} instance with animated behavior and name tag context.
+     */
     public static <T> NameTagElement<T, NameTagContext> animatedPersonal(Function<NameTagContext, Collection<? extends T>> function, int startingFrame, int delay, int period) {
         return new NameTagElement<>(function, startingFrame, delay, period, NameTagContext.class);
     }

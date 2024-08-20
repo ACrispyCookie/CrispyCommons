@@ -3,24 +3,69 @@ package dev.acrispycookie.crispycommons.implementations.particle;
 import org.bukkit.Color;
 import org.bukkit.Effect;
 
+/**
+ * Represents a color-based effect that can be used to create colored particles.
+ * <p>
+ * This class extends {@link AbstractEffect} and allows the customization of color components
+ * (red, green, blue) for effects such as colored dust particles.
+ * </p>
+ */
 public class ColoredEffect extends AbstractEffect {
 
+    /**
+     * The red component of the color used in this effect.
+     * <p>
+     * This value is normalized between 0 and 1, where 0 represents no red and 1 represents full red intensity.
+     * </p>
+     */
     private float r;
+
+    /**
+     * The green component of the color used in this effect.
+     * <p>
+     * This value is normalized between 0 and 1, where 0 represents no green and 1 represents full green intensity.
+     * </p>
+     */
     private float g;
+
+    /**
+     * The blue component of the color used in this effect.
+     * <p>
+     * This value is normalized between 0 and 1, where 0 represents no blue and 1 represents full blue intensity.
+     * </p>
+     */
     private float b;
 
+    /**
+     * Constructs a {@code ColoredEffect} from a {@link Color} object.
+     *
+     * @param color the color to be used for the effect.
+     */
     public ColoredEffect(Color color) {
         this.r = (float) color.getRed() / 255;
         this.g = (float) color.getGreen() / 255;
         this.b = (float) color.getBlue() / 255;
     }
 
-    public ColoredEffect(float r, float b, float g) {
+    /**
+     * Constructs a {@code ColoredEffect} from individual color components.
+     *
+     * @param r the red component (0-255).
+     * @param g the green component (0-255).
+     * @param b the blue component (0-255).
+     */
+    public ColoredEffect(float r, float g, float b) {
         this.r = r / 255;
         this.g = g / 255;
         this.b = b / 255;
     }
 
+    /**
+     * Sets the color of the effect using a {@link Color} object.
+     *
+     * @param color the color to set.
+     * @return this {@code ColoredEffect} instance, for method chaining.
+     */
     public ColoredEffect color(Color color) {
         this.r = (float) color.getRed() / 255;
         this.g = (float) color.getGreen() / 255;
@@ -28,6 +73,14 @@ public class ColoredEffect extends AbstractEffect {
         return this;
     }
 
+    /**
+     * Sets the color of the effect using individual color components.
+     *
+     * @param r the red component (0-255).
+     * @param g the green component (0-255).
+     * @param b the blue component (0-255).
+     * @return this {@code ColoredEffect} instance, for method chaining.
+     */
     public ColoredEffect color(float r, float g, float b) {
         this.r = r / 255;
         this.g = g / 255;
@@ -35,46 +88,100 @@ public class ColoredEffect extends AbstractEffect {
         return this;
     }
 
+    /**
+     * Sets the red component of the effect.
+     *
+     * @param red the red component (0-255).
+     * @return this {@code ColoredEffect} instance, for method chaining.
+     */
     public ColoredEffect red(float red) {
         this.r = red / 255;
         return this;
     }
 
+    /**
+     * Sets the green component of the effect.
+     *
+     * @param green the green component (0-255).
+     * @return this {@code ColoredEffect} instance, for method chaining.
+     */
     public ColoredEffect green(float green) {
         this.g = green / 255;
         return this;
     }
 
+    /**
+     * Sets the blue component of the effect.
+     *
+     * @param blue the blue component (0-255).
+     * @return this {@code ColoredEffect} instance, for method chaining.
+     */
     public ColoredEffect blue(float blue) {
         this.b = blue / 255;
         return this;
     }
 
+    /**
+     * Returns the red component of the effect (0-255).
+     *
+     * @return the red component.
+     */
     public float getRed() {
         return r * 255;
     }
 
+    /**
+     * Returns the green component of the effect (0-255).
+     *
+     * @return the green component.
+     */
     public float getGreen() {
         return g * 255;
     }
 
+    /**
+     * Returns the blue component of the effect (0-255).
+     *
+     * @return the blue component.
+     */
     public float getBlue() {
         return b * 255;
     }
 
+    /**
+     * Returns the normalized red component of the effect (0-1).
+     *
+     * @return the normalized red component.
+     */
     public float getNormalisedRed() {
         return r;
     }
 
+    /**
+     * Returns the normalized green component of the effect (0-1).
+     *
+     * @return the normalized green component.
+     */
     public float getNormalisedGreen() {
         return g;
     }
 
+    /**
+     * Returns the normalized blue component of the effect (0-1).
+     *
+     * @return the normalized blue component.
+     */
     public float getNormalisedBlue() {
         return b;
     }
 
+    /**
+     * Returns the effect type associated with this colored effect.
+     *
+     * @return the {@link Effect} type, specifically {@code Effect.COLOURED_DUST}.
+     */
     public Effect getEffect() {
         return Effect.COLOURED_DUST;
     }
 }
+

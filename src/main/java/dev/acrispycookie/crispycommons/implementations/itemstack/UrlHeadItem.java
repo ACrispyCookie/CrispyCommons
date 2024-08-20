@@ -11,18 +11,43 @@ import java.lang.reflect.Field;
 import java.util.Base64;
 import java.util.UUID;
 
+/**
+ * Represents a custom head item that is set using a skin URL.
+ * <p>
+ * This class extends {@link CrispyHeadItem} and allows the customization of a player head item
+ * by applying a skin from a provided URL. The skin can be updated either synchronously or asynchronously.
+ * </p>
+ */
 public class UrlHeadItem extends CrispyHeadItem {
 
+    /**
+     * The URL that will be used to retrieve the skin for the skull.
+     */
     private final String url;
 
+    /**
+     * Constructs a {@code UrlHeadItem} with the specified skin URL.
+     *
+     * @param url the URL of the skin to be applied to the head item.
+     */
     public UrlHeadItem(String url) {
         this.url = url;
     }
 
+    /**
+     * Returns the URL of the skin associated with this head item.
+     *
+     * @return the skin URL.
+     */
     public String getUrl() {
         return url;
     }
 
+    /**
+     * Updates the head item by applying the skin from the specified URL.
+     *
+     * @return the updated {@code UrlHeadItem} instance.
+     */
     @Override
     public UrlHeadItem update() {
         SkullMeta meta = (SkullMeta) getItemMeta();
@@ -31,31 +56,43 @@ public class UrlHeadItem extends CrispyHeadItem {
         return this;
     }
 
+    /**
+     * Updates the head item asynchronously by applying the skin from the specified URL.
+     * <p>
+     * In this implementation, the update is performed synchronously as the method
+     * simply calls {@code update()}. This is a placeholder for potential asynchronous behavior.
+     * </p>
+     *
+     * @param plugin the plugin instance required to schedule tasks.
+     * @return the updated {@code UrlHeadItem} instance.
+     */
     @Override
     public @NotNull UrlHeadItem updateAsync(@NotNull JavaPlugin plugin) {
         update();
         return this;
     }
 
+    /**
+     * Sets the skin of the {@link SkullMeta} to the skin located at the specified URL.
+     *
+     * @param skullMeta the {@link SkullMeta} to which the skin will be applied.
+     * @param url the URL of the skin to apply.
+     * @return the modified {@link SkullMeta} with the new skin.
+     */
     private SkullMeta setSkinToUrl(SkullMeta skullMeta, String url) {
         GameProfile profile = new GameProfile(UUID.randomUUID(), null);
         byte[] encodedData = Base64.getEncoder().encode(String.format("{textures:{SKIN:{url:\"%s\"}}}", url).getBytes());
         profile.getProperties().put("textures", new Property("textures", new String(encodedData)));
 
-        Field profileField;
         try {
-            profileField = skullMeta.getClass().getDeclaredField("profile");
-        } catch (NoSuchFieldException | SecurityException e) {
-            throw new RuntimeException(e);
-        }
-
-        profileField.setAccessible(true);
-        try {
+            Field profileField = skullMeta.getClass().getDeclaredField("profile");
+            profileField.setAccessible(true);
             profileField.set(skullMeta, profile);
-        } catch (IllegalArgumentException | IllegalAccessException e) {
+        } catch (NoSuchFieldException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
 
         return skullMeta;
     }
 }
+

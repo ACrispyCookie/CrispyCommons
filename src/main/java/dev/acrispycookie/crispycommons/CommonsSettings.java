@@ -11,10 +11,42 @@ import org.jetbrains.annotations.NotNull;
  */
 public class CommonsSettings {
 
+    /**
+     * Indicates whether the book action feature is enabled.
+     * <p>
+     * If {@code true}, the book action feature is enabled, allowing specific commands to be associated
+     * with books in the plugin. If {@code false}, the feature is disabled.
+     * </p>
+     */
     private boolean bookActionEnabled;
+
+    /**
+     * The command associated with the book action feature.
+     * <p>
+     * This string represents the command that is executed when the book action feature is triggered.
+     * If the book action feature is disabled, this value may be {@code null}.
+     * </p>
+     */
     private String bookCommand;
+
+    /**
+     * Indicates whether the menu management feature is enabled.
+     * <p>
+     * If {@code true}, the menu management feature is enabled, allowing menus to be created, managed,
+     * and interacted with. If {@code false}, the feature is disabled.
+     * </p>
+     */
     private boolean menusEnabled;
+
+    /**
+     * The maximum number of menus that can be stored in the menu history for each player.
+     * <p>
+     * This integer value determines how many previous menus are retained in memory for each player,
+     * allowing them to navigate back through their menu history up to this limit.
+     * </p>
+     */
     private int maximumMenuHistory;
+
 
     /**
      * Constructs a new {@code CommonsSettings} instance with specified configurations.

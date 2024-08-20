@@ -14,13 +14,66 @@ import java.util.function.BiFunction;
  */
 public class PageInfo {
 
+    /**
+     * A function that generates the page title based on the current page number and total page count.
+     * <p>
+     * This {@link BiFunction} takes the current page number and the total number of pages as parameters
+     * and returns a string representing the title of the page.
+     * </p>
+     */
     private BiFunction<Integer, Integer, String> pageTitle;
+
+    /**
+     * The default page number when the menu is first opened.
+     * <p>
+     * This value determines which page is shown by default when a player opens the menu.
+     * </p>
+     */
     private int defaultPage;
+
+    /**
+     * The number of rows in the page layout.
+     * <p>
+     * This value specifies how many rows of items can be displayed on this page.
+     * </p>
+     */
     private int rows;
+
+    /**
+     * The number of columns in the page layout.
+     * <p>
+     * This value specifies how many columns of items can be displayed on this page.
+     * </p>
+     */
     private int columns;
+
+    /**
+     * The starting index of the page.
+     * <p>
+     * This value indicates the first slot in the inventory that is used by this page,
+     * defining the range of slots that belong to this page.
+     * </p>
+     */
     private int startIndex;
+
+    /**
+     * The ending index of the page.
+     * <p>
+     * This value indicates the last slot in the inventory that is used by this page,
+     * defining the range of slots that belong to this page.
+     * </p>
+     */
     private int endIndex;
+
+    /**
+     * A function that handles item clicks in the player's inventory.
+     * <p>
+     * This {@link BiFunction} takes a {@link Player} and a {@link CrispyItemStack} as parameters and returns
+     * a boolean indicating whether a significant action was performed as a result of the click.
+     * </p>
+     */
     private BiFunction<Player, CrispyItemStack, Boolean> onPlayerItemClick;
+
 
     /**
      * Constructs a {@link PageInfo} instance with the specified parameters.

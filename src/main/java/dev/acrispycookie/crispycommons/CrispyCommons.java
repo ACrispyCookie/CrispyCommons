@@ -25,9 +25,30 @@ import org.jetbrains.annotations.NotNull;
  */
 public class CrispyCommons implements Listener {
 
+    /**
+     * The instance of the {@link JavaPlugin} associated with this plugin.
+     * <p>
+     * This field stores the reference to the main plugin class, which is used to access plugin-specific methods and resources.
+     * </p>
+     */
     private static JavaPlugin plugin;
+
+    /**
+     * The {@link BukkitAudiences} instance used for managing audience-related tasks.
+     * <p>
+     * BukkitAudiences allows for handling and sending messages, books, and other components to players using the Adventure API.
+     * </p>
+     */
     private static BukkitAudiences bukkitAudiences;
+
+    /**
+     * The {@link CommonsSettings} instance containing configuration options for the plugin.
+     * <p>
+     * This field stores the settings that determine which features of the plugin are enabled and how they are configured.
+     * </p>
+     */
     private static CommonsSettings settings;
+
 
     /**
      * Initializes the {@code CrispyCommons} with the specified plugin instance and settings.

@@ -99,6 +99,13 @@ public interface CrispyElement<T, K> extends Cloneable {
         return period;
     }
 
+    /**
+     * Thrown to indicate that a context type was not expected in an element.
+     * <p>
+     * This exception is used to signal that the wrong type of context was given for the retrieval of the value of an element.
+     * It extends {@link RuntimeException} and provides a constructor to specify a detailed error message.
+     * </p>
+     */
     class ContextNotExpectedException extends RuntimeException {
         public ContextNotExpectedException(String message) {
             super(message);

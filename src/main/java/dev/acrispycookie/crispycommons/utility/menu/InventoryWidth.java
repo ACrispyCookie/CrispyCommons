@@ -30,6 +30,9 @@ public enum InventoryWidth {
     ANVIL(1),
     BEACON(1);
 
+    /**
+     * The width of the inventory in columns.
+     */
     private final int width;
 
     /**

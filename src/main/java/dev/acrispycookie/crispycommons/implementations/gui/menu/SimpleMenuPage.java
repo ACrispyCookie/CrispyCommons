@@ -19,16 +19,49 @@ import java.util.List;
 import java.util.HashMap;
 import java.util.function.Function;
 
+/**
+ * An abstract implementation of the {@link MenuPage} interface, providing a simple structure for managing
+ * menu pages with sections and items.
+ * <p>
+ * {@code SimpleMenuPage} handles the layout of menu items and sections, allowing for static and dynamic
+ * sections to be added, rendered, and managed within the menu page. It also provides methods for rendering
+ * specific items, handling menu interactions, and managing cached inventories for players.
+ * </p>
+ */
 public abstract class SimpleMenuPage implements MenuPage {
 
+    /** The menu to which this page belongs. */
     private CrispyMenu menu;
+
+    /** The title of the menu page. */
     private final String title;
+
+    /** The number of rows in the menu page. */
     private final int rows;
+
+    /** The number of columns in the menu page. */
     private final int columns;
+
+    /** A list of sections contained within the menu page. */
     private final ArrayList<SectionData> sections = new ArrayList<>();
+
+    /** A mapping of slot indices to their corresponding section data. */
     private final HashMap<Integer, SectionData> schema = new HashMap<>();
+
+    /** A cache of inventories mapped to the players who own them. */
     private final HashMap<Player, Inventory> cachedInventory = new HashMap<>();
 
+    /**
+     * Constructs a {@code SimpleMenuPage} with the specified title, number of rows, and columns.
+     * <p>
+     * Validates the number of columns to ensure they are either 3 or 9.
+     * </p>
+     *
+     * @param title the title of the menu page.
+     * @param rows the number of rows in the menu page.
+     * @param columns the number of columns in the menu page.
+     * @throws InvalidMenuConfiguration if the number of columns is not 3 or 9.
+     */
     public SimpleMenuPage(String title, int rows, int columns) throws InvalidMenuConfiguration {
         if (columns != 9 && columns != 3) {
             throw new InvalidMenuConfiguration("Invalid number of columns in page!");
@@ -40,7 +73,7 @@ public abstract class SimpleMenuPage implements MenuPage {
 
     @Override
     public void renderItem(@NotNull Player player, int index) {
-        if(!cachedInventory.containsKey(player))
+        if (!cachedInventory.containsKey(player))
             return;
         if (!isValidSlot(index))
             throw new IllegalArgumentException("Invalid index while rendering a MenuItem in a MenuPage");
@@ -54,7 +87,7 @@ public abstract class SimpleMenuPage implements MenuPage {
 
     @Override
     public void renderItems(@NotNull Player player) {
-        if(!cachedInventory.containsKey(player))
+        if (!cachedInventory.containsKey(player))
             return;
 
         for (SectionData data : sections) {
@@ -90,11 +123,11 @@ public abstract class SimpleMenuPage implements MenuPage {
         if (data.getSection() instanceof StaticSection) {
             width = ((StaticSection) data.getSection()).getWidth();
         } else {
-            int height = (endIndex - startIndex)/columns + 1;
+            int height = (endIndex - startIndex) / columns + 1;
             width = endIndex - (height - 1) * columns - startIndex + 1;
         }
         int xPos = (index - startIndex) % columns;
-        int yPos  = (index - startIndex) / columns;
+        int yPos = (index - startIndex) / columns;
         int sectionIndex = xPos + yPos * width + data.getOffset();
 
         return data.getSection().getItem(sectionIndex);
@@ -102,7 +135,7 @@ public abstract class SimpleMenuPage implements MenuPage {
 
     @Override
     public void addStaticSection(int startIndex, int sectionOffset, @NotNull StaticSection section) {
-        if(!isValidSlot(startIndex + sectionOffset) || sectionOffset < 0)
+        if (!isValidSlot(startIndex + sectionOffset) || sectionOffset < 0)
             return;
 
         int endIndex = startIndex + (section.getHeight() - 1) * columns + section.getWidth();
@@ -117,10 +150,10 @@ public abstract class SimpleMenuPage implements MenuPage {
 
     @Override
     public void addDynamicSection(int startIndex, int endIndex, int sectionOffset, @NotNull DynamicSection section) {
-        if(!isValidSlot(startIndex + sectionOffset) || sectionOffset < 0)
+        if (!isValidSlot(startIndex + sectionOffset) || sectionOffset < 0)
             return;
 
-        int height = (endIndex - startIndex)/columns + 1;
+        int height = (endIndex - startIndex) / columns + 1;
         int width = endIndex - (height - 1) * columns - startIndex + 1;
         SectionData data = new SectionData(startIndex, endIndex, sectionOffset, section);
         sections.add(data);
@@ -141,7 +174,7 @@ public abstract class SimpleMenuPage implements MenuPage {
 
         int width, sectionSize;
         if (data.getSection() instanceof DynamicSection) {
-            int height = (endIndex - startIndex)/columns + 1;
+            int height = (endIndex - startIndex) / columns + 1;
             width = endIndex - (height - 1) * columns - startIndex + 1;
             sectionSize = height * width + data.getOffset();
         } else {
@@ -151,7 +184,7 @@ public abstract class SimpleMenuPage implements MenuPage {
         }
 
         fillSection(startIndex, data.getOffset(), width, sectionSize, (slot) -> {
-            schema.put(slot, data);
+            schema.remove(slot);
             return null;
         });
     }
@@ -166,7 +199,7 @@ public abstract class SimpleMenuPage implements MenuPage {
 
     @Override
     public void renderItem(@NotNull Player player, Point pointToRender) {
-        if(isValidPoint(pointToRender))
+        if (isValidPoint(pointToRender))
             renderItem(player, pointToIndex(pointToRender));
     }
 
@@ -233,6 +266,15 @@ public abstract class SimpleMenuPage implements MenuPage {
         return sections;
     }
 
+    /**
+     * Fills the specified section in the menu with the given function.
+     *
+     * @param startIndex the starting index for the section.
+     * @param sectionOffset the offset within the section.
+     * @param width the width of the section.
+     * @param sectionSize the total size of the section.
+     * @param forEach the function to apply to each slot in the section.
+     */
     private void fillSection(int startIndex, int sectionOffset, int width, int sectionSize, Function<Integer, Void> forEach) {
         int size = rows * columns;
         int slot = startIndex;
@@ -243,19 +285,43 @@ public abstract class SimpleMenuPage implements MenuPage {
         }
     }
 
+    /**
+     * Checks if the specified point is valid within the menu grid.
+     *
+     * @param point the point to check.
+     * @return {@code true} if the point is valid, otherwise {@code false}.
+     */
     private boolean isValidPoint(Point point) {
         return point.x >= 0 && point.y >= 0 && point.x < columns && point.y < rows;
     }
 
+    /**
+     * Checks if the specified slot is valid within the menu grid.
+     *
+     * @param slot the slot index to check.
+     * @return {@code true} if the slot is valid, otherwise {@code false}.
+     */
     private boolean isValidSlot(int slot) {
         return slot >= 0 && slot < rows * columns;
     }
 
+    /**
+     * Converts a {@link Point} to a slot index within the menu grid.
+     *
+     * @param point the point to convert.
+     * @return the slot index corresponding to the point.
+     */
     private int pointToIndex(Point point) {
         return point.x + columns * point.y;
     }
 
+    /**
+     * Gets the total size of the menu grid.
+     *
+     * @return the total size of the menu grid.
+     */
     private int getSize() {
         return rows * columns;
     }
 }
+

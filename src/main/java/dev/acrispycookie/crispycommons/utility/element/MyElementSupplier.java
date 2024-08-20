@@ -11,6 +11,9 @@ import java.util.function.Function;
  */
 public class MyElementSupplier<K, T> {
 
+    /**
+     * The wrapped function by this supplier
+     */
     private final Function<K, ? extends T> function;
 
     /**

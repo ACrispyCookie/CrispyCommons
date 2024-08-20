@@ -51,7 +51,14 @@ public enum FriendlyEnchants {
     WATER_WORKER("Aqua Affinity");
 
 
+    /**
+     * The friendly name of the enchantment.
+     */
     private final String friendlyName;
+
+    /**
+     * Boolean that describes if the enchantment is considered a curse.
+     */
     private final boolean isCurse;
 
     /**

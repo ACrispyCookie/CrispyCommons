@@ -86,7 +86,7 @@ public interface MenuItem {
             }
 
             @Override
-            public ItemLoadData loadData() {
+            public @NotNull ItemLoadData loadData() {
                 return loadDataSupplier.get();
             }
         };

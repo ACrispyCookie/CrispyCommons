@@ -7,20 +7,49 @@ import dev.acrispycookie.crispycommons.utility.logging.CrispyLogger;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * An abstract base class for creating graphical user interfaces (GUIs).
+ * <p>
+ * This class provides a structure for GUIs that manage {@link GuiData} and implements the {@link CrispyGui} interface.
+ * Subclasses should provide specific implementations for opening and closing the GUI for a player.
+ * </p>
+ *
+ * @param <T> the type of {@link GuiData} that this GUI will use.
+ */
 public abstract class AbstractGui<T extends GuiData> implements CrispyGui {
 
+    /**
+     * The data associated with this GUI, used to store and manage its state.
+     */
     protected final T data;
-    protected abstract void openInternal(Player p);
-    protected abstract void closeInternal(Player p);
 
+    /**
+     * Constructs an {@code AbstractGui} with the specified GUI data.
+     *
+     * @param data the data to be associated with this GUI.
+     */
     public AbstractGui(T data) {
         this.data = data;
     }
 
+    /**
+     * Returns the data associated with this GUI.
+     *
+     * @return the GUI data.
+     */
     protected T getData() {
         return data;
     }
 
+    /**
+     * Opens the GUI for the specified player.
+     * <p>
+     * This method first ensures that the GUI data is ready before delegating to the {@code openInternal} method
+     * to perform the actual opening logic. If the data is not ready, an exception is logged.
+     * </p>
+     *
+     * @param player the player for whom the GUI will be opened.
+     */
     @Override
     public void open(@NotNull Player player) {
         try {
@@ -31,8 +60,31 @@ public abstract class AbstractGui<T extends GuiData> implements CrispyGui {
         }
     }
 
+    /**
+     * Closes the GUI for the specified player.
+     * <p>
+     * This method delegates to the {@code closeInternal} method to perform the actual closing logic.
+     * </p>
+     *
+     * @param player the player for whom the GUI will be closed.
+     */
     @Override
     public void close(@NotNull Player player) {
         closeInternal(player);
     }
+
+    /**
+     * Opens the GUI for the specified player with custom logic defined by subclasses.
+     *
+     * @param player the player for whom the GUI will be opened.
+     */
+    protected abstract void openInternal(Player player);
+
+    /**
+     * Closes the GUI for the specified player with custom logic defined by subclasses.
+     *
+     * @param player the player for whom the GUI will be closed.
+     */
+    protected abstract void closeInternal(Player player);
 }
+

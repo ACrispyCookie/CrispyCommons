@@ -23,6 +23,14 @@ import java.util.Map;
  */
 public class ContextMap {
 
+    /**
+     * A map that stores context objects associated with their respective class types.
+     * <p>
+     * The keys in this map are the {@link Class} types of the context objects, and the values are the context
+     * objects themselves. This structure allows for flexible and type-safe retrieval of context-specific data
+     * within the {@code ContextMap}.
+     * </p>
+     */
     private final Map<Class<?>, Object> contexts;
 
     /**
