@@ -1,6 +1,6 @@
 # CrispyCommons
 
-CrispyCommons is a powerful and modular library designed for Minecraft plugin developers using the Spigot API. This library provides a robust set of tools and abstractions to simplify and enhance the development of visual elements such as Action Bars, Boss Bars, Holograms, Scoreboards, Tab Lists, Titles, and more. With CrispyCommons, developers can easily create and manage complex visual components with minimal effort, allowing for a more streamlined development process and richer user experience.
+CrispyCommons is a powerful and modular library designed for Minecraft plugin developers using the Spigot API. This library provides a robust set of tools and abstractions to simplify and enhance the development of visual elements such as Action bars, Boss bars, Holograms, Scoreboards, Tab lists, Titles, Particles, Name tags and GUIs such as books and inventories.
 
 ## Table of Contents
 
@@ -51,15 +51,46 @@ To include CrispyCommons in your Minecraft plugin project:
 
 CrispyCommons is built to be as intuitive as possible, with a consistent API for all visual elements. Here's an example of how to create and display a simple action bar:
 
-#### Displaying an action bar to 2 specific players with a static text.
+#### Displaying an action bar to 2 specific players with a static text:
 ```java
 CrispyActionbar actionbar = CrispyActionbar.builder()
     .setText(TextElement.simple("Welcome to the server!"))
+    .addPlayer(Bukkit.getPlayerExact("ACrispyCookie"))
+    .addPlayer(Bukkit.getPlayerExact("notch"))
     .setPublic(true)
     .build();
 
 actionbar.show();
 ```
+
+#### Displaying a scoreboard to every online player with an animated title and a dynamic line that displays the current player count:
+```java
+CrispyScoreboard scoreboard = CrispyScoreboard.builder()
+    .setTitle(TextElement.animated(frames)) // frames is a collections of strings that the title will cycle through
+    .addTextLine(TextElement.dynamic(() -> Bukkit.getOnlinePlayers().size(), 0, 20)) // Updates every 20 ticks = 1 second
+    .setPublic(true) // Every online player can see it
+    .build();
+
+scoreboard.show();
+```
+
+#### Creating a boss bar that is half-full, blue and displays the health of each player as the text. The boss bar has TTL of 10 seconds for each player:
+```java
+CrispyBossBar bossbar = CrispyBossBar.builder()
+    .setText(TextElement.dynamicPersonal((p) -> "&e" + p.getPlayer().getHealth(), 0, 1)) // Each player sees their own health.
+    .setProgress(GeneralElement.simple(0.5F))
+    .setColor(GeneralElement.simple(BossBar.Color.BLUE))
+    .setOverlay(GeneralElement.simple(BossBar.Overlay.PROGRESS))
+    .setTimeToLive(TimeToLiveElement.simple(10L, TimeToLiveElement.StartMode.PER_PLAYER))
+    .build();
+
+bossbar.show(); // Currently no viewers are added to the visual so the elements won't yet start updating.
+
+bossbar.addPlayer(Bukkit.getPlayerExact("ACrispyCookie")); // Here a player is added to the visual so the dynamic elements start updating.
+```
+
+#### Creating a simple server selector menu
+
 
 ## Documentation
 
