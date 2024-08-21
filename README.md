@@ -6,7 +6,7 @@ CrispyCommons is a powerful and modular library designed for Minecraft plugin de
 
 - [Features](#features)
 - [Installation](#installation)
-- [Usage](#usage)
+- [Examples](#examples)
 - [Documentation](#documentation)
 - [Contributing](#contributing)
 
@@ -47,7 +47,7 @@ To include CrispyCommons in your Minecraft plugin project:
           compileOnly 'dev.acrispycookie:CrispyCommons:1.0.0'
       }
       ```
-## Usage
+## Examples
 
 CrispyCommons is built to be as intuitive as possible, with a consistent API for all visual elements. Here's some simple examples to show how easily you can create more complex visuals.
 
@@ -126,7 +126,9 @@ menu.open(Bukkit.getPlayerExact("ACrispyCookie"));
 ```
 
 ## Documentation
+You can view the Javadoc for this project [here](https://acrispycookie.dev/projects/CrispyCommons/javadoc)
 
+More documentation and tutorials coming soon!
 
 ## Contributing
 You're welcome to contribute to the project. Whether you want to submit a bug report, request a feature, or contribute code, here’s how you can get involved:
