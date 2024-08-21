@@ -11,18 +11,21 @@ CrispyCommons is a powerful and modular library designed for Minecraft plugin de
 - [Contributing](#contributing)
 
 ## Features
-
-- **Action Bars**: Easily create, manage, and display action bars to players with dynamic text and time-to-live (TTL) control.
-- **Boss Bars**: Customizable boss bars with dynamic colors, overlays, and progress.
-- **Holograms**: Display floating text holograms with dynamic content.
-- **Scoreboards**: Simplify the creation of dynamic scoreboards with support for titles and lines.
-- **Tab Lists**: Customize the header and footer of the player tab list with dynamic text elements.
-- **Titles**: Manage titles and subtitles with fade-in and fade-out effects.
-- **Particles**: Display particles with various effects, including colored and rendered particles.
-- **Name Tags**: Customizable name tags with support for prefixes, suffixes, and additional display lines.
-- **Visual Abstraction**: Unified interfaces and abstract classes for consistent and easy-to-use visual element management.
-- **Time-to-Live Management**: Control the lifespan of visual elements with flexible TTL settings.
-- **Player Context Management**: Automatically handles player-specific data contexts for dynamic content updates.
+- **Elements**: A powerful abstraction for managing dynamic or animated content, which can change based on different contexts and dynamically update.
+- **Visuals**:
+    - **Time-to-Live Management**: Control the lifespan of visual elements with flexible TTL settings.
+    - **Action bars**: Easily create, manage, and display action bars to players with dynamic text and time-to-live (TTL) control.
+    - **Boss bars**: Customizable boss bars with dynamic colors, overlays, and progress.
+    - **Holograms**: Display floating text holograms with dynamic content.
+    - **Scoreboards**: Simplify the creation of dynamic scoreboards with support for titles and lines.
+    - **Tab lists**: Customize the header and footer of the player tab list with dynamic text elements.
+    - **Titles**: Manage titles and subtitles with fade-in and fade-out effects.
+    - **Particles**: Display particles with various effects, including colored and rendered particles.
+    - **Name tags**: Customizable name tags with support for prefixes, suffixes, and additional display lines.
+- **GUIs**:
+  - **Books**: Create interactive books that can be used to display multiple pages of text and handle click events.
+  - **Menus**: Design and manage paginated menus with dynamic sections, customizable layouts, and item click handling.
+- **Extra helpful abstractions**: More abstractions such as CrispyItemStack that make it easier to deal with Spigot API classes.
 
 ## Installation
 
@@ -48,10 +51,8 @@ To include CrispyCommons in your Minecraft plugin project:
 
 CrispyCommons is built to be as intuitive as possible, with a consistent API for all visual elements. Here's an example of how to create and display a simple action bar:
 
+#### Displaying an action bar to 2 specific players with a static text.
 ```java
-import dev.acrispycookie.crispycommons.api.visual.actionbar.CrispyActionbar;
-import dev.acrispycookie.crispycommons.api.elements.text.TextElement;
-
 CrispyActionbar actionbar = CrispyActionbar.builder()
     .setText(TextElement.simple("Welcome to the server!"))
     .setPublic(true)
