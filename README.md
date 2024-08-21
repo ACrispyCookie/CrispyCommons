@@ -49,7 +49,7 @@ To include CrispyCommons in your Minecraft plugin project:
       ```
 ## Usage
 
-CrispyCommons is built to be as intuitive as possible, with a consistent API for all visual elements. Here's an example of how to create and display a simple action bar:
+CrispyCommons is built to be as intuitive as possible, with a consistent API for all visual elements. Here's some simple examples to show how easily you can create more complex visuals.
 
 #### Displaying an action bar to 2 specific players with a static text:
 ```java
@@ -90,7 +90,40 @@ bossbar.addPlayer(Bukkit.getPlayerExact("ACrispyCookie")); // Here a player is a
 ```
 
 #### Creating a simple server selector menu
+```java
+// Define the display of the skyblock server icon
+ItemElement<Void> skyblockDisplay = ItemElement.dynamic(() ->
+    new CrispyItemStack(Material.GRASS)
+    .name("&aSkyblock Server")
+    .lore("&d" + sbOnlinePlayers + " online!" +
+            "\n&eClick to join!"),
+    0, 1);
 
+// Define the display of the survival server icon
+ItemElement<Void> survivalDisplay = ItemElement.dynamic(() ->
+    new CrispyItemStack(Material.GRASS)
+    .name("&3Survival Server")
+    .lore("&d" + survivalOnlinePlayer + " online!" +
+            "\n&eClick to join!"),
+    0, 1);
+
+// Define the menu item for the skyblock item which defines the click action
+MenuItem skyblockButton = MenuItem.loadedItem(skyblockDisplay, (menu, player) -> sendPlayerToSkyblock());
+
+// Define the menu item for the survival item which defines the click action
+MenuItem survivalButton = MenuItem.loadedItem(skyblockDisplay, (menu, player) -> sendPlayerToSurvival());
+
+MenuPage serverSelector = MenuPage.createEmpty("Server selector", 3, 9, (player, itemStack) -> false);
+// Everything works with section which is a cool way to reuse parts of a menu to another menu
+serverSelector.addStaticSection(new Point(1, 2), 0, StaticSection.oneItem(skyblockButton));
+serverSelector.addStaticSection(new Point(1, 2), 0, StaticSection.oneItem(survivalButton));
+
+CrispyMenu menu = CrispyMenu.builder()
+    .addPage(serverSelector)
+    .build();
+
+menu.open(Bukkit.getPlayerExact("ACrispyCookie"));
+```
 
 ## Documentation
 
