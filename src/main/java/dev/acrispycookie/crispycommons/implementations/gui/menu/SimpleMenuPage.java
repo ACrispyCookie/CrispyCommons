@@ -17,7 +17,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
-import java.util.function.Function;
+import java.util.function.Consumer;
 
 /**
  * An abstract implementation of the {@link MenuPage} interface, providing a simple structure for managing
@@ -142,10 +142,7 @@ public abstract class SimpleMenuPage implements MenuPage {
         int width = section.getWidth();
         SectionData data = new SectionData(startIndex, endIndex, sectionOffset, section);
         sections.add(data);
-        fillSection(startIndex, sectionOffset, width, width * section.getHeight(), (slot) -> {
-            schema.put(slot, data);
-            return null;
-        });
+        fillSection(startIndex, sectionOffset, width, width * section.getHeight(), (slot) -> schema.put(slot, data));
     }
 
     @Override
@@ -157,10 +154,7 @@ public abstract class SimpleMenuPage implements MenuPage {
         int width = endIndex - (height - 1) * columns - startIndex + 1;
         SectionData data = new SectionData(startIndex, endIndex, sectionOffset, section);
         sections.add(data);
-        fillSection(startIndex, sectionOffset, width, width * height + sectionOffset, (slot) -> {
-            schema.put(slot, data);
-            return null;
-        });
+        fillSection(startIndex, sectionOffset, width, width * height + sectionOffset, (slot) -> schema.put(slot, data));
     }
 
     @Override
@@ -183,10 +177,7 @@ public abstract class SimpleMenuPage implements MenuPage {
             sectionSize = width * section.getHeight();
         }
 
-        fillSection(startIndex, data.getOffset(), width, sectionSize, (slot) -> {
-            schema.remove(slot);
-            return null;
-        });
+        fillSection(startIndex, data.getOffset(), width, sectionSize, schema::remove);
     }
 
     @Override
@@ -275,11 +266,11 @@ public abstract class SimpleMenuPage implements MenuPage {
      * @param sectionSize the total size of the section.
      * @param forEach the function to apply to each slot in the section.
      */
-    private void fillSection(int startIndex, int sectionOffset, int width, int sectionSize, Function<Integer, Void> forEach) {
+    private void fillSection(int startIndex, int sectionOffset, int width, int sectionSize, Consumer<Integer> forEach) {
         int size = rows * columns;
         int slot = startIndex;
         for (int i = sectionOffset; slot < size && i < sectionSize; i++) {
-            forEach.apply(slot);
+            forEach.accept(slot);
 
             slot += (i - sectionOffset + 1) % width == 0 ? columns - width + 1 : 1;
         }

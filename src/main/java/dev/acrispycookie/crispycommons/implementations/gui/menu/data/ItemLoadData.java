@@ -5,6 +5,7 @@ import dev.acrispycookie.crispycommons.implementations.element.type.ItemElement;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
 /**
@@ -34,7 +35,7 @@ public class ItemLoadData {
     /**
      * A function defining the action to be performed when the item is clicked.
      */
-    private final BiFunction<CrispyMenu, Player, Void> onClick;
+    private final BiConsumer<CrispyMenu, Player> onClick;
 
     /**
      * Constructs an {@code ItemLoadData} instance with the specified display elements and functional logic.
@@ -42,11 +43,11 @@ public class ItemLoadData {
      * @param display the primary {@link ItemElement} to be displayed.
      * @param alternativeDisplay the alternative {@link ItemElement} to be displayed.
      * @param canSee a {@link BiFunction} determining whether the item is visible to the player.
-     * @param onClick a {@link BiFunction} defining the action to be performed when the item is clicked.
+     * @param onClick a {@link BiConsumer} defining the action to be performed when the item is clicked.
      *
      * @throws NullPointerException if any of the parameters are {@code null}.
      */
-    public ItemLoadData(@NotNull ItemElement<?> display, @NotNull ItemElement<?> alternativeDisplay, @NotNull BiFunction<CrispyMenu, Player, Boolean> canSee, @NotNull BiFunction<CrispyMenu, Player, Void> onClick) {
+    public ItemLoadData(@NotNull ItemElement<?> display, @NotNull ItemElement<?> alternativeDisplay, @NotNull BiFunction<CrispyMenu, Player, Boolean> canSee, @NotNull BiConsumer<CrispyMenu, Player> onClick) {
         this.display = display;
         this.alternativeDisplay = alternativeDisplay;
         this.canSee = canSee;
@@ -83,9 +84,9 @@ public class ItemLoadData {
     /**
      * Retrieves the function that defines the action to be performed when the item is clicked.
      *
-     * @return a {@link BiFunction} that defines the onClick behavior.
+     * @return a {@link BiConsumer} that defines the onClick behavior.
      */
-    public @NotNull BiFunction<CrispyMenu, Player, Void> getOnClick() {
+    public @NotNull BiConsumer<CrispyMenu, Player> getOnClick() {
         return onClick;
     }
 }

@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-import java.util.function.Function;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /**
@@ -123,7 +123,7 @@ public class TimeToLiveManager {
      * @param personalRunnable the runnable to execute for each player when their TTL expires.
      * @param currentViewers the set of current viewers to monitor.
      */
-    public void setupGlobal(Runnable globalRunnable, Function<OfflinePlayer, Void> personalRunnable, Set<OfflinePlayer> currentViewers) {
+    public void setupGlobal(Runnable globalRunnable, Consumer<OfflinePlayer> personalRunnable, Set<OfflinePlayer> currentViewers) {
         if (element.getStartMode() != TimeToLiveElement.StartMode.GLOBAL)
             return;
 
@@ -131,7 +131,7 @@ public class TimeToLiveManager {
         if (element.isContext(Void.class))
             startGlobalTask(currentViewers, globalRunnable, element.getRaw(null));
         else
-            currentViewers.forEach((v) -> startPlayerTask(v.getUniqueId(), () -> personalRunnable.apply(v), element.getFromContext(OfflinePlayer.class, v)));
+            currentViewers.forEach((v) -> startPlayerTask(v.getUniqueId(), () -> personalRunnable.accept(v), element.getFromContext(OfflinePlayer.class, v)));
     }
 
     /**
@@ -176,14 +176,14 @@ public class TimeToLiveManager {
     /**
      * Resets expired TTL tasks for a set of players and starts their associated hide tasks.
      *
-     * @param hideFromPlayer the function to execute to hide the effect from the player.
+     * @param hideFromPlayer the consumer to execute to hide the effect from the player.
      * @param currentViewers the set of current viewers to monitor.
      */
-    public void resetExpired(Function<OfflinePlayer, Void> hideFromPlayer, Set<OfflinePlayer> currentViewers) {
+    public void resetExpired(Consumer<OfflinePlayer> hideFromPlayer, Set<OfflinePlayer> currentViewers) {
         for (UUID uuid : expired.keySet()) {
             OfflinePlayer player = Bukkit.getOfflinePlayer(uuid);
             if (expired.get(uuid) && player.isOnline())
-                startPlayerTask(uuid, () -> hideFromPlayer.apply(player), element.getFromContext(OfflinePlayer.class, player));
+                startPlayerTask(uuid, () -> hideFromPlayer.accept(player), element.getFromContext(OfflinePlayer.class, player));
         }
     }
 

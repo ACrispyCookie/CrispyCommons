@@ -6,6 +6,7 @@ import dev.acrispycookie.crispycommons.implementations.element.type.ItemElement;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
 
@@ -26,14 +27,14 @@ public abstract class AbstractMenuItem implements MenuItem {
     protected boolean isLoaded = false;
 
     /**
-     * The function to execute when the item is clicked.
+     * The consumer to execute when the item is clicked.
      */
-    private BiFunction<CrispyMenu, Player, Void> onClick;
+    private BiConsumer<CrispyMenu, Player> onClick;
 
     /**
-     * The function to execute when the item is clicked while it is unloaded.
+     * The consumer to execute when the item is clicked while it is unloaded.
      */
-    private BiFunction<CrispyMenu, Player, Void> onClickUnloaded;
+    private BiConsumer<CrispyMenu, Player> onClickUnloaded;
 
     /**
      * A function that determines whether the player can see the item.
@@ -79,8 +80,8 @@ public abstract class AbstractMenuItem implements MenuItem {
         this.alternativeDisplay = alternativeDisplay;
         this.canSee = (menu, player) -> true;
         this.canTake = (menu, player) -> false;
-        this.onClick = (menu, player) -> null;
-        this.onClickUnloaded = (menu, player) -> null;
+        this.onClick = (menu, player) -> {};
+        this.onClickUnloaded = (menu, player) -> {};
     }
 
     /**
@@ -115,7 +116,7 @@ public abstract class AbstractMenuItem implements MenuItem {
      */
     @Override
     public void onClick(@NotNull CrispyMenu menu, @NotNull Player player) {
-        onClick.apply(menu, player);
+        onClick.accept(menu, player);
     }
 
     /**
@@ -126,7 +127,7 @@ public abstract class AbstractMenuItem implements MenuItem {
      */
     @Override
     public void onClickUnloaded(@NotNull CrispyMenu menu, @NotNull Player player) {
-        onClickUnloaded.apply(menu, player);
+        onClickUnloaded.accept(menu, player);
     }
 
     /**
@@ -154,26 +155,26 @@ public abstract class AbstractMenuItem implements MenuItem {
     }
 
     /**
-     * Sets the function to execute when the item is clicked.
+     * Sets the consumer to execute when the item is clicked.
      *
-     * @param function the click handler function.
+     * @param consumer the click handler consumer.
      * @return this {@code MenuItem} instance, for method chaining.
      */
     @Override
-    public @NotNull MenuItem setOnClick(@NotNull BiFunction<CrispyMenu, Player, Void> function) {
-        this.onClick = function;
+    public @NotNull MenuItem setOnClick(@NotNull BiConsumer<CrispyMenu, Player> consumer) {
+        this.onClick = consumer;
         return this;
     }
 
     /**
-     * Sets the function to execute when the item is clicked while it is unloaded.
+     * Sets the consumer to execute when the item is clicked while it is unloaded.
      *
-     * @param supplier the click handler function for unloaded state.
+     * @param consumer the click handler function for unloaded state.
      * @return this {@code MenuItem} instance, for method chaining.
      */
     @Override
-    public @NotNull MenuItem setOnClickUnloaded(@NotNull BiFunction<CrispyMenu, Player, Void> supplier) {
-        this.onClickUnloaded = supplier;
+    public @NotNull MenuItem setOnClickUnloaded(@NotNull BiConsumer<CrispyMenu, Player> consumer) {
+        this.onClickUnloaded = consumer;
         return this;
     }
 

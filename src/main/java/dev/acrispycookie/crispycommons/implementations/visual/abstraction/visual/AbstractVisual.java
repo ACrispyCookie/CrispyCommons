@@ -209,10 +209,7 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
             }
         });
 
-        timeToLive.setupGlobal(this::hide, (p) -> {
-            this.hideInternal((Player) p);
-            return null;
-        }, currentlyDisplaying.stream().map(Bukkit::getOfflinePlayer).collect(Collectors.toSet()));
+        timeToLive.setupGlobal(this::hide, (p) -> this.hideInternal((Player) p), currentlyDisplaying.stream().map(Bukkit::getOfflinePlayer).collect(Collectors.toSet()));
     }
 
     @Override
@@ -286,10 +283,7 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
         if (isDestroyed)
             return;
         Set<OfflinePlayer> expired = timeToLive.getExpired();
-        timeToLive.resetExpired((p) -> {
-            hideInternal((Player) p);
-            return null;
-        }, currentlyDisplaying.stream().map(Bukkit::getOfflinePlayer).collect(Collectors.toSet()));
+        timeToLive.resetExpired((p) -> hideInternal((Player) p), currentlyDisplaying.stream().map(Bukkit::getOfflinePlayer).collect(Collectors.toSet()));
 
         for (OfflinePlayer player : expired) {
             if (!player.isOnline())

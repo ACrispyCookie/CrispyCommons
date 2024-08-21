@@ -9,6 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
@@ -26,16 +27,16 @@ public interface MenuItem {
      *
      * @param display the primary {@link ItemElement} to display.
      * @param altDisplay the secondary {@link ItemElement} to display when {@link #canSee(CrispyMenu, Player)} returns false.
-     * @param onClick a {@link BiFunction} that handles click events on the item. It receives a {@link CrispyMenu}
-     *                and a {@link Player}, and returns nothing.
+     * @param onClick a {@link BiConsumer} that handles click events on the item. It receives a {@link CrispyMenu}
+     *                and a {@link Player}.
      * @return a new {@link LoadedItem} instance with the given display elements and click handler.
      * @throws NullPointerException if {@code display}, {@code altDisplay}, or {@code onClick} is {@code null}.
      */
-    static @NotNull LoadedItem loadedItem(@NotNull ItemElement<?> display, @NotNull ItemElement<?> altDisplay, @NotNull BiFunction<CrispyMenu, Player, Void> onClick) {
+    static @NotNull LoadedItem loadedItem(@NotNull ItemElement<?> display, @NotNull ItemElement<?> altDisplay, @NotNull BiConsumer<CrispyMenu, Player> onClick) {
         return new LoadedItem(display, altDisplay) {
             @Override
             public void onClick(@NotNull CrispyMenu menu, @NotNull Player player) {
-                onClick.apply(menu, player);
+                onClick.accept(menu, player);
             }
         };
     }
@@ -48,16 +49,16 @@ public interface MenuItem {
      * </p>
      *
      * @param display the primary {@link ItemElement} to display.
-     * @param onClick a {@link BiFunction} that handles click events on the item. It receives a {@link CrispyMenu}
-     *                and a {@link Player}, and returns nothing.
+     * @param onClick a {@link BiConsumer} that handles click events on the item. It receives a {@link CrispyMenu}
+     *                and a {@link Player}.
      * @return a new {@link LoadedItem} instance with the given display element and click handler.
      * @throws NullPointerException if {@code display} or {@code onClick} is {@code null}.
      */
-    static @NotNull LoadedItem loadedItem(@NotNull ItemElement<?> display, @NotNull BiFunction<CrispyMenu, Player, Void> onClick) {
+    static @NotNull LoadedItem loadedItem(@NotNull ItemElement<?> display, @NotNull BiConsumer<CrispyMenu, Player> onClick) {
         return new LoadedItem(display, ItemElement.simple(new CrispyItemStack(Material.AIR))) {
             @Override
             public void onClick(@NotNull CrispyMenu menu, @NotNull Player player) {
-                onClick.apply(menu, player);
+                onClick.accept(menu, player);
             }
         };
     }
@@ -70,19 +71,18 @@ public interface MenuItem {
      * </p>
      *
      * @param unloadedDisplay the primary {@link ItemElement} to unloadedDisplay when the item is unloaded.
-     * @param onClickUnloaded a {@link BiFunction} that handles click events on the item when it is unloaded. It
-     *                        receives a {@link CrispyMenu} and a {@link Player}, and returns nothing. Must
-     *                        not be {@code null}.
+     * @param onClickUnloaded a {@link BiConsumer} that handles click events on the item when it is unloaded. It
+     *                        receives a {@link CrispyMenu} and a {@link Player}. Must not be {@code null}.
      * @param loadDataSupplier a {@link Supplier} that is asynchronously and loads the data needed for the item and returns it.
      * @return a new {@link LoadingItem} instance with the given unloadedDisplay element, click handlers, and display supplier.
      * @throws NullPointerException if {@code unloadedDisplay}, {@code onClick}, {@code onClickUnloaded}, {@code displaySupplier},
      *                              or {@code altDisplaySupplier} is {@code null}.
      */
-    static LoadingItem loadingItem(@NotNull ItemElement<?> unloadedDisplay, @NotNull BiFunction<CrispyMenu, Player, Void> onClickUnloaded, @NotNull Supplier<ItemLoadData> loadDataSupplier) {
+    static LoadingItem loadingItem(@NotNull ItemElement<?> unloadedDisplay, @NotNull BiConsumer<CrispyMenu, Player> onClickUnloaded, @NotNull Supplier<ItemLoadData> loadDataSupplier) {
         return new LoadingItem(unloadedDisplay) {
             @Override
             public void onClickUnloaded(@NotNull CrispyMenu menu, @NotNull Player player) {
-                onClickUnloaded.apply(menu, player);
+                onClickUnloaded.accept(menu, player);
             }
 
             @Override
@@ -191,32 +191,32 @@ public interface MenuItem {
     @NotNull MenuItem setCanTake(@NotNull BiFunction<CrispyMenu, Player, Boolean> supplier);
 
     /**
-     * Defines the behaviour of the {@link #onClick(CrispyMenu, Player)} function.
+     * Defines the behaviour of the {@link #onClick(CrispyMenu, Player)} consumer.
      * <p>
-     * The {@code function} {@link BiFunction} will be used when a player interacts with an item based on
+     * The {@code consumer} {@link BiConsumer} will be used when a player interacts with an item based on
      * the context of the {@link CrispyMenu} and the {@link Player}.
      * </p>
      *
-     * @param function a {@link BiFunction} that is executed when a player interacts with the item.
+     * @param consumer a {@link BiConsumer} that is executed when a player interacts with the item.
      *                Must not be {@code null}.
      * @return the current {@link MenuItem} instance with the updated access control logic.
-     * @throws NullPointerException if {@code function} is {@code null}.
+     * @throws NullPointerException if {@code consumer} is {@code null}.
      */
-    @NotNull MenuItem setOnClick(@NotNull BiFunction<CrispyMenu, Player, Void> function);
+    @NotNull MenuItem setOnClick(@NotNull BiConsumer<CrispyMenu, Player> consumer);
 
     /**
-     * Defines the behaviour of the {@link #onClickUnloaded(CrispyMenu, Player)} function.
+     * Defines the behaviour of the {@link #onClickUnloaded(CrispyMenu, Player)} consumer.
      * <p>
-     * The {@code function} {@link BiFunction} will be used when a player interacts with an item that isn't
+     * The {@code consumer} {@link BiConsumer} will be used when a player interacts with an item that isn't
      * currently loaded based on the context of the {@link CrispyMenu} and the {@link Player}.
      * </p>
      *
-     * @param function a {@link BiFunction} that is executed when a player interacts with the item.
+     * @param consumer a {@link BiConsumer} that is executed when a player interacts with the item.
      *                Must not be {@code null}.
      * @return the current {@link MenuItem} instance with the updated access control logic.
-     * @throws NullPointerException if {@code function} is {@code null}.
+     * @throws NullPointerException if {@code consumer} is {@code null}.
      */
-    @NotNull MenuItem setOnClickUnloaded(@NotNull BiFunction<CrispyMenu, Player, Void> function);
+    @NotNull MenuItem setOnClickUnloaded(@NotNull BiConsumer<CrispyMenu, Player> consumer);
 
     /**
      * Checks if the item's is currently loaded.
