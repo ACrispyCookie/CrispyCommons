@@ -2,10 +2,8 @@ package dev.acrispycookie.crispycommons.nms.v1_20_R4.entity;
 
 import dev.acrispycookie.crispycommons.nms.wrappers.entity.Entity;
 import dev.acrispycookie.crispycommons.nms.wrappers.entity.EntityArmorStand;
-import net.minecraft.network.protocol.game.PacketPlayOutAttachEntity;
-import net.minecraft.network.protocol.game.PacketPlayOutEntityDestroy;
-import net.minecraft.network.protocol.game.PacketPlayOutEntityMetadata;
-import net.minecraft.network.protocol.game.PacketPlayOutEntityTeleport;
+import net.minecraft.network.chat.IChatBaseComponent;
+import net.minecraft.network.protocol.game.*;
 import net.minecraft.world.damagesource.DamageSource;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_20_R4.CraftWorld;
@@ -37,12 +35,12 @@ public class EntityArmorStand_1_20_R4 extends Entity_1_20_R4 implements EntityAr
 
     @Override
     public void setGravity(boolean gravity) {
-        armorStand.setGravity(gravity);
+        armorStand.e(!gravity);
     }
 
     @Override
     public void setCustomNameVisible(boolean visible) {
-        armorStand.setCustomNameVisible(visible);
+        armorStand.n(visible);
     }
 
     @Override
@@ -52,23 +50,23 @@ public class EntityArmorStand_1_20_R4 extends Entity_1_20_R4 implements EntityAr
 
     @Override
     public void setCustomName(String name) {
-        armorStand.setCustomName(name);
+        armorStand.b(IChatBaseComponent.a(name));
     }
 
     @Override
     public void attachEntity(Player player, Entity entity) {
-        PacketPlayOutAttachEntity attach = new PacketPlayOutAttachEntity(0, ((Entity_1_20_R4) entity).getInternalEntity(), armorStand);
-        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(attach);
+        PacketPlayOutAttachEntity attach = new PacketPlayOutAttachEntity(((Entity_1_20_R4) entity).getInternalEntity(), armorStand);
+        ((CraftPlayer) player).getHandle().c.sendPacket(attach);
     }
 
     public void spawn(Player player) {
-        PacketPlayOutSpawnEntityLiving spawnArmorStand = new PacketPlayOutSpawnEntityLiving(armorStand);
-        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(spawnArmorStand);
+        PacketPlayOutSpawnEntity spawnArmorStand = new PacketPlayOutSpawnEntity(armorStand);
+        ((CraftPlayer) player).getHandle().c.sendPacket(spawnArmorStand);
     }
 
     public void destroy(Player player) {
         setDead(true);
-        PacketPlayOutEntityDestroy spawn = new PacketPlayOutEntityDestroy(armorStand.getId());
+        PacketPlayOutEntityDestroy spawn = new PacketPlayOutEntityDestroy(armorStand);
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket(spawn);
     }
 
