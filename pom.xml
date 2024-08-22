@@ -7,53 +7,24 @@
   <groupId>dev.acrispycookie</groupId>
   <artifactId>CrispyCommons</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <packaging>jar</packaging>
-
+  <packaging>pom</packaging>
   <name>CrispyCommons</name>
 
+  <modules>
+    <module>crispycommons-core</module>
+      <module>crispycommons-nms</module>
+      <module>crispycommons-nms-1-8-R3</module>
+      <module>crispycommons-dist</module>
+      <module>crispycommons-nms1-1-20-R4</module>
+  </modules>
+
   <properties>
-    <java.version>1.8</java.version>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.1</version>
-        <configuration>
-          <source>8</source>
-          <target>8</target>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-shade-plugin</artifactId>
-        <version>3.2.4</version>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>shade</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-    <resources>
-      <resource>
-        <directory>src/main/resources</directory>
-        <filtering>true</filtering>
-      </resource>
-    </resources>
-  </build>
-
   <repositories>
-      <repository>
-          <id>spigotmc-repo</id>
-          <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-      </repository>
       <repository>
           <id>sonatype</id>
           <url>https://oss.sonatype.org/content/groups/public/</url>
@@ -62,15 +33,22 @@
 
   <dependencies>
       <dependency>
-          <groupId>org.spigotmc</groupId>
-          <artifactId>spigot</artifactId>
-          <version>1.8.8-R0.1-SNAPSHOT</version>
-          <scope>provided</scope>
-      </dependency>
-      <dependency>
           <groupId>net.kyori</groupId>
           <artifactId>adventure-platform-bukkit</artifactId>
           <version>4.3.2</version>
+          <scope>compile</scope>
+      </dependency>
+      <dependency>
+          <groupId>org.jetbrains</groupId>
+          <artifactId>annotations</artifactId>
+          <version>24.1.0</version>
+          <scope>compile</scope>
+      </dependency>
+      <dependency>
+          <groupId>com.github.cryptomorin</groupId>
+          <artifactId>XSeries</artifactId>
+          <version>11.2.1</version>
+          <scope>compile</scope>
       </dependency>
   </dependencies>
 </project>
