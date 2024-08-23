@@ -1,136 +1,136 @@
-package dev.acrispycookie.crispycommons.nms.v1_8_R3.nbt;
+package dev.acrispycookie.crispycommons.nms.v1_20_R3.nbt;
 
 import dev.acrispycookie.crispycommons.nms.wrappers.nbt.NBTBase;
-import dev.acrispycookie.crispycommons.nms.wrappers.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagCompound;
 
-public class NBTTagCompound_1_8_R3 extends NBTBase_1_8_R3 implements NBTTagCompound {
+public class NBTTagCompound_1_20_R3 extends NBTBase_1_20_R3 implements dev.acrispycookie.crispycommons.nms.wrappers.nbt.NBTTagCompound {
 
-    private final net.minecraft.server.v1_8_R3.NBTTagCompound wrapped;
+    private final NBTTagCompound wrapped;
 
-    public NBTTagCompound_1_8_R3() {
-        wrapped = new net.minecraft.server.v1_8_R3.NBTTagCompound();
+    public NBTTagCompound_1_20_R3() {
+        wrapped = new NBTTagCompound();
         setBase(wrapped);
     }
 
-    public NBTTagCompound_1_8_R3(net.minecraft.server.v1_8_R3.NBTTagCompound tag) {
+    public NBTTagCompound_1_20_R3(NBTTagCompound tag) {
         wrapped = tag;
         setBase(wrapped);
     }
 
-                                 @Override
+    @Override
     public void set(String key, NBTBase value) {
-        wrapped.set(key, ((NBTBase_1_8_R3) value).getInternal());
+        wrapped.a(key, ((NBTBase_1_20_R3) value).getInternal());
     }
 
     @Override
     public void setByte(String key, byte value) {
-        wrapped.setByte(key, value);
+        wrapped.a(key, value);
     }
 
     @Override
     public void setShort(String key, short value) {
-        wrapped.setShort(key, value);
+        wrapped.a(key, value);
     }
 
     @Override
     public void setInt(String key, int value) {
-        wrapped.setInt(key, value);
+        wrapped.a(key, value);
     }
 
     @Override
     public void setLong(String key, long value) {
-        wrapped.setLong(key, value);
+        wrapped.a(key, value);
     }
 
     @Override
     public void setFloat(String key, float value) {
-        wrapped.setFloat(key, value);
+        wrapped.a(key, value);
     }
 
     @Override
     public void setDouble(String key, double value) {
-        wrapped.setDouble(key, value);
+        wrapped.a(key, value);
     }
 
     @Override
     public void setString(String key, String value) {
-        wrapped.setString(key, value);
+        wrapped.a(key, value);
     }
 
     @Override
     public void setByteArray(String key, byte[] value) {
-        wrapped.setByteArray(key, value);
+        wrapped.a(key, value);
     }
 
     @Override
     public void setIntArray(String key, int[] value) {
-        wrapped.setIntArray(key, value);
+        wrapped.a(key, value);
     }
 
     @Override
     public void setBoolean(String key, boolean value) {
-        wrapped.setBoolean(key, value);
+        wrapped.a(key, value);
     }
 
     @Override
     public byte getByte(String key) {
-        return wrapped.getByte(key);
+        return wrapped.f(key);
     }
 
     @Override
     public short getShort(String key) {
-        return wrapped.getShort(key);
+        return wrapped.g(key);
     }
 
     @Override
     public int getInt(String key) {
-        return wrapped.getInt(key);
+        return wrapped.h(key);
     }
 
     @Override
     public long getLong(String key) {
-        return wrapped.getLong(key);
+        return wrapped.i(key);
     }
 
     @Override
     public float getFloat(String key) {
-        return wrapped.getFloat(key);
+        return wrapped.j(key);
     }
 
     @Override
     public double getDouble(String key) {
-        return wrapped.getDouble(key);
+        return wrapped.k(key);
     }
 
     @Override
     public String getString(String key) {
-        return wrapped.getString(key);
+        return wrapped.l(key);
     }
 
     @Override
     public byte[] getByteArray(String key) {
-        return wrapped.getByteArray(key);
+        return wrapped.m(key);
     }
 
     @Override
     public int[] getIntArray(String key) {
-        return wrapped.getIntArray(key);
+        return wrapped.n(key);
     }
 
     @Override
     public boolean getBoolean(String key) {
-        return wrapped.getBoolean(key);
+        return wrapped.q(key);
     }
 
     @Override
     public NBTBase get(String key) {
-        NBTBase_1_8_R3 base = new NBTBase_1_8_R3();
-        base.setBase(wrapped.get(key));
+        NBTBase_1_20_R3 base = new NBTBase_1_20_R3();
+        base.setBase(wrapped.c(key));
         return base;
     }
 
     @Override
     public boolean hasKey(String key) {
-        return wrapped.hasKey(key);
+        return wrapped.e(key);
     }
 }

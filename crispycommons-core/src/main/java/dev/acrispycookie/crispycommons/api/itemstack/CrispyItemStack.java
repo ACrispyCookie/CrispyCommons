@@ -203,7 +203,7 @@ public class CrispyItemStack extends ItemStack implements CrispyItem {
     public @NotNull CrispyItemStack glint(boolean gl) {
         if (gl && !hasTag("ench")) {
             if (this.getType() == Material.BOW)
-                addEnchant(XEnchantment.FEATHER_FALLING.getEnchant() != null ? XEnchantment.FEATHER_FALLING.getEnchant() : Enchantment.FEATHER_FALLING, 1);
+                addEnchant(XEnchantment.FEATHER_FALLING.getEnchant() != null ? XEnchantment.FEATHER_FALLING.getEnchant() : Enchantment.INFINITY, 1);
             else
                 addEnchant(XEnchantment.INFINITY.getEnchant() != null ? XEnchantment.INFINITY.getEnchant() : Enchantment.INFINITY, 1);
             addFlag(ItemFlag.HIDE_ENCHANTS);

@@ -4,6 +4,7 @@ import dev.acrispycookie.crispycommons.implementations.element.type.TextElement;
 import dev.acrispycookie.crispycommons.nms.wrappers.entity.EntityArmorStand;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -67,7 +68,7 @@ public class TextEntity extends ClickableEntity<TextElement<?>> {
                 elementValue == null ? Component.text("") : elementValue
         );
 
-        if (text.isBlank()) {
+        if (StringUtils.isBlank(text)) {
             return;
         }
 
@@ -117,7 +118,7 @@ public class TextEntity extends ClickableEntity<TextElement<?>> {
         Component text = element.getFromContext(OfflinePlayer.class, player);
         String content = LegacyComponentSerializer.legacyAmpersand().serialize(text);
 
-        String name = content.isBlank() ? " " : ChatColor.translateAlternateColorCodes('&', content);
+        String name = StringUtils.isBlank(content) ? " " : ChatColor.translateAlternateColorCodes('&', content);
 
         if (as != null) {
             as.setCustomName(name);

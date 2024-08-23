@@ -19,6 +19,7 @@ public interface NBTTagCompound extends NBTBase {
     void setByteArray(String key, byte[] value);
     void setIntArray(String key, int[] value);
     void setBoolean(String key, boolean value);
+    byte getByte(String key);
     short getShort(String key);
     int getInt(String key);
     long getLong(String key);

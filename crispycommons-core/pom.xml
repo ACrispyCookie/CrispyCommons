@@ -11,12 +11,6 @@
 
     <artifactId>crispycommons-core</artifactId>
 
-    <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-
     <repositories>
         <repository>
             <id>spigotmc-repo</id>
@@ -37,15 +31,15 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.mojang</groupId>
-            <artifactId>authlib</artifactId>
-            <version>6.0.54</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>dev.acrispycookie</groupId>
             <artifactId>crispycommons-nms</artifactId>
             <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.mojang</groupId>
+            <artifactId>authlib</artifactId>
+            <version>6.0.54</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

@@ -11,12 +11,6 @@
 
     <artifactId>crispycommons-dist</artifactId>
 
-    <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-
     <build>
         <directory>../target</directory>
         <finalName>CrispyCommons-${project.version}</finalName>
@@ -53,6 +47,12 @@
         <dependency>
             <groupId>dev.acrispycookie</groupId>
             <artifactId>crispycommons-nms-1-8-R3</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>dev.acrispycookie</groupId>
+            <artifactId>crispycommons-nms-1-20-R3</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>

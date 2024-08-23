@@ -1,5 +1,6 @@
 package dev.acrispycookie.crispycommons;
 
+import com.cryptomorin.xseries.XMaterial;
 import dev.acrispycookie.crispycommons.nms.wrappers.entity.Entity;
 import dev.acrispycookie.crispycommons.nms.wrappers.entity.EntityArmorStand;
 import dev.acrispycookie.crispycommons.nms.wrappers.entity.EntityItem;
@@ -39,7 +40,7 @@ public class VersionManager {
     private HashMap<Class<?>, Class<?>> setupMappings() throws ClassNotFoundException {
         HashMap<Class<?>, Class<?>> map = new HashMap<>();
         for (WrapperClass w : WrapperClass.values()) {
-            String className = w.getWrapperClass().getName();
+            String className = w.getWrapperClass().getSimpleName();
             String packageName = w.getPackageName();
             String versionSpecificName = "dev.acrispycookie.crispycommons.nms."
                     + nmsVersion + "." + packageName + "." + className + "_" + nmsVersion.substring(1);

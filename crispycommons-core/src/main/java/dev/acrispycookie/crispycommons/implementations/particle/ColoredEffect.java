@@ -42,9 +42,9 @@ public class ColoredEffect extends AbstractEffect {
      * @param color the color to be used for the effect.
      */
     public ColoredEffect(Color color) {
-        this.r = (float) color.getRed() / 255;
-        this.g = (float) color.getGreen() / 255;
-        this.b = (float) color.getBlue() / 255;
+        this.r = (float) numberInRange(color.getRed()) / 255;
+        this.g = (float) numberInRange(color.getGreen()) / 255;
+        this.b = (float) numberInRange(color.getBlue()) / 255;
     }
 
     /**
@@ -54,10 +54,10 @@ public class ColoredEffect extends AbstractEffect {
      * @param g the green component (0-255).
      * @param b the blue component (0-255).
      */
-    public ColoredEffect(float r, float g, float b) {
-        this.r = r / 255;
-        this.g = g / 255;
-        this.b = b / 255;
+    public ColoredEffect(int r, int g, int b) {
+        this.r = (float) numberInRange(r) / 255;
+        this.g = (float) numberInRange(g) / 255;
+        this.b = (float) numberInRange(b) / 255;
     }
 
     /**
@@ -67,9 +67,9 @@ public class ColoredEffect extends AbstractEffect {
      * @return this {@code ColoredEffect} instance, for method chaining.
      */
     public ColoredEffect color(Color color) {
-        this.r = (float) color.getRed() / 255;
-        this.g = (float) color.getGreen() / 255;
-        this.b = (float) color.getBlue() / 255;
+        this.r = (float) numberInRange(color.getRed()) / 255;
+        this.g = (float) numberInRange(color.getGreen()) / 255;
+        this.b = (float) numberInRange(color.getBlue()) / 255;
         return this;
     }
 
@@ -81,10 +81,10 @@ public class ColoredEffect extends AbstractEffect {
      * @param b the blue component (0-255).
      * @return this {@code ColoredEffect} instance, for method chaining.
      */
-    public ColoredEffect color(float r, float g, float b) {
-        this.r = r / 255;
-        this.g = g / 255;
-        this.b = b / 255;
+    public ColoredEffect color(int r, int g, int b) {
+        this.r = (float) numberInRange(r) / 255;
+        this.g = (float) numberInRange(g) / 255;
+        this.b = (float) numberInRange(b) / 255;
         return this;
     }
 
@@ -94,8 +94,8 @@ public class ColoredEffect extends AbstractEffect {
      * @param red the red component (0-255).
      * @return this {@code ColoredEffect} instance, for method chaining.
      */
-    public ColoredEffect red(float red) {
-        this.r = red / 255;
+    public ColoredEffect red(int red) {
+        this.r = (float) numberInRange(red) / 255;
         return this;
     }
 
@@ -105,8 +105,8 @@ public class ColoredEffect extends AbstractEffect {
      * @param green the green component (0-255).
      * @return this {@code ColoredEffect} instance, for method chaining.
      */
-    public ColoredEffect green(float green) {
-        this.g = green / 255;
+    public ColoredEffect green(int green) {
+        this.g = (float) numberInRange(green) / 255;
         return this;
     }
 
@@ -116,8 +116,8 @@ public class ColoredEffect extends AbstractEffect {
      * @param blue the blue component (0-255).
      * @return this {@code ColoredEffect} instance, for method chaining.
      */
-    public ColoredEffect blue(float blue) {
-        this.b = blue / 255;
+    public ColoredEffect blue(int blue) {
+        this.b = (float) numberInRange(blue) / 255;
         return this;
     }
 
@@ -182,6 +182,10 @@ public class ColoredEffect extends AbstractEffect {
      */
     public XParticle getEffect() {
         return XParticle.DUST;
+    }
+
+    private int numberInRange(int number) {
+        return Math.max(Math.min(number, 255), 0);
     }
 }
 
