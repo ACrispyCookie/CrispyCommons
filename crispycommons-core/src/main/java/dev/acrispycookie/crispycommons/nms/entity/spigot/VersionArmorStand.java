@@ -2,13 +2,14 @@ package dev.acrispycookie.crispycommons.nms.entity.spigot;
 
 import dev.acrispycookie.crispycommons.VersionManager;
 import dev.acrispycookie.crispycommons.utility.version.ArgPair;
+import dev.acrispycookie.crispycommons.utility.version.MappedVersions;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 public interface VersionArmorStand extends VersionEntity {
 
     static VersionArmorStand newInstance(Location location) {
-        return VersionManager.get().createInstance(VersionArmorStand.class, new ArgPair<>(Location.class, location));
+        return VersionManager.get().createInstance(VersionArmorStand.class, new MappedVersions(), new ArgPair<>(Location.class, location));
     }
 
     void setInvisible(boolean invisible);

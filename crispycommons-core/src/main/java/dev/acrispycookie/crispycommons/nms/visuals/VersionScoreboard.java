@@ -1,6 +1,7 @@
 package dev.acrispycookie.crispycommons.nms.visuals;
 
 import dev.acrispycookie.crispycommons.VersionManager;
+import dev.acrispycookie.crispycommons.utility.version.MappedVersions;
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 
@@ -8,7 +9,7 @@ import java.util.List;
 
 public interface VersionScoreboard {
 
-    VersionScoreboard instance = VersionManager.get().createInstance(VersionScoreboard.class);
+    VersionScoreboard instance = VersionManager.get().createInstance(VersionScoreboard.class, new MappedVersions());
 
     static VersionScoreboard newInstance() {
         return instance;

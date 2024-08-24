@@ -1,11 +1,12 @@
 package dev.acrispycookie.crispycommons.nms.nbt;
 
 import dev.acrispycookie.crispycommons.VersionManager;
+import dev.acrispycookie.crispycommons.utility.version.MappedVersions;
 
 public interface ListTag extends BaseTag {
 
     static ListTag newInstance() {
-        return VersionManager.get().createInstance(ListTag.class);
+        return VersionManager.get().createInstance(ListTag.class, new MappedVersions());
     }
 
     void add(BaseTag nbtbase);

@@ -1,11 +1,12 @@
 package dev.acrispycookie.crispycommons.nms.nbt;
 
 import dev.acrispycookie.crispycommons.VersionManager;
+import dev.acrispycookie.crispycommons.utility.version.MappedVersions;
 
 public interface CompoundTag extends BaseTag {
 
     static CompoundTag newInstance() {
-        return VersionManager.get().createInstance(CompoundTag.class);
+        return VersionManager.get().createInstance(CompoundTag.class, new MappedVersions());
     }
 
     void set(String key, BaseTag value);

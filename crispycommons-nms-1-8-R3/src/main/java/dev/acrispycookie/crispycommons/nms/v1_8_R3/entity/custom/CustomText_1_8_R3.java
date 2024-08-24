@@ -37,7 +37,7 @@ public class CustomText_1_8_R3 implements CustomText {
 
     @Override
     public Location getLocation() {
-        return armorStand != null ? armorStand.getLocation() : null;
+        return armorStand.getLocation();
     }
 
     @Override

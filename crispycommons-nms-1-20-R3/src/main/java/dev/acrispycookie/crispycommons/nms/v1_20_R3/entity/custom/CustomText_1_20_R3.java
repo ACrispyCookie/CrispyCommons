@@ -47,6 +47,7 @@ public class CustomText_1_20_R3 implements CustomText {
         }
 
         armorStand.spawn(player);
+        armorStand.updateLocation(player);
         armorStand.updateMeta(player);
     }
 

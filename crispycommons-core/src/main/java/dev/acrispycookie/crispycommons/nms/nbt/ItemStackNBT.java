@@ -1,11 +1,12 @@
 package dev.acrispycookie.crispycommons.nms.nbt;
 
 import dev.acrispycookie.crispycommons.VersionManager;
+import dev.acrispycookie.crispycommons.utility.version.MappedVersions;
 import org.bukkit.inventory.ItemStack;
 
 public interface ItemStackNBT {
 
-    ItemStackNBT instance = VersionManager.get().createInstance(ItemStackNBT.class);
+    ItemStackNBT instance = VersionManager.get().createInstance(ItemStackNBT.class, new MappedVersions());
 
     static ItemStackNBT newInstance() {
         return instance;
