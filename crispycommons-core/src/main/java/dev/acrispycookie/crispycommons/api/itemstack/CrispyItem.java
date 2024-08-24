@@ -1,9 +1,9 @@
 package dev.acrispycookie.crispycommons.api.itemstack;
 
+import com.cryptomorin.xseries.XEnchantment;
 import com.cryptomorin.xseries.XMaterial;
 import dev.acrispycookie.crispycommons.nms.nbt.BaseTag;
 import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.jetbrains.annotations.NotNull;
 
@@ -61,11 +61,11 @@ public interface CrispyItem {
     /**
      * Adds an enchantment to the item.
      *
-     * @param enchantment the {@link Enchantment} to add to the item.
+     * @param enchantment the {@link XEnchantment} to add to the item.
      * @param level the level of the enchantment to apply.
      * @return the updated {@link CrispyItem} instance with the enchantment added.
      */
-    @NotNull CrispyItem addEnchant(@NotNull Enchantment enchantment, int level);
+    @NotNull CrispyItem addEnchant(@NotNull XEnchantment enchantment, int level);
 
     /**
      * Adds an item flag to the item.

@@ -1,7 +1,6 @@
 package dev.acrispycookie.crispycommons.utility.enchantment;
 
 import com.cryptomorin.xseries.XEnchantment;
-import org.bukkit.enchantments.Enchantment;
 
 /**
  * An enumeration of enchantments in Minecraft, providing user-friendly names for display purposes.
@@ -86,7 +85,7 @@ public enum FriendlyEnchants {
     /**
      * Returns the {@code FriendlyEnchants} corresponding to the given Minecraft enchantment.
      *
-     * @param enchant the Minecraft {@link Enchantment} to look up.
+     * @param enchant the Minecraft {@link XEnchantment} to look up.
      * @return the corresponding {@code FriendlyEnchants} enum.
      */
     public static FriendlyEnchants getFriendlyEnchantment(XEnchantment enchant) {

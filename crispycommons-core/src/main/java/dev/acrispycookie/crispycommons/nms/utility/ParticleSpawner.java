@@ -1,8 +1,8 @@
 package dev.acrispycookie.crispycommons.nms.utility;
 
-import com.cryptomorin.xseries.particles.XParticle;
 import dev.acrispycookie.crispycommons.VersionManager;
 import dev.acrispycookie.crispycommons.utility.version.MappedVersions;
+import dev.acrispycookie.crispycommons.utility.visual.XParticle;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 

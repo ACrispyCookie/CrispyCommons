@@ -1,7 +1,7 @@
 package dev.acrispycookie.crispycommons.nms.v1_20_R3.utility;
 
-import com.cryptomorin.xseries.particles.XParticle;
 import dev.acrispycookie.crispycommons.nms.utility.ParticleSpawner;
+import dev.acrispycookie.crispycommons.utility.visual.XParticle;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Particle;

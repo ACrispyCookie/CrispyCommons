@@ -16,8 +16,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * A specialized {@link ItemStack} implementation that allows for fluent and extended customization
@@ -137,9 +135,9 @@ public class CrispyItemStack extends ItemStack implements CrispyItem {
      * @param level the level of the enchantment to apply.
      * @return the updated {@link CrispyItemStack} instance.
      */
-    public @NotNull CrispyItemStack addEnchant(@NotNull Enchantment enchantment, int level) {
+    public @NotNull CrispyItemStack addEnchant(@NotNull XEnchantment enchantment, int level) {
         ItemMeta meta = this.getItemMeta();
-        meta.addEnchant(enchantment, level, true);
+        meta.addEnchant(enchantment.getEnchant(), level, true);
         this.setItemMeta(meta);
         return this;
     }
@@ -211,9 +209,9 @@ public class CrispyItemStack extends ItemStack implements CrispyItem {
     public @NotNull CrispyItemStack glint(boolean gl) {
         if (gl && !hasTag("ench")) {
             if (this.getType() == Material.BOW)
-                addEnchant(XEnchantment.FEATHER_FALLING.getEnchant() != null ? XEnchantment.FEATHER_FALLING.getEnchant() : Enchantment.INFINITY, 1);
+                addEnchant(XEnchantment.FEATHER_FALLING, 1);
             else
-                addEnchant(XEnchantment.INFINITY.getEnchant() != null ? XEnchantment.INFINITY.getEnchant() : Enchantment.INFINITY, 1);
+                addEnchant(XEnchantment.INFINITY, 1);
             addFlag(ItemFlag.HIDE_ENCHANTS);
         }
         return this;

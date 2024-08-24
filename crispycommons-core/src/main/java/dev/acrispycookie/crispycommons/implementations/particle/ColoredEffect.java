@@ -1,6 +1,6 @@
 package dev.acrispycookie.crispycommons.implementations.particle;
 
-import com.cryptomorin.xseries.particles.XParticle;
+import dev.acrispycookie.crispycommons.utility.visual.XParticle;
 import org.bukkit.Color;
 
 /**
