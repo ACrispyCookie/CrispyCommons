@@ -46,7 +46,7 @@ public abstract class CrispyHeadItem extends CrispyItemStack {
      * (indicating a player head).
      */
     public CrispyHeadItem() {
-        super(XMaterial.PLAYER_HEAD, 1, (short) 3);
+        super(XMaterial.PLAYER_HEAD, 1);
     }
 
     /**

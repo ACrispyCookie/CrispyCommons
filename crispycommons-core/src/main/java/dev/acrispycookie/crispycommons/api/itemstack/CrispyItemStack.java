@@ -2,9 +2,11 @@ package dev.acrispycookie.crispycommons.api.itemstack;
 
 import com.cryptomorin.xseries.XEnchantment;
 import com.cryptomorin.xseries.XMaterial;
+import dev.acrispycookie.crispycommons.VersionManager;
 import dev.acrispycookie.crispycommons.nms.utility.ItemMetaEditor;
 import dev.acrispycookie.crispycommons.nms.nbt.ItemStackNBT;
 import dev.acrispycookie.crispycommons.nms.nbt.BaseTag;
+import dev.acrispycookie.crispycommons.utility.version.Version;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -14,6 +16,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A specialized {@link ItemStack} implementation that allows for fluent and extended customization
@@ -43,17 +47,21 @@ public class CrispyItemStack extends ItemStack implements CrispyItem {
     public CrispyItemStack(@NotNull XMaterial material) {
         super(material.parseMaterial() != null ? material.parseMaterial() : Material.STONE);
         amount(1);
+        if (VersionManager.get().getVersion().isLowerOrEqual(Version.v1_8_R3) && material.getData() != 0)
+            setDurability(material.getData());
     }
 
     /**
-     * Constructs a {@code CrispyItemStack} with the specified material, amount, and durability.
+     * Constructs a {@code CrispyItemStack} with the specified {@link Material} and {@code amount}.
      *
      * @param material the {@link Material} to set for this item stack.
-     * @param amount the amount of items in this stack.
-     * @param durability the durability value to set for this item stack.
+     * @param amount the amount set for this item stack.
      */
-    public CrispyItemStack(@NotNull XMaterial material, int amount, short durability) {
-        super(material.parseMaterial() != null ? material.parseMaterial() : Material.STONE, amount, durability);
+    public CrispyItemStack(@NotNull XMaterial material, int amount) {
+        super(material.parseMaterial() != null ? material.parseMaterial() : Material.STONE);
+        amount(amount);
+        if (VersionManager.get().getVersion().isLowerOrEqual(Version.v1_8_R3) && material.getData() != 0)
+            setDurability(material.getData());
     }
 
     /**

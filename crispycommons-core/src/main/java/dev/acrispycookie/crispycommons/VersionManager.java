@@ -22,6 +22,10 @@ public class VersionManager {
         return instance;
     }
 
+    public Version getVersion() {
+        return nmsVersion;
+    }
+
     @SuppressWarnings("unchecked")
     public <T> T createInstance(Class<T> clazz, MappedVersions versions, ArgPair<?>... args) {
         try {
