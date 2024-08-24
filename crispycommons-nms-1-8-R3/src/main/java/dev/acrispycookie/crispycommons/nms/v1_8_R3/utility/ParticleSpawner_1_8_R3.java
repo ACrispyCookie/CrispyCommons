@@ -1,7 +1,7 @@
 package dev.acrispycookie.crispycommons.nms.v1_8_R3.utility;
 
 import com.cryptomorin.xseries.particles.XParticle;
-import dev.acrispycookie.crispycommons.nms.wrappers.utilities.ParticleSpawner;
+import dev.acrispycookie.crispycommons.nms.utility.ParticleSpawner;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -9,7 +9,6 @@ import org.bukkit.entity.Player;
 import java.util.Arrays;
 
 public class ParticleSpawner_1_8_R3 implements ParticleSpawner {
-
 
     @Override
     public void spawnColored(Player player, XParticle particle, Location location, float r, float g, float b) {

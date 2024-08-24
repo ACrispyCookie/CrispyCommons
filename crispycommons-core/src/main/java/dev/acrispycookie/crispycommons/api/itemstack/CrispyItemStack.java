@@ -2,9 +2,9 @@ package dev.acrispycookie.crispycommons.api.itemstack;
 
 import com.cryptomorin.xseries.XEnchantment;
 import com.cryptomorin.xseries.XMaterial;
-import dev.acrispycookie.crispycommons.nms.wrappers.utilities.ItemMetaEditor;
-import dev.acrispycookie.crispycommons.nms.wrappers.nbt.ItemStackNBT;
-import dev.acrispycookie.crispycommons.nms.wrappers.nbt.NBTBase;
+import dev.acrispycookie.crispycommons.nms.utility.ItemMetaEditor;
+import dev.acrispycookie.crispycommons.nms.nbt.ItemStackNBT;
+import dev.acrispycookie.crispycommons.nms.nbt.BaseTag;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -215,10 +215,10 @@ public class CrispyItemStack extends ItemStack implements CrispyItem {
      * Adds a custom NBT tag to this item stack.
      *
      * @param identifier the identifier for the tag.
-     * @param value the {@link NBTBase} value to associate with the tag.
+     * @param value the {@link BaseTag} value to associate with the tag.
      * @return a new {@link CrispyItemStack} instance with the tag applied.
      */
-    public @NotNull CrispyItemStack addTag(@NotNull String identifier, @NotNull NBTBase value) {
+    public @NotNull CrispyItemStack addTag(@NotNull String identifier, @NotNull BaseTag value) {
         return new CrispyItemStack(ItemStackNBT.newInstance().addTag(this, identifier, value));
     }
 
@@ -246,9 +246,9 @@ public class CrispyItemStack extends ItemStack implements CrispyItem {
      * Retrieves a custom NBT tag from this item stack.
      *
      * @param identifier the identifier of the tag to retrieve.
-     * @return the {@link NBTBase} value associated with the identifier, or {@code null} if not present.
+     * @return the {@link BaseTag} value associated with the identifier, or {@code null} if not present.
      */
-    public NBTBase getTag(String identifier) {
+    public BaseTag getTag(String identifier) {
         return ItemStackNBT.newInstance().getTag(this, identifier);
     }
 

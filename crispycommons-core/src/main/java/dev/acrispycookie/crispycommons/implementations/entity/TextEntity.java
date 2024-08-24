@@ -1,11 +1,8 @@
 package dev.acrispycookie.crispycommons.implementations.entity;
 
 import dev.acrispycookie.crispycommons.implementations.element.type.TextElement;
-import dev.acrispycookie.crispycommons.nms.wrappers.entity.EntityArmorStand;
+import dev.acrispycookie.crispycommons.nms.entity.custom.CustomText;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import org.apache.commons.lang3.StringUtils;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -22,15 +19,13 @@ import org.jetbrains.annotations.NotNull;
 public class TextEntity extends ClickableEntity<TextElement<?>> {
 
     /**
-     * The invisible armor stand used to display and position the text entity in the game world.
+     * The version independent instance of a custom text.
      * <p>
-     * This armor stand serves as the anchor for the text, allowing it to be positioned and rendered
-     * in the world. It is configured to be non-interactive and invisible, showing only the custom
-     * text assigned to it. The armor stand is initialized when the entity is spawned and remains
-     * {@code null} until then.
+     * This instance manages the spawning, updating and removing of the custom text with
+     * the different implementations based on different versions of Minecraft.
      * </p>
      */
-    private EntityArmorStand as = null;
+    private CustomText textEntity;
 
     /**
      * Constructs a {@code TextEntity} with the specified text element.
@@ -48,7 +43,7 @@ public class TextEntity extends ClickableEntity<TextElement<?>> {
      */
     @Override
     public double offsetPerLine() {
-        return -0.23;
+        return -textEntity.offsetPerLine();
     }
 
     /**
@@ -64,27 +59,9 @@ public class TextEntity extends ClickableEntity<TextElement<?>> {
     @Override
     public void spawn(@NotNull Location location, @NotNull Player player) {
         Component elementValue = element.getFromContext(OfflinePlayer.class, player);
-        String text = LegacyComponentSerializer.legacyAmpersand().serialize(
-                elementValue == null ? Component.text("") : elementValue
-        );
 
-        if (StringUtils.isBlank(text)) {
-            return;
-        }
-
-        if (as == null) {
-            as = EntityArmorStand.newInstance(location);
-            as.setInvisible(true);
-            as.setNoClip(true); // Disables interaction
-            as.setBasePlate(true);
-            as.setGravity(false);
-            as.setCustomNameVisible(true);
-            as.setCustomName(ChatColor.translateAlternateColorCodes('&', text));
-            as.setSmall(true);
-        }
-
-        as.spawn(player);
-        as.updateMeta(player);
+        textEntity = CustomText.newInstance(location, elementValue);
+        textEntity.spawn(location, player);
     }
 
     /**
@@ -98,9 +75,7 @@ public class TextEntity extends ClickableEntity<TextElement<?>> {
      */
     @Override
     public void destroy(@NotNull Player player) {
-        if (as != null) {
-            as.destroy(player);
-        }
+        textEntity.destroy(player);
     }
 
     /**
@@ -116,16 +91,8 @@ public class TextEntity extends ClickableEntity<TextElement<?>> {
     @Override
     public void update(@NotNull Location location, @NotNull Player player) {
         Component text = element.getFromContext(OfflinePlayer.class, player);
-        String content = LegacyComponentSerializer.legacyAmpersand().serialize(text);
-
-        String name = StringUtils.isBlank(content) ? " " : ChatColor.translateAlternateColorCodes('&', content);
-
-        if (as != null) {
-            as.setCustomName(name);
-            as.setLocation(location);
-            as.updateMeta(player);
-            as.updateLocation(player);
-        }
+        textEntity.setText(text);
+        textEntity.update(location, player);
     }
 
     /**
@@ -135,7 +102,7 @@ public class TextEntity extends ClickableEntity<TextElement<?>> {
      */
     @Override
     public @NotNull Location getLocation() {
-        return as.getLocation();
+        return textEntity.getLocation();
     }
 }
 

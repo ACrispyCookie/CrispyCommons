@@ -155,6 +155,7 @@ public abstract class AbstractScoreboard extends AbstractVisual<ScoreboardData> 
             title.start();
         }
         data.setTitle(title);
+        updateTitle();
     }
 
     /**
@@ -166,6 +167,14 @@ public abstract class AbstractScoreboard extends AbstractVisual<ScoreboardData> 
     public TextElement<?> getTitle() {
         return data.getTitle();
     }
+
+    /**
+     * Updates the scoreboard title using the new value store in {@code data}.
+     * <p>
+     * This abstract method must be implemented by subclasses to handle specific title updates.
+     * </p>
+     */
+    protected abstract void updateTitle();
 
     /**
      * Updates the scoreboard lines based on the old size of the lines.

@@ -1,7 +1,7 @@
 package dev.acrispycookie.crispycommons.nms.v1_20_R3.nbt;
 
-import dev.acrispycookie.crispycommons.nms.wrappers.nbt.ItemStackNBT;
-import dev.acrispycookie.crispycommons.nms.wrappers.nbt.NBTBase;
+import dev.acrispycookie.crispycommons.nms.nbt.ItemStackNBT;
+import dev.acrispycookie.crispycommons.nms.nbt.BaseTag;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagDouble;
 import net.minecraft.nbt.NBTTagInt;
@@ -12,10 +12,10 @@ import org.bukkit.inventory.ItemStack;
 
 public class ItemStackNBT_1_20_R3 implements ItemStackNBT {
 
-    public ItemStack addTag(ItemStack i, String identifier, NBTBase value) {
+    public ItemStack addTag(ItemStack i, String identifier, BaseTag value) {
         net.minecraft.world.item.ItemStack nmsItem = CraftItemStack.asNMSCopy(i);
         NBTTagCompound tag = nmsItem.u() ? nmsItem.v() : new NBTTagCompound();
-        tag.a(identifier, ((NBTBase_1_20_R3) value).getInternal());
+        tag.a(identifier, ((BaseTag_1_20_R3) value).getInternal());
         nmsItem.c(tag);
         return CraftItemStack.asBukkitCopy(nmsItem);
     }
@@ -28,10 +28,10 @@ public class ItemStackNBT_1_20_R3 implements ItemStackNBT {
         return CraftItemStack.asBukkitCopy(nmsItem);
     }
 
-    public NBTBase getTag(ItemStack i, String identifier) {
+    public BaseTag getTag(ItemStack i, String identifier) {
         net.minecraft.world.item.ItemStack nmsItem = CraftItemStack.asNMSCopy(i);
         if(nmsItem.u() && nmsItem.v().e(identifier)) {
-            return new NBTBase_1_20_R3(nmsItem.v().c(identifier));
+            return new BaseTag_1_20_R3(nmsItem.v().c(identifier));
         }
         return null;
     }

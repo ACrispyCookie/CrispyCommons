@@ -40,12 +40,6 @@
         </dependency>
         <dependency>
             <groupId>dev.acrispycookie</groupId>
-            <artifactId>crispycommons-nms</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>dev.acrispycookie</groupId>
             <artifactId>crispycommons-nms-1-8-R3</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>

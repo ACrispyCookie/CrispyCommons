@@ -12,11 +12,9 @@
 
   <modules>
     <module>crispycommons-core</module>
-      <module>crispycommons-nms</module>
       <module>crispycommons-nms-1-8-R3</module>
       <module>crispycommons-dist</module>
       <module>crispycommons-nms-1-20-R3</module>
-      <module>crispycommons-api</module>
   </modules>
 
   <properties>

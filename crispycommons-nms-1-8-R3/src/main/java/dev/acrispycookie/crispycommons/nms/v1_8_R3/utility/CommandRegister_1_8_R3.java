@@ -1,6 +1,6 @@
 package dev.acrispycookie.crispycommons.nms.v1_8_R3.utility;
 
-import dev.acrispycookie.crispycommons.nms.wrappers.utilities.CommandRegister;
+import dev.acrispycookie.crispycommons.nms.utility.CommandRegister;
 import org.bukkit.command.Command;
 import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.craftbukkit.v1_8_R3.CraftServer;

@@ -3,7 +3,7 @@ package dev.acrispycookie.crispycommons.implementations.visual.particle;
 import dev.acrispycookie.crispycommons.implementations.visual.particle.data.ParticleData;
 import dev.acrispycookie.crispycommons.implementations.element.type.TimeToLiveElement;
 import dev.acrispycookie.crispycommons.implementations.particle.SimpleEffect;
-import dev.acrispycookie.crispycommons.nms.wrappers.utilities.ParticleSpawner;
+import dev.acrispycookie.crispycommons.nms.utility.ParticleSpawner;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;

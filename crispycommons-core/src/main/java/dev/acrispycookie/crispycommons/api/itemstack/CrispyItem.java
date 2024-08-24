@@ -1,7 +1,7 @@
 package dev.acrispycookie.crispycommons.api.itemstack;
 
 import com.cryptomorin.xseries.XMaterial;
-import dev.acrispycookie.crispycommons.nms.wrappers.nbt.NBTBase;
+import dev.acrispycookie.crispycommons.nms.nbt.BaseTag;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
@@ -111,10 +111,10 @@ public interface CrispyItem {
      * Adds a custom tag to the item.
      *
      * @param identifier the identifier for the custom tag.
-     * @param value the {@link NBTBase} value to associate with the identifier.
+     * @param value the {@link BaseTag} value to associate with the identifier.
      * @return the updated {@link CrispyItem} instance with the custom tag added.
      */
-    @NotNull CrispyItem addTag(@NotNull String identifier, @NotNull NBTBase value);
+    @NotNull CrispyItem addTag(@NotNull String identifier, @NotNull BaseTag value);
 
     /**
      * Removes a custom tag from the item.

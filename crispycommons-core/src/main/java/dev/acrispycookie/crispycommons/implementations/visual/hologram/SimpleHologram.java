@@ -51,7 +51,7 @@ public class SimpleHologram extends AbstractHologram {
         this.entities.put(p.getUniqueId(), entities);
         entities.forEach((info) -> {
             Entity e = info.getEntity();
-            e.spawn(getEntityLocation(p, e, info.getIndex()), p);
+            e.spawn(getEntityLocation(p, info.getIndex()), p);
         });
     }
 
@@ -80,7 +80,7 @@ public class SimpleHologram extends AbstractHologram {
     protected void perPlayerUpdate(Player p) {
         entities.get(p.getUniqueId()).forEach((info) -> {
             Entity e = info.getEntity();
-            e.update(getEntityLocation(p, e, info.getIndex()), p);
+            e.update(getEntityLocation(p, info.getIndex()), p);
         });
     }
 
@@ -117,11 +117,12 @@ public class SimpleHologram extends AbstractHologram {
             Player p = Bukkit.getPlayer(e.getKey());
             Entity newLine = Entity.of(data.getLines().get(index));
             if (p != null && isWatching(p))
-                newLine.spawn(getEntityLocation(p, newLine, index), p);
+                newLine.spawn(getEntityLocation(p, index), p);
 
             infos.add(index, new EntityInfo(index, newLine));
             entities.put(e.getKey(), infos);
         }
+
         if (isAnyoneWatching())
             update();
     }
@@ -155,6 +156,7 @@ public class SimpleHologram extends AbstractHologram {
             infos.remove(toRemove);
             entities.put(e.getKey(), infos);
         }
+
         if (isAnyoneWatching())
             update();
     }
@@ -180,13 +182,17 @@ public class SimpleHologram extends AbstractHologram {
      * </p>
      *
      * @param player the player viewing the hologram.
-     * @param entity the entity representing a line in the hologram.
      * @param index  the index of the line.
      * @return the calculated {@link Location} for the entity.
      */
-    private Location getEntityLocation(Player player, Entity entity, int index) {
+    private Location getEntityLocation(Player player, int index) {
         Location location = data.getLocation().getFromContext(OfflinePlayer.class, player);
-        return location.clone().add(0, (index * entity.offsetPerLine()), 0);
+        double offset = 0;
+        List<EntityInfo> info = entities.get(player.getUniqueId());
+        for (int i = 0; i < index; i++) {
+            offset += info.get(i).getEntity().offsetPerLine();
+        }
+        return location.clone().add(0, offset, 0);
     }
 
     /**

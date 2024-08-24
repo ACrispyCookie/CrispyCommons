@@ -31,12 +31,6 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>dev.acrispycookie</groupId>
-            <artifactId>crispycommons-nms</artifactId>
-            <version>${project.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>com.mojang</groupId>
             <artifactId>authlib</artifactId>
             <version>6.0.54</version>

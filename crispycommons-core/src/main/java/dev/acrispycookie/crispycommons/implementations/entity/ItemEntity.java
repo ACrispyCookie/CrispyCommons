@@ -2,8 +2,7 @@ package dev.acrispycookie.crispycommons.implementations.entity;
 
 import dev.acrispycookie.crispycommons.api.itemstack.CrispyItemStack;
 import dev.acrispycookie.crispycommons.implementations.element.type.ItemElement;
-import dev.acrispycookie.crispycommons.nms.wrappers.entity.EntityArmorStand;
-import dev.acrispycookie.crispycommons.nms.wrappers.entity.EntityItem;
+import dev.acrispycookie.crispycommons.nms.entity.custom.CustomItem;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -20,23 +19,13 @@ import org.jetbrains.annotations.NotNull;
 public class ItemEntity extends ClickableEntity<ItemElement<?>> {
 
     /**
-     * The in-game item entity associated with this {@code ItemEntity}.
+     * The version independent instance of a custom item.
      * <p>
-     * This entity represents the actual item in the game world and is used to display the item stack.
-     * It is initialized when the entity is spawned and remains {@code null} until then.
+     * This instance manages the spawning, updating and removing of the custom item with
+     * the different implementations based on different versions of Minecraft.
      * </p>
      */
-    private EntityItem ei = null;
-
-    /**
-     * The invisible armor stand used to hold and position the item entity in the game world.
-     * <p>
-     * This armor stand is utilized to adjust the visual position of the item entity and is
-     * configured to be non-interactive and invisible. It is initialized when the entity is spawned
-     * and remains {@code null} until then.
-     * </p>
-     */
-    private EntityArmorStand as = null;
+    private CustomItem item;
 
     /**
      * Constructs an {@code ItemEntity} with the specified item element.
@@ -54,7 +43,7 @@ public class ItemEntity extends ClickableEntity<ItemElement<?>> {
      */
     @Override
     public double offsetPerLine() {
-        return -0.25;
+        return -item.offsetPerLine();
     }
 
     /**
@@ -69,28 +58,9 @@ public class ItemEntity extends ClickableEntity<ItemElement<?>> {
      */
     @Override
     public void spawn(@NotNull Location location, @NotNull Player player) {
-        if (as == null) {
-            as = EntityArmorStand.newInstance(location);
-            as.setInvisible(true);
-            as.setNoClip(true); // Disables interaction
-            as.setBasePlate(true);
-            as.setGravity(false);
-            as.setCustomNameVisible(false);
-            as.setSmall(true);
-        }
-
-        as.spawn(player);
-        as.updateMeta(player);
-
         CrispyItemStack elementValue = element.getFromContext(OfflinePlayer.class, player);
-
-        if (ei == null) {
-            ei = EntityItem.newInstance(location, elementValue);
-            ei.setDespawnDelay(Integer.MAX_VALUE); // Makes the item entity persistent (doesn't despawn)
-        }
-
-        ei.spawn(player);
-        ei.updateMeta(player);
+        item = CustomItem.newInstance(location.subtract(0, 0.05, 0), elementValue);
+        item.spawn(location.subtract(0, 0.05, 0), player);
     }
 
     /**
@@ -104,12 +74,7 @@ public class ItemEntity extends ClickableEntity<ItemElement<?>> {
      */
     @Override
     public void destroy(@NotNull Player player) {
-        if (as != null) {
-            as.destroy(player);
-        }
-        if (ei != null) {
-            ei.destroy(player);
-        }
+        item.destroy(player);
     }
 
     /**
@@ -126,12 +91,8 @@ public class ItemEntity extends ClickableEntity<ItemElement<?>> {
     public void update(@NotNull Location location, @NotNull Player player) {
         CrispyItemStack item = element.getFromContext(OfflinePlayer.class, player);
 
-        if (as != null && ei != null) {
-            ei.setItemStack(item);
-            ei.updateMeta(player);
-            as.setLocation(location);
-            as.updateLocation(player);
-        }
+        this.item.setDisplay(item);
+        this.item.update(location.subtract(0, 0.05, 0), player);
     }
 
     /**
@@ -141,7 +102,7 @@ public class ItemEntity extends ClickableEntity<ItemElement<?>> {
      */
     @Override
     public @NotNull Location getLocation() {
-        return as.getLocation();
+        return item.getLocation();
     }
 }
 

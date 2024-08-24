@@ -1,7 +1,7 @@
 package dev.acrispycookie.crispycommons;
 
 import dev.acrispycookie.crispycommons.implementations.gui.book.action.BookActionCommand;
-import dev.acrispycookie.crispycommons.nms.wrappers.utilities.CommandRegister;
+import dev.acrispycookie.crispycommons.nms.utility.CommandRegister;
 import dev.acrispycookie.crispycommons.utility.logging.CrispyLogger;
 import dev.acrispycookie.crispycommons.utility.menu.MenuListener;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
