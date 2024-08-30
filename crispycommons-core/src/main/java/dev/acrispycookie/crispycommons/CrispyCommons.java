@@ -1,9 +1,10 @@
 package dev.acrispycookie.crispycommons;
 
 import dev.acrispycookie.crispycommons.implementations.gui.book.action.BookActionCommand;
-import dev.acrispycookie.crispycommons.nms.utility.CommandRegister;
+import dev.acrispycookie.crispycommons.utility.CommandRegister;
 import dev.acrispycookie.crispycommons.utility.logging.CrispyLogger;
 import dev.acrispycookie.crispycommons.utility.menu.MenuListener;
+import dev.acrispycookie.crispycommons.version.VersionManager;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -50,12 +51,6 @@ public class CrispyCommons implements Listener {
      */
     private static CommonsSettings settings;
 
-    /**
-     * The {@link VersionManager} instance used for managing the
-     * different version of NMS classes.
-     */
-    private static VersionManager versionManager;
-
 
     /**
      * Initializes the {@code CrispyCommons} with the specified plugin instance and settings.
@@ -71,7 +66,6 @@ public class CrispyCommons implements Listener {
         plugin = instance;
         CrispyCommons.settings = settings;
         CrispyCommons.bukkitAudiences = BukkitAudiences.create(plugin);
-        setupVersion();
         setup();
     }
 
@@ -105,22 +99,9 @@ public class CrispyCommons implements Listener {
                     new BookActionCommand(settings.getBookCommand()));
         }
         if (settings.isMenusEnabled()) {
-            Bukkit.getPluginManager().registerEvents(new MenuListener(), plugin);
+            Bukkit.getPluginManager().registerEvents(MenuListener.newInstance(), plugin);
         }
         Bukkit.getPluginManager().registerEvents(new CrispyCommons(), plugin);
-    }
-
-    /**
-     * Initialises the {@link VersionManager} to help in future NMS usages.
-     */
-    private static void setupVersion() {
-        try {
-            versionManager = new VersionManager();
-        } catch (ClassNotFoundException e) {
-            CrispyLogger.printException(plugin, e, "Couldn't initialize NMS classes. " +
-                    "This server version is not supported");
-            throw new RuntimeException(e);
-        }
     }
 
     /**
@@ -130,15 +111,6 @@ public class CrispyCommons implements Listener {
      */
     public static @NotNull CommonsSettings getSettings() {
         return settings;
-    }
-
-    /**
-     * Retrieves the {@link VersionManager} instance used for managing different versions of the NMS classes.
-     *
-     * @return the {@link VersionManager} instance.
-     */
-    public static @NotNull VersionManager getVersionManager() {
-        return versionManager;
     }
 
     /**

@@ -29,11 +29,11 @@ public interface Entity {
      * @return a new {@link Entity} instance based on the specified dynamic element.
      * @throws NullPointerException if {@code element} is {@code null}.
      */
-    static @NotNull Entity of(@NotNull DynamicElement<?, ?> element) {
+    static @NotNull Entity of(@NotNull DynamicElement<?, ?> element, @NotNull Location location) {
         if (element instanceof ItemElement)
-            return new ItemEntity((ItemElement<?>) element);
+            return ItemEntity.newInstance((ItemElement<?>) element, location);
         else if (element instanceof TextElement)
-            return new TextEntity((TextElement<?>) element);
+            return TextEntity.newInstance((TextElement<?>) element, location);
         else
             throw new IllegalArgumentException("The element must be an instance of ItemElement or TextElement!");
     }
@@ -69,16 +69,28 @@ public interface Entity {
     @NotNull DynamicElement<?, ?> getElement();
 
     /**
-     * Spawns the entity at the specified location for the given player.
+     * Updates the entity's location for the given player.
      * <p>
-     * This method places the entity at the provided {@link Location} and makes it visible to the specified {@link Player}.
+     * This method changes the entity's position to the new specified {@link Location} and then
+     * updates the view for the specified {@link Player} to reflect this change.
      * </p>
      *
-     * @param location the {@link Location} where the entity will be spawned.
+     * @param location the new {@link Location} to which the entity will be updated.
+     * @param player the {@link Player} for whom the entity's location will be updated.
+     * @throws NullPointerException if {@code location} or {@code player} is {@code null}.
+     */
+    void setLocation(@NotNull Location location, @NotNull Player player);
+
+    /**
+     * Spawns the entity for the given player.
+     * <p>
+     * This method makes the entity visible to the specified {@link Player}.
+     * </p>
+     *
      * @param player the {@link Player} for whom the entity will be spawned and visible.
      * @throws NullPointerException if {@code location} or {@code player} is {@code null}.
      */
-    void spawn(@NotNull Location location, @NotNull Player player);
+    void spawn(@NotNull Player player);
 
     /**
      * Destroys the entity for the given player.
@@ -93,16 +105,15 @@ public interface Entity {
     void destroy(@NotNull Player player);
 
     /**
-     * Updates the entity's location and other metadata for the given player.
+     * Updates the entity's metadata for the given player.
      * <p>
-     * This method changes the entity's position to the new specified {@link Location}, updates other
-     * metadata of the entity and then updates the view for the specified {@link Player} to reflect this change.
+     * This method updates the metadata of the entity and
+     * then updates the view for the specified {@link Player} to reflect this change.
      * </p>
      *
-     * @param location the new {@link Location} to which the entity will be updated.
      * @param player the {@link Player} for whom the entity's location will be updated.
      * @throws NullPointerException if {@code location} or {@code player} is {@code null}.
      */
-    void update(@NotNull Location location, @NotNull Player player);
+    void update(@NotNull Player player);
 
 }

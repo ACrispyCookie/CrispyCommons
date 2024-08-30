@@ -2,11 +2,11 @@ package dev.acrispycookie.crispycommons.api.itemstack;
 
 import com.cryptomorin.xseries.XEnchantment;
 import com.cryptomorin.xseries.XMaterial;
-import dev.acrispycookie.crispycommons.VersionManager;
-import dev.acrispycookie.crispycommons.nms.utility.ItemMetaEditor;
-import dev.acrispycookie.crispycommons.nms.nbt.ItemStackNBT;
-import dev.acrispycookie.crispycommons.nms.nbt.BaseTag;
-import dev.acrispycookie.crispycommons.utility.version.Version;
+import dev.acrispycookie.crispycommons.version.VersionManager;
+import dev.acrispycookie.crispycommons.utility.ItemMetaEditor;
+import dev.acrispycookie.crispycommons.utility.nbt.ItemStackNBT;
+import dev.acrispycookie.crispycommons.utility.nbt.BaseTag;
+import dev.acrispycookie.crispycommons.version.utility.Version;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -45,7 +45,7 @@ public class CrispyItemStack extends ItemStack implements CrispyItem {
     public CrispyItemStack(@NotNull XMaterial material) {
         super(material.parseMaterial() != null ? material.parseMaterial() : Material.STONE);
         amount(1);
-        if (VersionManager.get().getVersion().isLowerOrEqual(Version.v1_8_R3) && material.getData() != 0)
+        if (VersionManager.getVersion().isLowerOrEqual(Version.v1_8_R3) && material.getData() != 0)
             setDurability(material.getData());
     }
 
@@ -58,7 +58,7 @@ public class CrispyItemStack extends ItemStack implements CrispyItem {
     public CrispyItemStack(@NotNull XMaterial material, int amount) {
         super(material.parseMaterial() != null ? material.parseMaterial() : Material.STONE);
         amount(amount);
-        if (VersionManager.get().getVersion().isLowerOrEqual(Version.v1_8_R3) && material.getData() != 0)
+        if (VersionManager.getVersion().isLowerOrEqual(Version.v1_8_R3) && material.getData() != 0)
             setDurability(material.getData());
     }
 

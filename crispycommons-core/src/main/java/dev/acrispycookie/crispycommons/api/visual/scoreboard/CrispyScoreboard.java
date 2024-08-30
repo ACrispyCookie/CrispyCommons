@@ -116,7 +116,7 @@ public interface CrispyScoreboard extends CrispyVisual {
          * @return the constructed {@link CrispyScoreboard}.
          */
         public CrispyScoreboard build() {
-            toBuild = new SimpleScoreboard(data, receivers, timeToLive, isPublic);
+            toBuild = SimpleScoreboard.newInstance(data, receivers, timeToLive, isPublic);
             return toBuild;
         }
     }

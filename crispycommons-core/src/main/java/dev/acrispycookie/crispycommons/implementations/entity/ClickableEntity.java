@@ -2,6 +2,7 @@ package dev.acrispycookie.crispycommons.implementations.entity;
 
 import dev.acrispycookie.crispycommons.api.element.DynamicElement;
 import dev.acrispycookie.crispycommons.api.entity.Entity;
+import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -25,14 +26,20 @@ public abstract class ClickableEntity<T extends DynamicElement<?, ?>> implements
     protected final T element;
 
     /**
+     * The location of the clickable entity.
+     */
+    protected Location location;
+
+    /**
      * Constructs a {@code ClickableEntity} with the specified dynamic element.
      *
      * @param element the dynamic element associated with this clickable entity.
      *
      * @throws NullPointerException if {@code element} is {@code null}.
      */
-    public ClickableEntity(@NotNull T element) {
+    public ClickableEntity(@NotNull T element, @NotNull Location location) {
         this.element = element;
+        this.location = location;
     }
 
     /**

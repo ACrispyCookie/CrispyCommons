@@ -2,7 +2,7 @@ package dev.acrispycookie.crispycommons.api.itemstack;
 
 import com.cryptomorin.xseries.XEnchantment;
 import com.cryptomorin.xseries.XMaterial;
-import dev.acrispycookie.crispycommons.nms.nbt.BaseTag;
+import dev.acrispycookie.crispycommons.utility.nbt.BaseTag;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemFlag;
 import org.jetbrains.annotations.NotNull;

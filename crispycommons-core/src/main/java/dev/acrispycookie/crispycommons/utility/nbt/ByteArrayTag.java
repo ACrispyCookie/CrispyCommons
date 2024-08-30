@@ -1,0 +1,14 @@
+package dev.acrispycookie.crispycommons.utility.nbt;
+
+import dev.acrispycookie.crispycommons.version.VersionManager;
+import dev.acrispycookie.crispycommons.version.utility.ArgPair;
+import dev.acrispycookie.crispycommons.version.utility.MappedVersions;
+
+public interface ByteArrayTag extends BaseTag {
+
+    static ByteArrayTag newInstance(byte[] value) {
+        return VersionManager.createInstance(ByteArrayTag.class, new MappedVersions(), new ArgPair<>(byte[].class, value));
+    }
+
+    byte[] getByteArray();
+}

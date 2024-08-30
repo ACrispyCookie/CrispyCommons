@@ -51,7 +51,7 @@ public class SimpleHologram extends AbstractHologram {
         this.entities.put(p.getUniqueId(), entities);
         entities.forEach((info) -> {
             Entity e = info.getEntity();
-            e.spawn(getEntityLocation(p, info.getIndex()), p);
+            e.spawn(p);
         });
     }
 
@@ -80,7 +80,8 @@ public class SimpleHologram extends AbstractHologram {
     protected void perPlayerUpdate(Player p) {
         entities.get(p.getUniqueId()).forEach((info) -> {
             Entity e = info.getEntity();
-            e.update(getEntityLocation(p, info.getIndex()), p);
+            e.setLocation(getEntityLocation(p, info.getIndex()), p);
+            e.update(p);
         });
     }
 
@@ -108,16 +109,21 @@ public class SimpleHologram extends AbstractHologram {
     protected void addLineInternal(int index) {
         for (Map.Entry<UUID, List<EntityInfo>> e : entities.entrySet()) {
             List<EntityInfo> infos = e.getValue();
+            Player player = Bukkit.getPlayer(e.getKey());
+            Location location = data.getLocation().getFromContext(OfflinePlayer.class, player);
             for (EntityInfo entityInfo : infos) {
-                if (entityInfo.getIndex() < index)
+                if (entityInfo.getIndex() < index) {
+                    location.add(0, entityInfo.getEntity().offsetPerLine(), 0);
                     continue;
+                }
+                location.add(0, entityInfo.getEntity().offsetPerLine(), 0);
 
                 entityInfo.setIndex(entityInfo.getIndex() + 1);
             }
-            Player p = Bukkit.getPlayer(e.getKey());
-            Entity newLine = Entity.of(data.getLines().get(index));
-            if (p != null && isWatching(p))
-                newLine.spawn(getEntityLocation(p, index), p);
+
+            Entity newLine = Entity.of(data.getLines().get(index), location);
+            if (isWatching(player))
+                newLine.spawn(player);
 
             infos.add(index, new EntityInfo(index, newLine));
             entities.put(e.getKey(), infos);
@@ -202,14 +208,17 @@ public class SimpleHologram extends AbstractHologram {
      * @param player   the player viewing the hologram.
      * @return a list of {@link EntityInfo} representing the constructed entities.
      */
-    private List<EntityInfo> constructHologram(List<DynamicElement<?, ?>> elements, OfflinePlayer player) {
+    private List<EntityInfo> constructHologram(List<DynamicElement<?, ?>> elements, Player player) {
         List<EntityInfo> entities = new ArrayList<>();
         int index = 0;
+        Location location = data.getLocation().getFromContext(OfflinePlayer.class, player);
         for (DynamicElement<?, ?> t : elements) {
             Object toAdd = t.getFromContext(OfflinePlayer.class, player);
             if (toAdd == null)
                 continue;
-            entities.add(new EntityInfo(index, Entity.of(t)));
+            Entity entity = Entity.of(t, location);
+            entities.add(new EntityInfo(index, entity));
+            location.add(0, entity.offsetPerLine(), 0);
             index++;
         }
 
