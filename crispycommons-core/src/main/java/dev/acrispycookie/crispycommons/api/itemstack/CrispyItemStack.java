@@ -2,10 +2,9 @@ package dev.acrispycookie.crispycommons.api.itemstack;
 
 import com.cryptomorin.xseries.XEnchantment;
 import com.cryptomorin.xseries.XMaterial;
+import dev.acrispycookie.crispycommons.utility.nms.ItemMetaEditor;
+import dev.acrispycookie.crispycommons.utility.nms.nbt.*;
 import dev.acrispycookie.crispycommons.version.VersionManager;
-import dev.acrispycookie.crispycommons.utility.ItemMetaEditor;
-import dev.acrispycookie.crispycommons.utility.nbt.ItemStackNBT;
-import dev.acrispycookie.crispycommons.utility.nbt.BaseTag;
 import dev.acrispycookie.crispycommons.version.utility.Version;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

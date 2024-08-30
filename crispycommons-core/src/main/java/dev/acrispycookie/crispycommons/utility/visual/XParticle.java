@@ -1,5 +1,7 @@
 package dev.acrispycookie.crispycommons.utility.visual;
 
+
+import dev.acrispycookie.crispycommons.utility.nms.VersionParticle;
 import org.bukkit.Particle;
 
 import java.util.*;
@@ -108,7 +110,7 @@ public enum XParticle {
     /**
      * REDSTONE -> DUST (v1.20.5)
      */
-    DUST("REDSTONE"),
+    DUST("REDSTONE", "COLOURED_DUST"),
     /**
      * SNOWBALL, SNOW_SHOVEL -> ITEM_SNOWBALL (v1.20.5)
      */
@@ -215,19 +217,20 @@ public enum XParticle {
      */
     BLOCK_MARKER("BARRIER", "LIGHT");
 
-    private final Particle particle;
+    private final VersionParticle particle;
 
     XParticle(String... alts) {
-        Particle testParticle = tryGetParticle(this.name());
+        VersionParticle testParticle = VersionParticle.newInstance();
+        boolean set = testParticle.set(this.name());
         Data.NAME_MAPPING.put(this.name(), this);
 
         for (String alt : alts) {
-            if (testParticle == null) testParticle = tryGetParticle(alt);
+            if (!set) set = testParticle.set(alt);
             Data.NAME_MAPPING.put(alt, this);
         }
 
         this.particle = testParticle;
-        if (particle != null) Data.BUKKIT_MAPPING.put(particle, this);
+        if (set) Data.BUKKIT_MAPPING.put(particle, this);
     }
 
     /**
@@ -235,7 +238,7 @@ public enum XParticle {
      *
      * @return the particle
      */
-    public Particle get() {
+    public VersionParticle get() {
         return particle;
     }
 
@@ -265,7 +268,7 @@ public enum XParticle {
      * @return the XParticle associated with the given bukkit particle
      * @throws UnsupportedOperationException if the given particle does not exist.
      */
-    public static XParticle of(Particle particle) {
+    public static XParticle of(VersionParticle particle) {
         Objects.requireNonNull(particle, "Cannot match null particle");
         XParticle mapping = XParticle.Data.BUKKIT_MAPPING.get(particle);
         if (mapping != null) return mapping;
@@ -283,17 +286,9 @@ public enum XParticle {
         return Optional.ofNullable(XParticle.Data.NAME_MAPPING.get(particle));
     }
 
-    private static Particle tryGetParticle(String particle) {
-        try {
-            return Particle.valueOf(particle);
-        } catch (IllegalArgumentException ignored) {
-            return null;
-        }
-    }
-
     private static final class Data {
         private static final Map<String, XParticle> NAME_MAPPING = new HashMap<>();
-        private static final Map<Particle, XParticle> BUKKIT_MAPPING = new EnumMap<>(Particle.class);
+        private static final Map<VersionParticle, XParticle> BUKKIT_MAPPING = new HashMap<>();
     }
 }
 

@@ -2,7 +2,7 @@ package dev.acrispycookie.crispycommons.v1_8_R3.implementations.entity;
 
 import dev.acrispycookie.crispycommons.implementations.element.type.TextElement;
 import dev.acrispycookie.crispycommons.implementations.entity.TextEntity;
-import dev.acrispycookie.crispycommons.utility.entity.VersionArmorStand;
+import dev.acrispycookie.crispycommons.utility.nms.entity.VersionArmorStand;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.apache.commons.lang3.StringUtils;

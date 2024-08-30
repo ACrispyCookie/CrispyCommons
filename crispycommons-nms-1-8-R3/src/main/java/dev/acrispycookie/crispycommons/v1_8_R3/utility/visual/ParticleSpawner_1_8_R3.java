@@ -2,6 +2,7 @@ package dev.acrispycookie.crispycommons.v1_8_R3.utility.visual;
 
 import dev.acrispycookie.crispycommons.utility.visual.ParticleSpawner;
 import dev.acrispycookie.crispycommons.utility.visual.XParticle;
+import dev.acrispycookie.crispycommons.v1_8_R3.utility.nms.VersionParticle_1_8_R3;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -12,7 +13,7 @@ public class ParticleSpawner_1_8_R3 extends ParticleSpawner {
 
     @Override
     public void spawnColored(Player player, XParticle particle, Location location, float r, float g, float b) {
-        player.spigot().playEffect(location, getByXParticle(particle), 0, 1, r, g, b, 1, 0, 160);
+        player.spigot().playEffect(location, getByXParticle(particle), 0, 1, r == 0 ? Float.MIN_VALUE : r, g, b, 1, 0, 160);
     }
 
     @Override
@@ -21,22 +22,6 @@ public class ParticleSpawner_1_8_R3 extends ParticleSpawner {
     }
 
     private Effect getByXParticle(XParticle particle) {
-        if (Arrays.stream(Particle_1_8.values()).noneMatch((p) -> p.name().equals(particle.name())))
-            return Effect.COLOURED_DUST;
-        return Particle_1_8.valueOf(particle.name()).getEffect();
-    }
-
-    enum Particle_1_8 {
-        DUST(Effect.COLOURED_DUST);
-
-        private final Effect effect;
-
-        Particle_1_8(Effect effect) {
-            this.effect = effect;
-        }
-
-        public Effect getEffect() {
-            return effect;
-        }
+        return ((VersionParticle_1_8_R3) particle.get()).getEffect();
     }
 }
