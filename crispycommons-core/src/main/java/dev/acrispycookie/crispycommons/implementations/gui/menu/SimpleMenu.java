@@ -87,14 +87,14 @@ public class SimpleMenu extends AbstractTrackedGui<MenuData> implements CrispyMe
      * @param p the player for whom the menu will be closed.
      */
     @Override
-    public void closeInternal(Player p) {
+    public void closeInternal(Player p, boolean closeView) {
         if (!isPlayerViewing(p))
             return;
 
         openMenus.remove(p);
         data.onPageClose(p);
         viewers.put(p, false);
-        if (p.getOpenInventory() != null)
+        if (p.getOpenInventory() != null && closeView)
             p.closeInventory();
     }
 

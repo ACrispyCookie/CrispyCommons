@@ -70,7 +70,7 @@ public class MenuListener_1_8_R3 extends MenuListener {
         }
 
         if (page.getMenu().isPlayerViewing(player))
-            page.getMenu().close(player);
+            page.getMenu().close(player, false);
     }
 
     @EventHandler

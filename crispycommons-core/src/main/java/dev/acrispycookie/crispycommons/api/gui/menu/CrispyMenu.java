@@ -242,7 +242,7 @@ public interface CrispyMenu extends TrackedGui, Listener {
         CrispyMenu toOpen = menus.peek();
         CrispyMenu toClose = getOpenMenu(player);
         if (toClose != null)
-            toClose.close(player);
+            toClose.close(player, false);
         toOpen.openWithNoHistory(player);
     }
 

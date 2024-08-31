@@ -67,10 +67,11 @@ public abstract class AbstractGui<T extends GuiData> implements CrispyGui {
      * </p>
      *
      * @param player the player for whom the GUI will be closed.
+     * @param closeView the option to close the view. Set to false if another menu is going to open right after.
      */
     @Override
-    public void close(@NotNull Player player) {
-        closeInternal(player);
+    public void close(@NotNull Player player, boolean closeView) {
+        closeInternal(player, closeView);
     }
 
     /**
@@ -84,7 +85,8 @@ public abstract class AbstractGui<T extends GuiData> implements CrispyGui {
      * Closes the GUI for the specified player with custom logic defined by subclasses.
      *
      * @param player the player for whom the GUI will be closed.
+     * @param closeView the option to close the view. Set to false if another menu is going to open right after.
      */
-    protected abstract void closeInternal(Player player);
+    protected abstract void closeInternal(Player player, boolean closeView);
 }
 

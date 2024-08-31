@@ -33,9 +33,11 @@ public abstract class AbstractUntrackedGui<T extends GuiData> extends AbstractGu
      * </p>
      *
      * @param player the player for whom the GUI will be closed.
+     * @param closeView the option to close the view. Normally set to true, but set to false if another
+     *                  view is going to open right after.
      */
     @Override
-    public void close(@NotNull Player player) {
+    public void close(@NotNull Player player, boolean closeView) {
         // No specific closing behavior; intended to be overridden by subclasses
     }
 
@@ -46,10 +48,12 @@ public abstract class AbstractUntrackedGui<T extends GuiData> extends AbstractGu
      * specific internal logic for closing. Subclasses may override this method if needed.
      * </p>
      *
-     * @param p the player for whom the GUI will be closed.
+     * @param player the player for whom the GUI will be closed.
+     * @param closeView the option to close the view. Normally set to true, but set to false if another
+     *                  view is going to open right after.
      */
     @Override
-    protected void closeInternal(Player p) {
+    protected void closeInternal(Player player, boolean closeView) {
         // No internal closing logic; intended to be overridden by subclasses
     }
 }

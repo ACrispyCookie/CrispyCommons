@@ -31,7 +31,9 @@ public interface CrispyGui {
      * </p>
      *
      * @param player the player for whom the GUI should be closed.
+     * @param closeView the option to close the view. Normally set to true, but set to false if another
+     *                  view is going to open right after.
      * @throws NullPointerException if {@code player} is {@code null}.
      */
-    void close(@NotNull Player player);
+    void close(@NotNull Player player, boolean closeView);
 }

@@ -8,6 +8,7 @@ import dev.acrispycookie.crispycommons.implementations.element.type.TimeToLiveEl
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -25,6 +26,11 @@ public class SimpleHologram extends AbstractHologram {
      * A map storing the hologram entities associated with each player by their UUID.
      */
     private final HashMap<UUID, List<EntityInfo>> entities = new HashMap<>();
+
+    /**
+     * A list of players' UUIDs that are in a different world from the hologram.
+     */
+    private final Set<UUID> cannotView = new HashSet<>();
 
     /**
      * Constructs a {@code SimpleHologram} with the specified data, receivers, time-to-live, and visibility.
@@ -169,6 +175,8 @@ public class SimpleHologram extends AbstractHologram {
         Set<Player> viewers = getCurrentlyViewing();
         for (Player player : viewers) {
             Location location = data.getLocation().getFromContext(OfflinePlayer.class, player);
+            if (!updateWorld(location.getWorld(), player))
+                continue;
             for (int i = 0; i < data.getLines().size(); i++) {
                 EntityInfo info = entities.get(player.getUniqueId()).get(i);
                 Entity entity = info.getEntity();
@@ -181,10 +189,34 @@ public class SimpleHologram extends AbstractHologram {
     @Override
     public void updateLine(int index) {
         Set<Player> viewers = getCurrentlyViewing();
-        for (Player p : viewers) {
-            EntityInfo info = entities.get(p.getUniqueId()).get(index);
-            info.getEntity().update(p);
+        for (Player player : viewers) {
+            if (cannotView.contains(player.getUniqueId()))
+                continue;
+            EntityInfo info = entities.get(player.getUniqueId()).get(index);
+            info.getEntity().update(player);
         }
+    }
+
+    private boolean updateWorld(World newWorld, Player player) {
+        if (!data.getLocation().isDynamic()) {
+            if (newWorld.equals(player.getWorld()))
+                return true;
+            hideInternal(player);
+            return false;
+        }
+
+        if (!player.getWorld().equals(newWorld)) {
+            cannotView.add(player.getUniqueId());
+            hide(player);
+            return false;
+        }
+
+        World previousWorld = entities.get(player.getUniqueId()).iterator().next().getEntity().getLocation().getWorld();
+        if (cannotView.contains(player.getUniqueId()) || !previousWorld.equals(newWorld)) {
+            show(player);
+            cannotView.remove(player.getUniqueId());
+        }
+        return true;
     }
 
     /**
