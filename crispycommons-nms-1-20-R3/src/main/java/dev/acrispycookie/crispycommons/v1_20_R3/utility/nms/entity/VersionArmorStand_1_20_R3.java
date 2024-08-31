@@ -92,7 +92,8 @@ public class VersionArmorStand_1_20_R3 extends VersionEntity_1_20_R3 implements 
     }
 
     public void setDead(boolean dead) {
-        armorStand.al();
+        if (dead)
+            armorStand.al();
     }
 
     public void setLocation(Location location) {

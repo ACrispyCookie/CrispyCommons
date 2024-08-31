@@ -46,6 +46,17 @@ public interface Entity {
     double offsetPerLine();
 
     /**
+     * Retrieves the current state of this entity.
+     * <p>
+     * This method returns {@code true} if the entity is dead or {@code false} if it is not.
+     * </p>
+     *
+     * @return the current state.
+     * @throws NullPointerException if the location is not set or cannot be determined.
+     */
+    boolean isDead();
+
+    /**
      * Retrieves the current {@link Location} of this entity.
      * <p>
      * This method returns the {@link Location} that represents the current position of the entity.

@@ -33,6 +33,11 @@ public class ItemEntity_1_20_R3 extends ItemEntity {
     }
 
     @Override
+    public boolean isDead() {
+        return item.isDestroyed();
+    }
+
+    @Override
     public @NotNull Location getLocation() {
         return item.getLocation();
     }

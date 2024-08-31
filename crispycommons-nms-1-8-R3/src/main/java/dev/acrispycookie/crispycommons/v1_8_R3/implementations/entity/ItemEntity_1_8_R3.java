@@ -50,6 +50,11 @@ public class ItemEntity_1_8_R3 extends ItemEntity {
     }
 
     @Override
+    public boolean isDead() {
+        return armorStand.isDestroyed();
+    }
+
+    @Override
     public void spawn(@NotNull Player player) {
         CrispyItemStack elementValue = element.getFromContext(OfflinePlayer.class, player);
 

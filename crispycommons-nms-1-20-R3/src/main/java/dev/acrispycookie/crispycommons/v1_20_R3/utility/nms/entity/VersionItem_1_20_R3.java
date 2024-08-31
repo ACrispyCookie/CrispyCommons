@@ -64,7 +64,8 @@ public class VersionItem_1_20_R3 extends VersionEntity_1_20_R3 implements Versio
     }
 
     public void setDead(boolean dead) {
-        item.al();
+        if (dead)
+            item.al();
     }
 
     @Override

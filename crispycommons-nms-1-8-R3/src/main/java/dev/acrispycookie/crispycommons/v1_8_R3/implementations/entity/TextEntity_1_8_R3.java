@@ -40,6 +40,11 @@ public class TextEntity_1_8_R3 extends TextEntity {
     }
 
     @Override
+    public boolean isDead() {
+        return armorStand.isDestroyed();
+    }
+
+    @Override
     public void spawn(@NotNull Player player) {
         Component elementValue = element.getFromContext(OfflinePlayer.class, player);
         String name = convertToName(elementValue);

@@ -7,6 +7,7 @@ import dev.acrispycookie.crispycommons.implementations.element.type.TimeToLiveEl
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -82,7 +83,7 @@ public class SimpleHologram extends AbstractHologram {
         if (!location.getWorld().equals(p.getWorld())) {
             hide(p);
             return;
-        } else if (entities.containsKey(p.getUniqueId()) && !entities.get(p.getUniqueId()).get(0).getEntity().getLocation().getWorld().equals(location.getWorld()))
+        } else if (entities.get(p.getUniqueId()).get(0).getEntity().isDead())
             show(p);
 
         entities.get(p.getUniqueId()).forEach((info) -> {
