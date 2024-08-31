@@ -8,7 +8,15 @@ public enum Version {
         return this.ordinal() >= compare.ordinal();
     }
 
+    public boolean isHigher(Version compare) {
+        return this.ordinal() > compare.ordinal();
+    }
+
     public boolean isLowerOrEqual(Version compare) {
         return this.ordinal() <= compare.ordinal();
+    }
+
+    public boolean isLower(Version compare) {
+        return this.ordinal() < compare.ordinal();
     }
 }

@@ -17,6 +17,8 @@ import org.bukkit.craftbukkit.v1_20_R3.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.HashSet;
+
 public class VersionItem_1_20_R3 extends VersionEntity_1_20_R3 implements VersionItem {
 
     private final EntityItem item;
@@ -67,7 +69,7 @@ public class VersionItem_1_20_R3 extends VersionEntity_1_20_R3 implements Versio
 
     @Override
     public void setLocation(Location location) {
-        item.a(location.getX(), location.getY(), location.getZ(), 0, 0);
+        item.a(((CraftWorld) location.getWorld()).getHandle(), location.getX(), location.getY(), location.getZ(), new HashSet<>(), (float) 0, (float) 0);
     }
 
     @Override

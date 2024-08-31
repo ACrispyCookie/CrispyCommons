@@ -57,6 +57,10 @@ public class VersionItem_1_8_R3 extends VersionEntity_1_8_R3 implements VersionI
 
     @Override
     public void setLocation(Location location) {
+        World newWorld = ((CraftWorld) location.getWorld()).getHandle();
+        if (!item.getWorld().equals(newWorld)) {
+            item.spawnIn(newWorld);
+        }
         item.setLocation(location.getX(), location.getY(), location.getZ(), 0, 0);
     }
 

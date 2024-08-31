@@ -7,6 +7,8 @@ import dev.acrispycookie.crispycommons.implementations.visual.bossbar.data.BossB
 import dev.acrispycookie.crispycommons.implementations.element.type.GeneralElement;
 import dev.acrispycookie.crispycommons.implementations.element.type.TextElement;
 import dev.acrispycookie.crispycommons.implementations.element.type.TimeToLiveElement;
+import dev.acrispycookie.crispycommons.version.VersionManager;
+import dev.acrispycookie.crispycommons.version.utility.Version;
 import net.kyori.adventure.bossbar.BossBar;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -49,6 +51,8 @@ public abstract class AbstractBossBar extends AbstractVisual<BossBarData> implem
      */
     @EventHandler
     public void onRespawn(PlayerRespawnEvent event) {
+        if (VersionManager.getVersion().isHigher(Version.v1_8_R3))
+            return;
         if (getPlayers().contains(event.getPlayer()) && isDisplayed) {
             Bukkit.getScheduler().runTaskLater(CrispyCommons.getPlugin(), () -> show(event.getPlayer()), 20L);
         }

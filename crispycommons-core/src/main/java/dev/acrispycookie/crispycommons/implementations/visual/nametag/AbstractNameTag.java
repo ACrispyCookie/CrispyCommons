@@ -7,6 +7,9 @@ import dev.acrispycookie.crispycommons.implementations.visual.nametag.data.NameT
 import dev.acrispycookie.crispycommons.implementations.element.type.NameTagElement;
 import dev.acrispycookie.crispycommons.implementations.element.type.TimeToLiveElement;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 
 import java.util.Set;
 
@@ -37,6 +40,34 @@ public abstract class AbstractNameTag extends AbstractVisual<NameTagData> implem
      */
     AbstractNameTag(NameTagData data, Set<? extends OfflinePlayer> receivers, TimeToLiveElement<?> timeToLive, UpdateMode updateMode, boolean isPublic) {
         super(data, receivers, timeToLive, updateMode, isPublic);
+    }
+
+    /**
+     * Handles the event where a player dies. If the player is the one associated with this name tag,
+     * the above-name hologram (if present) will be hidden.
+     *
+     * @param event the {@link PlayerDeathEvent} triggered when a player dies.
+     */
+    @EventHandler
+    public void onDeath(PlayerDeathEvent event) {
+        if (event.getEntity().equals(data.getPlayer())) {
+            if (isAnyoneWatching() && aboveNameHologram != null)
+                aboveNameHologram.hide();
+        }
+    }
+
+    /**
+     * Handles the event where a player respawns. If the player is the one associated with this name tag,
+     * the above-name hologram (if present) will be shown again.
+     *
+     * @param event the {@link PlayerRespawnEvent} triggered when a player respawns.
+     */
+    @EventHandler
+    public void onRespawn(PlayerRespawnEvent event) {
+        if (event.getPlayer().equals(data.getPlayer())) {
+            if (isAnyoneWatching() && aboveNameHologram != null)
+                aboveNameHologram.show();
+        }
     }
 
     /**

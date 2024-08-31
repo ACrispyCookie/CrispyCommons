@@ -78,6 +78,13 @@ public class SimpleHologram extends AbstractHologram {
      */
     @Override
     protected void perPlayerUpdate(Player p) {
+        Location location = data.getLocation().getFromContext(OfflinePlayer.class, p);
+        if (!location.getWorld().equals(p.getWorld())) {
+            hide(p);
+            return;
+        } else if (entities.containsKey(p.getUniqueId()) && !entities.get(p.getUniqueId()).get(0).getEntity().getLocation().getWorld().equals(location.getWorld()))
+            show(p);
+
         entities.get(p.getUniqueId()).forEach((info) -> {
             Entity e = info.getEntity();
             e.setLocation(getEntityLocation(p, info.getIndex()), p);
@@ -110,7 +117,7 @@ public class SimpleHologram extends AbstractHologram {
         for (Map.Entry<UUID, List<EntityInfo>> e : entities.entrySet()) {
             List<EntityInfo> infos = e.getValue();
             Player player = Bukkit.getPlayer(e.getKey());
-            Location location = data.getLocation().getFromContext(OfflinePlayer.class, player);
+            Location location = data.getLocation().getFromContext(OfflinePlayer.class, player).clone();
             for (EntityInfo entityInfo : infos) {
                 if (entityInfo.getIndex() < index) {
                     location.add(0, entityInfo.getEntity().offsetPerLine(), 0);
@@ -211,7 +218,7 @@ public class SimpleHologram extends AbstractHologram {
     private List<EntityInfo> constructHologram(List<DynamicElement<?, ?>> elements, Player player) {
         List<EntityInfo> entities = new ArrayList<>();
         int index = 0;
-        Location location = data.getLocation().getFromContext(OfflinePlayer.class, player);
+        Location location = data.getLocation().getFromContext(OfflinePlayer.class, player).clone();
         for (DynamicElement<?, ?> t : elements) {
             Object toAdd = t.getFromContext(OfflinePlayer.class, player);
             if (toAdd == null)

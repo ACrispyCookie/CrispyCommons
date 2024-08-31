@@ -7,11 +7,15 @@ import dev.acrispycookie.crispycommons.implementations.visual.abstraction.visual
 import dev.acrispycookie.crispycommons.implementations.visual.hologram.data.HologramData;
 import dev.acrispycookie.crispycommons.implementations.element.type.GeneralElement;
 import dev.acrispycookie.crispycommons.implementations.element.type.TimeToLiveElement;
+import dev.acrispycookie.crispycommons.version.VersionManager;
+import dev.acrispycookie.crispycommons.version.utility.Version;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
 import java.util.ArrayList;
@@ -84,8 +88,10 @@ public abstract class AbstractHologram extends AbstractVisual<HologramData> impl
      */
     @EventHandler
     public void onDeath(PlayerDeathEvent event) {
+        if (VersionManager.getVersion().isHigher(Version.v1_8_R3))
+            return;
         if (getPlayers().contains(event.getEntity()) && isDisplayed) {
-            hide(event.getEntity());
+            hideInternal(event.getEntity());
         }
     }
 
@@ -100,8 +106,34 @@ public abstract class AbstractHologram extends AbstractVisual<HologramData> impl
      */
     @EventHandler
     public void onRespawn(PlayerRespawnEvent event) {
+        if (VersionManager.getVersion().isHigher(Version.v1_8_R3))
+            return;
         if (getPlayers().contains(event.getPlayer()) && isDisplayed) {
-            Bukkit.getScheduler().runTaskLater(CrispyCommons.getPlugin(), () -> show(event.getPlayer()), 1L);
+            Bukkit.getScheduler().runTaskLater(CrispyCommons.getPlugin(), () -> showInternal(event.getPlayer()), 1L);
+        }
+    }
+
+    /**
+     * Handles the event when a player changes worlds.
+     * <p>
+     * If the player is one of the hologram's receivers and the hologram is currently displayed,
+     * the hologram is shown to the player again after a short delay.
+     * </p>
+     *
+     * @param event the {@link PlayerChangedWorldEvent} triggered when a player changes world.
+     */
+    @EventHandler
+    public void onWorldChange(PlayerChangedWorldEvent event) {
+        Player player = event.getPlayer();
+        GeneralElement<Location, ?> locationGeneralElement = getLocation();
+        if (locationGeneralElement.isDynamic())
+            return;
+        Location location = locationGeneralElement.getFromContext(OfflinePlayer.class, player);
+        if (getPlayers().contains(player) && isDisplayed) {
+            if (location.getWorld().equals(event.getFrom()))
+                Bukkit.getScheduler().runTaskLater(CrispyCommons.getPlugin(), () -> hideInternal(event.getPlayer()), 1L);
+            else if (location.getWorld().equals(player.getWorld()))
+                Bukkit.getScheduler().runTaskLater(CrispyCommons.getPlugin(), () -> showInternal(event.getPlayer()), 1L);
         }
     }
 

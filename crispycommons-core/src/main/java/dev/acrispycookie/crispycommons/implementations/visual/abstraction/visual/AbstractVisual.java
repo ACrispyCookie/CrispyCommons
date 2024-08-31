@@ -172,7 +172,7 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
      * @param p the player to show the visual to.
      */
     protected void showInternal(Player p) {
-        if (isExpired(p))
+        if (isExpired(p) && currentlyDisplaying.contains(p.getUniqueId()))
             return;
         if (currentlyDisplaying.isEmpty())
             prepareShow();
@@ -187,6 +187,8 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
      * @param p the player to hide the visual from.
      */
     protected void hideInternal(Player p) {
+        if (!currentlyDisplaying.contains(p.getUniqueId()))
+            return;
         currentlyDisplaying.remove(p.getUniqueId());
         if (currentlyDisplaying.isEmpty()) {
             prepareHide();
@@ -228,11 +230,11 @@ public abstract class AbstractVisual<T extends VisualData> implements CrispyVisu
 
         if (updateMode == UpdateMode.BOTH) {
             globalUpdate();
-            currentlyDisplaying.stream().map(Bukkit::getOfflinePlayer).filter(OfflinePlayer::isOnline).forEach(p -> perPlayerUpdate(p.getPlayer()));
+            new HashSet<>(currentlyDisplaying).stream().map(Bukkit::getOfflinePlayer).filter(OfflinePlayer::isOnline).forEach(p -> perPlayerUpdate(p.getPlayer()));
         } else if (updateMode == UpdateMode.GLOBAL) {
             globalUpdate();
         } else if (updateMode == UpdateMode.PER_PLAYER) {
-            currentlyDisplaying.stream().map(Bukkit::getOfflinePlayer).filter(OfflinePlayer::isOnline).forEach(p -> perPlayerUpdate(p.getPlayer()));
+            new HashSet<>(currentlyDisplaying).stream().map(Bukkit::getOfflinePlayer).filter(OfflinePlayer::isOnline).forEach(p -> perPlayerUpdate(p.getPlayer()));
         }
     }
 

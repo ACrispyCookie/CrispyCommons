@@ -11,6 +11,8 @@ import org.bukkit.craftbukkit.v1_20_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_20_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
+import java.util.HashSet;
+
 public class VersionArmorStand_1_20_R3 extends VersionEntity_1_20_R3 implements VersionArmorStand {
 
     private final EntityArmorStand armorStand;
@@ -94,7 +96,7 @@ public class VersionArmorStand_1_20_R3 extends VersionEntity_1_20_R3 implements 
     }
 
     public void setLocation(Location location) {
-        armorStand.a(location.getX(), location.getY(), location.getZ(), (float) 0, (float) 0);
+        armorStand.a(((CraftWorld) location.getWorld()).getHandle(), location.getX(), location.getY(), location.getZ(), new HashSet<>(), (float) 0, (float) 0);
     }
 
     public Location getLocation() {

@@ -41,34 +41,6 @@ public class SimpleNameTag extends AbstractNameTag {
     }
 
     /**
-     * Handles the event where a player dies. If the player is the one associated with this name tag,
-     * the above-name hologram (if present) will be hidden.
-     *
-     * @param event the {@link PlayerDeathEvent} triggered when a player dies.
-     */
-    @EventHandler
-    public void onDeath(PlayerDeathEvent event) {
-        if (event.getEntity().equals(data.getPlayer())) {
-            if (isAnyoneWatching() && aboveNameHologram != null)
-                aboveNameHologram.hide();
-        }
-    }
-
-    /**
-     * Handles the event where a player respawns. If the player is the one associated with this name tag,
-     * the above-name hologram (if present) will be shown again.
-     *
-     * @param event the {@link PlayerRespawnEvent} triggered when a player respawns.
-     */
-    @EventHandler
-    public void onRespawn(PlayerRespawnEvent event) {
-        if (event.getPlayer().equals(data.getPlayer())) {
-            if (isAnyoneWatching() && aboveNameHologram != null)
-                aboveNameHologram.show();
-        }
-    }
-
-    /**
      * Shows the name tag to the specified player, including prefix, suffix, above-name, and below-name texts.
      *
      * @param p the player to whom the name tag will be shown.
