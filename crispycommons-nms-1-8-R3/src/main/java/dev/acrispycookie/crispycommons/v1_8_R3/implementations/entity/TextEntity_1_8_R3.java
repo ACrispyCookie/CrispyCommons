@@ -45,6 +45,11 @@ public class TextEntity_1_8_R3 extends TextEntity {
     }
 
     @Override
+    public String getName() {
+        return armorStand.getCustomName();
+    }
+
+    @Override
     public void spawn(@NotNull Player player) {
         Component elementValue = element.getFromContext(OfflinePlayer.class, player);
         String name = convertToName(elementValue);
@@ -81,14 +86,18 @@ public class TextEntity_1_8_R3 extends TextEntity {
     }
 
     @Override
+    public void updateLocation(@NotNull Player player) {
+        armorStand.updateLocation(player);
+    }
+
+    @Override
     public @NotNull Location getLocation() {
         return armorStand.getLocation();
     }
 
     @Override
-    public void setLocation(@NotNull Location location, @NotNull Player player) {
+    public void setLocation(@NotNull Location location) {
         armorStand.setLocation(location);
-        armorStand.updateLocation(player);
     }
 
     private String convertToName(Component component) {

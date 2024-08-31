@@ -30,7 +30,6 @@ public class TimeToLiveElement<K> extends AbstractAnimatedElement<Long, K> {
     protected TimeToLiveElement(MyElementSupplier<K, Long> supplier, Class<K> kClass, StartMode startMode) {
         super(supplier, -1, -1, false, kClass);
         this.startMode = startMode;
-        setUpdate(() -> {});
     }
 
     /**

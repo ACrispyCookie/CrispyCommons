@@ -37,7 +37,7 @@ public class SimpleNameTag extends AbstractNameTag {
      * @param isPublic   whether the name tag should be visible to all players.
      */
     public SimpleNameTag(NameTagData data, Set<? extends OfflinePlayer> receivers, TimeToLiveElement<?> timeToLive, boolean isPublic) {
-        super(data, receivers, timeToLive, UpdateMode.PER_PLAYER, isPublic);
+        super(data, receivers, timeToLive, UpdateMode.GLOBAL, isPublic);
     }
 
     /**
@@ -75,13 +75,7 @@ public class SimpleNameTag extends AbstractNameTag {
      */
     @Override
     protected void perPlayerUpdate(Player p) {
-        if (!p.canSee(data.getPlayer())) {
-            hide(p);
-            return;
-        }
 
-        updateNameTag(p);
-        updateBelowName(p);
     }
 
     /**
@@ -89,7 +83,66 @@ public class SimpleNameTag extends AbstractNameTag {
      */
     @Override
     protected void globalUpdate() {
-        // No global update action needed.
+        updatePrefix();
+        updateSuffix();
+        updateBelowName();
+        updateBelowNameValue();
+        updateAboveName();
+    }
+
+    @Override
+    public void updatePrefix() {
+        Set<Player> viewers = getCurrentlyViewing();
+        for (Player player : viewers) {
+            String prefix = getElement(data.getPrefix(), data.getPlayer(), player);
+            updateVanillaNameTagPrefix(player, prefix);
+        }
+
+    }
+
+    @Override
+    public void updateSuffix() {
+        Set<Player> viewers = getCurrentlyViewing();
+        for (Player player : viewers) {
+            String suffix = getElement(data.getSuffix(), data.getPlayer(), player);
+            updateVanillaNameTagSuffix(player, suffix);
+        }
+    }
+
+    @Override
+    public void updateBelowName() {
+        if (data.getBelowName() == null)
+            return;
+
+        Set<Player> viewers = getCurrentlyViewing();
+        for (Player player : viewers) {
+            String below = getElement(data.getBelowName(), data.getPlayer(), player);
+            updateVanillaBelowName(player, below);
+        }
+    }
+
+    @Override
+    public void updateBelowNameValue() {
+        if (data.getBelowName() == null)
+            return;
+
+        Set<Player> viewers = getCurrentlyViewing();
+        for (Player player : viewers) {
+            int value = getElement(data.getBelowNameValue(), data.getPlayer(), player);
+            updateVanillaBelowNameValue(player, value);
+        }
+    }
+
+    @Override
+    public void updateAboveName() {
+        Set<Player> viewers = getCurrentlyViewing();
+        for (Player player : viewers) {
+            if (!player.canSee(data.getPlayer())) {
+                hide(player);
+            } else if (!aboveNameHologram.getPlayers().contains(player)) {
+                showAboveName(player);
+            }
+        }
     }
 
     /**
@@ -123,21 +176,6 @@ public class SimpleNameTag extends AbstractNameTag {
     }
 
     /**
-     * Updates the below-name text for the specified player.
-     *
-     * @param p the player for whom the below-name text will be updated.
-     */
-    private void updateBelowName(Player p) {
-        if (data.getBelowName() == null || data.getBelowNameValue() == null)
-            return;
-
-        String below = getElement(data.getBelowName(), data.getPlayer(), p);
-        int value = getElement(data.getBelowNameValue(), data.getPlayer(), p);
-
-        updateVanillaBelowName(p, below, value);
-    }
-
-    /**
      * Hides the below-name text from the specified player.
      *
      * @param p the player from whom the below-name text will be hidden.
@@ -162,17 +200,6 @@ public class SimpleNameTag extends AbstractNameTag {
     }
 
     /**
-     * Updates the name tag (prefix and suffix) for the specified player.
-     *
-     * @param p the player for whom the name tag will be updated.
-     */
-    private void updateNameTag(Player p) {
-        String prefix = getElement(data.getPrefix(), data.getPlayer(), p);
-        String suffix = getElement(data.getSuffix(), data.getPlayer(), p);
-        updateVanillaNameTag(p, prefix, suffix);
-    }
-
-    /**
      * Hides the name tag from the specified player.
      *
      * @param p the player from whom the name tag will be hidden.
@@ -184,16 +211,26 @@ public class SimpleNameTag extends AbstractNameTag {
     }
 
     /**
-     * Updates the player's vanilla name tag with the specified prefix and suffix.
+     * Updates the player's vanilla name tag with the specified prefix.
      *
      * @param receiver the player who will see the updated name tag.
      * @param prefix   the prefix to display on the name tag.
-     * @param suffix   the suffix to display on the name tag.
      */
-    private void updateVanillaNameTag(Player receiver, String prefix, String suffix) {
+    private void updateVanillaNameTagPrefix(Player receiver, String prefix) {
         Scoreboard scoreboard = receiver.getScoreboard();
         Team t = scoreboard.getTeam(data.getPlayer().getName());
         t.setPrefix(ChatColor.translateAlternateColorCodes('&', prefix.substring(0, Math.min(16, prefix.length()))));
+    }
+
+    /**
+     * Updates the player's vanilla name tag with the specified suffix.
+     *
+     * @param receiver the player who will see the updated name tag.
+     * @param suffix   the suffix to display on the name tag.
+     */
+    private void updateVanillaNameTagSuffix(Player receiver, String suffix) {
+        Scoreboard scoreboard = receiver.getScoreboard();
+        Team t = scoreboard.getTeam(data.getPlayer().getName());
         t.setSuffix(ChatColor.translateAlternateColorCodes('&', suffix.substring(0, Math.min(16, suffix.length()))));
     }
 
@@ -238,12 +275,22 @@ public class SimpleNameTag extends AbstractNameTag {
      *
      * @param receiver the player who will see the updated below-name text.
      * @param below    the text to display below the name.
-     * @param value    the value to display below the name.
      */
-    private void updateVanillaBelowName(Player receiver, String below, int value) {
+    private void updateVanillaBelowName(Player receiver, String below) {
         Scoreboard scoreboard = receiver.getScoreboard();
         Objective objective = scoreboard.getObjective(data.getPlayer().getName());
         objective.setDisplayName(ChatColor.translateAlternateColorCodes('&', below));
+    }
+
+    /**
+     * Updates the player's vanilla below-name value with the specified value.
+     *
+     * @param receiver the player who will see the updated below-name text.
+     * @param value    the value to display below the name.
+     */
+    private void updateVanillaBelowNameValue(Player receiver, int value) {
+        Scoreboard scoreboard = receiver.getScoreboard();
+        Objective objective = scoreboard.getObjective(data.getPlayer().getName());
         objective.getScore(data.getPlayer().getName()).setScore(value);
     }
 

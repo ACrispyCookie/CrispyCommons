@@ -97,6 +97,31 @@ public interface CrispyNameTag extends CrispyVisual {
     NameTagElement<String, ?> getAboveName();
 
     /**
+     * Updates the prefix of the name tag.
+     */
+    void updatePrefix();
+
+    /**
+     * Updates the suffix of the name tag.
+     */
+    void updateSuffix();
+
+    /**
+     * Updates the text below the name in the name tag.
+     */
+    void updateBelowName();
+
+    /**
+     * Updates the value displayed below the name in the name tag.
+     */
+    void updateBelowNameValue();
+
+    /**
+     * Updates the text above the name in the name tag.
+     */
+    void updateAboveName();
+
+    /**
      * Builder class for constructing instances of {@link CrispyNameTag}.
      */
     class NameTagBuilder extends AbstractVisualBuilder<CrispyNameTag> {
@@ -111,7 +136,7 @@ public interface CrispyNameTag extends CrispyVisual {
          */
         public NameTagBuilder setPrefix(NameTagElement<String, ?> prefix) {
             this.data.setPrefix(prefix);
-            this.data.getPrefix().setUpdate(() -> toBuild.update());
+            this.data.getPrefix().setUpdate(() -> toBuild.updatePrefix());
             return this;
         }
 
@@ -123,7 +148,7 @@ public interface CrispyNameTag extends CrispyVisual {
          */
         public NameTagBuilder setSuffix(NameTagElement<String, ?> suffix) {
             this.data.setSuffix(suffix);
-            this.data.getSuffix().setUpdate(() -> toBuild.update());
+            this.data.getSuffix().setUpdate(() -> toBuild.updateSuffix());
             return this;
         }
 
@@ -135,7 +160,7 @@ public interface CrispyNameTag extends CrispyVisual {
          */
         public NameTagBuilder setAboveName(NameTagElement<String, ?> aboveName) {
             this.data.setAboveName(aboveName);
-            this.data.getAboveName().setUpdate(() -> toBuild.update());
+            this.data.getAboveName().setUpdate(() -> toBuild.updateAboveName());
             return this;
         }
 
@@ -147,7 +172,7 @@ public interface CrispyNameTag extends CrispyVisual {
          */
         public NameTagBuilder setBelowName(NameTagElement<String, ?> belowName) {
             this.data.setBelowName(belowName);
-            this.data.getBelowName().setUpdate(() -> toBuild.update());
+            this.data.getBelowName().setUpdate(() -> toBuild.updateBelowName());
             return this;
         }
 
@@ -159,7 +184,7 @@ public interface CrispyNameTag extends CrispyVisual {
          */
         public NameTagBuilder setBelowNameValue(NameTagElement<Integer, ?> belowNameValue) {
             this.data.setBelowNameValue(belowNameValue);
-            this.data.getBelowNameValue().setUpdate(() -> toBuild.update());
+            this.data.getBelowNameValue().setUpdate(() -> toBuild.updateBelowNameValue());
             return this;
         }
 

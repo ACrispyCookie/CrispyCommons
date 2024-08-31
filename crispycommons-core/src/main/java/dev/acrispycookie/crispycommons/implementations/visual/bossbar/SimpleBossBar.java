@@ -89,5 +89,41 @@ public class SimpleBossBar extends AbstractBossBar {
         bossBar.progress(data.getProgress().getFromContext(OfflinePlayer.class, p));
         bossBar.overlay(data.getOverlay().getFromContext(OfflinePlayer.class, p));
     }
+
+    @Override
+    public void updateText() {
+        Set<Player> viewers = getCurrentlyViewing();
+        for (Player p : viewers) {
+            BossBar bossBar = bossBars.get(p);
+            bossBar.name(data.getText().getFromContext(OfflinePlayer.class, p));
+        }
+    }
+
+    @Override
+    public void updateProgress() {
+        Set<Player> viewers = getCurrentlyViewing();
+        for (Player p : viewers) {
+            BossBar bossBar = bossBars.get(p);
+            bossBar.progress(data.getProgress().getFromContext(OfflinePlayer.class, p));
+        }
+    }
+
+    @Override
+    public void updateColor() {
+        Set<Player> viewers = getCurrentlyViewing();
+        for (Player p : viewers) {
+            BossBar bossBar = bossBars.get(p);
+            bossBar.color(data.getColor().getFromContext(OfflinePlayer.class, p));
+        }
+    }
+
+    @Override
+    public void updateOverlay() {
+        Set<Player> viewers = getCurrentlyViewing();
+        for (Player p : viewers) {
+            BossBar bossBar = bossBars.get(p);
+            bossBar.overlay(data.getOverlay().getFromContext(OfflinePlayer.class, p));
+        }
+    }
 }
 

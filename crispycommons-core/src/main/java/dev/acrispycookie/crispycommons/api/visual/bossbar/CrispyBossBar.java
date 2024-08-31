@@ -84,6 +84,26 @@ public interface CrispyBossBar extends CrispyVisual {
     GeneralElement<BossBar.Overlay, ?> getOverlay();
 
     /**
+     * Updates the text element currently displayed on the boss bar.
+     */
+    void updateText();
+
+    /**
+     * Updates the progress of the boss bar.
+     */
+    void updateProgress();
+
+    /**
+     * Updates the color of the boss bar.
+     */
+    void updateColor();
+
+    /**
+     * Updates the overlay of the boss bar.
+     */
+    void updateOverlay();
+
+    /**
      * A builder class for constructing instances of {@link CrispyBossBar}.
      * <p>
      * The {@code BossBarBuilder} extends {@link AbstractVisualBuilder} and allows for the customization
@@ -105,7 +125,7 @@ public interface CrispyBossBar extends CrispyVisual {
          */
         public BossBarBuilder setText(TextElement<?> text) {
             this.data.setText(text);
-            this.data.getText().setUpdate(() -> toBuild.update());
+            this.data.getText().setUpdate(() -> toBuild.updateText());
             return this;
         }
 
@@ -120,7 +140,7 @@ public interface CrispyBossBar extends CrispyVisual {
          */
         public BossBarBuilder setProgress(GeneralElement<Float, ?> progress) {
             this.data.setProgress(progress);
-            this.data.getProgress().setUpdate(() -> toBuild.update());
+            this.data.getProgress().setUpdate(() -> toBuild.updateProgress());
             return this;
         }
 
@@ -135,7 +155,7 @@ public interface CrispyBossBar extends CrispyVisual {
          */
         public BossBarBuilder setColor(GeneralElement<BossBar.Color, ?> color) {
             this.data.setColor(color);
-            this.data.getColor().setUpdate(() -> toBuild.update());
+            this.data.getColor().setUpdate(() -> toBuild.updateColor());
             return this;
         }
 
@@ -150,7 +170,7 @@ public interface CrispyBossBar extends CrispyVisual {
          */
         public BossBarBuilder setOverlay(GeneralElement<BossBar.Overlay, ?> overlay) {
             this.data.setOverlay(overlay);
-            this.data.getOverlay().setUpdate(() -> toBuild.update());
+            this.data.getOverlay().setUpdate(() -> toBuild.updateOverlay());
             return this;
         }
 

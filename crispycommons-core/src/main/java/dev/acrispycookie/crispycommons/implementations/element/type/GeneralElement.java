@@ -45,8 +45,6 @@ public class GeneralElement<T, K> extends AbstractAnimatedElement<T, K> {
      */
     protected GeneralElement(MyElementSupplier<K, T> supplier, int delay, int period, boolean async, Class<K> kClass) {
         super(supplier, delay, period, async, kClass);
-        if (period < 0)
-            setUpdate(() -> {});
     }
 
     /**

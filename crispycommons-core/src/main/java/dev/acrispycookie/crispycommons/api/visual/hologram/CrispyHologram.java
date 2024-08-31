@@ -82,6 +82,16 @@ public interface CrispyHologram extends CrispyVisual {
     GeneralElement<Location, ?> getLocation();
 
     /**
+     * Updates the location of the hologram.
+     */
+    void updateLocation();
+
+    /**
+     * Updates a specific line of the hologram.
+     */
+    void updateLine(int index);
+
+    /**
      * A builder class for constructing instances of {@link CrispyHologram}.
      * <p>
      * The {@code HologramBuilder} extends {@link AbstractVisualBuilder} and allows for the customization
@@ -104,7 +114,7 @@ public interface CrispyHologram extends CrispyVisual {
          */
         public HologramBuilder setLocation(GeneralElement<Location, ?> location) {
             this.data.setLocation(location);
-            location.setUpdate(() -> toBuild.update());
+            location.setUpdate(() -> toBuild.updateLocation());
             return this;
         }
 
@@ -119,7 +129,8 @@ public interface CrispyHologram extends CrispyVisual {
          */
         public HologramBuilder addLine(DynamicElement<?, ?> element) {
             this.data.getLines().add(element);
-            element.setUpdate(() -> toBuild.update());
+            int index = data.getLines().size() - 1;
+            element.setUpdate(() -> toBuild.updateLine(index));
             return this;
         }
 

@@ -13,6 +13,7 @@ import net.kyori.adventure.bossbar.BossBar;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
 import java.util.Set;
@@ -43,7 +44,7 @@ public abstract class AbstractBossBar extends AbstractVisual<BossBarData> implem
     /**
      * Event handler that ensures the boss bar is displayed to a player after they respawn.
      * <p>
-     * The boss bar will be re-displayed 20 ticks after the player respawns if the player is a recipient
+     * The boss bar will be re-displayed 1 tick after the player respawns if the player is a recipient
      * of the boss bar and it is currently being displayed.
      * </p>
      *
@@ -53,8 +54,26 @@ public abstract class AbstractBossBar extends AbstractVisual<BossBarData> implem
     public void onRespawn(PlayerRespawnEvent event) {
         if (VersionManager.getVersion().isHigher(Version.v1_8_R3))
             return;
-        if (getPlayers().contains(event.getPlayer()) && isDisplayed) {
-            Bukkit.getScheduler().runTaskLater(CrispyCommons.getPlugin(), () -> show(event.getPlayer()), 20L);
+        if (isWatching(event.getPlayer())) {
+            Bukkit.getScheduler().runTaskLater(CrispyCommons.getPlugin(), () -> show(event.getPlayer()), 1L);
+        }
+    }
+
+    /**
+     * Event handler that ensures the boss bar is displayed to a player after they change world.
+     * <p>
+     * The boss bar will be re-displayed 1 tick after the player changes the world if the player is a recipient
+     * of the boss bar and it is currently being displayed.
+     * </p>
+     *
+     * @param event the {@link PlayerChangedWorldEvent} triggered when a player respawns.
+     */
+    @EventHandler
+    public void onChangeWorld(PlayerChangedWorldEvent event) {
+        if (VersionManager.getVersion().isHigher(Version.v1_8_R3))
+            return;
+        if (isWatching(event.getPlayer())) {
+            Bukkit.getScheduler().runTaskLater(CrispyCommons.getPlugin(), () -> show(event.getPlayer()), 1L);
         }
     }
 
@@ -95,10 +114,10 @@ public abstract class AbstractBossBar extends AbstractVisual<BossBarData> implem
     public void setText(TextElement<?> text) {
         data.getText().stop();
         data.setText(text);
-        data.getText().setUpdate(this::update);
+        data.getText().setUpdate(this::updateText);
         if (isAnyoneWatching()) {
             data.getText().start();
-            update();
+            updateText();
         }
     }
 
@@ -115,10 +134,10 @@ public abstract class AbstractBossBar extends AbstractVisual<BossBarData> implem
     public void setProgress(GeneralElement<Float, ?> progress) {
         data.getProgress().stop();
         data.setProgress(progress);
-        data.getProgress().setUpdate(this::update);
+        data.getProgress().setUpdate(this::updateProgress);
         if (isAnyoneWatching()) {
             data.getProgress().start();
-            update();
+            updateProgress();
         }
     }
 
@@ -135,10 +154,10 @@ public abstract class AbstractBossBar extends AbstractVisual<BossBarData> implem
     public void setColor(GeneralElement<BossBar.Color, ?> color) {
         data.getColor().stop();
         data.setColor(color);
-        data.getColor().setUpdate(this::update);
+        data.getColor().setUpdate(this::updateColor);
         if (isAnyoneWatching()) {
             data.getColor().start();
-            update();
+            updateColor();
         }
     }
 
@@ -155,10 +174,10 @@ public abstract class AbstractBossBar extends AbstractVisual<BossBarData> implem
     public void setOverlay(GeneralElement<BossBar.Overlay, ?> overlay) {
         data.getOverlay().stop();
         data.setOverlay(overlay);
-        data.getOverlay().setUpdate(this::update);
+        data.getOverlay().setUpdate(this::updateOverlay);
         if (isAnyoneWatching()) {
             data.getOverlay().start();
-            update();
+            updateOverlay();
         }
     }
 

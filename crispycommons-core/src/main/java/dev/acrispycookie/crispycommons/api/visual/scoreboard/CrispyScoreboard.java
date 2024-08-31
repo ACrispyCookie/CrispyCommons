@@ -80,6 +80,16 @@ public interface CrispyScoreboard extends CrispyVisual {
     List<TextElement<?>> getLines();
 
     /**
+     * Updates the title of the scoreboard.
+     */
+    void updateTitle();
+
+    /**
+     * Updates the specified line in the scoreboard.
+     */
+    void updateLine(int index);
+
+    /**
      * Builder class for constructing {@link CrispyScoreboard} instances.
      */
     class ScoreboardBuilder extends AbstractVisualBuilder<CrispyScoreboard> {
@@ -94,7 +104,7 @@ public interface CrispyScoreboard extends CrispyVisual {
          */
         public ScoreboardBuilder setTitle(TextElement<?> title) {
             this.data.setTitle(title);
-            title.setUpdate(() -> toBuild.update());
+            title.setUpdate(() -> toBuild.updateTitle());
             return this;
         }
 
@@ -106,7 +116,8 @@ public interface CrispyScoreboard extends CrispyVisual {
          */
         public ScoreboardBuilder addTextLine(TextElement<?> text) {
             this.data.addLine(text);
-            text.setUpdate(() -> toBuild.update());
+            int index = this.data.getLines().size() - 1;
+            text.setUpdate(() -> toBuild.updateLine(index));
             return this;
         }
 

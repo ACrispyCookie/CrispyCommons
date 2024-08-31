@@ -84,13 +84,19 @@ public class ItemEntity_1_8_R3 extends ItemEntity {
     }
 
     @Override
-    public @NotNull Location getLocation() {
-        return item.getLocation();
+    public void updateLocation(@NotNull Player player) {
+        armorStand.updateLocation(player);
+        item.updateLocation(player);
     }
 
     @Override
-    public void setLocation(@NotNull Location location, @NotNull Player player) {
-        armorStand.setLocation(location.subtract(0, 0.05, 0));
-        armorStand.updateLocation(player);
+    public @NotNull Location getLocation() {
+        return armorStand.getLocation();
+    }
+
+    @Override
+    public void setLocation(@NotNull Location location) {
+        armorStand.setLocation(location);
+        item.setLocation(location);
     }
 }

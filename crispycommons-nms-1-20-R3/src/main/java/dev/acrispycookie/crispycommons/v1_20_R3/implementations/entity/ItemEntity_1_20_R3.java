@@ -43,8 +43,12 @@ public class ItemEntity_1_20_R3 extends ItemEntity {
     }
 
     @Override
-    public void setLocation(@NotNull Location location, @NotNull Player player) {
+    public void setLocation(@NotNull Location location) {
         item.setLocation(location.subtract(0, 0.05, 0));
+    }
+
+    @Override
+    public void updateLocation(@NotNull Player player) {
         item.updateLocation(player);
     }
 

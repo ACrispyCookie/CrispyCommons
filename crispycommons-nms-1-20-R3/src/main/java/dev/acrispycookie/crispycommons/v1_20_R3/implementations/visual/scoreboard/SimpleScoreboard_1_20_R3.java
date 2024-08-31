@@ -61,19 +61,15 @@ public class SimpleScoreboard_1_20_R3 extends SimpleScoreboard {
 
     @Override
     protected void perPlayerUpdate(Player p) {
-        Component titleText = data.getTitle().getFromContext(OfflinePlayer.class, p);
-        List<Component> lines = data.getLines().stream().map(e -> e.getFromContext(OfflinePlayer.class, p)).collect(Collectors.toList());
 
-        sendObjective(p, titleText, ObjectiveAction.UPDATE);
-        for (int i = 0; i < lines.size(); i++) {
-            //sendTeam(p, i, lines.get(i), TeamAction.UPDATE);
-            sendScore(p, i, lines.get(i), Component.empty(), ScoreAction.CHANGE);
-        }
     }
 
     @Override
     protected void globalUpdate() {
-        // No global update action needed.
+        updateTitle();
+        for (int i = 0; i < getLines().size(); i++) {
+            updateLine(i);
+        }
     }
 
     @Override
@@ -81,10 +77,6 @@ public class SimpleScoreboard_1_20_R3 extends SimpleScoreboard {
         for (Player p : getCurrentlyViewing()) {
             List<Component> lines = data.getLines().stream().map(e -> e.getFromContext(OfflinePlayer.class, p)).collect(Collectors.toList());
             resetScoreboard(p, data.getLines().size() - 1, lines);
-        }
-
-        if (isAnyoneWatching()) {
-            update();
         }
     }
 
@@ -94,17 +86,21 @@ public class SimpleScoreboard_1_20_R3 extends SimpleScoreboard {
             List<Component> lines = data.getLines().stream().map(e -> e.getFromContext(OfflinePlayer.class, p)).collect(Collectors.toList());
             resetScoreboard(p, data.getLines().size() + 1, lines);
         }
+    }
 
-        if (isAnyoneWatching()) {
-            update();
+    @Override
+    public void updateTitle() {
+        for (Player p : getCurrentlyViewing()) {
+            Component titleText = data.getTitle().getFromContext(OfflinePlayer.class, p);
+            sendObjective(p, titleText, ObjectiveAction.UPDATE);
         }
     }
 
     @Override
-    protected void updateTitle() {
+    public void updateLine(int index) {
         for (Player p : getCurrentlyViewing()) {
-            Component titleText = data.getTitle().getFromContext(OfflinePlayer.class, p);
-            sendObjective(p, titleText, ObjectiveAction.UPDATE);
+            List<Component> lines = data.getLines().stream().map(e -> e.getFromContext(OfflinePlayer.class, p)).collect(Collectors.toList());
+            sendScore(p, index, lines.get(index), Component.empty(), ScoreAction.CHANGE);
         }
     }
 

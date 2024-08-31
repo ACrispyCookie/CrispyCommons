@@ -193,7 +193,7 @@ public abstract class AbstractDynamicElement<T, K> extends AbstractElement<T, K>
      * @throws IllegalStateException if the update runnable is already set.
      */
     public void setUpdate(@NotNull Runnable update) {
-        if (this.update != null)
+        if (!isDynamic())
             return;
         this.update = update;
     }

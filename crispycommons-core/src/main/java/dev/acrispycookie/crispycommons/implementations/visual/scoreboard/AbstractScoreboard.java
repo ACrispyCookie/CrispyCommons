@@ -71,11 +71,15 @@ public abstract class AbstractScoreboard extends AbstractVisual<ScoreboardData> 
             return;
         }
 
-        line.setUpdate(this::update);
+        line.setUpdate(() -> updateLine(index));
         if (isAnyoneWatching()) {
             line.start();
         }
         data.addLine(index, line);
+        for (int i = index; i < data.getLines().size(); i++) {
+            int newIndex = i;
+            data.getLines().get(i).setUpdate(() -> updateLine(newIndex));
+        }
         addLineInternal(index);
     }
 
@@ -107,6 +111,10 @@ public abstract class AbstractScoreboard extends AbstractVisual<ScoreboardData> 
             data.getLines().get(index).stop();
         }
         data.removeLine(index);
+        for (int i = index; i < data.getLines().size(); i++) {
+            int newIndex = i;
+            data.getLines().get(i).setUpdate(() -> updateLine(newIndex));
+        }
         removeLineInternal(index);
     }
 
@@ -120,7 +128,12 @@ public abstract class AbstractScoreboard extends AbstractVisual<ScoreboardData> 
      */
     @Override
     public void setLines(Collection<? extends TextElement<?>> lines) {
-        lines.forEach(l -> l.setUpdate(this::update));
+        List<DynamicElement<?, ?>> lineList = new ArrayList<>(lines);
+        for (int i = 0; i < lineList.size(); i++) {
+            int index = i;
+            DynamicElement<?, ?> line = lineList.get(index);
+            line.setUpdate(() -> updateLine(index));
+        }
         if (isAnyoneWatching()) {
             data.getLines().forEach(DynamicElement::stop);
             lines.forEach(AbstractDynamicElement::start);
@@ -152,6 +165,7 @@ public abstract class AbstractScoreboard extends AbstractVisual<ScoreboardData> 
     public void setTitle(TextElement<?> title) {
         if (isAnyoneWatching()) {
             data.getTitle().stop();
+            title.setUpdate(this::updateTitle);
             title.start();
         }
         data.setTitle(title);
@@ -167,14 +181,6 @@ public abstract class AbstractScoreboard extends AbstractVisual<ScoreboardData> 
     public TextElement<?> getTitle() {
         return data.getTitle();
     }
-
-    /**
-     * Updates the scoreboard title using the new value store in {@code data}.
-     * <p>
-     * This abstract method must be implemented by subclasses to handle specific title updates.
-     * </p>
-     */
-    protected abstract void updateTitle();
 
     /**
      * Updates the scoreboard lines based on the old size of the lines.

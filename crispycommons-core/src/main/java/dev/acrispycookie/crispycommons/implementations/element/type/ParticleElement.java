@@ -45,9 +45,6 @@ public class ParticleElement<T extends Effect, K> extends AbstractAnimatedElemen
      */
     protected ParticleElement(MyElementSupplier<K, T> supplier, int delay, int period, Class<K> kClass) {
         super(supplier, delay, period, false, kClass);
-        if (period < 0) {
-            setUpdate(() -> {});
-        }
     }
 
     /**

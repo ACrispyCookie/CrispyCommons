@@ -38,5 +38,7 @@ public abstract class TextEntity extends ClickableEntity<TextElement<?>> impleme
     public static MappedVersions getRemapped() {
         return new MappedVersions(new VersionPair(Version.v1_20_R3, Version.v1_8_R3));
     }
+
+    public abstract String getName();
 }
 

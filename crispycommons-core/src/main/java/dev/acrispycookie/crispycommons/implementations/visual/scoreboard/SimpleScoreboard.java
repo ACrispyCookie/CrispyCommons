@@ -30,7 +30,7 @@ public abstract class SimpleScoreboard extends AbstractScoreboard implements Ver
      * @param isPublic whether the scoreboard should be visible to all players.
      */
     public SimpleScoreboard(ScoreboardData data, Collection<? extends OfflinePlayer> receivers, TimeToLiveElement<?> timeToLive, boolean isPublic) {
-        super(data, new HashSet<>(receivers), timeToLive, UpdateMode.PER_PLAYER, isPublic);
+        super(data, new HashSet<>(receivers), timeToLive, UpdateMode.GLOBAL, isPublic);
     }
 
     public static SimpleScoreboard newInstance(ScoreboardData data, Collection<? extends OfflinePlayer> receivers, TimeToLiveElement<?> timeToLive, boolean isPublic) {

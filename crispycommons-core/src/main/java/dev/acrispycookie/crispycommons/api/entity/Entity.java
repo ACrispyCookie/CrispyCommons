@@ -80,17 +80,15 @@ public interface Entity {
     @NotNull DynamicElement<?, ?> getElement();
 
     /**
-     * Updates the entity's location for the given player.
+     * Sets the entity's location.
      * <p>
-     * This method changes the entity's position to the new specified {@link Location} and then
-     * updates the view for the specified {@link Player} to reflect this change.
+     * This method changes the entity's position to the new specified {@link Location}.
      * </p>
      *
-     * @param location the new {@link Location} to which the entity will be updated.
-     * @param player the {@link Player} for whom the entity's location will be updated.
-     * @throws NullPointerException if {@code location} or {@code player} is {@code null}.
+     * @param location the new {@link Location} to which the entity will be set.
+     * @throws NullPointerException if {@code location} is {@code null}.
      */
-    void setLocation(@NotNull Location location, @NotNull Player player);
+    void setLocation(@NotNull Location location);
 
     /**
      * Spawns the entity for the given player.
@@ -126,5 +124,17 @@ public interface Entity {
      * @throws NullPointerException if {@code location} or {@code player} is {@code null}.
      */
     void update(@NotNull Player player);
+
+    /**
+     * Updates the entity's location for the given player.
+     * <p>
+     * This method updates the view for the specified {@link Player} to update
+     * the location of the entity.
+     * </p>
+     *
+     * @param player the {@link Player} for whom the entity's location will be updated.
+     * @throws NullPointerException if {@code player} is {@code null}.
+     */
+    void updateLocation(@NotNull Player player);
 
 }

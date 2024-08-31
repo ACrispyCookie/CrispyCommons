@@ -47,8 +47,6 @@ public class TextElement<K> extends AbstractAnimatedElement<Component, K> {
      */
     protected TextElement(MyElementSupplier<K, Component> supplier, int delay, int period, Class<K> kClass) {
         super(supplier, delay, period, false, kClass);
-        if (period < 0)
-            setUpdate(() -> {});
     }
 
     /**

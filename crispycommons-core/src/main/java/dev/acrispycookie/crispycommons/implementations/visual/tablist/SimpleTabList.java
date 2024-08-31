@@ -6,6 +6,7 @@ import dev.acrispycookie.crispycommons.implementations.element.type.TextElement;
 import dev.acrispycookie.crispycommons.implementations.element.type.TimeToLiveElement;
 import net.kyori.adventure.Adventure;
 import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.pointer.Pointer;
 import net.kyori.adventure.text.Component;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;

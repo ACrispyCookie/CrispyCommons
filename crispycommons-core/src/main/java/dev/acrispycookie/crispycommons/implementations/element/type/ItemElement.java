@@ -43,8 +43,6 @@ public class ItemElement<K> extends AbstractAnimatedElement<CrispyItemStack, K> 
      */
     protected ItemElement(MyElementSupplier<K, CrispyItemStack> supplier, int delay, int period, Class<K> kClass) {
         super(supplier, delay, period, false, kClass);
-        if (period < 0)
-            setUpdate(() -> {});
     }
 
     /**
