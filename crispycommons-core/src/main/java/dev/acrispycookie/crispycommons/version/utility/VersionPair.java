@@ -2,8 +2,8 @@ package dev.acrispycookie.crispycommons.version.utility;
 
 public class VersionPair {
 
-    private Version original;
-    private Version remapped;
+    private final Version original;
+    private final Version remapped;
 
     public VersionPair(Version original, Version remapped) {
         this.original = original;

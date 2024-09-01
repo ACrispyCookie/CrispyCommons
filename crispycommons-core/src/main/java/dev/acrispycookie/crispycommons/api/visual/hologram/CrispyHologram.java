@@ -88,6 +88,8 @@ public interface CrispyHologram extends CrispyVisual {
 
     /**
      * Updates a specific line of the hologram.
+     *
+     * @param index the index of the line to update.
      */
     void updateLine(int index);
 

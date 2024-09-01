@@ -86,6 +86,8 @@ public interface CrispyScoreboard extends CrispyVisual {
 
     /**
      * Updates the specified line in the scoreboard.
+     *
+     * @param index the index of the line to update.
      */
     void updateLine(int index);
 

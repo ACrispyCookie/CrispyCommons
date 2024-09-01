@@ -26,8 +26,9 @@ public interface Entity {
      * </p>
      *
      * @param element the {@link DynamicElement} from which to create the {@link Entity}.
+     * @param location the initial location of the entity.
      * @return a new {@link Entity} instance based on the specified dynamic element.
-     * @throws NullPointerException if {@code element} is {@code null}.
+     * @throws NullPointerException if {@code element} or {@code location} is {@code null}.
      */
     static @NotNull Entity of(@NotNull DynamicElement<?, ?> element, @NotNull Location location) {
         if (element instanceof ItemElement)
