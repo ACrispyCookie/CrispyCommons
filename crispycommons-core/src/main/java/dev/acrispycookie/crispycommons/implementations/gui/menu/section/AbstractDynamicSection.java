@@ -33,7 +33,7 @@ public abstract class AbstractDynamicSection extends AbstractSection implements 
      *
      * @param items the initial collection of {@link MenuItem} objects to be contained within this section.
      */
-    AbstractDynamicSection(Collection<? extends MenuItem> items) {
+    AbstractDynamicSection(@NotNull Collection<? extends MenuItem> items) {
         this.items.addAll(items);
     }
 
@@ -51,7 +51,7 @@ public abstract class AbstractDynamicSection extends AbstractSection implements 
      * @param endPasteSlot   the ending slot in the inventory where the last item will be placed.
      * @param startingIndex the index of the first item to render.
      */
-    protected abstract void renderItemsInternal(Player player, CrispyMenu menu, Inventory toRender, int startPasteSlot, int endPasteSlot, int startingIndex);
+    protected abstract void renderItemsInternal(@NotNull Player player, @NotNull CrispyMenu menu, @NotNull Inventory toRender, int startPasteSlot, int endPasteSlot, int startingIndex);
 
     /**
      * Renders items within the section into the specified inventory for the given player, starting

@@ -31,7 +31,7 @@ public class ItemEntity_1_8_R3 extends ItemEntity {
     private final VersionItem item;
 
     public ItemEntity_1_8_R3(@NotNull ItemElement<?> element, @NotNull Location location) {
-        super(element, location);
+        super(element);
         armorStand = VersionArmorStand.newInstance(location);
         armorStand.setInvisible(true);
         armorStand.setNoClip(true); // Disables interaction

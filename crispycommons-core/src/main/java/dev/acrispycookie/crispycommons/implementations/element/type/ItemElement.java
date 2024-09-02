@@ -4,6 +4,7 @@ import dev.acrispycookie.crispycommons.api.itemstack.CrispyItemStack;
 import dev.acrispycookie.crispycommons.implementations.element.AbstractAnimatedElement;
 import dev.acrispycookie.crispycommons.utility.element.MyElementSupplier;
 import org.bukkit.OfflinePlayer;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 import java.util.function.Function;
@@ -29,7 +30,7 @@ public class ItemElement<K> extends AbstractAnimatedElement<CrispyItemStack, K> 
      * @param period the period between subsequent updates, in ticks.
      * @param kClass the class type of the context.
      */
-    protected ItemElement(Function<K, Collection<? extends CrispyItemStack>> supplier, int startingFrame, int delay, int period, Class<K> kClass) {
+    protected ItemElement(@NotNull Function<K, Collection<? extends CrispyItemStack>> supplier, int startingFrame, int delay, int period, @NotNull Class<K> kClass) {
         super(supplier, startingFrame, delay, period, false, kClass);
     }
 
@@ -41,7 +42,7 @@ public class ItemElement<K> extends AbstractAnimatedElement<CrispyItemStack, K> 
      * @param period the period between subsequent updates, in ticks.
      * @param kClass the class type of the context.
      */
-    protected ItemElement(MyElementSupplier<K, CrispyItemStack> supplier, int delay, int period, Class<K> kClass) {
+    protected ItemElement(@NotNull MyElementSupplier<K, CrispyItemStack> supplier, int delay, int period, @NotNull Class<K> kClass) {
         super(supplier, delay, period, false, kClass);
     }
 
@@ -51,7 +52,7 @@ public class ItemElement<K> extends AbstractAnimatedElement<CrispyItemStack, K> 
      * @return a new {@code ItemElement} instance with the same properties as this one.
      */
     @Override
-    public ItemElement<K> clone() {
+    public @NotNull ItemElement<K> clone() {
         if (isDynamic())
             return new ItemElement<>(new MyElementSupplier<>(this::getRaw), getDelay(), getPeriod(), getContextClass());
         return new ItemElement<>(new MyElementSupplier<>(this::getRaw), -1, -1, getContextClass());
@@ -63,7 +64,7 @@ public class ItemElement<K> extends AbstractAnimatedElement<CrispyItemStack, K> 
      * @param value the fixed item stack value.
      * @return a new {@code ItemElement} instance with the specified value.
      */
-    public static ItemElement<Void> simple(CrispyItemStack value) {
+    public static @NotNull ItemElement<Void> simple(@NotNull CrispyItemStack value) {
         return dynamic(() -> value, -1, -1);
     }
 
@@ -75,7 +76,7 @@ public class ItemElement<K> extends AbstractAnimatedElement<CrispyItemStack, K> 
      * @param period the period between subsequent updates, in ticks.
      * @return a new {@code ItemElement} instance with dynamic behavior.
      */
-    public static ItemElement<Void> dynamic(Supplier<? extends CrispyItemStack> supplier, int delay, int period) {
+    public static @NotNull ItemElement<Void> dynamic(@NotNull Supplier<? extends CrispyItemStack> supplier, int delay, int period) {
         return new ItemElement<>(new MyElementSupplier<>((v) -> supplier.get()), delay, period, Void.class);
     }
 
@@ -88,7 +89,7 @@ public class ItemElement<K> extends AbstractAnimatedElement<CrispyItemStack, K> 
      * @param period the period between subsequent updates, in ticks.
      * @return a new {@code ItemElement} instance with animated behavior.
      */
-    public static ItemElement<Void> animated(Collection<? extends CrispyItemStack> collection, int startingFrame, int delay, int period) {
+    public static @NotNull ItemElement<Void> animated(@NotNull Collection<? extends CrispyItemStack> collection, int startingFrame, int delay, int period) {
         return new ItemElement<>((v) -> collection, startingFrame, delay, period, Void.class);
     }
 
@@ -98,7 +99,7 @@ public class ItemElement<K> extends AbstractAnimatedElement<CrispyItemStack, K> 
      * @param function the function providing the item stack value based on the player context.
      * @return a new {@code ItemElement} instance with the specified personal context.
      */
-    public static ItemElement<OfflinePlayer> simplePersonal(Function<OfflinePlayer, ? extends CrispyItemStack> function) {
+    public static @NotNull ItemElement<OfflinePlayer> simplePersonal(@NotNull Function<OfflinePlayer, ? extends CrispyItemStack> function) {
         return dynamicPersonal(function, -1, -1);
     }
 
@@ -111,7 +112,7 @@ public class ItemElement<K> extends AbstractAnimatedElement<CrispyItemStack, K> 
      * @param period the period between subsequent updates, in ticks.
      * @return a new {@code ItemElement} instance with dynamic behavior and personal context.
      */
-    public static ItemElement<OfflinePlayer> dynamicPersonal(Function<OfflinePlayer, ? extends CrispyItemStack> function, int delay, int period) {
+    public static @NotNull ItemElement<OfflinePlayer> dynamicPersonal(@NotNull Function<OfflinePlayer, ? extends CrispyItemStack> function, int delay, int period) {
         return new ItemElement<>(new MyElementSupplier<>(function), delay, period, OfflinePlayer.class);
     }
 
@@ -124,7 +125,7 @@ public class ItemElement<K> extends AbstractAnimatedElement<CrispyItemStack, K> 
      * @param period the period between subsequent updates, in ticks.
      * @return a new {@code ItemElement} instance with animated behavior and personal context.
      */
-    public static ItemElement<OfflinePlayer> animatedPersonal(Function<OfflinePlayer, Collection<? extends CrispyItemStack>> function, int startingFrame, int delay, int period) {
+    public static @NotNull ItemElement<OfflinePlayer> animatedPersonal(@NotNull Function<OfflinePlayer, Collection<? extends CrispyItemStack>> function, int startingFrame, int delay, int period) {
         return new ItemElement<>(function, startingFrame, delay, period, OfflinePlayer.class);
     }
 }

@@ -7,12 +7,13 @@ import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 public class ParticleSpawner_1_20_R3 extends ParticleSpawner {
 
 
     @Override
-    public void spawnColored(Player player, XParticle particle, Location location, float r, float g, float b) {
+    public void spawnColored(@NotNull Player player, @NotNull XParticle particle, @NotNull Location location, float r, float g, float b) {
         int red = (int) (r * 255);
         int green = (int) (g * 255);
         int blue = (int) (b * 255);
@@ -21,11 +22,11 @@ public class ParticleSpawner_1_20_R3 extends ParticleSpawner {
     }
 
     @Override
-    public void spawnNormal(Player player, XParticle particle, Location location, int data) {
+    public void spawnNormal(@NotNull Player player, @NotNull XParticle particle, @NotNull Location location, int data) {
         player.spawnParticle(getByXParticle(particle), location, data);
     }
 
-    private Particle getByXParticle(XParticle particle) {
+    private @NotNull Particle getByXParticle(@NotNull XParticle particle) {
         return ((VersionParticle_1_20_R3) particle.get()).getParticle();
     }
 }

@@ -3,6 +3,7 @@ package dev.acrispycookie.crispycommons.api.visual.abstraction.builder;
 import dev.acrispycookie.crispycommons.api.visual.abstraction.visual.CrispyVisual;
 import dev.acrispycookie.crispycommons.implementations.element.type.TimeToLiveElement;
 import org.bukkit.OfflinePlayer;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 
@@ -24,7 +25,7 @@ public interface VisualBuilder<T extends CrispyVisual> {
      * @param p the {@link OfflinePlayer} to add.
      * @return this {@code VisualBuilder} instance for method chaining.
      */
-    VisualBuilder<T> addPlayer(OfflinePlayer p);
+    @NotNull VisualBuilder<T> addPlayer(@NotNull OfflinePlayer p);
 
     /**
      * Removes a player from the list of players who can view the visual element.
@@ -32,7 +33,7 @@ public interface VisualBuilder<T extends CrispyVisual> {
      * @param p the {@link OfflinePlayer} to remove.
      * @return this {@code VisualBuilder} instance for method chaining.
      */
-    VisualBuilder<T> removePlayer(OfflinePlayer p);
+    @NotNull VisualBuilder<T> removePlayer(@NotNull OfflinePlayer p);
 
     /**
      * Sets the list of players who can view the visual element, replacing any existing list.
@@ -40,7 +41,7 @@ public interface VisualBuilder<T extends CrispyVisual> {
      * @param p a collection of {@link OfflinePlayer} objects to set.
      * @return this {@code VisualBuilder} instance for method chaining.
      */
-    VisualBuilder<T> setPlayers(Collection<? extends OfflinePlayer> p);
+    @NotNull VisualBuilder<T> setPlayers(@NotNull Collection<? extends OfflinePlayer> p);
 
     /**
      * Adds multiple players to the list of players who can view the visual element.
@@ -48,7 +49,7 @@ public interface VisualBuilder<T extends CrispyVisual> {
      * @param p a collection of {@link OfflinePlayer} objects to add.
      * @return this {@code VisualBuilder} instance for method chaining.
      */
-    VisualBuilder<T> addPlayers(Collection<? extends OfflinePlayer> p);
+    @NotNull VisualBuilder<T> addPlayers(@NotNull Collection<? extends OfflinePlayer> p);
 
     /**
      * Sets the time-to-live (TTL) element for the visual element.
@@ -59,7 +60,7 @@ public interface VisualBuilder<T extends CrispyVisual> {
      * @param timeToLive the {@link TimeToLiveElement} that defines the TTL for the visual element.
      * @return this {@code VisualBuilder} instance for method chaining.
      */
-    VisualBuilder<T> setTimeToLive(TimeToLiveElement<?> timeToLive);
+    @NotNull VisualBuilder<T> setTimeToLive(@NotNull TimeToLiveElement<?> timeToLive);
 
     /**
      * Sets whether the visual element is public.
@@ -70,13 +71,13 @@ public interface VisualBuilder<T extends CrispyVisual> {
      * @param isPublic {@code true} if the visual element should be public; {@code false} otherwise.
      * @return this {@code VisualBuilder} instance for method chaining.
      */
-    VisualBuilder<T> setPublic(boolean isPublic);
+    @NotNull VisualBuilder<T> setPublic(boolean isPublic);
 
     /**
      * Builds and returns the configured {@link CrispyVisual} instance.
      *
      * @return the constructed {@link CrispyVisual} instance.
      */
-    T build();
+    @NotNull T build();
 }
 

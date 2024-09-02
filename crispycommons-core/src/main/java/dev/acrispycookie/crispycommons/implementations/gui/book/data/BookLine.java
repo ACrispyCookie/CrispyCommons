@@ -3,6 +3,7 @@ package dev.acrispycookie.crispycommons.implementations.gui.book.data;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Represents a single line of text in a book.
@@ -27,7 +28,7 @@ public class BookLine {
      *
      * @param text the plain text string to be converted into a {@link Component}.
      */
-    public BookLine(String text) {
+    public BookLine(@NotNull String text) {
         this.text = LegacyComponentSerializer.legacyAmpersand().deserialize(text);
     }
 
@@ -36,7 +37,7 @@ public class BookLine {
      *
      * @param text the {@link Component} representing the content of this book line.
      */
-    public BookLine(Component text) {
+    public BookLine(@NotNull Component text) {
         this.text = text;
     }
 
@@ -45,7 +46,7 @@ public class BookLine {
      *
      * @return the {@link Component} of this book line.
      */
-    public Component get() {
+    public @NotNull Component get() {
         return text;
     }
 }

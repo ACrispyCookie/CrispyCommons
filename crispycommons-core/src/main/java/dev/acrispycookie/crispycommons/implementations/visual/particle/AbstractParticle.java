@@ -9,6 +9,7 @@ import dev.acrispycookie.crispycommons.implementations.element.type.ParticleElem
 import dev.acrispycookie.crispycommons.implementations.element.type.TimeToLiveElement;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
 
@@ -33,7 +34,7 @@ public abstract class AbstractParticle<T extends Effect> extends AbstractVisual<
      * @param updateMode the update mode that determines how the particle effect is updated (e.g., per player, globally, etc.).
      * @param isPublic whether the particle effect should be visible to all players.
      */
-    AbstractParticle(ParticleData<T> data, Set<? extends OfflinePlayer> receivers, TimeToLiveElement<?> timeToLive, UpdateMode updateMode, boolean isPublic) {
+    AbstractParticle(@NotNull ParticleData<T> data, @NotNull Set<? extends OfflinePlayer> receivers, @NotNull TimeToLiveElement<?> timeToLive, @NotNull UpdateMode updateMode, boolean isPublic) {
         super(data, receivers, timeToLive, updateMode, isPublic);
     }
 
@@ -69,7 +70,7 @@ public abstract class AbstractParticle<T extends Effect> extends AbstractVisual<
      * @return the {@link ParticleElement} representing the particle effect.
      */
     @Override
-    public ParticleElement<T, ?> getElement() {
+    public @NotNull ParticleElement<T, ?> getElement() {
         return data.getElement();
     }
 
@@ -83,7 +84,7 @@ public abstract class AbstractParticle<T extends Effect> extends AbstractVisual<
      * @param element the new {@link ParticleElement} to set.
      */
     @Override
-    public void setElement(ParticleElement<T, ?> element) {
+    public void setElement(@NotNull ParticleElement<T, ?> element) {
         data.getElement().stop();
         data.setElement(element);
         data.getElement().setUpdate(this::update);
@@ -99,7 +100,7 @@ public abstract class AbstractParticle<T extends Effect> extends AbstractVisual<
      * @return the {@link GeneralElement} representing the location of the particle effect.
      */
     @Override
-    public GeneralElement<Location, ?> getLocation() {
+    public @NotNull GeneralElement<Location, ?> getLocation() {
         return data.getLocation();
     }
 
@@ -113,7 +114,7 @@ public abstract class AbstractParticle<T extends Effect> extends AbstractVisual<
      * @param location the new {@link GeneralElement} representing the location of the particle effect.
      */
     @Override
-    public void setLocation(GeneralElement<Location, ?> location) {
+    public void setLocation(@NotNull GeneralElement<Location, ?> location) {
         data.getLocation().stop();
         data.setLocation(location);
         data.getLocation().setUpdate(this::update);

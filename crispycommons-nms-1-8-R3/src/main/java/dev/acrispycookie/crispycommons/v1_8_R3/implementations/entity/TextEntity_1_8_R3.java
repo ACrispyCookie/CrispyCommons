@@ -24,7 +24,7 @@ public class TextEntity_1_8_R3 extends TextEntity {
     private final VersionArmorStand armorStand;
 
     public TextEntity_1_8_R3(@NotNull TextElement<?> element, @NotNull Location location) {
-        super(element, location);
+        super(element);
         armorStand = VersionArmorStand.newInstance(location);
         armorStand.setInvisible(true);
         armorStand.setNoClip(true); // Disables interaction
@@ -45,7 +45,7 @@ public class TextEntity_1_8_R3 extends TextEntity {
     }
 
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return armorStand.getCustomName();
     }
 

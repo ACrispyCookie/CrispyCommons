@@ -11,10 +11,8 @@ import dev.acrispycookie.crispycommons.utility.element.ContextMap;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.scoreboard.*;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
 
@@ -43,38 +41,38 @@ public class SimpleNameTag extends AbstractNameTag {
     /**
      * Shows the name tag to the specified player, including prefix, suffix, above-name, and below-name texts.
      *
-     * @param p the player to whom the name tag will be shown.
+     * @param player the player to whom the name tag will be shown.
      */
     @Override
-    protected void show(Player p) {
-        if (!p.canSee(data.getPlayer()))
+    protected void show(@NotNull Player player) {
+        if (!player.canSee(data.getPlayer()))
             return;
 
-        showNameTag(p);
-        showAboveName(p);
-        showBelowName(p);
+        showNameTag(player);
+        showAboveName(player);
+        showBelowName(player);
     }
 
     /**
      * Hides the name tag from the specified player.
      *
-     * @param p the player from whom the name tag will be hidden.
+     * @param player the player from whom the name tag will be hidden.
      */
     @Override
-    protected void hide(Player p) {
-        hideNameTag(p);
-        hideBelowName(p);
+    protected void hide(@NotNull Player player) {
+        hideNameTag(player);
+        hideBelowName(player);
         if (aboveNameHologram != null)
-            aboveNameHologram.removePlayer(p);
+            aboveNameHologram.removePlayer(player);
     }
 
     /**
      * Updates the name tag for a specific player, re-showing it if the player can still see the tagged player.
      *
-     * @param p the player for whom the name tag will be updated.
+     * @param player the player for whom the name tag will be updated.
      */
     @Override
-    protected void perPlayerUpdate(Player p) {
+    protected void perPlayerUpdate(@NotNull Player player) {
 
     }
 
@@ -219,6 +217,7 @@ public class SimpleNameTag extends AbstractNameTag {
     private void updateVanillaNameTagPrefix(Player receiver, String prefix) {
         Scoreboard scoreboard = receiver.getScoreboard();
         Team t = scoreboard.getTeam(data.getPlayer().getName());
+        assert t != null : "Scoreboard team is null. Contact developer";
         t.setPrefix(ChatColor.translateAlternateColorCodes('&', prefix.substring(0, Math.min(16, prefix.length()))));
     }
 
@@ -231,6 +230,7 @@ public class SimpleNameTag extends AbstractNameTag {
     private void updateVanillaNameTagSuffix(Player receiver, String suffix) {
         Scoreboard scoreboard = receiver.getScoreboard();
         Team t = scoreboard.getTeam(data.getPlayer().getName());
+        assert t != null : "Scoreboard team is null. Contact developer";
         t.setSuffix(ChatColor.translateAlternateColorCodes('&', suffix.substring(0, Math.min(16, suffix.length()))));
     }
 
@@ -241,11 +241,13 @@ public class SimpleNameTag extends AbstractNameTag {
      * @param prefix   the prefix to display on the name tag.
      * @param suffix   the suffix to display on the name tag.
      */
+    @SuppressWarnings("deprecation")
     private void setVanillaNameTag(Player receiver, String prefix, String suffix) {
         Scoreboard scoreboard = receiver.getScoreboard();
         Team t = scoreboard.getTeam(data.getPlayer().getName()) == null ?
                 scoreboard.registerNewTeam(data.getPlayer().getName()) :
                 scoreboard.getTeam(data.getPlayer().getName());
+        assert t != null : "Scoreboard team is null. Contact developer";
         t.setPrefix(ChatColor.translateAlternateColorCodes('&', prefix.substring(0, Math.min(16, prefix.length()))));
         t.setSuffix(ChatColor.translateAlternateColorCodes('&', suffix.substring(0, Math.min(16, suffix.length()))));
         t.setNameTagVisibility(NameTagVisibility.ALWAYS);
@@ -258,11 +260,13 @@ public class SimpleNameTag extends AbstractNameTag {
      *
      * @param receiver the player who will no longer see the name tag.
      */
+    @SuppressWarnings("deprecation")
     private void removeVanillaNameTag(Player receiver) {
         Scoreboard scoreboard = receiver.getScoreboard();
         if (scoreboard.getTeam(data.getPlayer().getName()) == null)
             return;
         Team t = scoreboard.getTeam(data.getPlayer().getName());
+        assert t != null : "Scoreboard team is null. Contact developer";
         t.setPrefix("");
         t.setSuffix("");
         t.setNameTagVisibility(NameTagVisibility.ALWAYS);
@@ -279,6 +283,7 @@ public class SimpleNameTag extends AbstractNameTag {
     private void updateVanillaBelowName(Player receiver, String below) {
         Scoreboard scoreboard = receiver.getScoreboard();
         Objective objective = scoreboard.getObjective(data.getPlayer().getName());
+        assert objective != null : "Scoreboard objective is null. Contact developer";
         objective.setDisplayName(ChatColor.translateAlternateColorCodes('&', below));
     }
 
@@ -291,6 +296,7 @@ public class SimpleNameTag extends AbstractNameTag {
     private void updateVanillaBelowNameValue(Player receiver, int value) {
         Scoreboard scoreboard = receiver.getScoreboard();
         Objective objective = scoreboard.getObjective(data.getPlayer().getName());
+        assert objective != null : "Scoreboard objective is null. Contact developer";
         objective.getScore(data.getPlayer().getName()).setScore(value);
     }
 
@@ -301,11 +307,13 @@ public class SimpleNameTag extends AbstractNameTag {
      * @param below    the text to display below the name.
      * @param value    the value to display below the name.
      */
+    @SuppressWarnings("deprecation")
     private void setVanillaBelowName(Player receiver, String below, int value) {
         Scoreboard scoreboard = receiver.getScoreboard();
         Objective objective = scoreboard.getObjective(data.getPlayer().getName()) == null ?
                 scoreboard.registerNewObjective(data.getPlayer().getName(), "dummy") :
                 scoreboard.getObjective(data.getPlayer().getName());
+        assert objective != null : "Scoreboard objective is null. Contact developer";
         objective.setDisplayName(ChatColor.translateAlternateColorCodes('&', below));
         objective.setDisplaySlot(DisplaySlot.BELOW_NAME);
         objective.getScore(data.getPlayer().getName()).setScore(value);
@@ -319,9 +327,9 @@ public class SimpleNameTag extends AbstractNameTag {
      */
     private void removeVanillaBelowName(Player receiver) {
         Scoreboard scoreboard = receiver.getScoreboard();
-        if (scoreboard.getObjective(data.getPlayer().getName()) == null)
-            return;
-        scoreboard.getObjective(data.getPlayer().getName()).unregister();
+        Objective objective = scoreboard.getObjective(data.getPlayer().getName());
+        assert objective != null : "Scoreboard objective is null. Contact developer";
+        objective.unregister();
         receiver.setScoreboard(scoreboard);
     }
 

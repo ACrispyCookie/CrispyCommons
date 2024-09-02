@@ -2,6 +2,7 @@ package dev.acrispycookie.crispycommons.utility.menu;
 
 import dev.acrispycookie.crispycommons.api.itemstack.CrispyItemStack;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.BiFunction;
 
@@ -86,7 +87,7 @@ public class PageInfo {
      * @param endIndex the ending index of the page.
      * @param onPlayerItemClick a {@link BiFunction} that handles item clicks in the player's inventory, returning {@code true} if a significant action was performed.
      */
-    public PageInfo(BiFunction<Integer, Integer, String> pageTitle, int defaultPage, int rows, int columns, int startIndex, int endIndex, BiFunction<Player, CrispyItemStack, Boolean> onPlayerItemClick) {
+    public PageInfo(@NotNull BiFunction<Integer, Integer, String> pageTitle, int defaultPage, int rows, int columns, int startIndex, int endIndex, @NotNull BiFunction<Player, CrispyItemStack, Boolean> onPlayerItemClick) {
         this.pageTitle = pageTitle;
         this.defaultPage = defaultPage;
         this.rows = rows;
@@ -101,7 +102,7 @@ public class PageInfo {
      *
      * @return the page title generator function.
      */
-    public BiFunction<Integer, Integer, String> getPageTitle() {
+    public @NotNull BiFunction<Integer, Integer, String> getPageTitle() {
         return pageTitle;
     }
 
@@ -155,7 +156,7 @@ public class PageInfo {
      *
      * @return the item click handler function.
      */
-    public BiFunction<Player, CrispyItemStack, Boolean> getOnPlayerItemClick() {
+    public @NotNull BiFunction<Player, CrispyItemStack, Boolean> getOnPlayerItemClick() {
         return onPlayerItemClick;
     }
 
@@ -164,7 +165,7 @@ public class PageInfo {
      *
      * @param pageTitle the page title generator function to set.
      */
-    public void setPageTitle(BiFunction<Integer, Integer, String> pageTitle) {
+    public void setPageTitle(@NotNull BiFunction<Integer, Integer, String> pageTitle) {
         this.pageTitle = pageTitle;
     }
 
@@ -218,7 +219,7 @@ public class PageInfo {
      *
      * @param onPlayerItemClick the item click handler function to set.
      */
-    public void setOnPlayerItemClick(BiFunction<Player, CrispyItemStack, Boolean> onPlayerItemClick) {
+    public void setOnPlayerItemClick(@NotNull BiFunction<Player, CrispyItemStack, Boolean> onPlayerItemClick) {
         this.onPlayerItemClick = onPlayerItemClick;
     }
 }

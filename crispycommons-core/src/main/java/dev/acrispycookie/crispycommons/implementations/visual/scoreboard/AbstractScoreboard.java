@@ -8,6 +8,7 @@ import dev.acrispycookie.crispycommons.implementations.element.AbstractDynamicEl
 import dev.acrispycookie.crispycommons.implementations.element.type.TextElement;
 import dev.acrispycookie.crispycommons.implementations.element.type.TimeToLiveElement;
 import org.bukkit.OfflinePlayer;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -34,7 +35,7 @@ public abstract class AbstractScoreboard extends AbstractVisual<ScoreboardData> 
      * @param updateMode the mode of updating the scoreboard (e.g., per player, globally).
      * @param isPublic   whether the scoreboard should be visible to all players.
      */
-    AbstractScoreboard(ScoreboardData data, Set<? extends OfflinePlayer> receivers, TimeToLiveElement<?> timeToLive, UpdateMode updateMode, boolean isPublic) {
+    AbstractScoreboard(@NotNull ScoreboardData data, @NotNull Set<? extends OfflinePlayer> receivers, @NotNull TimeToLiveElement<?> timeToLive, @NotNull UpdateMode updateMode, boolean isPublic) {
         super(data, receivers, timeToLive, updateMode, isPublic);
     }
 
@@ -66,7 +67,7 @@ public abstract class AbstractScoreboard extends AbstractVisual<ScoreboardData> 
      * @param line  the {@link TextElement} representing the line of text.
      */
     @Override
-    public void addLine(int index, TextElement<?> line) {
+    public void addLine(int index, @NotNull TextElement<?> line) {
         if (index > data.getLines().size()) {
             return;
         }
@@ -89,7 +90,7 @@ public abstract class AbstractScoreboard extends AbstractVisual<ScoreboardData> 
      * @param line the {@link TextElement} representing the line of text.
      */
     @Override
-    public void addLine(TextElement<?> line) {
+    public void addLine(@NotNull TextElement<?> line) {
         addLine(data.getLines().size(), line);
     }
 
@@ -127,7 +128,7 @@ public abstract class AbstractScoreboard extends AbstractVisual<ScoreboardData> 
      * @param lines the collection of {@link TextElement} representing the new lines of text.
      */
     @Override
-    public void setLines(Collection<? extends TextElement<?>> lines) {
+    public void setLines(@NotNull Collection<? extends TextElement<?>> lines) {
         List<DynamicElement<?, ?>> lineList = new ArrayList<>(lines);
         for (int i = 0; i < lineList.size(); i++) {
             int index = i;
@@ -149,7 +150,7 @@ public abstract class AbstractScoreboard extends AbstractVisual<ScoreboardData> 
      * @return a list of {@link TextElement} representing the lines of text.
      */
     @Override
-    public List<TextElement<?>> getLines() {
+    public @NotNull List<TextElement<?>> getLines() {
         return data.getLines();
     }
 
@@ -162,7 +163,7 @@ public abstract class AbstractScoreboard extends AbstractVisual<ScoreboardData> 
      * @param title the {@link TextElement} representing the new title.
      */
     @Override
-    public void setTitle(TextElement<?> title) {
+    public void setTitle(@NotNull TextElement<?> title) {
         if (isAnyoneWatching()) {
             data.getTitle().stop();
             title.setUpdate(this::updateTitle);
@@ -178,7 +179,7 @@ public abstract class AbstractScoreboard extends AbstractVisual<ScoreboardData> 
      * @return the {@link TextElement} representing the title of the scoreboard.
      */
     @Override
-    public TextElement<?> getTitle() {
+    public @NotNull TextElement<?> getTitle() {
         return data.getTitle();
     }
 

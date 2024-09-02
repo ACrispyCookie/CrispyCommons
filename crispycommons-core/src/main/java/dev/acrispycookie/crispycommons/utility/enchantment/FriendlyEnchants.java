@@ -1,6 +1,7 @@
 package dev.acrispycookie.crispycommons.utility.enchantment;
 
 import com.cryptomorin.xseries.XEnchantment;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * An enumeration of enchantments in Minecraft, providing user-friendly names for display purposes.
@@ -67,7 +68,7 @@ public enum FriendlyEnchants {
      * @param friendlyName the user-friendly name of the enchantment.
      * @param isCurse      {@code true} if the enchantment is a curse, otherwise {@code false}.
      */
-    FriendlyEnchants(String friendlyName,boolean isCurse) {
+    FriendlyEnchants(@NotNull String friendlyName, boolean isCurse) {
         this.friendlyName = friendlyName;
         this.isCurse = isCurse;
     }
@@ -78,7 +79,7 @@ public enum FriendlyEnchants {
      *
      * @param friendlyName the user-friendly name of the enchantment.
      */
-    FriendlyEnchants(String friendlyName) {
+    FriendlyEnchants(@NotNull String friendlyName) {
         this(friendlyName,false);
     }
 
@@ -88,7 +89,7 @@ public enum FriendlyEnchants {
      * @param enchant the Minecraft {@link XEnchantment} to look up.
      * @return the corresponding {@code FriendlyEnchants} enum.
      */
-    public static FriendlyEnchants getFriendlyEnchantment(XEnchantment enchant) {
+    public static @NotNull FriendlyEnchants getFriendlyEnchantment(@NotNull XEnchantment enchant) {
         return FriendlyEnchants.valueOf(enchant.name());
     }
 
@@ -97,7 +98,7 @@ public enum FriendlyEnchants {
      *
      * @return the friendly name of the enchantment.
      */
-    public String getFriendlyName() {
+    public @NotNull String getFriendlyName() {
         return friendlyName;
     }
 

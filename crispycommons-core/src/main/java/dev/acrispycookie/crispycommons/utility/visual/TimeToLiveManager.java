@@ -4,6 +4,8 @@ import dev.acrispycookie.crispycommons.CrispyCommons;
 import dev.acrispycookie.crispycommons.implementations.element.type.TimeToLiveElement;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -55,7 +57,7 @@ public class TimeToLiveManager {
      *
      * @param element the TTL element to be managed.
      */
-    public TimeToLiveManager(TimeToLiveElement<?> element) {
+    public TimeToLiveManager(@NotNull TimeToLiveElement<?> element) {
         this.element = element;
     }
 
@@ -74,7 +76,7 @@ public class TimeToLiveManager {
      * @param player the player to check.
      * @return {@code true} if the TTL has expired; {@code false} otherwise.
      */
-    public boolean isExpired(OfflinePlayer player) {
+    public boolean isExpired(@NotNull OfflinePlayer player) {
         return isExpired(player.getUniqueId());
     }
 
@@ -84,7 +86,7 @@ public class TimeToLiveManager {
      * @param uuid the UUID to check.
      * @return {@code true} if the TTL has expired; {@code false} otherwise.
      */
-    public boolean isExpired(UUID uuid) {
+    public boolean isExpired(@NotNull UUID uuid) {
         if (element.getStartMode() == TimeToLiveElement.StartMode.GLOBAL && element.isContext(Void.class)) {
             return expired.containsKey(null) && expired.get(null);
         } else {
@@ -98,7 +100,7 @@ public class TimeToLiveManager {
      * @param player the player to check.
      * @return {@code true} if the TTL task is running; {@code false} otherwise.
      */
-    public boolean isRunning(OfflinePlayer player) {
+    public boolean isRunning(@NotNull OfflinePlayer player) {
         return isRunning(player.getUniqueId());
     }
 
@@ -108,7 +110,7 @@ public class TimeToLiveManager {
      * @param uuid the UUID to check.
      * @return {@code true} if the TTL task is running; {@code false} otherwise.
      */
-    public boolean isRunning(UUID uuid) {
+    public boolean isRunning(@Nullable UUID uuid) {
         if (element.getStartMode() == TimeToLiveElement.StartMode.GLOBAL && element.isContext(Void.class)) {
             return tasks.containsKey(null) && Bukkit.getScheduler().isCurrentlyRunning(tasks.get(null));
         } else {
@@ -123,7 +125,7 @@ public class TimeToLiveManager {
      * @param personalRunnable the runnable to execute for each player when their TTL expires.
      * @param currentViewers the set of current viewers to monitor.
      */
-    public void setupGlobal(Runnable globalRunnable, Consumer<OfflinePlayer> personalRunnable, Set<OfflinePlayer> currentViewers) {
+    public void setupGlobal(@NotNull Runnable globalRunnable, @NotNull Consumer<OfflinePlayer> personalRunnable, @NotNull Set<OfflinePlayer> currentViewers) {
         if (element.getStartMode() != TimeToLiveElement.StartMode.GLOBAL)
             return;
 
@@ -140,7 +142,7 @@ public class TimeToLiveManager {
      * @param runnable the runnable to execute when the player's TTL expires.
      * @param player the player whose TTL is being managed.
      */
-    public void setupPerPlayer(Runnable runnable, OfflinePlayer player) {
+    public void setupPerPlayer(@NotNull Runnable runnable, @NotNull OfflinePlayer player) {
         if (element.getStartMode() == TimeToLiveElement.StartMode.GLOBAL) {
             if (!isRunning(player))
                 checkForRemainingTime(runnable, player);
@@ -163,7 +165,7 @@ public class TimeToLiveManager {
      *
      * @param player the player whose TTL task should be canceled.
      */
-    public void cancelPlayer(OfflinePlayer player) {
+    public void cancelPlayer(@NotNull OfflinePlayer player) {
         if (!isRunning(player))
             return;
 
@@ -179,7 +181,7 @@ public class TimeToLiveManager {
      * @param hideFromPlayer the consumer to execute to hide the effect from the player.
      * @param currentViewers the set of current viewers to monitor.
      */
-    public void resetExpired(Consumer<OfflinePlayer> hideFromPlayer, Set<OfflinePlayer> currentViewers) {
+    public void resetExpired(@NotNull Consumer<OfflinePlayer> hideFromPlayer, @NotNull Set<OfflinePlayer> currentViewers) {
         for (UUID uuid : expired.keySet()) {
             OfflinePlayer player = Bukkit.getOfflinePlayer(uuid);
             if (expired.get(uuid) && player.isOnline())
@@ -193,7 +195,7 @@ public class TimeToLiveManager {
      * @param uuid the UUID of the player whose TTL task should be reset.
      * @param hideFromPlayer the runnable to execute to hide the effect from the player.
      */
-    public void resetExpired(UUID uuid, Runnable hideFromPlayer) {
+    public void resetExpired(@NotNull UUID uuid, @NotNull Runnable hideFromPlayer) {
         OfflinePlayer player = Bukkit.getOfflinePlayer(uuid);
         if (expired.get(uuid) && player.isOnline())
             startPlayerTask(uuid, hideFromPlayer, element.getFromContext(OfflinePlayer.class, player));
@@ -204,7 +206,7 @@ public class TimeToLiveManager {
      *
      * @return the TTL element.
      */
-    public TimeToLiveElement<?> getElement() {
+    public @NotNull TimeToLiveElement<?> getElement() {
         return element;
     }
 
@@ -213,7 +215,7 @@ public class TimeToLiveManager {
      *
      * @param element the new TTL element.
      */
-    public void setElement(TimeToLiveElement<?> element) {
+    public void setElement(@NotNull TimeToLiveElement<?> element) {
         this.element = element;
     }
 
@@ -222,7 +224,7 @@ public class TimeToLiveManager {
      *
      * @return a set of players whose TTL tasks have expired.
      */
-    public Set<OfflinePlayer> getExpired() {
+    public @NotNull Set<OfflinePlayer> getExpired() {
         return expired.keySet().stream().filter(expired::get).map(Bukkit::getOfflinePlayer).collect(Collectors.toSet());
     }
 
@@ -232,7 +234,7 @@ public class TimeToLiveManager {
      * @param runnable the runnable to execute when the TTL expires.
      * @param player the player whose TTL is being checked.
      */
-    private void checkForRemainingTime(Runnable runnable, OfflinePlayer player) {
+    private void checkForRemainingTime(@NotNull Runnable runnable, @NotNull OfflinePlayer player) {
         long timeToLive = element.getFromContext(OfflinePlayer.class, player);
         long newDuration = timeToLive - (System.currentTimeMillis() - element.getStartTimestamp()) / 50;
 
@@ -249,7 +251,7 @@ public class TimeToLiveManager {
      * @param runnable the runnable to execute when the TTL expires.
      * @param duration the duration of the TTL in ticks.
      */
-    private void startGlobalTask(Set<OfflinePlayer> viewers, Runnable runnable, long duration) {
+    private void startGlobalTask(@NotNull Set<OfflinePlayer> viewers, @NotNull Runnable runnable, long duration) {
         viewers.forEach((v) -> expired.put(v.getUniqueId(), false));
         if (duration < 0)
             return;
@@ -266,7 +268,7 @@ public class TimeToLiveManager {
      * @param runnable the runnable to execute when the TTL expires.
      * @param duration the duration of the TTL in ticks.
      */
-    private void startPlayerTask(UUID uuid, Runnable runnable, long duration) {
+    private void startPlayerTask(@NotNull UUID uuid, @NotNull Runnable runnable, long duration) {
         expired.put(uuid, false);
         if (duration < 0)
             return;

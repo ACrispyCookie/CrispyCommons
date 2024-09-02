@@ -2,6 +2,7 @@ package dev.acrispycookie.crispycommons.v1_8_R3.utility.nms.nbt;
 
 import dev.acrispycookie.crispycommons.utility.nms.nbt.IntArrayTag;
 import net.minecraft.server.v1_8_R3.NBTTagIntArray;
+import org.jetbrains.annotations.NotNull;
 
 public class IntArrayTag_1_8_R3 extends BaseTag_1_8_R3 implements IntArrayTag {
 
@@ -11,7 +12,7 @@ public class IntArrayTag_1_8_R3 extends BaseTag_1_8_R3 implements IntArrayTag {
         this.tag = new NBTTagIntArray(array);
     }
 
-    public NBTTagIntArray getInternal() {
+    public @NotNull NBTTagIntArray getInternal() {
         return tag;
     }
 

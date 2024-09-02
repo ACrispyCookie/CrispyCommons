@@ -6,6 +6,8 @@ import dev.acrispycookie.crispycommons.utility.element.MyElementSupplier;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.OfflinePlayer;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.function.Function;
@@ -33,7 +35,7 @@ public class TextElement<K> extends AbstractAnimatedElement<Component, K> {
      * @param period the period between subsequent updates, in ticks.
      * @param kClass the class type of the context.
      */
-    protected TextElement(Function<K, Collection<? extends Component>> supplier, int startingFrame, int delay, int period, Class<K> kClass) {
+    protected TextElement(@NotNull Function<K, Collection<? extends Component>> supplier, int startingFrame, int delay, int period, Class<K> kClass) {
         super(supplier, startingFrame, delay, period, false, kClass);
     }
 
@@ -45,7 +47,7 @@ public class TextElement<K> extends AbstractAnimatedElement<Component, K> {
      * @param period the period between subsequent updates, in ticks.
      * @param kClass the class type of the context.
      */
-    protected TextElement(MyElementSupplier<K, Component> supplier, int delay, int period, Class<K> kClass) {
+    protected TextElement(@NotNull MyElementSupplier<K, Component> supplier, int delay, int period, Class<K> kClass) {
         super(supplier, delay, period, false, kClass);
     }
 
@@ -55,7 +57,7 @@ public class TextElement<K> extends AbstractAnimatedElement<Component, K> {
      * @param element the {@code TextElement} to add.
      * @return a new {@code TextElement} that combines the text of both elements.
      */
-    public TextElement<K> addSame(TextElement<K> element) {
+    public @NotNull TextElement<K> addSame(@NotNull TextElement<K> element) {
         int newPeriod = CrispyElement.getMinimumPeriod(this, element);
         if (newPeriod < 0) {
             return new TextElement<>(new MyElementSupplier<>((context) -> getRaw(context).append(element.getRaw(context))), -1, -1, getContextClass());
@@ -71,7 +73,7 @@ public class TextElement<K> extends AbstractAnimatedElement<Component, K> {
      * @return a new {@code TextElement} that combines the text of both elements, or {@code null} if incompatible.
      */
     @SuppressWarnings("unchecked")
-    public TextElement<K> add(TextElement<?> element) {
+    public @Nullable TextElement<K> add(@NotNull TextElement<?> element) {
         if (element.isContext(kClass))
             return this.addSame((TextElement<K>) element);
         else if (element.isContext(Void.class)) {
@@ -91,7 +93,7 @@ public class TextElement<K> extends AbstractAnimatedElement<Component, K> {
      * @return a cloned instance of this {@code TextElement}.
      */
     @Override
-    public TextElement<K> clone() {
+    public @NotNull TextElement<K> clone() {
         if (isDynamic())
             return new TextElement<>(new MyElementSupplier<>(this::getRaw), getDelay(), getPeriod(), getContextClass());
         return new TextElement<>(new MyElementSupplier<>(this::getRaw), -1, -1, getContextClass());
@@ -103,7 +105,7 @@ public class TextElement<K> extends AbstractAnimatedElement<Component, K> {
      * @param value the fixed string value.
      * @return a new {@code TextElement} instance with the specified value.
      */
-    public static TextElement<Void> simple(String value) {
+    public static @NotNull TextElement<Void> simple(@NotNull String value) {
         return dynamic(() -> value, -1, -1);
     }
 
@@ -115,7 +117,7 @@ public class TextElement<K> extends AbstractAnimatedElement<Component, K> {
      * @param period the period between subsequent updates, in ticks.
      * @return a new {@code TextElement} instance with dynamic behavior.
      */
-    public static TextElement<Void> dynamic(Supplier<? extends String> supplier, int delay, int period) {
+    public static @NotNull TextElement<Void> dynamic(@NotNull Supplier<? extends String> supplier, int delay, int period) {
         return dynamicComponent(() -> LegacyComponentSerializer.legacyAmpersand().deserialize(supplier.get()), delay, period);
     }
 
@@ -128,7 +130,7 @@ public class TextElement<K> extends AbstractAnimatedElement<Component, K> {
      * @param period the period between subsequent updates, in ticks.
      * @return a new {@code TextElement} instance with animated behavior.
      */
-    public static TextElement<Void> animated(Collection<? extends String> collection, int startingFrame, int delay, int period) {
+    public static @NotNull TextElement<Void> animated(@NotNull Collection<? extends String> collection, int startingFrame, int delay, int period) {
         return animatedComponent(collection
                 .stream()
                 .map(s -> LegacyComponentSerializer.legacyAmpersand().deserialize(s))
@@ -141,7 +143,7 @@ public class TextElement<K> extends AbstractAnimatedElement<Component, K> {
      * @param function the function providing the string value based on the player context.
      * @return a new {@code TextElement} instance with the specified personal context.
      */
-    public static TextElement<OfflinePlayer> simplePersonal(Function<OfflinePlayer, ? extends String> function) {
+    public static @NotNull TextElement<OfflinePlayer> simplePersonal(@NotNull Function<OfflinePlayer, ? extends String> function) {
         return dynamicPersonal(function, -1, -1);
     }
 
@@ -154,7 +156,7 @@ public class TextElement<K> extends AbstractAnimatedElement<Component, K> {
      * @param period the period between subsequent updates, in ticks.
      * @return a new {@code TextElement} instance with dynamic behavior and personal context.
      */
-    public static TextElement<OfflinePlayer> dynamicPersonal(Function<OfflinePlayer, ? extends String> function, int delay, int period) {
+    public static @NotNull TextElement<OfflinePlayer> dynamicPersonal(@NotNull Function<OfflinePlayer, ? extends String> function, int delay, int period) {
         return dynamicComponentPersonal((context) -> LegacyComponentSerializer.legacyAmpersand().deserialize(function.apply(context)), delay, period);
     }
 
@@ -167,7 +169,7 @@ public class TextElement<K> extends AbstractAnimatedElement<Component, K> {
      * @param period the period between subsequent updates, in ticks.
      * @return a new {@code TextElement} instance with animated behavior and personal context.
      */
-    public static TextElement<OfflinePlayer> animatedPersonal(Function<OfflinePlayer, Collection<? extends String>> function, int startingFrame, int delay, int period) {
+    public static @NotNull TextElement<OfflinePlayer> animatedPersonal(@NotNull Function<OfflinePlayer, Collection<? extends String>> function, int startingFrame, int delay, int period) {
         return animatedComponentPersonal((context) -> function.apply(context)
                 .stream()
                 .map(s -> LegacyComponentSerializer.legacyAmpersand().deserialize(s))
@@ -180,7 +182,7 @@ public class TextElement<K> extends AbstractAnimatedElement<Component, K> {
      * @param value the fixed component value.
      * @return a new {@code TextElement} instance with the specified component value.
      */
-    public static TextElement<Void> simpleComponent(Component value) {
+    public static @NotNull TextElement<Void> simpleComponent(@NotNull Component value) {
         return dynamicComponent(() -> value, -1, -1);
     }
 
@@ -192,7 +194,7 @@ public class TextElement<K> extends AbstractAnimatedElement<Component, K> {
      * @param period the period between subsequent updates, in ticks.
      * @return a new {@code TextElement} instance with dynamic behavior.
      */
-    public static TextElement<Void> dynamicComponent(Supplier<? extends Component> supplier, int delay, int period) {
+    public static @NotNull TextElement<Void> dynamicComponent(@NotNull Supplier<? extends Component> supplier, int delay, int period) {
         return new TextElement<Void>(new MyElementSupplier<>((v) -> supplier.get()), delay, period, Void.class) {};
     }
 
@@ -205,7 +207,7 @@ public class TextElement<K> extends AbstractAnimatedElement<Component, K> {
      * @param period the period between subsequent updates, in ticks.
      * @return a new {@code TextElement} instance with animated behavior.
      */
-    public static TextElement<Void> animatedComponent(Collection<? extends Component> collection, int startingFrame, int delay, int period) {
+    public static @NotNull TextElement<Void> animatedComponent(@NotNull Collection<? extends Component> collection, int startingFrame, int delay, int period) {
         return new TextElement<Void>((v) -> collection, startingFrame, delay, period, Void.class) {};
     }
 
@@ -215,7 +217,7 @@ public class TextElement<K> extends AbstractAnimatedElement<Component, K> {
      * @param function the function providing the component value based on the player context.
      * @return a new {@code TextElement} instance with the specified personal context.
      */
-    public static TextElement<OfflinePlayer> simpleComponentPersonal(Function<OfflinePlayer, Component> function) {
+    public static @NotNull TextElement<OfflinePlayer> simpleComponentPersonal(@NotNull Function<OfflinePlayer, Component> function) {
         return new TextElement<OfflinePlayer>(new MyElementSupplier<>(function), -1, -1, OfflinePlayer.class) {};
     }
 
@@ -228,7 +230,7 @@ public class TextElement<K> extends AbstractAnimatedElement<Component, K> {
      * @param period the period between subsequent updates, in ticks.
      * @return a new {@code TextElement} instance with animated behavior and personal context.
      */
-    public static TextElement<OfflinePlayer> animatedComponentPersonal(Function<OfflinePlayer, Collection<? extends Component>> function, int startingFrame, int delay, int period) {
+    public static @NotNull TextElement<OfflinePlayer> animatedComponentPersonal(@NotNull Function<OfflinePlayer, Collection<? extends Component>> function, int startingFrame, int delay, int period) {
         return new TextElement<OfflinePlayer>(function, startingFrame, delay, period, OfflinePlayer.class) {};
     }
 
@@ -241,7 +243,7 @@ public class TextElement<K> extends AbstractAnimatedElement<Component, K> {
      * @param period the period between subsequent updates, in ticks.
      * @return a new {@code TextElement} instance with dynamic behavior and personal context.
      */
-    public static TextElement<OfflinePlayer> dynamicComponentPersonal(Function<OfflinePlayer, ? extends Component> function, int delay, int period) {
+    public static @NotNull TextElement<OfflinePlayer> dynamicComponentPersonal(@NotNull Function<OfflinePlayer, ? extends Component> function, int delay, int period) {
         return new TextElement<OfflinePlayer>(new MyElementSupplier<>(function), delay, period, OfflinePlayer.class) {};
     }
 }

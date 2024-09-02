@@ -79,7 +79,7 @@ public interface MenuItem {
      * @throws NullPointerException if {@code unloadedDisplay}, {@code onClick}, {@code onClickUnloaded}, {@code displaySupplier},
      *                              or {@code altDisplaySupplier} is {@code null}.
      */
-    static LoadingItem loadingItem(@NotNull ItemElement<?> unloadedDisplay, @NotNull BiConsumer<CrispyMenu, Player> onClickUnloaded, @NotNull Supplier<ItemLoadData> loadDataSupplier) {
+    static @NotNull LoadingItem loadingItem(@NotNull ItemElement<?> unloadedDisplay, @NotNull BiConsumer<CrispyMenu, Player> onClickUnloaded, @NotNull Supplier<ItemLoadData> loadDataSupplier) {
         return new LoadingItem(unloadedDisplay) {
             @Override
             public void onClickUnloaded(@NotNull CrispyMenu menu, @NotNull Player player) {

@@ -30,7 +30,7 @@ public class UrlHeadItem extends CrispyHeadItem {
      *
      * @param url the URL of the skin to be applied to the head item.
      */
-    public UrlHeadItem(String url) {
+    public UrlHeadItem(@NotNull String url) {
         this.url = url;
     }
 
@@ -39,7 +39,7 @@ public class UrlHeadItem extends CrispyHeadItem {
      *
      * @return the skin URL.
      */
-    public String getUrl() {
+    public @NotNull String getUrl() {
         return url;
     }
 
@@ -49,8 +49,9 @@ public class UrlHeadItem extends CrispyHeadItem {
      * @return the updated {@code UrlHeadItem} instance.
      */
     @Override
-    public UrlHeadItem update() {
+    public @NotNull UrlHeadItem update() {
         SkullMeta meta = (SkullMeta) getItemMeta();
+        assert meta != null : "SkullMeta is null. Contact developer";
         setSkinToUrl(meta, url);
         setItemMeta(meta);
         return this;
@@ -76,10 +77,9 @@ public class UrlHeadItem extends CrispyHeadItem {
      * Sets the skin of the {@link SkullMeta} to the skin located at the specified URL.
      *
      * @param skullMeta the {@link SkullMeta} to which the skin will be applied.
-     * @param url the URL of the skin to apply.
-     * @return the modified {@link SkullMeta} with the new skin.
+     * @param url       the URL of the skin to apply.
      */
-    private SkullMeta setSkinToUrl(SkullMeta skullMeta, String url) {
+    private void setSkinToUrl(@NotNull SkullMeta skullMeta, @NotNull String url) {
         GameProfile profile = new GameProfile(UUID.randomUUID(), null);
         byte[] encodedData = Base64.getEncoder().encode(String.format("{textures:{SKIN:{url:\"%s\"}}}", url).getBytes());
         profile.getProperties().put("textures", new Property("textures", new String(encodedData)));
@@ -92,7 +92,6 @@ public class UrlHeadItem extends CrispyHeadItem {
             throw new RuntimeException(e);
         }
 
-        return skullMeta;
     }
 }
 

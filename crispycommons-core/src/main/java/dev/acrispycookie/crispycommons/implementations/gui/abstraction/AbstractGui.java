@@ -28,7 +28,7 @@ public abstract class AbstractGui<T extends GuiData> implements CrispyGui {
      *
      * @param data the data to be associated with this GUI.
      */
-    public AbstractGui(T data) {
+    public AbstractGui(@NotNull T data) {
         this.data = data;
     }
 
@@ -37,7 +37,7 @@ public abstract class AbstractGui<T extends GuiData> implements CrispyGui {
      *
      * @return the GUI data.
      */
-    protected T getData() {
+    protected @NotNull T getData() {
         return data;
     }
 
@@ -79,7 +79,7 @@ public abstract class AbstractGui<T extends GuiData> implements CrispyGui {
      *
      * @param player the player for whom the GUI will be opened.
      */
-    protected abstract void openInternal(Player player);
+    protected abstract void openInternal(@NotNull Player player);
 
     /**
      * Closes the GUI for the specified player with custom logic defined by subclasses.
@@ -87,6 +87,6 @@ public abstract class AbstractGui<T extends GuiData> implements CrispyGui {
      * @param player the player for whom the GUI will be closed.
      * @param closeView the option to close the view. Set to false if another menu is going to open right after.
      */
-    protected abstract void closeInternal(Player player, boolean closeView);
+    protected abstract void closeInternal(@NotNull Player player, boolean closeView);
 }
 

@@ -7,6 +7,7 @@ import dev.acrispycookie.crispycommons.implementations.visual.hologram.SimpleHol
 import dev.acrispycookie.crispycommons.implementations.visual.hologram.data.HologramData;
 import dev.acrispycookie.crispycommons.implementations.element.type.GeneralElement;
 import org.bukkit.Location;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,7 +28,7 @@ public interface CrispyHologram extends CrispyVisual {
      *
      * @return a new {@link HologramBuilder} instance.
      */
-    static HologramBuilder builder() {
+    static @NotNull HologramBuilder builder() {
         return new HologramBuilder();
     }
 
@@ -36,7 +37,7 @@ public interface CrispyHologram extends CrispyVisual {
      *
      * @param line the {@link DynamicElement} to add as a line in the hologram.
      */
-    void addLine(DynamicElement<?, ?> line);
+    void addLine(@NotNull DynamicElement<?, ?> line);
 
     /**
      * Adds a new line to the hologram at the specified index.
@@ -44,7 +45,7 @@ public interface CrispyHologram extends CrispyVisual {
      * @param index the index at which to add the line.
      * @param line the {@link DynamicElement} to add as a line in the hologram.
      */
-    void addLine(int index, DynamicElement<?, ?> line);
+    void addLine(int index, @NotNull DynamicElement<?, ?> line);
 
     /**
      * Removes a line from the hologram at the specified index.
@@ -58,28 +59,28 @@ public interface CrispyHologram extends CrispyVisual {
      *
      * @param lines the collection of {@link DynamicElement} instances to set as the hologram's lines.
      */
-    void setLines(Collection<? extends DynamicElement<?, ?>> lines);
+    void setLines(@NotNull Collection<? extends DynamicElement<?, ?>> lines);
 
     /**
      * Sets the location of the hologram.
      *
      * @param location the {@link GeneralElement} representing the hologram's location.
      */
-    void setLocation(GeneralElement<Location, ?> location);
+    void setLocation(@NotNull GeneralElement<Location, ?> location);
 
     /**
      * Retrieves the list of lines currently displayed in the hologram.
      *
      * @return a {@link List} of {@link DynamicElement} instances representing the lines.
      */
-    List<DynamicElement<?, ?>> getLines();
+    @NotNull List<DynamicElement<?, ?>> getLines();
 
     /**
      * Retrieves the location of the hologram.
      *
      * @return the {@link GeneralElement} representing the hologram's location.
      */
-    GeneralElement<Location, ?> getLocation();
+    @NotNull GeneralElement<Location, ?> getLocation();
 
     /**
      * Updates the location of the hologram.
@@ -114,7 +115,7 @@ public interface CrispyHologram extends CrispyVisual {
          * @param location the {@link GeneralElement} representing the hologram's location.
          * @return this {@code HologramBuilder} instance for method chaining.
          */
-        public HologramBuilder setLocation(GeneralElement<Location, ?> location) {
+        public @NotNull HologramBuilder setLocation(@NotNull GeneralElement<Location, ?> location) {
             this.data.setLocation(location);
             location.setUpdate(() -> toBuild.updateLocation());
             return this;
@@ -129,7 +130,7 @@ public interface CrispyHologram extends CrispyVisual {
          * @param element the {@link DynamicElement} to add as a line in the hologram.
          * @return this {@code HologramBuilder} instance for method chaining.
          */
-        public HologramBuilder addLine(DynamicElement<?, ?> element) {
+        public @NotNull HologramBuilder addLine(@NotNull DynamicElement<?, ?> element) {
             this.data.getLines().add(element);
             int index = data.getLines().size() - 1;
             element.setUpdate(() -> toBuild.updateLine(index));
@@ -141,7 +142,7 @@ public interface CrispyHologram extends CrispyVisual {
          *
          * @return the constructed {@link CrispyHologram} instance.
          */
-        public CrispyHologram build() {
+        public @NotNull CrispyHologram build() {
             toBuild = new SimpleHologram(data, receivers, timeToLive, isPublic);
             return toBuild;
         }

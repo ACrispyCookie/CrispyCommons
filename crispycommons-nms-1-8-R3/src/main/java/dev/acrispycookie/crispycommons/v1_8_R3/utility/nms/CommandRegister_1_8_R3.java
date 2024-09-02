@@ -5,6 +5,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.craftbukkit.v1_8_R3.CraftServer;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Field;
 import java.util.Map;
@@ -12,15 +14,17 @@ import java.util.Map;
 public class CommandRegister_1_8_R3 extends CommandRegister {
 
     @Override
-    public boolean register(JavaPlugin plugin, String fallbackPrefix, Command command) {
+    public boolean register(@NotNull JavaPlugin plugin, @NotNull String fallbackPrefix, @NotNull Command command) {
         return ((CraftServer) plugin.getServer()).getCommandMap().register(fallbackPrefix, command);
     }
 
     @Override
-    public SimpleCommandMap unregister(JavaPlugin plugin, String label) {
+    public @NotNull SimpleCommandMap unregister(@NotNull JavaPlugin plugin, @NotNull String label) {
         SimpleCommandMap map = ((CraftServer) plugin.getServer()).getCommandMap();
         Field knownCommandsField = getField(SimpleCommandMap.class, "knownCommands");
+        assert knownCommandsField != null : "Known commands field was null. Contact developer.";
         Map<String, Command> knownCommands = getCommandMap(knownCommandsField, map);
+        assert knownCommands != null : "Known commands map was null. Contact developer.";
         knownCommands.remove(plugin.getName().toLowerCase() + ":" + label);
         knownCommands.remove(label);
         try {
@@ -30,8 +34,9 @@ public class CommandRegister_1_8_R3 extends CommandRegister {
         }
         return map;
     }
-    
-    private Map<String, Command> getCommandMap(Field field, SimpleCommandMap map) {
+
+    @SuppressWarnings("unchecked")
+    private @Nullable Map<String, Command> getCommandMap(@NotNull Field field, @NotNull SimpleCommandMap map) {
         try {
             field.setAccessible(true);
             return (Map<String, Command>) field.get(map);
@@ -40,7 +45,7 @@ public class CommandRegister_1_8_R3 extends CommandRegister {
         }
     }
 
-    private Field getField(Class<?> clazz, String fieldName) {
+    private @Nullable Field getField(@NotNull Class<?> clazz, @NotNull String fieldName) {
         try {
             return clazz.getDeclaredField(fieldName);
         } catch (NoSuchFieldException e) {

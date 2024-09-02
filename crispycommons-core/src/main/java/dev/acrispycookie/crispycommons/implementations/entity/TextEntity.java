@@ -25,20 +25,20 @@ public abstract class TextEntity extends ClickableEntity<TextElement<?>> impleme
      *
      * @param element the text element associated with this entity.
      */
-    public TextEntity(@NotNull TextElement<?> element, @NotNull Location location) {
-        super(element, location);
+    public TextEntity(@NotNull TextElement<?> element) {
+        super(element);
     }
 
-    public static TextEntity newInstance(@NotNull TextElement<?> element, @NotNull Location location) {
+    public static @NotNull TextEntity newInstance(@NotNull TextElement<?> element, @NotNull Location location) {
         return VersionManager.createInstance(TextEntity.class, getRemapped(),
                 new ArgPair<>(TextElement.class, element),
                 new ArgPair<>(Location.class, location));
     }
 
-    public static MappedVersions getRemapped() {
+    public static @NotNull MappedVersions getRemapped() {
         return new MappedVersions(new VersionPair(Version.v1_20_R3, Version.v1_8_R3));
     }
 
-    public abstract String getName();
+    public abstract @NotNull String getName();
 }
 

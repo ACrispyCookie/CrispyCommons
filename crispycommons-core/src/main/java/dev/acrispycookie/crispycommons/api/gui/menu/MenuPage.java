@@ -166,7 +166,7 @@ public interface MenuPage {
      * @return the {@link SectionData} located at the specified {@code pointIndex}.
      * @throws IndexOutOfBoundsException if {@code pointIndex} is out of the valid range.
      */
-    SectionData getSection(int pointIndex);
+    @NotNull SectionData getSection(int pointIndex);
 
     /**
      * Removes a section from the page at the specified point index.
@@ -182,7 +182,7 @@ public interface MenuPage {
      * @return the {@link SectionData} located at the specified {@code pointIndex}.
      * @throws IndexOutOfBoundsException if {@code pointIndex} is out of the valid range.
      */
-    SectionData getSection(@NotNull Point point);
+    @NotNull SectionData getSection(@NotNull Point point);
 
     /**
      * Handles a click event on an item on the player's inventory based on the {@link CrispyItemStack} that was clicked.

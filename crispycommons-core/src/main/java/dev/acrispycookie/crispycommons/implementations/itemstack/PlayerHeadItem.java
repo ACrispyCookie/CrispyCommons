@@ -6,6 +6,7 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import dev.acrispycookie.crispycommons.api.itemstack.CrispyHeadItem;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -34,7 +35,7 @@ public class PlayerHeadItem extends CrispyHeadItem {
      *
      * @param uuid the UUID of the player whose head skin will be used.
      */
-    public PlayerHeadItem(UUID uuid) {
+    public PlayerHeadItem(@NotNull UUID uuid) {
         this.uuid = uuid;
     }
 
@@ -43,7 +44,7 @@ public class PlayerHeadItem extends CrispyHeadItem {
      *
      * @return the player's UUID.
      */
-    public UUID getUuid() {
+    public @NotNull UUID getUuid() {
         return uuid;
     }
 
@@ -56,11 +57,14 @@ public class PlayerHeadItem extends CrispyHeadItem {
      *
      * @return the updated {@code PlayerHeadItem} instance.
      */
+    @SuppressWarnings("deprecation")
     @Override
-    public PlayerHeadItem update() {
+    public @NotNull PlayerHeadItem update() {
         SkullMeta meta = (SkullMeta) getItemMeta();
-        if (Bukkit.getPlayer(uuid) != null) {
-            meta.setOwner(Bukkit.getPlayer(uuid).getName());
+        assert meta != null : "Skull meta was null. Contact developer.";
+        Player player = Bukkit.getPlayer(uuid);
+        if (player != null) {
+            meta.setOwner(player.getName());
         } else {
             setSkinToBase64(meta, getOfflinePlayerSkin(uuid));
         }
@@ -94,9 +98,9 @@ public class PlayerHeadItem extends CrispyHeadItem {
      * @param uuid the UUID of the offline player.
      * @return the base64-encoded skin data.
      */
-    private String getOfflinePlayerSkin(UUID uuid) {
+    private @NotNull String getOfflinePlayerSkin(@NotNull UUID uuid) {
         Gson g = new Gson();
-        String signature = getUrlResponse("https://sessionserver.mojang.com/session/minecraft/profile/" + uuid.toString());
+        String signature = getUrlResponse("https://sessionserver.mojang.com/session/minecraft/profile/" + uuid);
         JsonObject obj = g.fromJson(signature, JsonObject.class);
         return obj.getAsJsonArray("properties").get(0).getAsJsonObject().get("value").getAsString();
     }
@@ -104,11 +108,10 @@ public class PlayerHeadItem extends CrispyHeadItem {
     /**
      * Sets the skin of the {@link SkullMeta} to the specified base64-encoded texture data.
      *
-     * @param meta the {@link SkullMeta} to which the skin will be applied.
+     * @param meta   the {@link SkullMeta} to which the skin will be applied.
      * @param base64 the base64-encoded texture data.
-     * @return the modified {@link SkullMeta} with the new skin.
      */
-    private SkullMeta setSkinToBase64(SkullMeta meta, String base64) {
+    private void setSkinToBase64(@NotNull SkullMeta meta, @NotNull String base64) {
         GameProfile profile = new GameProfile(UUID.randomUUID(), null);
         profile.getProperties().put("textures", new Property("textures", base64));
         try {
@@ -119,7 +122,6 @@ public class PlayerHeadItem extends CrispyHeadItem {
             throw new RuntimeException(e);
         }
 
-        return meta;
     }
 }
 

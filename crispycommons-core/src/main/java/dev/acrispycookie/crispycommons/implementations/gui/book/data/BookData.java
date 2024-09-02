@@ -1,6 +1,7 @@
 package dev.acrispycookie.crispycommons.implementations.gui.book.data;
 
 import dev.acrispycookie.crispycommons.api.gui.abstraction.GuiData;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,7 +31,7 @@ public class BookData implements GuiData {
      *
      * @param pages the initial list of pages to be included in the book.
      */
-    public BookData(ArrayList<BookPage> pages) {
+    public BookData(@NotNull ArrayList<BookPage> pages) {
         this.pages = pages;
     }
 
@@ -51,7 +52,7 @@ public class BookData implements GuiData {
      *
      * @return an unmodifiable {@link List} of {@link BookPage} objects.
      */
-    public List<BookPage> getPages() {
+    public @NotNull List<BookPage> getPages() {
         return Collections.unmodifiableList(pages);
     }
 
@@ -63,7 +64,7 @@ public class BookData implements GuiData {
      *
      * @param pages the collection of {@link BookPage} objects to set as the book's pages.
      */
-    public void setPages(Collection<? extends BookPage> pages) {
+    public void setPages(@NotNull Collection<? extends BookPage> pages) {
         this.pages.clear();
         this.pages.addAll(pages);
     }
@@ -77,7 +78,7 @@ public class BookData implements GuiData {
      * @param index the index at which the page should be inserted.
      * @param page  the {@link BookPage} to add.
      */
-    public void addPage(int index, BookPage page) {
+    public void addPage(int index, @NotNull BookPage page) {
         this.pages.add(index, page);
     }
 
@@ -89,7 +90,7 @@ public class BookData implements GuiData {
      *
      * @param page the {@link BookPage} to add.
      */
-    public void addPage(BookPage page) {
+    public void addPage(@NotNull BookPage page) {
         this.pages.add(page);
     }
 

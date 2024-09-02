@@ -3,6 +3,7 @@ package dev.acrispycookie.crispycommons.implementations.element;
 import dev.acrispycookie.crispycommons.api.element.CrispyElement;
 import dev.acrispycookie.crispycommons.utility.element.ContextMap;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 
@@ -55,7 +56,7 @@ public abstract class AbstractElement<T, K> implements CrispyElement<T, K> {
      * @return the element value for the given context.
      */
     @Override
-    public T getRaw(K context) {
+    public @NotNull T getRaw(@Nullable K context) {
         return elements.get(context);
     }
 
@@ -74,7 +75,7 @@ public abstract class AbstractElement<T, K> implements CrispyElement<T, K> {
      */
     @Override
     @SuppressWarnings("unchecked")
-    public <C> T getFromContext(@NotNull ContextMap contexts) {
+    public <C> @NotNull T getFromContext(@NotNull ContextMap contexts) {
         for (Map.Entry<Class<?>, Object> context : contexts.get().entrySet()) {
             if (isContext(context.getKey()))
                 return ((AbstractElement<T, C>) this).getRaw((C) context.getValue());
@@ -100,7 +101,7 @@ public abstract class AbstractElement<T, K> implements CrispyElement<T, K> {
      */
     @Override
     @SuppressWarnings("unchecked")
-    public <C> T getFromContext(@NotNull Class<C> clazz, @NotNull C value) {
+    public <C> @NotNull T getFromContext(@NotNull Class<C> clazz, @NotNull C value) {
         if (isContext(clazz))
             return ((AbstractElement<T, C>) this).getRaw(value);
         if (isContext(Void.class))

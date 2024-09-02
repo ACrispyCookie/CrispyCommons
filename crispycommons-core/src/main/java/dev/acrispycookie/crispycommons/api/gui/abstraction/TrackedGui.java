@@ -1,6 +1,6 @@
 package dev.acrispycookie.crispycommons.api.gui.abstraction;
 
-import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -18,5 +18,5 @@ public interface TrackedGui extends CrispyGui {
      * @return true if the player is currently viewing this GUI, false otherwise.
      * @throws NullPointerException if {@code player} is {@code null}.
      */
-    boolean isPlayerViewing(@NotNull OfflinePlayer player);
+    boolean isPlayerViewing(@NotNull Player player);
 }

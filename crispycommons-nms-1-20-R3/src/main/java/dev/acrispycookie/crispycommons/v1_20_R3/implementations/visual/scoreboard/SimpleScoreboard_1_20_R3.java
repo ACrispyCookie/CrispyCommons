@@ -1,8 +1,10 @@
 package dev.acrispycookie.crispycommons.v1_20_R3.implementations.visual.scoreboard;
 
+import dev.acrispycookie.crispycommons.CrispyCommons;
 import dev.acrispycookie.crispycommons.implementations.element.type.TimeToLiveElement;
 import dev.acrispycookie.crispycommons.implementations.visual.scoreboard.SimpleScoreboard;
 import dev.acrispycookie.crispycommons.implementations.visual.scoreboard.data.ScoreboardData;
+import dev.acrispycookie.crispycommons.utility.logging.CrispyLogger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.minecraft.EnumChatFormat;
@@ -15,10 +17,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.craftbukkit.v1_20_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
-import org.bukkit.scoreboard.DisplaySlot;
-import org.bukkit.scoreboard.Objective;
-import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.Team;
+import org.jetbrains.annotations.NotNull;
 import sun.misc.Unsafe;
 
 import java.lang.reflect.Constructor;
@@ -40,27 +39,27 @@ public class SimpleScoreboard_1_20_R3 extends SimpleScoreboard {
     }
 
     @Override
-    protected void show(Player p) {
-        Component titleText = data.getTitle().getFromContext(OfflinePlayer.class, p);
-        List<Component> lines = data.getLines().stream().map(e -> e.getFromContext(OfflinePlayer.class, p)).collect(Collectors.toList());
+    protected void show(@NotNull Player player) {
+        Component titleText = data.getTitle().getFromContext(OfflinePlayer.class, player);
+        List<Component> lines = data.getLines().stream().map(e -> e.getFromContext(OfflinePlayer.class, player)).collect(Collectors.toList());
 
-        init(p);
-        sendObjective(p, titleText, ObjectiveAction.UPDATE);
+        init(player);
+        sendObjective(player, titleText, ObjectiveAction.UPDATE);
         for (int i = 0; i < lines.size(); i++) {
-            sendTeam(p, i, lines.get(i), TeamAction.ADD);
+            sendTeam(player, i, lines.get(i), TeamAction.ADD);
         }
     }
 
     @Override
-    protected void hide(Player p) {
+    protected void hide(@NotNull Player player) {
         for (int i = 0; i < data.getLines().size(); i++) {
-            sendTeam(p, i, Component.empty(), TeamAction.REMOVE);
+            sendTeam(player, i, Component.empty(), TeamAction.REMOVE);
         }
-        sendObjective(p, Component.empty(), ObjectiveAction.REMOVE);
+        sendObjective(player, Component.empty(), ObjectiveAction.REMOVE);
     }
 
     @Override
-    protected void perPlayerUpdate(Player p) {
+    protected void perPlayerUpdate(@NotNull Player player) {
 
     }
 
@@ -164,8 +163,7 @@ public class SimpleScoreboard_1_20_R3 extends SimpleScoreboard {
             ((CraftPlayer) p).getHandle().c.b(createTeam);
         } catch (InstantiationException | NoSuchFieldException | IllegalAccessException | InvocationTargetException |
                  NoSuchMethodException e) {
-            System.out.println("Couldn't init scoreboard lines. Something went wrong!");
-            e.printStackTrace();
+            CrispyLogger.printException(CrispyCommons.getPlugin(), e, "Couldn't init scoreboard lines. Something went wrong!");
         }
     }
 

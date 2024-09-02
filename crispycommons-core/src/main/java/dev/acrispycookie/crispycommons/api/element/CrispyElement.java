@@ -2,6 +2,7 @@ package dev.acrispycookie.crispycommons.api.element;
 
 import dev.acrispycookie.crispycommons.utility.element.ContextMap;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Represents a generic element that can be context-aware and dynamic.
@@ -23,7 +24,7 @@ public interface CrispyElement<T, K> extends Cloneable {
      * @param context the context of type {@code K} used to access the raw data.
      * @return the raw data of type {@code T} based on the given context.
      */
-    T getRaw(K context);
+    @NotNull T getRaw(@Nullable K context);
 
     /**
      * Retrieves the data of the element based on the given context map.
@@ -37,7 +38,7 @@ public interface CrispyElement<T, K> extends Cloneable {
      * @param <C> the type of the context contained in the {@link ContextMap}.
      * @return the data of type {@code T} based on the context map.
      */
-    <C> T getFromContext(@NotNull ContextMap contexts);
+    <C> @NotNull T getFromContext(@NotNull ContextMap contexts);
 
     /**
      * Retrieves the data of the element based on a specific context class and value.
@@ -52,7 +53,7 @@ public interface CrispyElement<T, K> extends Cloneable {
      * @param <C> the type of the context value.
      * @return the data of type {@code T} based on the context class and value.
      */
-    <C> T getFromContext(@NotNull Class<C> clazz, @NotNull C value);
+    <C> @NotNull T getFromContext(@NotNull Class<C> clazz, @NotNull C value);
 
     /**
      * Checks if the element is dynamic.

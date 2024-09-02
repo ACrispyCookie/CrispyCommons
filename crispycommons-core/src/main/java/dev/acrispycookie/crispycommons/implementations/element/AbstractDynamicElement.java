@@ -5,6 +5,7 @@ import dev.acrispycookie.crispycommons.api.element.DynamicElement;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.function.Function;
@@ -130,7 +131,7 @@ public abstract class AbstractDynamicElement<T, K> extends AbstractElement<T, K>
      * @return the element value for the given context.
      */
     @Override
-    public T getRaw(K context) {
+    public @NotNull T getRaw(@Nullable K context) {
         if (!elements.containsKey(context))
             elements.put(context, supplier.apply(context));
         return elements.get(context);

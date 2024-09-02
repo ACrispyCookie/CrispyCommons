@@ -7,6 +7,7 @@ import dev.acrispycookie.crispycommons.api.itemstack.CrispyItemStack;
 import dev.acrispycookie.crispycommons.utility.menu.InvalidMenuConfiguration;
 import dev.acrispycookie.crispycommons.utility.menu.PageInfo;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -42,7 +43,7 @@ public class PagedMenuData extends MenuData {
      * @param properties a collection of {@link CrispyMenu.MenuProperty} that defines the properties of the menu.
      * @throws InvalidMenuConfiguration if the number of columns specified in {@code pageInfo} is not valid.
      */
-    public PagedMenuData(DynamicSection section, PageInfo pageInfo, Collection<CrispyMenu.MenuProperty> properties) throws InvalidMenuConfiguration {
+    public PagedMenuData(@NotNull DynamicSection section, @NotNull PageInfo pageInfo, @NotNull Collection<CrispyMenu.MenuProperty> properties) throws InvalidMenuConfiguration {
         super(pageInfo.getDefaultPage(), new ArrayList<>(), properties);
         if (pageInfo.getColumns() != 9 && pageInfo.getColumns() != 3) {
             throw new InvalidMenuConfiguration("Invalid number of columns in page!");
@@ -56,7 +57,7 @@ public class PagedMenuData extends MenuData {
      *
      * @return the dynamic section.
      */
-    public DynamicSection getDynamicSection() {
+    public @NotNull DynamicSection getDynamicSection() {
         return section;
     }
 
@@ -65,7 +66,7 @@ public class PagedMenuData extends MenuData {
      *
      * @return a {@link BiFunction} that generates the page title based on the current page number and total page count.
      */
-    public BiFunction<Integer, Integer, String> getTitle() {
+    public @NotNull BiFunction<Integer, Integer, String> getTitle() {
         return pageInfo.getPageTitle();
     }
 
@@ -110,7 +111,7 @@ public class PagedMenuData extends MenuData {
      *
      * @return a {@link BiFunction} that handles item clicks, returning {@code true} if a significant action was performed.
      */
-    public BiFunction<Player, CrispyItemStack, Boolean> getOnPlayerItemClick() {
+    public @NotNull BiFunction<Player, CrispyItemStack, Boolean> getOnPlayerItemClick() {
         return pageInfo.getOnPlayerItemClick();
     }
 
@@ -119,7 +120,7 @@ public class PagedMenuData extends MenuData {
      *
      * @param page the page to be added.
      */
-    public void addPage(MenuPage page) {
+    public void addPage(@NotNull MenuPage page) {
         this.pages.add(page);
     }
 
@@ -134,17 +135,11 @@ public class PagedMenuData extends MenuData {
      */
     @Override
     public void assertReady() {
-        if (getTitle() == null) {
-            throw new GuiNotReadyException("The title wasn't set for the page menu.");
-        }
         if (getStartIndex() == -1) {
             throw new GuiNotReadyException("The start index for the dynamic section on the page menu was not set.");
         }
         if (getEndIndex() == -1) {
             throw new GuiNotReadyException("The end index for the dynamic section on the page menu was not set.");
-        }
-        if (getDynamicSection() == null) {
-            throw new GuiNotReadyException("The dynamic section on the page menu was not set.");
         }
         super.assertReady();
     }

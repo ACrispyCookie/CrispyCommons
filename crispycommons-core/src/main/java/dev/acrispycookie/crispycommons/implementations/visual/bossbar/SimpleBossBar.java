@@ -8,6 +8,7 @@ import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.bossbar.BossBar;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Set;
@@ -34,7 +35,7 @@ public class SimpleBossBar extends AbstractBossBar {
      * @param timeToLive the time-to-live (TTL) element controlling the lifespan of the boss bar.
      * @param isPublic   whether the boss bar should be visible to all players.
      */
-    public SimpleBossBar(BossBarData data, Set<? extends OfflinePlayer> receivers, TimeToLiveElement<?> timeToLive, boolean isPublic) {
+    public SimpleBossBar(@NotNull BossBarData data, @NotNull Set<? extends OfflinePlayer> receivers, @NotNull TimeToLiveElement<?> timeToLive, boolean isPublic) {
         super(data, receivers, timeToLive, isPublic);
     }
 
@@ -45,18 +46,18 @@ public class SimpleBossBar extends AbstractBossBar {
      * The boss bar's text, progress, color, and overlay are set based on the player's context.
      * </p>
      *
-     * @param p the player to whom the boss bar will be shown.
+     * @param player the player to whom the boss bar will be shown.
      */
     @Override
-    protected void show(Player p) {
-        bossBars.put(p, BossBar.bossBar(
-                data.getText().getFromContext(OfflinePlayer.class, p),
-                data.getProgress().getFromContext(OfflinePlayer.class, p),
-                data.getColor().getFromContext(OfflinePlayer.class, p),
-                data.getOverlay().getFromContext(OfflinePlayer.class, p)
+    protected void show(@NotNull Player player) {
+        bossBars.put(player, BossBar.bossBar(
+                data.getText().getFromContext(OfflinePlayer.class, player),
+                data.getProgress().getFromContext(OfflinePlayer.class, player),
+                data.getColor().getFromContext(OfflinePlayer.class, player),
+                data.getOverlay().getFromContext(OfflinePlayer.class, player)
         ));
-        Audience audience = CrispyCommons.getBukkitAudiences().player(p);
-        audience.showBossBar(bossBars.get(p));
+        Audience audience = CrispyCommons.getBukkitAudiences().player(player);
+        audience.showBossBar(bossBars.get(player));
     }
 
     /**
@@ -65,12 +66,12 @@ public class SimpleBossBar extends AbstractBossBar {
      * This method removes the boss bar from the player's view using the {@link Adventure} API.
      * </p>
      *
-     * @param p the player from whom the boss bar will be hidden.
+     * @param player the player from whom the boss bar will be hidden.
      */
     @Override
-    protected void hide(Player p) {
-        Audience audience = CrispyCommons.getBukkitAudiences().player(p);
-        audience.hideBossBar(bossBars.get(p));
+    protected void hide(@NotNull Player player) {
+        Audience audience = CrispyCommons.getBukkitAudiences().player(player);
+        audience.hideBossBar(bossBars.get(player));
     }
 
     /**
@@ -79,15 +80,15 @@ public class SimpleBossBar extends AbstractBossBar {
      * This method updates the boss bar's text, progress, color, and overlay for the player.
      * </p>
      *
-     * @param p the player for whom the boss bar will be updated.
+     * @param player the player for whom the boss bar will be updated.
      */
     @Override
-    protected void perPlayerUpdate(Player p) {
-        BossBar bossBar = bossBars.get(p);
-        bossBar.name(data.getText().getFromContext(OfflinePlayer.class, p));
-        bossBar.color(data.getColor().getFromContext(OfflinePlayer.class, p));
-        bossBar.progress(data.getProgress().getFromContext(OfflinePlayer.class, p));
-        bossBar.overlay(data.getOverlay().getFromContext(OfflinePlayer.class, p));
+    protected void perPlayerUpdate(@NotNull Player player) {
+        BossBar bossBar = bossBars.get(player);
+        bossBar.name(data.getText().getFromContext(OfflinePlayer.class, player));
+        bossBar.color(data.getColor().getFromContext(OfflinePlayer.class, player));
+        bossBar.progress(data.getProgress().getFromContext(OfflinePlayer.class, player));
+        bossBar.overlay(data.getOverlay().getFromContext(OfflinePlayer.class, player));
     }
 
     @Override

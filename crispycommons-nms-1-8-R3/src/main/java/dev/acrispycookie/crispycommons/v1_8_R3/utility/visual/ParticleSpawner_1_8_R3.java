@@ -6,22 +6,21 @@ import dev.acrispycookie.crispycommons.v1_8_R3.utility.nms.VersionParticle_1_8_R
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-
-import java.util.Arrays;
+import org.jetbrains.annotations.NotNull;
 
 public class ParticleSpawner_1_8_R3 extends ParticleSpawner {
 
     @Override
-    public void spawnColored(Player player, XParticle particle, Location location, float r, float g, float b) {
+    public void spawnColored(@NotNull Player player, @NotNull XParticle particle, @NotNull Location location, float r, float g, float b) {
         player.spigot().playEffect(location, getByXParticle(particle), 0, 1, r == 0 ? Float.MIN_VALUE : r, g, b, 1, 0, 160);
     }
 
     @Override
-    public void spawnNormal(Player player, XParticle particle, Location location, int data) {
+    public void spawnNormal(@NotNull Player player, @NotNull XParticle particle, @NotNull Location location, int data) {
         player.spigot().playEffect(location, getByXParticle(particle), data, data, 0, 0, 0, 1, 100, 160);
     }
 
-    private Effect getByXParticle(XParticle particle) {
+    private @NotNull Effect getByXParticle(@NotNull XParticle particle) {
         return ((VersionParticle_1_8_R3) particle.get()).getEffect();
     }
 }

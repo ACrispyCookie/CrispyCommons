@@ -7,6 +7,7 @@ import dev.acrispycookie.crispycommons.implementations.visual.title.UpdatingTitl
 import dev.acrispycookie.crispycommons.implementations.visual.title.data.TitleData;
 import dev.acrispycookie.crispycommons.implementations.element.type.GeneralElement;
 import dev.acrispycookie.crispycommons.implementations.element.type.TextElement;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Represents a title display in the game, including title text, subtitle text, and fade-in/out times.
@@ -23,7 +24,7 @@ public interface CrispyTitle extends CrispyVisual {
      *
      * @return a new {@link SimpleTitleBuilder} instance.
      */
-    static SimpleTitleBuilder simpleBuilder() {
+    static @NotNull SimpleTitleBuilder simpleBuilder() {
         return new SimpleTitleBuilder();
     }
 
@@ -32,7 +33,7 @@ public interface CrispyTitle extends CrispyVisual {
      *
      * @return a new {@link UpdatingTitleBuilder} instance.
      */
-    static UpdatingTitleBuilder updatingBuilder() {
+    static @NotNull UpdatingTitleBuilder updatingBuilder() {
         return new UpdatingTitleBuilder();
     }
 
@@ -41,56 +42,56 @@ public interface CrispyTitle extends CrispyVisual {
      *
      * @param text the {@link TextElement} representing the title text.
      */
-    void setTitle(TextElement<?> text);
+    void setTitle(@NotNull TextElement<?> text);
 
     /**
      * Sets the subtitle text.
      *
      * @param text the {@link TextElement} representing the subtitle text.
      */
-    void setSubtitle(TextElement<?> text);
+    void setSubtitle(@NotNull TextElement<?> text);
 
     /**
      * Sets the fade-in time for the title display.
      *
      * @param fadeIn the {@link GeneralElement} representing the fade-in time in ticks.
      */
-    void setFadeIn(GeneralElement<Integer, ?> fadeIn);
+    void setFadeIn(@NotNull GeneralElement<Integer, ?> fadeIn);
 
     /**
      * Sets the fade-out time for the title display.
      *
      * @param fadeOut the {@link GeneralElement} representing the fade-out time in ticks.
      */
-    void setFadeOut(GeneralElement<Integer, ?> fadeOut);
+    void setFadeOut(@NotNull GeneralElement<Integer, ?> fadeOut);
 
     /**
      * Retrieves the title text.
      *
      * @return the {@link TextElement} representing the title text.
      */
-    TextElement<?> getTitle();
+    @NotNull TextElement<?> getTitle();
 
     /**
      * Retrieves the subtitle text.
      *
      * @return the {@link TextElement} representing the subtitle text.
      */
-    TextElement<?> getSubtitle();
+    @NotNull TextElement<?> getSubtitle();
 
     /**
      * Retrieves the fade-in time for the title display.
      *
      * @return the {@link GeneralElement} representing the fade-in time in ticks.
      */
-    GeneralElement<Integer, ?> getFadeIn();
+    @NotNull GeneralElement<Integer, ?> getFadeIn();
 
     /**
      * Retrieves the fade-out time for the title display.
      *
      * @return the {@link GeneralElement} representing the fade-out time in ticks.
      */
-    GeneralElement<Integer, ?> getFadeOut();
+    @NotNull GeneralElement<Integer, ?> getFadeOut();
 
     /**
      * Abstract builder class for constructing {@link CrispyTitle} instances.
@@ -108,7 +109,7 @@ public interface CrispyTitle extends CrispyVisual {
          * @param text the {@link TextElement} representing the title text.
          * @return this {@link TitleBuilder} instance for method chaining.
          */
-        public TitleBuilder setTitle(TextElement<?> text) {
+        public @NotNull TitleBuilder setTitle(@NotNull TextElement<?> text) {
             text.setUpdate(() -> toBuild.update());
             this.data.setTitle(text);
             return this;
@@ -120,7 +121,7 @@ public interface CrispyTitle extends CrispyVisual {
          * @param text the {@link TextElement} representing the subtitle text.
          * @return this {@link TitleBuilder} instance for method chaining.
          */
-        public TitleBuilder setSubtitle(TextElement<?> text) {
+        public @NotNull TitleBuilder setSubtitle(@NotNull TextElement<?> text) {
             text.setUpdate(() -> toBuild.update());
             this.data.setSubtitle(text);
             return this;
@@ -132,7 +133,7 @@ public interface CrispyTitle extends CrispyVisual {
          * @param fadeIn the {@link GeneralElement} representing the fade-in time in ticks.
          * @return this {@link TitleBuilder} instance for method chaining.
          */
-        public TitleBuilder setFadeIn(GeneralElement<Integer, ?> fadeIn) {
+        public @NotNull TitleBuilder setFadeIn(@NotNull GeneralElement<Integer, ?> fadeIn) {
             this.data.setFadeIn(fadeIn);
             this.data.getFadeIn().setUpdate(() -> toBuild.update());
             return this;
@@ -144,7 +145,7 @@ public interface CrispyTitle extends CrispyVisual {
          * @param fadeOut the {@link GeneralElement} representing the fade-out time in ticks.
          * @return this {@link TitleBuilder} instance for method chaining.
          */
-        public TitleBuilder setFadeOut(GeneralElement<Integer, ?> fadeOut) {
+        public @NotNull TitleBuilder setFadeOut(@NotNull GeneralElement<Integer, ?> fadeOut) {
             this.data.setFadeOut(fadeOut);
             this.data.getFadeOut().setUpdate(() -> toBuild.update());
             return this;
@@ -161,7 +162,7 @@ public interface CrispyTitle extends CrispyVisual {
          *
          * @return the constructed {@link SimpleTitle}.
          */
-        public SimpleTitle build() {
+        public @NotNull SimpleTitle build() {
             this.toBuild = new SimpleTitle(data, receivers, timeToLive, isPublic);
             return (SimpleTitle) toBuild;
         }
@@ -177,7 +178,7 @@ public interface CrispyTitle extends CrispyVisual {
          *
          * @return the constructed {@link UpdatingTitle}.
          */
-        public UpdatingTitle build() {
+        public @NotNull UpdatingTitle build() {
             this.toBuild = new UpdatingTitle(data, receivers, timeToLive, isPublic);
             return (UpdatingTitle) toBuild;
         }

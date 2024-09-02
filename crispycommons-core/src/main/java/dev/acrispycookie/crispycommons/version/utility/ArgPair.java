@@ -1,20 +1,22 @@
 package dev.acrispycookie.crispycommons.version.utility;
 
+import org.jetbrains.annotations.NotNull;
+
 public class ArgPair<T> {
 
-    Class<T> clazz;
-    T arg;
+    private final Class<T> clazz;
+    private final T arg;
 
-    public ArgPair(Class<T> clazz, T arg) {
+    public ArgPair(@NotNull Class<T> clazz, @NotNull T arg) {
         this.clazz = clazz;
         this.arg = arg;
     }
 
-    public Class<T> getClazz() {
+    public @NotNull Class<T> getClazz() {
         return clazz;
     }
 
-    public T getArg() {
+    public @NotNull T getArg() {
         return arg;
     }
 }

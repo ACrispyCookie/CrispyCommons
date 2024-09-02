@@ -5,8 +5,9 @@ import dev.acrispycookie.crispycommons.api.particle.Effect;
 import dev.acrispycookie.crispycommons.implementations.element.type.GeneralElement;
 import dev.acrispycookie.crispycommons.implementations.element.type.ParticleElement;
 import org.bukkit.Location;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * A data class that encapsulates the visual data needed to render a particle effect in the CrispyVisual system.
@@ -35,7 +36,7 @@ public class ParticleData<T extends Effect> implements VisualData {
      * @param element the {@link ParticleElement} representing the particle effect.
      * @param location the {@link GeneralElement} representing the location of the particle effect.
      */
-    public ParticleData(ParticleElement<T, ?> element, GeneralElement<Location, ?> location) {
+    public ParticleData(@Nullable ParticleElement<T, ?> element, @Nullable GeneralElement<Location, ?> location) {
         this.element = element;
         this.location = location;
     }
@@ -45,7 +46,7 @@ public class ParticleData<T extends Effect> implements VisualData {
      *
      * @return the {@link ParticleElement} associated with this data.
      */
-    public ParticleElement<T, ?> getElement() {
+    public @NotNull ParticleElement<T, ?> getElement() {
         return element;
     }
 
@@ -54,7 +55,7 @@ public class ParticleData<T extends Effect> implements VisualData {
      *
      * @return the {@link GeneralElement} representing the location of the particle effect.
      */
-    public GeneralElement<Location, ?> getLocation() {
+    public @NotNull GeneralElement<Location, ?> getLocation() {
         return location;
     }
 
@@ -63,7 +64,7 @@ public class ParticleData<T extends Effect> implements VisualData {
      *
      * @param element the new {@link ParticleElement} to set.
      */
-    public void setElement(ParticleElement<T, ?> element) {
+    public void setElement(@NotNull ParticleElement<T, ?> element) {
         this.element = element;
     }
 
@@ -72,7 +73,7 @@ public class ParticleData<T extends Effect> implements VisualData {
      *
      * @param location the new {@link GeneralElement} representing the location of the particle effect.
      */
-    public void setLocation(GeneralElement<Location, ?> location) {
+    public void setLocation(@NotNull GeneralElement<Location, ?> location) {
         this.location = location;
     }
 
@@ -88,11 +89,11 @@ public class ParticleData<T extends Effect> implements VisualData {
      * @throws VisualNotReadyException if the particle element or location is not set or cannot be retrieved.
      */
     @Override
-    public void assertReady(Player player) {
-        if (element.getFromContext(OfflinePlayer.class, player) == null) {
+    public void assertReady(@NotNull Player player) {
+        if (element == null) {
             throw new VisualNotReadyException("The particle element was not set!");
         }
-        if (location.getFromContext(OfflinePlayer.class, player) == null) {
+        if (location == null) {
             throw new VisualNotReadyException("The particle location was not set!");
         }
     }

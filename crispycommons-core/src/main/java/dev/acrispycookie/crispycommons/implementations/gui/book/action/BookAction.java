@@ -2,6 +2,8 @@ package dev.acrispycookie.crispycommons.implementations.gui.book.action;
 
 import dev.acrispycookie.crispycommons.implementations.gui.book.data.BookLine;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,7 +33,7 @@ public abstract class BookAction {
      *
      * @param p the {@link Player} who triggered the action.
      */
-    public abstract void run(Player p);
+    public abstract void run(@NotNull Player p);
 
     /**
      * Constructs a new {@code BookAction} and generates a unique UUID for it.
@@ -56,7 +58,7 @@ public abstract class BookAction {
      *
      * @param p the {@link Player} who triggered the action.
      */
-    public void performAction(Player p) {
+    public void performAction(@NotNull Player p) {
         run(p);
         pendingActions.remove(uuid);
     }
@@ -66,7 +68,7 @@ public abstract class BookAction {
      *
      * @return the unique UUID of this action.
      */
-    public UUID getUuid() {
+    public @NotNull UUID getUuid() {
         return uuid;
     }
 
@@ -79,7 +81,7 @@ public abstract class BookAction {
      * @param uuid the UUID of the action to retrieve.
      * @return the {@link BookAction} associated with the UUID, or {@code null} if not found.
      */
-    public static BookAction getPendingAction(UUID uuid) {
+    public static @Nullable BookAction getPendingAction(UUID uuid) {
         return pendingActions.getOrDefault(uuid, null);
     }
 
@@ -88,7 +90,7 @@ public abstract class BookAction {
      *
      * @return a unique {@link UUID}.
      */
-    private UUID getRandomUuid() {
+    private @NotNull UUID getRandomUuid() {
         UUID uuid = UUID.randomUUID();
         while (pendingActions.containsKey(uuid)) {
             uuid = UUID.randomUUID();

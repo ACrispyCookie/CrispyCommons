@@ -6,19 +6,20 @@ import dev.acrispycookie.crispycommons.version.utility.MappedVersions;
 import org.bukkit.command.Command;
 import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class CommandRegister implements Versioned {
 
     private static final CommandRegister instance = VersionManager.createInstance(CommandRegister.class, new MappedVersions());
 
-    public static CommandRegister newInstance() {
+    public static @NotNull CommandRegister newInstance() {
         return instance;
     }
 
-    public abstract boolean register(JavaPlugin plugin, String fallbackPrefix, Command command);
-    public abstract SimpleCommandMap unregister(JavaPlugin plugin, String label);
+    public abstract boolean register(@NotNull JavaPlugin plugin, @NotNull String fallbackPrefix, @NotNull Command command);
+    public abstract @NotNull SimpleCommandMap unregister(@NotNull JavaPlugin plugin, @NotNull String label);
 
-    public static MappedVersions getRemapped() {
+    public static @NotNull MappedVersions getRemapped() {
         return new MappedVersions();
     }
 }

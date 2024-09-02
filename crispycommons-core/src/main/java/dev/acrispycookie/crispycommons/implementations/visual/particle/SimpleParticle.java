@@ -7,6 +7,7 @@ import dev.acrispycookie.crispycommons.utility.visual.ParticleSpawner;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
 
@@ -27,7 +28,7 @@ public class SimpleParticle extends AbstractParticle<SimpleEffect> {
      * @param timeToLive the time-to-live (TTL) element controlling the lifespan of the particle effect.
      * @param isPublic   whether the particle effect should be visible to all players.
      */
-    public SimpleParticle(ParticleData<SimpleEffect> data, Set<? extends OfflinePlayer> receivers, TimeToLiveElement<?> timeToLive, boolean isPublic) {
+    public SimpleParticle(@NotNull ParticleData<SimpleEffect> data, @NotNull Set<? extends OfflinePlayer> receivers, @NotNull TimeToLiveElement<?> timeToLive, boolean isPublic) {
         super(data, receivers, timeToLive, UpdateMode.PER_PLAYER, isPublic);
     }
 
@@ -41,7 +42,7 @@ public class SimpleParticle extends AbstractParticle<SimpleEffect> {
      * @param player the player to whom the particle effect will be shown.
      */
     @Override
-    protected void show(Player player) {
+    protected void show(@NotNull Player player) {
         SimpleEffect effect = data.getElement().getFromContext(OfflinePlayer.class, player);
         Location location = data.getLocation().getFromContext(OfflinePlayer.class, player);
         ParticleSpawner.newInstance().spawnNormal(player, effect.getEffect(), location, effect.getData());
@@ -56,7 +57,7 @@ public class SimpleParticle extends AbstractParticle<SimpleEffect> {
      * @param player the player from whom the particle effect will be hidden.
      */
     @Override
-    protected void hide(Player player) {
+    protected void hide(@NotNull Player player) {
         // No specific action needed to hide the particle effect.
     }
 
@@ -69,7 +70,7 @@ public class SimpleParticle extends AbstractParticle<SimpleEffect> {
      * @param player the player for whom the particle effect will be updated.
      */
     @Override
-    protected void perPlayerUpdate(Player player) {
+    protected void perPlayerUpdate(@NotNull Player player) {
         show(player);
     }
 

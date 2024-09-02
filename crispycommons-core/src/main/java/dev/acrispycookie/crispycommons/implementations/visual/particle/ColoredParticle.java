@@ -7,6 +7,7 @@ import dev.acrispycookie.crispycommons.utility.visual.ParticleSpawner;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
 
@@ -27,7 +28,7 @@ public class ColoredParticle extends AbstractParticle<ColoredEffect> {
      * @param timeToLive the time-to-live (TTL) element controlling the lifespan of the colored particle effect.
      * @param isPublic   whether the colored particle effect should be visible to all players.
      */
-    public ColoredParticle(ParticleData<ColoredEffect> data, Set<? extends OfflinePlayer> receivers, TimeToLiveElement<?> timeToLive, boolean isPublic) {
+    public ColoredParticle(@NotNull ParticleData<ColoredEffect> data, @NotNull Set<? extends OfflinePlayer> receivers, @NotNull TimeToLiveElement<?> timeToLive, boolean isPublic) {
         super(data, receivers, timeToLive, UpdateMode.PER_PLAYER, isPublic);
     }
 
@@ -41,7 +42,7 @@ public class ColoredParticle extends AbstractParticle<ColoredEffect> {
      * @param player the player to whom the colored particle effect will be shown.
      */
     @Override
-    protected void show(Player player) {
+    protected void show(@NotNull Player player) {
         ColoredEffect effect = data.getElement().getFromContext(OfflinePlayer.class, player);
         Location location = data.getLocation().getFromContext(OfflinePlayer.class, player);
         ParticleSpawner.newInstance().spawnColored(player, effect.getEffect(), location, effect.getNormalisedRed(), effect.getNormalisedGreen(), effect.getNormalisedBlue());
@@ -56,7 +57,7 @@ public class ColoredParticle extends AbstractParticle<ColoredEffect> {
      * @param player the player from whom the colored particle effect will be hidden.
      */
     @Override
-    protected void hide(Player player) {
+    protected void hide(@NotNull Player player) {
         // No specific action needed to hide the colored particle effect.
     }
 
@@ -69,7 +70,7 @@ public class ColoredParticle extends AbstractParticle<ColoredEffect> {
      * @param player the player for whom the colored particle effect will be updated.
      */
     @Override
-    protected void perPlayerUpdate(Player player) {
+    protected void perPlayerUpdate(@NotNull Player player) {
         show(player);
     }
 

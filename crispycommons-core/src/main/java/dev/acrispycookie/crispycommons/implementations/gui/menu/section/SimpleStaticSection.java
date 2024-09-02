@@ -4,6 +4,7 @@ import dev.acrispycookie.crispycommons.api.gui.menu.CrispyMenu;
 import dev.acrispycookie.crispycommons.utility.menu.InventoryWidth;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * A simple implementation of a static section in a menu.
@@ -39,7 +40,7 @@ public class SimpleStaticSection extends AbstractStaticSection {
      * @param startingIndex the index of the first item to render within the section.
      */
     @Override
-    public void renderItemsInternal(Player player, CrispyMenu menu, Inventory toRender, int pasteSlot, int startingIndex) {
+    public void renderItemsInternal(@NotNull Player player, @NotNull CrispyMenu menu, @NotNull Inventory toRender, int pasteSlot, int startingIndex) {
         int inventoryWidth = InventoryWidth.getType(toRender.getType());
         int height = this.getHeight();
         int width = this.getWidth();

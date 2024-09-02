@@ -7,6 +7,7 @@ import dev.acrispycookie.crispycommons.implementations.element.type.GeneralEleme
 import dev.acrispycookie.crispycommons.implementations.element.type.TextElement;
 import dev.acrispycookie.crispycommons.implementations.element.type.TimeToLiveElement;
 import org.bukkit.OfflinePlayer;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
 
@@ -30,7 +31,7 @@ public abstract class AbstractTitle extends AbstractVisual<TitleData> implements
      * @param updateMode the mode in which updates to the title are handled.
      * @param isPublic whether the title should be visible to all players.
      */
-    AbstractTitle(TitleData data, Set<? extends OfflinePlayer> receivers, TimeToLiveElement<?> timeToLive, UpdateMode updateMode, boolean isPublic) {
+    AbstractTitle(@NotNull TitleData data, @NotNull Set<? extends OfflinePlayer> receivers, @NotNull TimeToLiveElement<?> timeToLive, @NotNull UpdateMode updateMode, boolean isPublic) {
         super(data, receivers, timeToLive, updateMode, isPublic);
     }
 
@@ -64,7 +65,7 @@ public abstract class AbstractTitle extends AbstractVisual<TitleData> implements
      * @param text the new {@link TextElement} representing the main title text.
      */
     @Override
-    public void setTitle(TextElement<?> text) {
+    public void setTitle(@NotNull TextElement<?> text) {
         data.getTitle().stop();
         data.setTitle(text);
         data.getTitle().setUpdate(this::update);
@@ -84,7 +85,7 @@ public abstract class AbstractTitle extends AbstractVisual<TitleData> implements
      * @param text the new {@link TextElement} representing the subtitle text.
      */
     @Override
-    public void setSubtitle(TextElement<?> text) {
+    public void setSubtitle(@NotNull TextElement<?> text) {
         data.getSubtitle().stop();
         data.setSubtitle(text);
         data.getSubtitle().setUpdate(this::update);
@@ -100,7 +101,7 @@ public abstract class AbstractTitle extends AbstractVisual<TitleData> implements
      * @param fadeIn a {@link GeneralElement} representing the fade-in duration in ticks.
      */
     @Override
-    public void setFadeIn(GeneralElement<Integer, ?> fadeIn) {
+    public void setFadeIn(@NotNull GeneralElement<Integer, ?> fadeIn) {
         data.setFadeIn(fadeIn);
     }
 
@@ -110,7 +111,7 @@ public abstract class AbstractTitle extends AbstractVisual<TitleData> implements
      * @param fadeOut a {@link GeneralElement} representing the fade-out duration in ticks.
      */
     @Override
-    public void setFadeOut(GeneralElement<Integer, ?> fadeOut) {
+    public void setFadeOut(@NotNull GeneralElement<Integer, ?> fadeOut) {
         data.setFadeOut(fadeOut);
     }
 
@@ -120,7 +121,7 @@ public abstract class AbstractTitle extends AbstractVisual<TitleData> implements
      * @return the {@link TextElement} representing the main title text.
      */
     @Override
-    public TextElement<?> getTitle() {
+    public @NotNull TextElement<?> getTitle() {
         return this.data.getTitle();
     }
 
@@ -130,7 +131,7 @@ public abstract class AbstractTitle extends AbstractVisual<TitleData> implements
      * @return the {@link TextElement} representing the subtitle text.
      */
     @Override
-    public TextElement<?> getSubtitle() {
+    public @NotNull TextElement<?> getSubtitle() {
         return this.data.getSubtitle();
     }
 
@@ -140,7 +141,7 @@ public abstract class AbstractTitle extends AbstractVisual<TitleData> implements
      * @return a {@link GeneralElement} representing the fade-in duration in ticks.
      */
     @Override
-    public GeneralElement<Integer, ?> getFadeIn() {
+    public @NotNull GeneralElement<Integer, ?> getFadeIn() {
         return this.data.getFadeIn();
     }
 
@@ -150,7 +151,7 @@ public abstract class AbstractTitle extends AbstractVisual<TitleData> implements
      * @return a {@link GeneralElement} representing the fade-out duration in ticks.
      */
     @Override
-    public GeneralElement<Integer, ?> getFadeOut() {
+    public @NotNull GeneralElement<Integer, ?> getFadeOut() {
         return this.data.getFadeOut();
     }
 }

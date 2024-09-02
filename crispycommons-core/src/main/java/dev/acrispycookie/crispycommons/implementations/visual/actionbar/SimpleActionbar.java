@@ -8,6 +8,7 @@ import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
 
@@ -28,7 +29,7 @@ public class SimpleActionbar extends AbstractActionbar {
      * @param timeToLive the time-to-live (TTL) element controlling the lifespan of the action bar.
      * @param isPublic whether the action bar should be visible to all players.
      */
-    public SimpleActionbar(ActionbarData data, Set<? extends OfflinePlayer> receivers, TimeToLiveElement<?> timeToLive, boolean isPublic) {
+    public SimpleActionbar(@NotNull ActionbarData data, @NotNull Set<? extends OfflinePlayer> receivers, @NotNull TimeToLiveElement<?> timeToLive, boolean isPublic) {
         super(data, receivers, timeToLive, UpdateMode.PER_PLAYER, isPublic);
     }
 
@@ -39,12 +40,12 @@ public class SimpleActionbar extends AbstractActionbar {
      * and sends it as an action bar message using the {@link Adventure} API.
      * </p>
      *
-     * @param p the player to whom the action bar will be shown.
+     * @param player the player to whom the action bar will be shown.
      */
     @Override
-    protected void show(Player p) {
-        Component text = data.getText().getFromContext(OfflinePlayer.class, p);
-        Audience audience = CrispyCommons.getBukkitAudiences().player(p);
+    protected void show(@NotNull Player player) {
+        Component text = data.getText().getFromContext(OfflinePlayer.class, player);
+        Audience audience = CrispyCommons.getBukkitAudiences().player(player);
         audience.sendActionBar(text);
     }
 
@@ -54,10 +55,10 @@ public class SimpleActionbar extends AbstractActionbar {
      * This method is currently empty, as no specific action is needed to hide the action bar.
      * </p>
      *
-     * @param p the player from whom the action bar will be hidden.
+     * @param player the player from whom the action bar will be hidden.
      */
     @Override
-    protected void hide(Player p) {
+    protected void hide(@NotNull Player player) {
         // No specific action needed to hide the action bar.
     }
 
@@ -67,11 +68,11 @@ public class SimpleActionbar extends AbstractActionbar {
      * This method simply re-shows the action bar to the player, effectively updating its content.
      * </p>
      *
-     * @param p the player for whom the action bar will be updated.
+     * @param player the player for whom the action bar will be updated.
      */
     @Override
-    protected void perPlayerUpdate(Player p) {
-        show(p);
+    protected void perPlayerUpdate(@NotNull Player player) {
+        show(player);
     }
 
     /**

@@ -10,6 +10,7 @@ import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_20_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_20_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
 
@@ -17,8 +18,10 @@ public class VersionArmorStand_1_20_R3 extends VersionEntity_1_20_R3 implements 
 
     private final EntityArmorStand armorStand;
 
-    public VersionArmorStand_1_20_R3(Location location) {
-        armorStand = new EntityArmorStand(((CraftWorld) location.getWorld()).getHandle(), location.getX(), location.getY(), location.getZ());
+    public VersionArmorStand_1_20_R3(@NotNull Location location) {
+        CraftWorld world = ((CraftWorld) location.getWorld());
+        assert world != null : "CraftWorld was null. Contact developer.";
+        armorStand = new EntityArmorStand(world.getHandle(), location.getX(), location.getY(), location.getZ());
     }
 
     @Override
@@ -52,41 +55,41 @@ public class VersionArmorStand_1_20_R3 extends VersionEntity_1_20_R3 implements 
     }
 
     @Override
-    public void setCustomName(String name) {
+    public void setCustomName(@NotNull String name) {
         armorStand.b(IChatBaseComponent.b(name));
     }
 
     @Override
-    public String getCustomName() {
+    public @NotNull String getCustomName() {
         IChatBaseComponent component = armorStand.Q_();
         if (component != null)
             return component.getString();
-        return null;
+        return " ";
     }
 
     @Override
-    public void attachEntity(Player player, VersionEntity versionEntity) {
+    public void attachEntity(@NotNull Player player, @NotNull VersionEntity versionEntity) {
         PacketPlayOutAttachEntity attach = new PacketPlayOutAttachEntity(((VersionEntity_1_20_R3) versionEntity).getInternalEntity(), armorStand);
         ((CraftPlayer) player).getHandle().c.b(attach);
     }
 
-    public void spawn(Player player) {
+    public void spawn(@NotNull Player player) {
         PacketPlayOutSpawnEntity spawnArmorStand = new PacketPlayOutSpawnEntity(armorStand);
         ((CraftPlayer) player).getHandle().c.b(spawnArmorStand);
     }
 
-    public void destroy(Player player) {
+    public void destroy(@NotNull Player player) {
         setDead(true);
         PacketPlayOutEntityDestroy destroy = new PacketPlayOutEntityDestroy(armorStand.aj());
         ((CraftPlayer) player).getHandle().c.b(destroy);
     }
 
-    public void updateLocation(Player player) {
+    public void updateLocation(@NotNull Player player) {
         PacketPlayOutEntityTeleport teleport = new PacketPlayOutEntityTeleport(armorStand);
         ((CraftPlayer) player).getHandle().c.b(teleport);
     }
 
-    public void updateMeta(Player player) {
+    public void updateMeta(@NotNull Player player) {
         PacketPlayOutEntityMetadata metadata = new PacketPlayOutEntityMetadata(armorStand.aj(), armorStand.an().c());
         ((CraftPlayer) player).getHandle().c.b(metadata);
     }
@@ -96,11 +99,13 @@ public class VersionArmorStand_1_20_R3 extends VersionEntity_1_20_R3 implements 
             armorStand.al();
     }
 
-    public void setLocation(Location location) {
-        armorStand.a(((CraftWorld) location.getWorld()).getHandle(), location.getX(), location.getY(), location.getZ(), new HashSet<>(), (float) 0, (float) 0);
+    public void setLocation(@NotNull Location location) {
+        CraftWorld world = ((CraftWorld) location.getWorld());
+        assert world != null : "CraftWorld was null. Contact developer.";
+        armorStand.a(world.getHandle(), location.getX(), location.getY(), location.getZ(), new HashSet<>(), (float) 0, (float) 0);
     }
 
-    public Location getLocation() {
+    public @NotNull Location getLocation() {
         return armorStand.getBukkitEntity().getLocation();
     }
 
@@ -110,7 +115,7 @@ public class VersionArmorStand_1_20_R3 extends VersionEntity_1_20_R3 implements 
     }
 
     @Override
-    public Entity getInternalEntity() {
+    public @NotNull Entity getInternalEntity() {
         return armorStand;
     }
 }

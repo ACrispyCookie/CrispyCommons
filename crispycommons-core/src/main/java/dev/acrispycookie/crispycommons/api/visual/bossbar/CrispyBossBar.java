@@ -7,6 +7,7 @@ import dev.acrispycookie.crispycommons.implementations.visual.bossbar.data.BossB
 import dev.acrispycookie.crispycommons.implementations.element.type.GeneralElement;
 import dev.acrispycookie.crispycommons.implementations.element.type.TextElement;
 import net.kyori.adventure.bossbar.BossBar;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Represents a boss bar visual element in the game, extending the {@link CrispyVisual} interface.
@@ -23,7 +24,7 @@ public interface CrispyBossBar extends CrispyVisual {
      *
      * @return a new {@link BossBarBuilder} instance.
      */
-    static BossBarBuilder builder() {
+    static @NotNull BossBarBuilder builder() {
         return new BossBarBuilder();
     }
 
@@ -32,56 +33,56 @@ public interface CrispyBossBar extends CrispyVisual {
      *
      * @param text the {@link TextElement} to display on the boss bar.
      */
-    void setText(TextElement<?> text);
+    void setText(@NotNull TextElement<?> text);
 
     /**
      * Sets the progress of the boss bar.
      *
      * @param progress the {@link GeneralElement} representing the progress of the boss bar, with a value between 0.0 and 1.0.
      */
-    void setProgress(GeneralElement<Float, ?> progress);
+    void setProgress(@NotNull GeneralElement<Float, ?> progress);
 
     /**
      * Sets the color of the boss bar.
      *
      * @param color the {@link GeneralElement} representing the {@link BossBar.Color} of the boss bar.
      */
-    void setColor(GeneralElement<BossBar.Color, ?> color);
+    void setColor(@NotNull GeneralElement<BossBar.Color, ?> color);
 
     /**
      * Sets the overlay of the boss bar.
      *
      * @param overlay the {@link GeneralElement} representing the {@link BossBar.Overlay} of the boss bar.
      */
-    void setOverlay(GeneralElement<BossBar.Overlay, ?> overlay);
+    void setOverlay(@NotNull GeneralElement<BossBar.Overlay, ?> overlay);
 
     /**
      * Retrieves the text element currently displayed on the boss bar.
      *
      * @return the {@link TextElement} displayed on the boss bar.
      */
-    TextElement<?> getText();
+    @NotNull TextElement<?> getText();
 
     /**
      * Retrieves the progress of the boss bar.
      *
      * @return the {@link GeneralElement} representing the progress of the boss bar.
      */
-    GeneralElement<Float, ?> getProgress();
+    @NotNull GeneralElement<Float, ?> getProgress();
 
     /**
      * Retrieves the color of the boss bar.
      *
      * @return the {@link GeneralElement} representing the {@link BossBar.Color} of the boss bar.
      */
-    GeneralElement<BossBar.Color, ?> getColor();
+    @NotNull GeneralElement<BossBar.Color, ?> getColor();
 
     /**
      * Retrieves the overlay of the boss bar.
      *
      * @return the {@link GeneralElement} representing the {@link BossBar.Overlay} of the boss bar.
      */
-    GeneralElement<BossBar.Overlay, ?> getOverlay();
+    @NotNull GeneralElement<BossBar.Overlay, ?> getOverlay();
 
     /**
      * Updates the text element currently displayed on the boss bar.
@@ -123,7 +124,7 @@ public interface CrispyBossBar extends CrispyVisual {
          * @param text the {@link TextElement} to display on the boss bar.
          * @return this {@code BossBarBuilder} instance for method chaining.
          */
-        public BossBarBuilder setText(TextElement<?> text) {
+        public @NotNull BossBarBuilder setText(@NotNull TextElement<?> text) {
             this.data.setText(text);
             this.data.getText().setUpdate(() -> toBuild.updateText());
             return this;
@@ -138,7 +139,7 @@ public interface CrispyBossBar extends CrispyVisual {
          * @param progress the {@link GeneralElement} representing the progress of the boss bar.
          * @return this {@code BossBarBuilder} instance for method chaining.
          */
-        public BossBarBuilder setProgress(GeneralElement<Float, ?> progress) {
+        public @NotNull BossBarBuilder setProgress(@NotNull GeneralElement<Float, ?> progress) {
             this.data.setProgress(progress);
             this.data.getProgress().setUpdate(() -> toBuild.updateProgress());
             return this;
@@ -153,7 +154,7 @@ public interface CrispyBossBar extends CrispyVisual {
          * @param color the {@link GeneralElement} representing the {@link BossBar.Color} of the boss bar.
          * @return this {@code BossBarBuilder} instance for method chaining.
          */
-        public BossBarBuilder setColor(GeneralElement<BossBar.Color, ?> color) {
+        public @NotNull BossBarBuilder setColor(@NotNull GeneralElement<BossBar.Color, ?> color) {
             this.data.setColor(color);
             this.data.getColor().setUpdate(() -> toBuild.updateColor());
             return this;
@@ -168,7 +169,7 @@ public interface CrispyBossBar extends CrispyVisual {
          * @param overlay the {@link GeneralElement} representing the {@link BossBar.Overlay} of the boss bar.
          * @return this {@code BossBarBuilder} instance for method chaining.
          */
-        public BossBarBuilder setOverlay(GeneralElement<BossBar.Overlay, ?> overlay) {
+        public @NotNull BossBarBuilder setOverlay(@NotNull GeneralElement<BossBar.Overlay, ?> overlay) {
             this.data.setOverlay(overlay);
             this.data.getOverlay().setUpdate(() -> toBuild.updateOverlay());
             return this;
@@ -180,7 +181,7 @@ public interface CrispyBossBar extends CrispyVisual {
          * @return the constructed {@link CrispyBossBar} instance.
          */
         @Override
-        public CrispyBossBar build() {
+        public @NotNull CrispyBossBar build() {
             this.toBuild = new SimpleBossBar(data, receivers, timeToLive, isPublic);
             return toBuild;
         }

@@ -1,6 +1,7 @@
 package dev.acrispycookie.crispycommons.api.visual.abstraction.visual;
 
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Represents the data associated with a visual element in the CrispyCommons framework.
@@ -21,7 +22,7 @@ public interface VisualData {
      * @param p the {@link Player} for whom the data should be ready.
      * @throws VisualNotReadyException if the data is not ready to be used.
      */
-    void assertReady(Player p);
+    void assertReady(@NotNull Player p);
 
     /**
      * Exception thrown when visual data is not ready to be used.
@@ -36,7 +37,7 @@ public interface VisualData {
          *
          * @param message the detail message explaining why the visual data is not ready.
          */
-        public VisualNotReadyException(String message) {
+        public VisualNotReadyException(@NotNull String message) {
             super(message);
         }
     }

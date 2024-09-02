@@ -13,6 +13,7 @@ import dev.acrispycookie.crispycommons.implementations.particle.ColoredEffect;
 import dev.acrispycookie.crispycommons.implementations.particle.RenderedEffect;
 import dev.acrispycookie.crispycommons.implementations.particle.SimpleEffect;
 import org.bukkit.Location;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Represents a customizable particle effect in the game.
@@ -31,7 +32,7 @@ public interface CrispyParticle<T extends Effect> extends CrispyVisual {
      *
      * @return a new {@link SimpleParticleBuilder} instance.
      */
-    static SimpleParticleBuilder simpleBuilder() {
+    static @NotNull SimpleParticleBuilder simpleBuilder() {
         return new SimpleParticleBuilder();
     }
 
@@ -40,7 +41,7 @@ public interface CrispyParticle<T extends Effect> extends CrispyVisual {
      *
      * @return a new {@link ColoredParticleBuilder} instance.
      */
-    static ColoredParticleBuilder coloredBuilder() {
+    static @NotNull ColoredParticleBuilder coloredBuilder() {
         return new ColoredParticleBuilder();
     }
 
@@ -49,7 +50,7 @@ public interface CrispyParticle<T extends Effect> extends CrispyVisual {
      *
      * @return a new {@link RenderedParticleBuilder} instance.
      */
-    static RenderedParticleBuilder renderedBuilder() {
+    static @NotNull RenderedParticleBuilder renderedBuilder() {
         return new RenderedParticleBuilder();
     }
 
@@ -58,28 +59,28 @@ public interface CrispyParticle<T extends Effect> extends CrispyVisual {
      *
      * @param element the {@link ParticleElement} representing the particle effect.
      */
-    void setElement(ParticleElement<T, ?> element);
+    void setElement(@NotNull ParticleElement<T, ?> element);
 
     /**
      * Retrieves the particle effect element of this particle.
      *
      * @return the {@link ParticleElement} representing the particle effect.
      */
-    ParticleElement<T, ?> getElement();
+    @NotNull ParticleElement<T, ?> getElement();
 
     /**
      * Sets the location of the particle effect.
      *
      * @param location the {@link GeneralElement} representing the location of the particle effect.
      */
-    void setLocation(GeneralElement<Location, ?> location);
+    void setLocation(@NotNull GeneralElement<Location, ?> location);
 
     /**
      * Retrieves the location of the particle effect.
      *
      * @return the {@link GeneralElement} representing the location of the particle effect.
      */
-    GeneralElement<Location, ?> getLocation();
+    @NotNull GeneralElement<Location, ?> getLocation();
 
     /**
      * Abstract builder class for constructing instances of {@link CrispyParticle}.
@@ -99,7 +100,7 @@ public interface CrispyParticle<T extends Effect> extends CrispyVisual {
          * @param element the {@link ParticleElement} representing the particle effect.
          * @return this {@link ParticleBuilder} instance for method chaining.
          */
-        public ParticleBuilder<T> setParticle(ParticleElement<T, ?> element) {
+        public @NotNull ParticleBuilder<T> setParticle(@NotNull ParticleElement<T, ?> element) {
             data.setElement(element);
             this.data.getElement().setUpdate(() -> toBuild.update());
             return this;
@@ -111,7 +112,7 @@ public interface CrispyParticle<T extends Effect> extends CrispyVisual {
          * @param location the {@link GeneralElement} representing the location of the particle effect.
          * @return this {@link ParticleBuilder} instance for method chaining.
          */
-        public ParticleBuilder<T> setLocation(GeneralElement<Location, ?> location) {
+        public @NotNull ParticleBuilder<T> setLocation(@NotNull GeneralElement<Location, ?> location) {
             data.setLocation(location);
             this.data.getLocation().setUpdate(() -> toBuild.update());
             return this;
@@ -127,7 +128,7 @@ public interface CrispyParticle<T extends Effect> extends CrispyVisual {
          *
          * @return the constructed {@link CrispyParticle} with a {@link SimpleEffect}.
          */
-        public CrispyParticle<SimpleEffect> build() {
+        public @NotNull CrispyParticle<SimpleEffect> build() {
             toBuild = new SimpleParticle(data, receivers, timeToLive, isPublic);
             return toBuild;
         }
@@ -142,7 +143,7 @@ public interface CrispyParticle<T extends Effect> extends CrispyVisual {
          *
          * @return the constructed {@link CrispyParticle} with a {@link ColoredEffect}.
          */
-        public CrispyParticle<ColoredEffect> build() {
+        public @NotNull CrispyParticle<ColoredEffect> build() {
             toBuild = new ColoredParticle(data, receivers, timeToLive, isPublic);
             return toBuild;
         }
@@ -157,7 +158,7 @@ public interface CrispyParticle<T extends Effect> extends CrispyVisual {
          *
          * @return the constructed {@link CrispyParticle} with a {@link RenderedEffect}.
          */
-        public CrispyParticle<RenderedEffect> build() {
+        public @NotNull CrispyParticle<RenderedEffect> build() {
             toBuild = new RenderedParticle(data, receivers, timeToLive, isPublic);
             return toBuild;
         }

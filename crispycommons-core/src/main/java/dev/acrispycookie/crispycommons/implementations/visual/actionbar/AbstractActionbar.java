@@ -6,6 +6,7 @@ import dev.acrispycookie.crispycommons.implementations.visual.actionbar.data.Act
 import dev.acrispycookie.crispycommons.implementations.element.type.TextElement;
 import dev.acrispycookie.crispycommons.implementations.element.type.TimeToLiveElement;
 import org.bukkit.OfflinePlayer;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
 
@@ -28,7 +29,7 @@ public abstract class AbstractActionbar extends AbstractVisual<ActionbarData> im
      * @param updateMode the update mode for the action bar (per-player, global, or both).
      * @param isPublic whether the action bar should be visible to all players.
      */
-    AbstractActionbar(ActionbarData data, Set<? extends OfflinePlayer> receivers, TimeToLiveElement<?> timeToLive, UpdateMode updateMode, boolean isPublic) {
+    AbstractActionbar(@NotNull ActionbarData data, @NotNull Set<? extends OfflinePlayer> receivers, @NotNull TimeToLiveElement<?> timeToLive, @NotNull UpdateMode updateMode, boolean isPublic) {
         super(data, receivers, timeToLive, updateMode, isPublic);
     }
 
@@ -58,7 +59,7 @@ public abstract class AbstractActionbar extends AbstractVisual<ActionbarData> im
      * @param text the {@link TextElement} to set as the action bar's text.
      */
     @Override
-    public void setText(TextElement<?> text) {
+    public void setText(@NotNull TextElement<?> text) {
         data.getText().stop();
         data.setText(text);
         data.getText().setUpdate(this::update);
@@ -74,7 +75,7 @@ public abstract class AbstractActionbar extends AbstractVisual<ActionbarData> im
      * @return the {@link TextElement} representing the action bar's text.
      */
     @Override
-    public TextElement<?> getText() {
+    public @NotNull TextElement<?> getText() {
         return data.getText();
     }
 }

@@ -5,6 +5,7 @@ import dev.acrispycookie.crispycommons.implementations.element.type.TimeToLiveEl
 import dev.acrispycookie.crispycommons.implementations.particle.RenderedEffect;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
 
@@ -25,7 +26,7 @@ public class RenderedParticle extends AbstractParticle<RenderedEffect> {
      * @param timeToLive the time-to-live (TTL) element controlling the lifespan of the rendered particle effect.
      * @param isPublic   whether the rendered particle effect should be visible to all players.
      */
-    public RenderedParticle(ParticleData<RenderedEffect> data, Set<? extends OfflinePlayer> receivers, TimeToLiveElement<?> timeToLive, boolean isPublic) {
+    public RenderedParticle(@NotNull ParticleData<RenderedEffect> data, @NotNull Set<? extends OfflinePlayer> receivers, @NotNull TimeToLiveElement<?> timeToLive, boolean isPublic) {
         super(data, receivers, timeToLive, UpdateMode.PER_PLAYER, isPublic);
     }
 
@@ -39,7 +40,7 @@ public class RenderedParticle extends AbstractParticle<RenderedEffect> {
      * @param player the player to whom the rendered particle effect will be shown.
      */
     @Override
-    protected void show(Player player) {
+    protected void show(@NotNull Player player) {
         // Implementation of custom rendering logic should be added here.
     }
 
@@ -52,7 +53,7 @@ public class RenderedParticle extends AbstractParticle<RenderedEffect> {
      * @param player the player from whom the rendered particle effect will be hidden.
      */
     @Override
-    protected void hide(Player player) {
+    protected void hide(@NotNull Player player) {
         // No specific action needed to hide the rendered particle effect.
     }
 
@@ -65,7 +66,7 @@ public class RenderedParticle extends AbstractParticle<RenderedEffect> {
      * @param player the player for whom the rendered particle effect will be updated.
      */
     @Override
-    protected void perPlayerUpdate(Player player) {
+    protected void perPlayerUpdate(@NotNull Player player) {
         show(player);
     }
 

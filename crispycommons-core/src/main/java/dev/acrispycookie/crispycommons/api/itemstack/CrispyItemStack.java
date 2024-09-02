@@ -13,6 +13,7 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 
@@ -41,6 +42,7 @@ public class CrispyItemStack extends ItemStack implements CrispyItem {
      *
      * @param material the {@link Material} to set for this item stack.
      */
+    @SuppressWarnings("deprecation")
     public CrispyItemStack(@NotNull XMaterial material) {
         super(material.parseMaterial() != null ? material.parseMaterial() : Material.STONE);
         amount(1);
@@ -54,6 +56,7 @@ public class CrispyItemStack extends ItemStack implements CrispyItem {
      * @param material the {@link Material} to set for this item stack.
      * @param amount the amount set for this item stack.
      */
+    @SuppressWarnings("deprecation")
     public CrispyItemStack(@NotNull XMaterial material, int amount) {
         super(material.parseMaterial() != null ? material.parseMaterial() : Material.STONE);
         amount(amount);
@@ -80,6 +83,7 @@ public class CrispyItemStack extends ItemStack implements CrispyItem {
      */
     public @NotNull CrispyItemStack name(@NotNull String s) {
         ItemMeta meta = this.getItemMeta();
+        assert meta != null : "ItemMeta was null. Contact developer.";
         meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', s));
         this.setItemMeta(meta);
         return this;
@@ -102,6 +106,7 @@ public class CrispyItemStack extends ItemStack implements CrispyItem {
      * @param dur the durability value to set.
      * @return the updated {@link CrispyItemStack} instance.
      */
+    @SuppressWarnings("deprecation")
     public @NotNull CrispyItemStack durability(short dur) {
         this.setDurability(dur);
         return this;
@@ -115,6 +120,7 @@ public class CrispyItemStack extends ItemStack implements CrispyItem {
      */
     public @NotNull CrispyItemStack lore(@NotNull String s) {
         ItemMeta meta = this.getItemMeta();
+        assert meta != null : "ItemMeta was null. Contact developer.";
         meta.setLore(new ArrayList<>());
 
         ArrayList<String> lore = new ArrayList<>();
@@ -136,7 +142,10 @@ public class CrispyItemStack extends ItemStack implements CrispyItem {
      */
     public @NotNull CrispyItemStack addEnchant(@NotNull XEnchantment enchantment, int level) {
         ItemMeta meta = this.getItemMeta();
-        meta.addEnchant(enchantment.getEnchant(), level, true);
+        assert meta != null : "ItemMeta was null. Contact developer.";
+        Enchantment bukkitEnchant = enchantment.getEnchant();
+        assert bukkitEnchant != null : "Bukkit Enchantment was null. Contact developer.";
+        meta.addEnchant(bukkitEnchant, level, true);
         this.setItemMeta(meta);
         return this;
     }
@@ -149,6 +158,7 @@ public class CrispyItemStack extends ItemStack implements CrispyItem {
      */
     public @NotNull CrispyItemStack addFlag(@NotNull ItemFlag flag) {
         ItemMeta meta = this.getItemMeta();
+        assert meta != null : "ItemMeta was null. Contact developer.";
         meta.addItemFlags(flag);
         this.setItemMeta(meta);
         return this;
@@ -162,6 +172,7 @@ public class CrispyItemStack extends ItemStack implements CrispyItem {
      */
     public @NotNull CrispyItemStack removeFlag(@NotNull ItemFlag flag) {
         ItemMeta meta = this.getItemMeta();
+        assert meta != null : "ItemMeta was null. Contact developer.";
         meta.removeItemFlags(flag);
         this.setItemMeta(meta);
         return this;
@@ -175,6 +186,7 @@ public class CrispyItemStack extends ItemStack implements CrispyItem {
      */
     public @NotNull CrispyItemStack unbreakable(boolean unb) {
         ItemMeta meta = this.getItemMeta();
+        assert meta != null : "ItemMeta was null. Contact developer.";
         ItemMetaEditor.newInstance().setUnbreakable(meta, unb);
         this.setItemMeta(meta);
         return this;
@@ -243,8 +255,10 @@ public class CrispyItemStack extends ItemStack implements CrispyItem {
      * @param flag the {@link ItemFlag} to check for.
      * @return {@code true} if the flag is present, {@code false} otherwise.
      */
-    public boolean hasFlag(ItemFlag flag) {
-        return this.getItemMeta().hasItemFlag(flag);
+    public boolean hasFlag(@NotNull ItemFlag flag) {
+        ItemMeta meta = this.getItemMeta();
+        assert meta != null : "ItemMeta was null. Contact developer.";
+        return meta.hasItemFlag(flag);
     }
 
     /**
@@ -253,7 +267,7 @@ public class CrispyItemStack extends ItemStack implements CrispyItem {
      * @param identifier the identifier of the tag to retrieve.
      * @return the {@link BaseTag} value associated with the identifier, or {@code null} if not present.
      */
-    public BaseTag getTag(String identifier) {
+    public @Nullable BaseTag getTag(@NotNull String identifier) {
         return ItemStackNBT.newInstance().getTag(this, identifier);
     }
 
@@ -263,7 +277,7 @@ public class CrispyItemStack extends ItemStack implements CrispyItem {
      * @param identifier the identifier of the tag to retrieve.
      * @return the integer value associated with the identifier.
      */
-    public int getTagInt(String identifier) {
+    public int getTagInt(@NotNull String identifier) {
         return ItemStackNBT.newInstance().getInt(this, identifier);
     }
 
@@ -273,7 +287,7 @@ public class CrispyItemStack extends ItemStack implements CrispyItem {
      * @param identifier the identifier of the tag to retrieve.
      * @return the double value associated with the identifier.
      */
-    public double getTagDouble(String identifier) {
+    public double getTagDouble(@NotNull String identifier) {
         return ItemStackNBT.newInstance().getDouble(this, identifier);
     }
 
@@ -283,7 +297,7 @@ public class CrispyItemStack extends ItemStack implements CrispyItem {
      * @param identifier the identifier of the tag to retrieve.
      * @return the long value associated with the identifier.
      */
-    public long getTagLong(String identifier) {
+    public long getTagLong(@NotNull String identifier) {
         return ItemStackNBT.newInstance().getLong(this, identifier);
     }
 
@@ -293,7 +307,7 @@ public class CrispyItemStack extends ItemStack implements CrispyItem {
      * @param identifier the identifier of the tag to retrieve.
      * @return the boolean value associated with the identifier.
      */
-    public boolean getTagBoolean(String identifier) {
+    public boolean getTagBoolean(@NotNull String identifier) {
         return ItemStackNBT.newInstance().getBoolean(this, identifier);
     }
 
@@ -303,7 +317,7 @@ public class CrispyItemStack extends ItemStack implements CrispyItem {
      * @param identifier the identifier of the tag to retrieve.
      * @return the string value associated with the identifier.
      */
-    public String getTagString(String identifier) {
+    public @Nullable String getTagString(@NotNull String identifier) {
         return ItemStackNBT.newInstance().getString(this, identifier);
     }
 
@@ -313,7 +327,7 @@ public class CrispyItemStack extends ItemStack implements CrispyItem {
      * @param identifier the identifier of the tag to check.
      * @return {@code true} if the tag is present, {@code false} otherwise.
      */
-    public boolean hasTag(String identifier) {
+    public boolean hasTag(@NotNull String identifier) {
         return ItemStackNBT.newInstance().hasTag(this, identifier);
     }
 }

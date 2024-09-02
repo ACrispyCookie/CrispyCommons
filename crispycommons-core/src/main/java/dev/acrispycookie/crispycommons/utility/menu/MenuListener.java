@@ -12,6 +12,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * A listener class for handling various inventory and player-related events in the {@link CrispyMenu} system.
@@ -36,11 +37,11 @@ public abstract class MenuListener implements Listener, Versioned {
     @EventHandler
     protected abstract void onPlayerDamage(EntityDamageEvent event);
 
-    public static MenuListener newInstance() {
+    public static @NotNull MenuListener newInstance() {
         return VersionManager.createInstance(MenuListener.class, getRemapped());
     }
 
-    public static MappedVersions getRemapped() {
+    public static @NotNull MappedVersions getRemapped() {
         return new MappedVersions(new VersionPair(Version.v1_20_R3, Version.v1_8_R3));
     }
 }

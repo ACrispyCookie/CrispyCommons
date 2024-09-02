@@ -62,7 +62,7 @@ public abstract class SimpleMenuPage implements MenuPage {
      * @param columns the number of columns in the menu page.
      * @throws InvalidMenuConfiguration if the number of columns is not 3 or 9.
      */
-    public SimpleMenuPage(String title, int rows, int columns) throws InvalidMenuConfiguration {
+    public SimpleMenuPage(@NotNull String title, int rows, int columns) throws InvalidMenuConfiguration {
         if (columns != 9 && columns != 3) {
             throw new InvalidMenuConfiguration("Invalid number of columns in page!");
         }
@@ -195,9 +195,9 @@ public abstract class SimpleMenuPage implements MenuPage {
     }
 
     @Override
-    public SectionData getSection(int pointIndex) {
+    public @NotNull SectionData getSection(int pointIndex) {
         if (!isValidSlot(pointIndex))
-            return null;
+            throw new IndexOutOfBoundsException("Section index out of bounds: " + pointIndex);
 
         return schema.get(pointIndex);
     }
@@ -221,10 +221,10 @@ public abstract class SimpleMenuPage implements MenuPage {
     }
 
     @Override
-    public SectionData getSection(@NotNull Point startPoint) {
+    public @NotNull SectionData getSection(@NotNull Point startPoint) {
         if (isValidPoint(startPoint))
             return getSection(pointToIndex(startPoint));
-        return null;
+        throw new IndexOutOfBoundsException("Section index out of bounds: " + pointToIndex(startPoint));
     }
 
     @Override
@@ -266,7 +266,7 @@ public abstract class SimpleMenuPage implements MenuPage {
      * @param sectionSize the total size of the section.
      * @param forEach the function to apply to each slot in the section.
      */
-    private void fillSection(int startIndex, int sectionOffset, int width, int sectionSize, Consumer<Integer> forEach) {
+    private void fillSection(int startIndex, int sectionOffset, int width, int sectionSize, @NotNull Consumer<Integer> forEach) {
         int size = rows * columns;
         int slot = startIndex;
         for (int i = sectionOffset; slot < size && i < sectionSize; i++) {
@@ -282,7 +282,7 @@ public abstract class SimpleMenuPage implements MenuPage {
      * @param point the point to check.
      * @return {@code true} if the point is valid, otherwise {@code false}.
      */
-    private boolean isValidPoint(Point point) {
+    private boolean isValidPoint(@NotNull Point point) {
         return point.x >= 0 && point.y >= 0 && point.x < columns && point.y < rows;
     }
 
@@ -302,7 +302,7 @@ public abstract class SimpleMenuPage implements MenuPage {
      * @param point the point to convert.
      * @return the slot index corresponding to the point.
      */
-    private int pointToIndex(Point point) {
+    private int pointToIndex(@NotNull Point point) {
         return point.x + columns * point.y;
     }
 

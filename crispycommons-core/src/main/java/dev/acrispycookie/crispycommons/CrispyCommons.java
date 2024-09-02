@@ -92,7 +92,7 @@ public class CrispyCommons implements Listener {
      * </p>
      */
     private static void setup() {
-        if (settings.isBookActionEnabled()) {
+        if (settings.getBookCommand() != null) {
             CommandRegister.newInstance().register(plugin, plugin.getName(),
                     new BookActionCommand(settings.getBookCommand()));
         }
@@ -121,6 +121,7 @@ public class CrispyCommons implements Listener {
      */
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerJoin(PlayerJoinEvent event) {
+        assert Bukkit.getScoreboardManager() != null : "Scoreboard manager is null. Contact developer.";
         event.getPlayer().setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
     }
 

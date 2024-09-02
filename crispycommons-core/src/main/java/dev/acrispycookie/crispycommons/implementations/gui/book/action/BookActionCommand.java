@@ -30,7 +30,7 @@ public class BookActionCommand extends BukkitCommand {
      *
      * @param name the name of the command.
      */
-    public BookActionCommand(String name) {
+    public BookActionCommand(@NotNull String name) {
         super(name);
         instance = this;
     }
@@ -70,7 +70,7 @@ public class BookActionCommand extends BukkitCommand {
      *
      * @return the instance of this command.
      */
-    public static BookActionCommand getInstance() {
+    public static @NotNull BookActionCommand getInstance() {
         return instance;
     }
 }

@@ -1,5 +1,7 @@
 package dev.acrispycookie.crispycommons.utility.element;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.function.Function;
 
 /**
@@ -21,7 +23,7 @@ public class MyElementSupplier<K, T> {
      *
      * @param function the function to be wrapped by this supplier.
      */
-    public MyElementSupplier(Function<K, ? extends T> function) {
+    public MyElementSupplier(@NotNull Function<K, ? extends T> function) {
         this.function = function;
     }
 
@@ -30,7 +32,7 @@ public class MyElementSupplier<K, T> {
      *
      * @return the function wrapped by this {@code MyElementSupplier}.
      */
-    public Function<K, ? extends T> getFunction() {
+    public @NotNull Function<K, ? extends T> getFunction() {
         return function;
     }
 }

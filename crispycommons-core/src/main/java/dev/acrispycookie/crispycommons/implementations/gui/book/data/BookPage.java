@@ -1,6 +1,7 @@
 package dev.acrispycookie.crispycommons.implementations.gui.book.data;
 
 import net.kyori.adventure.text.Component;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,7 +32,7 @@ public class BookPage {
      *
      * @param lines the lines to be included in the page.
      */
-    public BookPage(BookLine... lines) {
+    public BookPage(@NotNull BookLine... lines) {
         this(Arrays.asList(lines));
     }
 
@@ -44,7 +45,7 @@ public class BookPage {
      *
      * @param lines the collection of lines to be included in the page.
      */
-    public BookPage(Collection<? extends BookLine> lines) {
+    public BookPage(@NotNull Collection<? extends BookLine> lines) {
         this.lines = new ArrayList<>(lines);
     }
 
@@ -57,7 +58,7 @@ public class BookPage {
      *
      * @return a {@link Component} representing the entire page.
      */
-    public Component getComponent() {
+    public @NotNull Component getComponent() {
         Component text = Component.empty();
         for (int i = 0; i < lines.size(); i++) {
             text = text.append(lines.get(i).get());

@@ -9,6 +9,7 @@ import net.minecraft.network.protocol.game.PacketPlayOutEntityDestroy;
 import net.minecraft.network.protocol.game.PacketPlayOutEntityMetadata;
 import net.minecraft.network.protocol.game.PacketPlayOutEntityTeleport;
 import net.minecraft.network.protocol.game.PacketPlayOutSpawnEntity;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.EntityItem;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_20_R3.CraftWorld;
@@ -16,6 +17,7 @@ import org.bukkit.craftbukkit.v1_20_R3.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_20_R3.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
 
@@ -23,29 +25,31 @@ public class VersionItem_1_20_R3 extends VersionEntity_1_20_R3 implements Versio
 
     private final EntityItem item;
 
-    public VersionItem_1_20_R3(Location location) {
-        item = new EntityItem(((CraftWorld) location.getWorld()).getHandle(), location.getX(), location.getY(), location.getZ(), CraftItemStack.asNMSCopy(new CrispyItemStack(XMaterial.AIR)));
+    public VersionItem_1_20_R3(@NotNull Location location) {
+        CraftWorld world = ((CraftWorld) location.getWorld());
+        assert world != null : "CraftWorld was null. Contact developer.";
+        item = new EntityItem(world.getHandle(), location.getX(), location.getY(), location.getZ(), CraftItemStack.asNMSCopy(new CrispyItemStack(XMaterial.AIR)));
     }
 
-    public void spawn(Player player) {
+    public void spawn(@NotNull Player player) {
         Location location = item.getBukkitEntity().getLocation();
         BlockPosition position = new BlockPosition(new BaseBlockPosition(location.getBlockX(), location.getBlockY(), location.getBlockZ()));
         PacketPlayOutSpawnEntity spawn = new PacketPlayOutSpawnEntity(item, 2, position);
         ((CraftPlayer) player).getHandle().c.b(spawn);
     }
 
-    public void destroy(Player player) {
+    public void destroy(@NotNull Player player) {
         setDead(true);
         PacketPlayOutEntityDestroy spawn = new PacketPlayOutEntityDestroy(item.aj());
         ((CraftPlayer) player).getHandle().c.b(spawn);
     }
 
-    public void updateLocation(Player player) {
+    public void updateLocation(@NotNull Player player) {
         PacketPlayOutEntityTeleport teleport = new PacketPlayOutEntityTeleport(item);
         ((CraftPlayer) player).getHandle().c.b(teleport);
     }
 
-    public void updateMeta(Player player) {
+    public void updateMeta(@NotNull Player player) {
         PacketPlayOutEntityMetadata metadata = new PacketPlayOutEntityMetadata(item.aj(), item.an().c());
         ((CraftPlayer) player).getHandle().c.b(metadata);
     }
@@ -59,7 +63,7 @@ public class VersionItem_1_20_R3 extends VersionEntity_1_20_R3 implements Versio
         item.a(delay);
     }
 
-    public void setItemStack(ItemStack itemStack) {
+    public void setItemStack(@NotNull ItemStack itemStack) {
         item.a(CraftItemStack.asNMSCopy(itemStack));
     }
 
@@ -69,12 +73,14 @@ public class VersionItem_1_20_R3 extends VersionEntity_1_20_R3 implements Versio
     }
 
     @Override
-    public void setLocation(Location location) {
-        item.a(((CraftWorld) location.getWorld()).getHandle(), location.getX(), location.getY(), location.getZ(), new HashSet<>(), (float) 0, (float) 0);
+    public void setLocation(@NotNull Location location) {
+        CraftWorld world = ((CraftWorld) location.getWorld());
+        assert world != null : "CraftWorld was null. Contact developer.";
+        item.a(world.getHandle(), location.getX(), location.getY(), location.getZ(), new HashSet<>(), (float) 0, (float) 0);
     }
 
     @Override
-    public Location getLocation() {
+    public @NotNull Location getLocation() {
         return item.getBukkitEntity().getLocation();
     }
 
@@ -84,7 +90,7 @@ public class VersionItem_1_20_R3 extends VersionEntity_1_20_R3 implements Versio
     }
 
     @Override
-    public net.minecraft.world.entity.Entity getInternalEntity() {
+    public @NotNull Entity getInternalEntity() {
         return item;
     }
 }

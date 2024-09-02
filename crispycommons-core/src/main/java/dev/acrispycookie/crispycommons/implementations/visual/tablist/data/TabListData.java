@@ -3,6 +3,7 @@ package dev.acrispycookie.crispycommons.implementations.visual.tablist.data;
 import dev.acrispycookie.crispycommons.api.visual.abstraction.visual.VisualData;
 import dev.acrispycookie.crispycommons.implementations.element.type.TextElement;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class TabListData implements VisualData {
      * @param header the list of {@link TextElement} representing the header lines.
      * @param footer the list of {@link TextElement} representing the footer lines.
      */
-    public TabListData(List<TextElement<?>> header, List<TextElement<?>> footer) {
+    public TabListData(@NotNull List<TextElement<?>> header, @NotNull List<TextElement<?>> footer) {
         this.header = header;
         this.footer = footer;
     }
@@ -42,7 +43,7 @@ public class TabListData implements VisualData {
      *
      * @return a list of {@link TextElement} representing the header lines.
      */
-    public List<TextElement<?>> getHeader() {
+    public @NotNull List<TextElement<?>> getHeader() {
         return header;
     }
 
@@ -51,7 +52,7 @@ public class TabListData implements VisualData {
      *
      * @return a list of {@link TextElement} representing the footer lines.
      */
-    public List<TextElement<?>> getFooter() {
+    public @NotNull List<TextElement<?>> getFooter() {
         return footer;
     }
 
@@ -60,7 +61,7 @@ public class TabListData implements VisualData {
      *
      * @param header a list of {@link TextElement} representing the new header lines.
      */
-    public void setHeader(List<TextElement<?>> header) {
+    public void setHeader(@NotNull List<TextElement<?>> header) {
         this.header = header;
     }
 
@@ -69,7 +70,7 @@ public class TabListData implements VisualData {
      *
      * @param text the {@link TextElement} to add to the header.
      */
-    public void addHeaderLine(TextElement<?> text) {
+    public void addHeaderLine(@NotNull TextElement<?> text) {
         this.header.add(text);
     }
 
@@ -79,7 +80,7 @@ public class TabListData implements VisualData {
      * @param index the position at which to add the header line.
      * @param text the {@link TextElement} to add to the header.
      */
-    public void addHeaderLine(int index, TextElement<?> text) {
+    public void addHeaderLine(int index, @NotNull TextElement<?> text) {
         this.header.add(index, text);
     }
 
@@ -97,7 +98,7 @@ public class TabListData implements VisualData {
      *
      * @param footer a list of {@link TextElement} representing the new footer lines.
      */
-    public void setFooter(List<TextElement<?>> footer) {
+    public void setFooter(@NotNull List<TextElement<?>> footer) {
         this.footer = footer;
     }
 
@@ -106,7 +107,7 @@ public class TabListData implements VisualData {
      *
      * @param text the {@link TextElement} to add to the footer.
      */
-    public void addFooterLine(TextElement<?> text) {
+    public void addFooterLine(@NotNull TextElement<?> text) {
         this.footer.add(text);
     }
 
@@ -140,7 +141,7 @@ public class TabListData implements VisualData {
      * @throws VisualNotReadyException if the header or footer lines are not set.
      */
     @Override
-    public void assertReady(Player player) {
+    public void assertReady(@NotNull Player player) {
         if (header.isEmpty()) {
             throw new VisualNotReadyException("The tab list header was not set!");
         }

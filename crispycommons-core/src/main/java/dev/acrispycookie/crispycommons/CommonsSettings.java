@@ -1,6 +1,7 @@
 package dev.acrispycookie.crispycommons;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * A configuration class for managing various settings in the CrispyCommons plugin.
@@ -81,7 +82,7 @@ public class CommonsSettings {
      * @param bookCommand the command associated with the book action.
      * @return this {@link CommonsSettings} instance for method chaining.
      */
-    public @NotNull CommonsSettings bookAction(String bookCommand) {
+    public @NotNull CommonsSettings bookAction(@Nullable String bookCommand) {
         this.bookActionEnabled = bookCommand != null;
         this.bookCommand = bookCommand;
         return this;
@@ -123,7 +124,7 @@ public class CommonsSettings {
      *
      * @return the command string for the book action, or {@code null} if the feature is disabled.
      */
-    public String getBookCommand() {
+    public @Nullable String getBookCommand() {
         return bookCommand;
     }
 

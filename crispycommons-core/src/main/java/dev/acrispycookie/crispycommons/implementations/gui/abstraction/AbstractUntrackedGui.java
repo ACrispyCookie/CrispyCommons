@@ -21,7 +21,7 @@ public abstract class AbstractUntrackedGui<T extends GuiData> extends AbstractGu
      *
      * @param data the {@link GuiData} to be associated with this GUI.
      */
-    public AbstractUntrackedGui(T data) {
+    public AbstractUntrackedGui(@NotNull T data) {
         super(data);
     }
 
@@ -53,7 +53,7 @@ public abstract class AbstractUntrackedGui<T extends GuiData> extends AbstractGu
      *                  view is going to open right after.
      */
     @Override
-    protected void closeInternal(Player player, boolean closeView) {
+    protected void closeInternal(@NotNull Player player, boolean closeView) {
         // No internal closing logic; intended to be overridden by subclasses
     }
 }

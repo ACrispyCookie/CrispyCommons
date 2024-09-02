@@ -4,8 +4,9 @@ import dev.acrispycookie.crispycommons.api.visual.abstraction.visual.VisualData;
 import dev.acrispycookie.crispycommons.api.element.DynamicElement;
 import dev.acrispycookie.crispycommons.implementations.element.type.GeneralElement;
 import org.bukkit.Location;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -37,7 +38,7 @@ public class HologramData implements VisualData {
      * @param lines    the collection of dynamic elements that will be displayed as lines in the hologram.
      * @param location the {@link GeneralElement} representing the location of the hologram.
      */
-    public HologramData(Collection<? extends DynamicElement<?, ?>> lines, GeneralElement<Location, ?> location) {
+    public HologramData(@NotNull Collection<? extends DynamicElement<?, ?>> lines, @Nullable GeneralElement<Location, ?> location) {
         this.lines = new ArrayList<>(lines);
         this.location = location;
     }
@@ -47,7 +48,7 @@ public class HologramData implements VisualData {
      *
      * @return the list of {@link DynamicElement} objects.
      */
-    public List<DynamicElement<?, ?>> getLines() {
+    public @NotNull List<DynamicElement<?, ?>> getLines() {
         return lines;
     }
 
@@ -59,7 +60,7 @@ public class HologramData implements VisualData {
      *
      * @param lines the new list of dynamic elements to set as the lines of the hologram.
      */
-    public void setLines(List<DynamicElement<?, ?>> lines) {
+    public void setLines(@NotNull List<DynamicElement<?, ?>> lines) {
         this.lines.clear();
         this.lines.addAll(lines);
     }
@@ -79,7 +80,7 @@ public class HologramData implements VisualData {
      * @param index   the index at which to add the new line.
      * @param element the {@link DynamicElement} to add as a line.
      */
-    public void addLine(int index, DynamicElement<?, ?> element) {
+    public void addLine(int index, @NotNull DynamicElement<?, ?> element) {
         this.lines.add(index, element);
     }
 
@@ -88,7 +89,7 @@ public class HologramData implements VisualData {
      *
      * @return the {@link GeneralElement} representing the location of the hologram.
      */
-    public GeneralElement<Location, ?> getLocation() {
+    public @NotNull GeneralElement<Location, ?> getLocation() {
         return location;
     }
 
@@ -97,7 +98,7 @@ public class HologramData implements VisualData {
      *
      * @param location the new {@link GeneralElement} to set as the hologram's location.
      */
-    public void setLocation(GeneralElement<Location, ?> location) {
+    public void setLocation(@NotNull GeneralElement<Location, ?> location) {
         this.location = location;
     }
 
@@ -113,11 +114,11 @@ public class HologramData implements VisualData {
      * @throws VisualNotReadyException if the lines are empty or the location is not set.
      */
     @Override
-    public void assertReady(Player player) {
+    public void assertReady(@NotNull Player player) {
         if (lines.isEmpty()) {
             throw new VisualNotReadyException("The hologram's lines were not set!");
         }
-        if (location.getFromContext(OfflinePlayer.class, player) == null) {
+        if (location == null) {
             throw new VisualNotReadyException("The hologram's location was not set!");
         }
     }

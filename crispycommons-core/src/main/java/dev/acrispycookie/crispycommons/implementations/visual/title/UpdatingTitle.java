@@ -7,6 +7,7 @@ import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.title.Title;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.time.Duration;
 import java.util.Set;
@@ -29,7 +30,7 @@ public class UpdatingTitle extends AbstractTitle {
      * @param timeToLive the time-to-live (TTL) element controlling the lifespan of the title.
      * @param isPublic whether the title should be visible to all players.
      */
-    public UpdatingTitle(TitleData data, Set<? extends OfflinePlayer> receivers, TimeToLiveElement<?> timeToLive, boolean isPublic) {
+    public UpdatingTitle(@NotNull TitleData data, @NotNull Set<? extends OfflinePlayer> receivers, @NotNull TimeToLiveElement<?> timeToLive, boolean isPublic) {
         super(data, receivers, timeToLive, UpdateMode.PER_PLAYER, isPublic);
     }
 
@@ -39,11 +40,11 @@ public class UpdatingTitle extends AbstractTitle {
      * This method calculates the fade-in, duration, and fade-out times based on the title data and shows the title to the player.
      * </p>
      *
-     * @param p the player to whom the title will be shown.
+     * @param player the player to whom the title will be shown.
      */
     @Override
-    protected void show(Player p) {
-        showTitle(p, data.getFadeIn().getFromContext(OfflinePlayer.class, p) * 50L, data.getSmallestPeriod() * 150L, 0);
+    protected void show(@NotNull Player player) {
+        showTitle(player, data.getFadeIn().getFromContext(OfflinePlayer.class, player) * 50L, data.getSmallestPeriod() * 150L, 0);
     }
 
     /**
@@ -52,11 +53,11 @@ public class UpdatingTitle extends AbstractTitle {
      * This method immediately hides the title from the player by setting the fade-out time.
      * </p>
      *
-     * @param p the player from whom the title will be hidden.
+     * @param player the player from whom the title will be hidden.
      */
     @Override
-    public void hide(Player p) {
-        showTitle(p, 0, 1, data.getFadeOut().getFromContext(OfflinePlayer.class, p) * 50L);
+    public void hide(@NotNull Player player) {
+        showTitle(player, 0, 1, data.getFadeOut().getFromContext(OfflinePlayer.class, player) * 50L);
     }
 
     /**
@@ -65,11 +66,11 @@ public class UpdatingTitle extends AbstractTitle {
      * This method re-shows the title to the player with an updated duration, allowing dynamic changes.
      * </p>
      *
-     * @param p the player for whom the title will be updated.
+     * @param player the player for whom the title will be updated.
      */
     @Override
-    protected void perPlayerUpdate(Player p) {
-        showTitle(p, 0, data.getSmallestPeriod() * 150L, 0);
+    protected void perPlayerUpdate(@NotNull Player player) {
+        showTitle(player, 0, data.getSmallestPeriod() * 150L, 0);
     }
 
     /**
@@ -95,7 +96,7 @@ public class UpdatingTitle extends AbstractTitle {
      * @param duration the duration for which the title will be displayed, in milliseconds.
      * @param fadeOut the fade-out time in milliseconds.
      */
-    private void showTitle(Player p, long fadeIn, long duration, long fadeOut) {
+    private void showTitle(@NotNull Player p, long fadeIn, long duration, long fadeOut) {
         Audience audience = CrispyCommons.getBukkitAudiences().player(p);
         Title toSend = Title.title(
                 data.getTitle().getFromContext(OfflinePlayer.class, p),

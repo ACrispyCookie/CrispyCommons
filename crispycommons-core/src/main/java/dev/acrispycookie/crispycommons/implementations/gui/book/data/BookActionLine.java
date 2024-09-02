@@ -5,6 +5,7 @@ import dev.acrispycookie.crispycommons.implementations.gui.book.action.BookActio
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Represents a line of text in a book that triggers an action when clicked.
@@ -30,15 +31,15 @@ public abstract class BookActionLine extends BookLine {
      *
      * @param text the plain text string to be converted into a {@link Component}.
      */
-    public BookActionLine(String text) {
+    public BookActionLine(@NotNull String text) {
         super(text);
         action = new BookAction() {
             @Override
-            public void run(Player p) {
+            public void run(@NotNull Player p) {
                 onAction(p);
             }
         };
-        this.text = this.text.clickEvent(ClickEvent.clickEvent(ClickEvent.Action.RUN_COMMAND, "/" + BookActionCommand.getInstance().getName() + " " + action.getUuid().toString()));
+        this.text = this.text.clickEvent(ClickEvent.clickEvent(ClickEvent.Action.RUN_COMMAND, "/" + BookActionCommand.getInstance().getName() + " " + action.getUuid()));
     }
 
     /**
@@ -49,15 +50,15 @@ public abstract class BookActionLine extends BookLine {
      *
      * @param text the {@link Component} representing the content of this book line.
      */
-    public BookActionLine(Component text) {
+    public BookActionLine(@NotNull Component text) {
         super(text);
         action = new BookAction() {
             @Override
-            public void run(Player p) {
+            public void run(@NotNull Player p) {
                 onAction(p);
             }
         };
-        this.text = this.text.clickEvent(ClickEvent.clickEvent(ClickEvent.Action.RUN_COMMAND, "/" + BookActionCommand.getInstance().getName() + " " + action.getUuid().toString()));
+        this.text = this.text.clickEvent(ClickEvent.clickEvent(ClickEvent.Action.RUN_COMMAND, "/" + BookActionCommand.getInstance().getName() + " " + action.getUuid()));
     }
 
     /**
@@ -65,6 +66,6 @@ public abstract class BookActionLine extends BookLine {
      *
      * @param p the {@link Player} who clicked the line.
      */
-    public abstract void onAction(Player p);
+    public abstract void onAction(@NotNull Player p);
 }
 

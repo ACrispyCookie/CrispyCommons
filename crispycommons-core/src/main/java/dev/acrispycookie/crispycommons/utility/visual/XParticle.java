@@ -3,6 +3,7 @@ package dev.acrispycookie.crispycommons.utility.visual;
 
 import dev.acrispycookie.crispycommons.utility.nms.VersionParticle;
 import org.bukkit.Particle;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -219,7 +220,7 @@ public enum XParticle {
 
     private final VersionParticle particle;
 
-    XParticle(String... alts) {
+    XParticle(@NotNull String... alts) {
         VersionParticle testParticle = VersionParticle.newInstance();
         boolean set = testParticle.set(this.name());
         Data.NAME_MAPPING.put(this.name(), this);
@@ -238,7 +239,7 @@ public enum XParticle {
      *
      * @return the particle
      */
-    public VersionParticle get() {
+    public @NotNull VersionParticle get() {
         return particle;
     }
 
@@ -257,7 +258,7 @@ public enum XParticle {
      * @param other the particle to return if this particle is not supported
      * @return this particle if it is supported, otherwise returns the particle argument you passed
      */
-    public XParticle or(XParticle other) {
+    public @NotNull XParticle or(@NotNull XParticle other) {
         return this.isSupported() ? this : other;
     }
 
@@ -268,7 +269,7 @@ public enum XParticle {
      * @return the XParticle associated with the given bukkit particle
      * @throws UnsupportedOperationException if the given particle does not exist.
      */
-    public static XParticle of(VersionParticle particle) {
+    public static @NotNull XParticle of(@NotNull VersionParticle particle) {
         Objects.requireNonNull(particle, "Cannot match null particle");
         XParticle mapping = XParticle.Data.BUKKIT_MAPPING.get(particle);
         if (mapping != null) return mapping;
@@ -281,7 +282,7 @@ public enum XParticle {
      * @param particle the particle name to match
      * @return the XParticle associated with the given particle name
      */
-    public static Optional<XParticle> of(String particle) {
+    public static @NotNull Optional<XParticle> of(@NotNull String particle) {
         Objects.requireNonNull(particle, "Cannot match null particle");
         return Optional.ofNullable(XParticle.Data.NAME_MAPPING.get(particle));
     }

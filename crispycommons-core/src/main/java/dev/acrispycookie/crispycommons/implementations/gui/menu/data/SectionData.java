@@ -1,6 +1,7 @@
 package dev.acrispycookie.crispycommons.implementations.gui.menu.data;
 
 import dev.acrispycookie.crispycommons.api.gui.menu.section.Section;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * A data class that represents a specific section within a menu, including its indices and offset.
@@ -39,7 +40,7 @@ public class SectionData {
      * @param offset the offset value for the section.
      * @param section the {@link Section} associated with this data.
      */
-    public SectionData(int startIndex, int endIndex, int offset, Section section) {
+    public SectionData(int startIndex, int endIndex, int offset, @NotNull Section section) {
         this.startIndex = startIndex;
         this.endIndex = endIndex;
         this.offset = offset;
@@ -51,7 +52,7 @@ public class SectionData {
      *
      * @return the associated {@link Section}.
      */
-    public Section getSection() {
+    public @NotNull Section getSection() {
         return section;
     }
 

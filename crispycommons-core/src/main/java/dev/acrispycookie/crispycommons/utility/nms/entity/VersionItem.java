@@ -5,17 +5,18 @@ import dev.acrispycookie.crispycommons.version.utility.ArgPair;
 import dev.acrispycookie.crispycommons.version.utility.MappedVersions;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 public interface VersionItem extends VersionEntity {
 
-    static VersionItem newInstance(Location location) {
+    static @NotNull VersionItem newInstance(@NotNull Location location) {
         return VersionManager.createInstance(VersionItem.class, new MappedVersions(), new ArgPair<>(Location.class, location));
     }
 
-    static MappedVersions getRemapped() {
+    static @NotNull MappedVersions getRemapped() {
         return new MappedVersions();
     }
 
     void setDespawnDelay(int delay);
-    void setItemStack(ItemStack itemStack);
+    void setItemStack(@NotNull ItemStack itemStack);
 }

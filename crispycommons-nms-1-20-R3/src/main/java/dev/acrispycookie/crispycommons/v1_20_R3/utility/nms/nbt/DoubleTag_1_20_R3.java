@@ -2,6 +2,7 @@ package dev.acrispycookie.crispycommons.v1_20_R3.utility.nms.nbt;
 
 import dev.acrispycookie.crispycommons.utility.nms.nbt.DoubleTag;
 import net.minecraft.nbt.NBTTagDouble;
+import org.jetbrains.annotations.NotNull;
 
 public class DoubleTag_1_20_R3 extends BaseTag_1_20_R3 implements DoubleTag {
 
@@ -11,7 +12,7 @@ public class DoubleTag_1_20_R3 extends BaseTag_1_20_R3 implements DoubleTag {
         this.handle = NBTTagDouble.a(value);
     }
 
-    public NBTTagDouble getInternal() {
+    public @NotNull NBTTagDouble getInternal() {
         return handle;
     }
 

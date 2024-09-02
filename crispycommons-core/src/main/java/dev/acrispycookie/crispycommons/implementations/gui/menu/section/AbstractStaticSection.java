@@ -61,7 +61,7 @@ public abstract class AbstractStaticSection extends AbstractSection implements S
      * @param pasteSlot     the slot in the inventory where the first item will be placed.
      * @param startingIndex the index of the first item to render.
      */
-    protected abstract void renderItemsInternal(Player player, CrispyMenu menu, Inventory toRender, int pasteSlot, int startingIndex);
+    protected abstract void renderItemsInternal(@NotNull Player player, @NotNull CrispyMenu menu, @NotNull Inventory toRender, int pasteSlot, int startingIndex);
 
     /**
      * Renders items within the section into the specified inventory for the given player, starting
@@ -247,7 +247,7 @@ public abstract class AbstractStaticSection extends AbstractSection implements S
      * @param point the point to convert.
      * @return the index corresponding to the specified point.
      */
-    private int pointToIndex(Point point) {
+    private int pointToIndex(@NotNull Point point) {
         return point.x + point.y * width;
     }
 }

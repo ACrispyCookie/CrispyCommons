@@ -2,6 +2,7 @@ package dev.acrispycookie.crispycommons.implementations.particle;
 
 import dev.acrispycookie.crispycommons.utility.visual.XParticle;
 import org.bukkit.Color;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Represents a color-based effect that can be used to create colored particles.
@@ -41,7 +42,7 @@ public class ColoredEffect extends AbstractEffect {
      *
      * @param color the color to be used for the effect.
      */
-    public ColoredEffect(Color color) {
+    public ColoredEffect(@NotNull Color color) {
         this.r = (float) numberInRange(color.getRed()) / 255;
         this.g = (float) numberInRange(color.getGreen()) / 255;
         this.b = (float) numberInRange(color.getBlue()) / 255;
@@ -66,7 +67,7 @@ public class ColoredEffect extends AbstractEffect {
      * @param color the color to set.
      * @return this {@code ColoredEffect} instance, for method chaining.
      */
-    public ColoredEffect color(Color color) {
+    public @NotNull ColoredEffect color(Color color) {
         this.r = (float) numberInRange(color.getRed()) / 255;
         this.g = (float) numberInRange(color.getGreen()) / 255;
         this.b = (float) numberInRange(color.getBlue()) / 255;
@@ -81,7 +82,7 @@ public class ColoredEffect extends AbstractEffect {
      * @param b the blue component (0-255).
      * @return this {@code ColoredEffect} instance, for method chaining.
      */
-    public ColoredEffect color(int r, int g, int b) {
+    public @NotNull ColoredEffect color(int r, int g, int b) {
         this.r = (float) numberInRange(r) / 255;
         this.g = (float) numberInRange(g) / 255;
         this.b = (float) numberInRange(b) / 255;
@@ -94,7 +95,7 @@ public class ColoredEffect extends AbstractEffect {
      * @param red the red component (0-255).
      * @return this {@code ColoredEffect} instance, for method chaining.
      */
-    public ColoredEffect red(int red) {
+    public @NotNull ColoredEffect red(int red) {
         this.r = (float) numberInRange(red) / 255;
         return this;
     }
@@ -105,7 +106,7 @@ public class ColoredEffect extends AbstractEffect {
      * @param green the green component (0-255).
      * @return this {@code ColoredEffect} instance, for method chaining.
      */
-    public ColoredEffect green(int green) {
+    public @NotNull ColoredEffect green(int green) {
         this.g = (float) numberInRange(green) / 255;
         return this;
     }
@@ -180,7 +181,7 @@ public class ColoredEffect extends AbstractEffect {
      *
      * @return the {@link XParticle} type, specifically {@code XParticle.DUST}.
      */
-    public XParticle getEffect() {
+    public @NotNull XParticle getEffect() {
         return XParticle.DUST;
     }
 

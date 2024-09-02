@@ -10,6 +10,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
 
@@ -38,7 +39,7 @@ public abstract class AbstractNameTag extends AbstractVisual<NameTagData> implem
      * @param updateMode the mode of updating the name tag, whether globally, per player, or both.
      * @param isPublic   whether the name tag should be visible to all players.
      */
-    AbstractNameTag(NameTagData data, Set<? extends OfflinePlayer> receivers, TimeToLiveElement<?> timeToLive, UpdateMode updateMode, boolean isPublic) {
+    AbstractNameTag(@NotNull NameTagData data, @NotNull Set<? extends OfflinePlayer> receivers, @NotNull TimeToLiveElement<?> timeToLive, @NotNull UpdateMode updateMode, boolean isPublic) {
         super(data, receivers, timeToLive, updateMode, isPublic);
     }
 
@@ -127,7 +128,7 @@ public abstract class AbstractNameTag extends AbstractVisual<NameTagData> implem
      * @param prefix the new prefix {@link NameTagElement} to set.
      */
     @Override
-    public void setPrefix(NameTagElement<String, ?> prefix) {
+    public void setPrefix(@NotNull NameTagElement<String, ?> prefix) {
         data.getPrefix().stop();
         data.setPrefix(prefix);
         data.getPrefix().setUpdate(this::updatePrefix);
@@ -147,7 +148,7 @@ public abstract class AbstractNameTag extends AbstractVisual<NameTagData> implem
      * @param suffix the new suffix {@link NameTagElement} to set.
      */
     @Override
-    public void setSuffix(NameTagElement<String, ?> suffix) {
+    public void setSuffix(@NotNull NameTagElement<String, ?> suffix) {
         data.getSuffix().stop();
         data.setSuffix(suffix);
         data.getSuffix().setUpdate(this::updateSuffix);
@@ -167,7 +168,7 @@ public abstract class AbstractNameTag extends AbstractVisual<NameTagData> implem
      * @param belowName the new below-name {@link NameTagElement} to set.
      */
     @Override
-    public void setBelowName(NameTagElement<String, ?> belowName) {
+    public void setBelowName(@NotNull NameTagElement<String, ?> belowName) {
         data.getBelowName().stop();
         data.setBelowName(belowName);
         data.getBelowName().setUpdate(this::updateBelowName);
@@ -187,7 +188,7 @@ public abstract class AbstractNameTag extends AbstractVisual<NameTagData> implem
      * @param belowNameValue the new below-name value {@link NameTagElement} to set.
      */
     @Override
-    public void setBelowNameValue(NameTagElement<Integer, ?> belowNameValue) {
+    public void setBelowNameValue(@NotNull NameTagElement<Integer, ?> belowNameValue) {
         data.getBelowNameValue().stop();
         data.setBelowNameValue(belowNameValue);
         data.getBelowNameValue().setUpdate(this::updateBelowNameValue);
@@ -207,7 +208,7 @@ public abstract class AbstractNameTag extends AbstractVisual<NameTagData> implem
      * @param aboveName the new above-name {@link NameTagElement} to set.
      */
     @Override
-    public void setAboveName(NameTagElement<String, ?> aboveName) {
+    public void setAboveName(@NotNull NameTagElement<String, ?> aboveName) {
         data.getAboveName().stop();
         data.setAboveName(aboveName);
         data.getAboveName().setUpdate(this::updateAboveName);
@@ -223,7 +224,7 @@ public abstract class AbstractNameTag extends AbstractVisual<NameTagData> implem
      * @return the prefix {@link NameTagElement}.
      */
     @Override
-    public NameTagElement<String, ?> getPrefix() {
+    public @NotNull NameTagElement<String, ?> getPrefix() {
         return data.getPrefix();
     }
 
@@ -233,7 +234,7 @@ public abstract class AbstractNameTag extends AbstractVisual<NameTagData> implem
      * @return the suffix {@link NameTagElement}.
      */
     @Override
-    public NameTagElement<String, ?> getSuffix() {
+    public @NotNull NameTagElement<String, ?> getSuffix() {
         return data.getSuffix();
     }
 
@@ -243,7 +244,7 @@ public abstract class AbstractNameTag extends AbstractVisual<NameTagData> implem
      * @return the below-name {@link NameTagElement}.
      */
     @Override
-    public NameTagElement<String, ?> getBelowName() {
+    public @NotNull NameTagElement<String, ?> getBelowName() {
         return data.getBelowName();
     }
 
@@ -253,7 +254,7 @@ public abstract class AbstractNameTag extends AbstractVisual<NameTagData> implem
      * @return the below-name value {@link NameTagElement}.
      */
     @Override
-    public NameTagElement<Integer, ?> getBelowNameValue() {
+    public @NotNull NameTagElement<Integer, ?> getBelowNameValue() {
         return data.getBelowNameValue();
     }
 
@@ -263,7 +264,7 @@ public abstract class AbstractNameTag extends AbstractVisual<NameTagData> implem
      * @return the above-name {@link NameTagElement}.
      */
     @Override
-    public NameTagElement<String, ?> getAboveName() {
+    public @NotNull NameTagElement<String, ?> getAboveName() {
         return data.getAboveName();
     }
 }

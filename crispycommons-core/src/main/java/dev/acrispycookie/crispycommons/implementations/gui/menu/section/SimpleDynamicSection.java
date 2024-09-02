@@ -5,6 +5,7 @@ import dev.acrispycookie.crispycommons.api.gui.menu.MenuItem;
 import dev.acrispycookie.crispycommons.utility.menu.InventoryWidth;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 
@@ -24,7 +25,7 @@ public class SimpleDynamicSection extends AbstractDynamicSection {
      *
      * @param items the collection of {@link MenuItem} objects to be included in this section.
      */
-    public SimpleDynamicSection(Collection<? extends MenuItem> items) {
+    public SimpleDynamicSection(@NotNull Collection<? extends MenuItem> items) {
         super(items);
     }
 
@@ -44,7 +45,7 @@ public class SimpleDynamicSection extends AbstractDynamicSection {
      * @param startingIndex the index of the first item to render within the section.
      */
     @Override
-    public void renderItemsInternal(Player player, CrispyMenu menu, Inventory toRender, int pasteSlot, int endPasteSlot, int startingIndex) {
+    public void renderItemsInternal(@NotNull Player player, @NotNull CrispyMenu menu, @NotNull Inventory toRender, int pasteSlot, int endPasteSlot, int startingIndex) {
         int inventoryWidth = InventoryWidth.getType(toRender.getType());
         int height = (endPasteSlot - pasteSlot) / inventoryWidth + 1;
         int width = endPasteSlot - (height - 1) * inventoryWidth - pasteSlot + 1;

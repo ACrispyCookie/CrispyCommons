@@ -52,7 +52,7 @@ public class Holder implements InventoryHolder {
      *
      * @return the {@link MenuPage} instance.
      */
-    public MenuPage getPage() {
+    public @NotNull MenuPage getPage() {
         return page;
     }
 

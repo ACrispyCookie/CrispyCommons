@@ -4,6 +4,7 @@ import dev.acrispycookie.crispycommons.api.visual.abstraction.builder.VisualBuil
 import dev.acrispycookie.crispycommons.api.visual.abstraction.visual.CrispyVisual;
 import dev.acrispycookie.crispycommons.implementations.element.type.TimeToLiveElement;
 import org.bukkit.OfflinePlayer;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -48,7 +49,7 @@ public abstract class AbstractVisualBuilder<T extends CrispyVisual> implements V
      * @return the builder instance for chaining.
      */
     @Override
-    public AbstractVisualBuilder<T> addPlayer(OfflinePlayer p) {
+    public @NotNull AbstractVisualBuilder<T> addPlayer(@NotNull OfflinePlayer p) {
         receivers.add(p);
         return this;
     }
@@ -60,7 +61,7 @@ public abstract class AbstractVisualBuilder<T extends CrispyVisual> implements V
      * @return the builder instance for chaining.
      */
     @Override
-    public AbstractVisualBuilder<T> removePlayer(OfflinePlayer p) {
+    public @NotNull AbstractVisualBuilder<T> removePlayer(@NotNull OfflinePlayer p) {
         receivers.remove(p);
         return this;
     }
@@ -72,7 +73,7 @@ public abstract class AbstractVisualBuilder<T extends CrispyVisual> implements V
      * @return the builder instance for chaining.
      */
     @Override
-    public AbstractVisualBuilder<T> setPlayers(Collection<? extends OfflinePlayer> p) {
+    public @NotNull AbstractVisualBuilder<T> setPlayers(@NotNull Collection<? extends OfflinePlayer> p) {
         receivers.clear();
         receivers.addAll(p);
         return this;
@@ -85,7 +86,7 @@ public abstract class AbstractVisualBuilder<T extends CrispyVisual> implements V
      * @return the builder instance for chaining.
      */
     @Override
-    public AbstractVisualBuilder<T> addPlayers(Collection<? extends OfflinePlayer> p) {
+    public @NotNull AbstractVisualBuilder<T> addPlayers(@NotNull Collection<? extends OfflinePlayer> p) {
         receivers.addAll(p);
         return this;
     }
@@ -97,7 +98,7 @@ public abstract class AbstractVisualBuilder<T extends CrispyVisual> implements V
      * @return the builder instance for chaining.
      */
     @Override
-    public AbstractVisualBuilder<T> setPublic(boolean isPublic) {
+    public @NotNull AbstractVisualBuilder<T> setPublic(boolean isPublic) {
         this.isPublic = isPublic;
         return this;
     }
@@ -109,7 +110,7 @@ public abstract class AbstractVisualBuilder<T extends CrispyVisual> implements V
      * @return the builder instance for chaining.
      */
     @Override
-    public AbstractVisualBuilder<T> setTimeToLive(TimeToLiveElement<?> timeToLive) {
+    public @NotNull AbstractVisualBuilder<T> setTimeToLive(@NotNull TimeToLiveElement<?> timeToLive) {
         this.timeToLive = timeToLive;
         return this;
     }

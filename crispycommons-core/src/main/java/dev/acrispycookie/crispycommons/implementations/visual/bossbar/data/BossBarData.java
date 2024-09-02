@@ -4,8 +4,9 @@ import dev.acrispycookie.crispycommons.api.visual.abstraction.visual.VisualData;
 import dev.acrispycookie.crispycommons.implementations.element.type.GeneralElement;
 import dev.acrispycookie.crispycommons.implementations.element.type.TextElement;
 import net.kyori.adventure.bossbar.BossBar;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * A data class that represents the visual data needed to display a boss bar.
@@ -47,7 +48,7 @@ public class BossBarData implements VisualData {
      * @param overlay the {@link GeneralElement} representing the overlay style of the boss bar.
      * @param text the {@link TextElement} representing the title of the boss bar.
      */
-    public BossBarData(GeneralElement<Float, ?> progress, GeneralElement<BossBar.Color, ?> color, GeneralElement<BossBar.Overlay, ?> overlay, TextElement<?> text) {
+    public BossBarData(@NotNull GeneralElement<Float, ?> progress, @Nullable GeneralElement<BossBar.Color, ?> color, @Nullable GeneralElement<BossBar.Overlay, ?> overlay, @Nullable TextElement<?> text) {
         this.progress = progress;
         this.color = color;
         this.overlay = overlay;
@@ -59,7 +60,7 @@ public class BossBarData implements VisualData {
      *
      * @return the {@link GeneralElement} representing the progress.
      */
-    public GeneralElement<Float, ?> getProgress() {
+    public @NotNull GeneralElement<Float, ?> getProgress() {
         return progress;
     }
 
@@ -68,7 +69,7 @@ public class BossBarData implements VisualData {
      *
      * @param progress the {@link GeneralElement} representing the progress to set.
      */
-    public void setProgress(GeneralElement<Float, ?> progress) {
+    public void setProgress(@NotNull GeneralElement<Float, ?> progress) {
         this.progress = progress;
     }
 
@@ -77,7 +78,7 @@ public class BossBarData implements VisualData {
      *
      * @return the {@link GeneralElement} representing the color.
      */
-    public GeneralElement<BossBar.Color, ?> getColor() {
+    public @NotNull GeneralElement<BossBar.Color, ?> getColor() {
         return color;
     }
 
@@ -86,7 +87,7 @@ public class BossBarData implements VisualData {
      *
      * @param color the {@link GeneralElement} representing the color to set.
      */
-    public void setColor(GeneralElement<BossBar.Color, ?> color) {
+    public void setColor(@NotNull GeneralElement<BossBar.Color, ?> color) {
         this.color = color;
     }
 
@@ -95,7 +96,7 @@ public class BossBarData implements VisualData {
      *
      * @return the {@link GeneralElement} representing the overlay.
      */
-    public GeneralElement<BossBar.Overlay, ?> getOverlay() {
+    public @NotNull GeneralElement<BossBar.Overlay, ?> getOverlay() {
         return overlay;
     }
 
@@ -104,7 +105,7 @@ public class BossBarData implements VisualData {
      *
      * @param overlay the {@link GeneralElement} representing the overlay to set.
      */
-    public void setOverlay(GeneralElement<BossBar.Overlay, ?> overlay) {
+    public void setOverlay(@NotNull GeneralElement<BossBar.Overlay, ?> overlay) {
         this.overlay = overlay;
     }
 
@@ -113,7 +114,7 @@ public class BossBarData implements VisualData {
      *
      * @return the {@link TextElement} representing the text.
      */
-    public TextElement<?> getText() {
+    public @NotNull TextElement<?> getText() {
         return text;
     }
 
@@ -122,7 +123,7 @@ public class BossBarData implements VisualData {
      *
      * @param text the {@link TextElement} representing the text to set.
      */
-    public void setText(TextElement<?> text) {
+    public void setText(@NotNull TextElement<?> text) {
         this.text = text;
     }
 
@@ -137,19 +138,18 @@ public class BossBarData implements VisualData {
      * @throws VisualNotReadyException if any required element is not set or is invalid.
      */
     @Override
-    public void assertReady(Player player) {
-        if (text.getFromContext(OfflinePlayer.class, player) == null) {
+    public void assertReady(@NotNull Player player) {
+        if (text == null) {
             throw new VisualNotReadyException("The boss bar text was not set!");
         }
-        if (color.getFromContext(OfflinePlayer.class, player) == null) {
+        if (color == null) {
             throw new VisualNotReadyException("The boss bar color was not set!");
         }
-        if (overlay.getFromContext(OfflinePlayer.class, player) == null) {
+        if (overlay == null) {
             throw new VisualNotReadyException("The boss bar overlay was not set!");
         }
-        Float progress = this.progress.getFromContext(OfflinePlayer.class, player);
-        if (progress != null && (progress > 1 || progress < 0)) {
-            throw new VisualNotReadyException("The boss bar progress must be between 0 and 1!");
+        if (progress == null) {
+            throw new VisualNotReadyException("The boss bar progress was not set!");
         }
     }
 }

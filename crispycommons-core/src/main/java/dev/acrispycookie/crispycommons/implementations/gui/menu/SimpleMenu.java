@@ -6,7 +6,6 @@ import dev.acrispycookie.crispycommons.api.gui.menu.MenuPage;
 import dev.acrispycookie.crispycommons.implementations.gui.abstraction.AbstractTrackedGui;
 import dev.acrispycookie.crispycommons.implementations.gui.menu.data.MenuData;
 import dev.acrispycookie.crispycommons.utility.menu.SizedStack;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -32,7 +31,7 @@ public class SimpleMenu extends AbstractTrackedGui<MenuData> implements CrispyMe
      *
      * @param data the {@link MenuData} associated with this menu.
      */
-    public SimpleMenu(MenuData data) {
+    public SimpleMenu(@NotNull MenuData data) {
         super(data);
         data.setMenu(this);
     }
@@ -65,7 +64,7 @@ public class SimpleMenu extends AbstractTrackedGui<MenuData> implements CrispyMe
      * @param p the player for whom the menu will be opened.
      */
     @Override
-    public void openInternal(Player p) {
+    public void openInternal(@NotNull Player p) {
         if (isPlayerViewing(p))
             return;
 
@@ -87,7 +86,7 @@ public class SimpleMenu extends AbstractTrackedGui<MenuData> implements CrispyMe
      * @param p the player for whom the menu will be closed.
      */
     @Override
-    public void closeInternal(Player p, boolean closeView) {
+    public void closeInternal(@NotNull Player p, boolean closeView) {
         if (!isPlayerViewing(p))
             return;
 
@@ -108,7 +107,7 @@ public class SimpleMenu extends AbstractTrackedGui<MenuData> implements CrispyMe
      * @param offset the number of pages to move forward (positive) or backward (negative).
      */
     @Override
-    public void offsetPage(@NotNull OfflinePlayer player, int offset) {
+    public void offsetPage(@NotNull Player player, int offset) {
         if (!isPlayerViewing(player))
             return;
 
@@ -135,7 +134,7 @@ public class SimpleMenu extends AbstractTrackedGui<MenuData> implements CrispyMe
      * @param page the page number to set.
      */
     @Override
-    public void setPage(@NotNull OfflinePlayer player, int page) {
+    public void setPage(@NotNull Player player, int page) {
         if (!isPlayerViewing(player))
             return;
 
@@ -149,7 +148,7 @@ public class SimpleMenu extends AbstractTrackedGui<MenuData> implements CrispyMe
      * @return the current page number.
      */
     @Override
-    public int getPage(@NotNull OfflinePlayer player) {
+    public int getPage(@NotNull Player player) {
         return data.getPage(player);
     }
 

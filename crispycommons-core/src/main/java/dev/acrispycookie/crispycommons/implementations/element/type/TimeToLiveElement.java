@@ -3,6 +3,7 @@ package dev.acrispycookie.crispycommons.implementations.element.type;
 import dev.acrispycookie.crispycommons.implementations.element.AbstractAnimatedElement;
 import dev.acrispycookie.crispycommons.utility.element.MyElementSupplier;
 import org.bukkit.OfflinePlayer;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Function;
 
@@ -27,7 +28,7 @@ public class TimeToLiveElement<K> extends AbstractAnimatedElement<Long, K> {
      * @param kClass the class type of the context.
      * @param startMode the mode that determines how the start time is managed (global or per player).
      */
-    protected TimeToLiveElement(MyElementSupplier<K, Long> supplier, Class<K> kClass, StartMode startMode) {
+    protected TimeToLiveElement(@NotNull MyElementSupplier<K, Long> supplier, @NotNull Class<K> kClass, @NotNull StartMode startMode) {
         super(supplier, -1, -1, false, kClass);
         this.startMode = startMode;
     }
@@ -37,7 +38,7 @@ public class TimeToLiveElement<K> extends AbstractAnimatedElement<Long, K> {
      *
      * @return the {@link StartMode} indicating how the start time is managed (global or per player).
      */
-    public StartMode getStartMode() {
+    public @NotNull StartMode getStartMode() {
         return startMode;
     }
 
@@ -65,7 +66,7 @@ public class TimeToLiveElement<K> extends AbstractAnimatedElement<Long, K> {
      * @return a cloned instance of this {@code TimeToLiveElement}.
      */
     @Override
-    public TimeToLiveElement<K> clone() {
+    public @NotNull TimeToLiveElement<K> clone() {
         return new TimeToLiveElement<>(new MyElementSupplier<>(this::getRaw), getContextClass(), getStartMode());
     }
 
@@ -76,7 +77,7 @@ public class TimeToLiveElement<K> extends AbstractAnimatedElement<Long, K> {
      * @param startMode the start mode indicating how the start time is managed.
      * @return a new {@code TimeToLiveElement} instance with the specified value and start mode.
      */
-    public static TimeToLiveElement<Void> simple(Long value, StartMode startMode) {
+    public static @NotNull TimeToLiveElement<Void> simple(@NotNull Long value, @NotNull StartMode startMode) {
         return new TimeToLiveElement<>(new MyElementSupplier<>((v) -> value), Void.class, startMode);
     }
 
@@ -88,7 +89,7 @@ public class TimeToLiveElement<K> extends AbstractAnimatedElement<Long, K> {
      * @param startMode the start mode indicating how the start time is managed.
      * @return a new {@code TimeToLiveElement} instance with the specified function and start mode.
      */
-    public static TimeToLiveElement<OfflinePlayer> simplePersonal(Function<OfflinePlayer, ? extends Long> function, StartMode startMode) {
+    public static @NotNull TimeToLiveElement<OfflinePlayer> simplePersonal(@NotNull Function<OfflinePlayer, ? extends Long> function, @NotNull StartMode startMode) {
         return new TimeToLiveElement<>(new MyElementSupplier<>(function), OfflinePlayer.class, startMode);
     }
 

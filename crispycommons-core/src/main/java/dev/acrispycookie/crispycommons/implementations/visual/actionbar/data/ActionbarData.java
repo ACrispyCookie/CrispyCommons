@@ -2,8 +2,9 @@ package dev.acrispycookie.crispycommons.implementations.visual.actionbar.data;
 
 import dev.acrispycookie.crispycommons.api.visual.abstraction.visual.VisualData;
 import dev.acrispycookie.crispycommons.implementations.element.type.TextElement;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * A data class representing the visual data needed to display an action bar.
@@ -25,7 +26,7 @@ public class ActionbarData implements VisualData {
      *
      * @param text the {@link TextElement} to be displayed in the action bar.
      */
-    public ActionbarData(TextElement<?> text) {
+    public ActionbarData(@Nullable TextElement<?> text) {
         this.text = text;
     }
 
@@ -34,7 +35,7 @@ public class ActionbarData implements VisualData {
      *
      * @return the {@link TextElement} to be displayed.
      */
-    public TextElement<?> getText() {
+    public @NotNull TextElement<?> getText() {
         return text;
     }
 
@@ -43,7 +44,7 @@ public class ActionbarData implements VisualData {
      *
      * @param text the {@link TextElement} to set.
      */
-    public void setText(TextElement<?> text) {
+    public void setText(@NotNull TextElement<?> text) {
         this.text = text;
     }
 
@@ -59,8 +60,8 @@ public class ActionbarData implements VisualData {
      * @throws VisualNotReadyException if the text element is not set or cannot be retrieved.
      */
     @Override
-    public void assertReady(Player p) {
-        if (text.getFromContext(OfflinePlayer.class, p) == null) {
+    public void assertReady(@NotNull Player p) {
+        if (text == null) {
             throw new VisualNotReadyException("The actionbar text was not set!");
         }
     }

@@ -23,17 +23,17 @@ public abstract class ItemEntity extends ClickableEntity<ItemElement<?>> impleme
      *
      * @param element the item element associated with this entity.
      */
-    public ItemEntity(@NotNull ItemElement<?> element, @NotNull Location location) {
-        super(element, location);
+    public ItemEntity(@NotNull ItemElement<?> element) {
+        super(element);
     }
 
-    public static ItemEntity newInstance(@NotNull ItemElement<?> element, @NotNull Location location) {
+    public static @NotNull ItemEntity newInstance(@NotNull ItemElement<?> element, @NotNull Location location) {
         return VersionManager.createInstance(ItemEntity.class, getRemapped(),
                 new ArgPair<>(ItemElement.class, element),
                 new ArgPair<>(Location.class, location));
     }
 
-    public static MappedVersions getRemapped() {
+    public static @NotNull MappedVersions getRemapped() {
         return new MappedVersions();
     }
 

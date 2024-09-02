@@ -30,7 +30,7 @@ public class SimpleBook extends AbstractBook implements CrispyBook {
      *
      * @param data the {@link BookData} to be associated with this book GUI.
      */
-    public SimpleBook(BookData data) {
+    public SimpleBook(@NotNull BookData data) {
         super(data);
     }
 
@@ -44,7 +44,7 @@ public class SimpleBook extends AbstractBook implements CrispyBook {
      * @param player the player for whom the book GUI will be opened.
      */
     @Override
-    protected void openInternal(Player player) {
+    protected void openInternal(@NotNull Player player) {
         Audience audience = CrispyCommons.getBukkitAudiences().player(player);
         Book book = Book.book(Component.empty(), Component.empty(), data.getPages()
                 .stream()
@@ -69,7 +69,7 @@ public class SimpleBook extends AbstractBook implements CrispyBook {
      * @param pages the array of pages to set in the book.
      */
     @Override
-    public void setPages(BookPage... pages) {
+    public void setPages(@NotNull BookPage... pages) {
         data.setPages(Arrays.asList(pages));
     }
 

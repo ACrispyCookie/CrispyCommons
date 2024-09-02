@@ -17,6 +17,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -73,7 +74,7 @@ public abstract class AbstractHologram extends AbstractVisual<HologramData> impl
      * @param updateMode the {@link UpdateMode} that defines how the hologram should be updated.
      * @param isPublic   whether the hologram should be visible to all players.
      */
-    AbstractHologram(HologramData data, Set<? extends OfflinePlayer> receivers, TimeToLiveElement<?> timeToLive, UpdateMode updateMode, boolean isPublic) {
+    AbstractHologram(@NotNull HologramData data, @NotNull Set<? extends OfflinePlayer> receivers, @NotNull TimeToLiveElement<?> timeToLive, @NotNull UpdateMode updateMode, boolean isPublic) {
         super(data, receivers, timeToLive, updateMode, isPublic);
     }
 
@@ -128,7 +129,9 @@ public abstract class AbstractHologram extends AbstractVisual<HologramData> impl
         GeneralElement<Location, ?> locationGeneralElement = getLocation();
         if (locationGeneralElement.isDynamic())
             return;
+
         Location location = locationGeneralElement.getFromContext(OfflinePlayer.class, player);
+        assert location.getWorld() != null : "Location world is null. Contact developer.";
         if (getPlayers().contains(player) && isDisplayed) {
             if (location.getWorld().equals(event.getFrom()))
                 Bukkit.getScheduler().runTaskLater(CrispyCommons.getPlugin(), () -> hideInternal(event.getPlayer()), 1L);
@@ -171,7 +174,7 @@ public abstract class AbstractHologram extends AbstractVisual<HologramData> impl
      * @param line  the {@link DynamicElement} to add as a line.
      */
     @Override
-    public void addLine(int index, DynamicElement<?, ?> line) {
+    public void addLine(int index, @NotNull DynamicElement<?, ?> line) {
         if (index > data.getLines().size()) {
             return;
         }
@@ -193,7 +196,7 @@ public abstract class AbstractHologram extends AbstractVisual<HologramData> impl
      * @param line the {@link DynamicElement} to add as a line.
      */
     @Override
-    public void addLine(DynamicElement<?, ?> line) {
+    public void addLine(@NotNull DynamicElement<?, ?> line) {
         addLine(data.getLines().size(), line);
     }
 
@@ -228,7 +231,7 @@ public abstract class AbstractHologram extends AbstractVisual<HologramData> impl
      * @param lines the collection of {@link DynamicElement} to set as the lines.
      */
     @Override
-    public void setLines(Collection<? extends DynamicElement<?, ?>> lines) {
+    public void setLines(@NotNull Collection<? extends DynamicElement<?, ?>> lines) {
         List<DynamicElement<?, ?>> lineList = new ArrayList<>(lines);
         for (int i = 0; i < lineList.size(); i++) {
             int index = i;
@@ -249,7 +252,7 @@ public abstract class AbstractHologram extends AbstractVisual<HologramData> impl
      * @param location the {@link GeneralElement} representing the new location.
      */
     @Override
-    public void setLocation(GeneralElement<Location, ?> location) {
+    public void setLocation(@NotNull GeneralElement<Location, ?> location) {
         data.getLocation().stop();
         location.setUpdate(this::updateLocation);
         location.start();
@@ -263,7 +266,7 @@ public abstract class AbstractHologram extends AbstractVisual<HologramData> impl
      * @return the {@link GeneralElement} representing the location.
      */
     @Override
-    public GeneralElement<Location, ?> getLocation() {
+    public @NotNull GeneralElement<Location, ?> getLocation() {
         return data.getLocation();
     }
 
@@ -273,7 +276,7 @@ public abstract class AbstractHologram extends AbstractVisual<HologramData> impl
      * @return a list of {@link DynamicElement} representing the lines.
      */
     @Override
-    public List<DynamicElement<?, ?>> getLines() {
+    public @NotNull List<DynamicElement<?, ?>> getLines() {
         return data.getLines();
     }
 }

@@ -1,6 +1,7 @@
 package dev.acrispycookie.crispycommons.utility.logging;
 
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -23,7 +24,7 @@ public class CrispyLogger {
      * @param level   the {@link Level} at which the message should be logged.
      * @param message the message to log.
      */
-    public static void log(JavaPlugin plugin, Level level, String message) {
+    public static void log(@NotNull JavaPlugin plugin, @NotNull Level level, @NotNull String message) {
         plugin.getLogger().log(level, message);
     }
 
@@ -38,7 +39,7 @@ public class CrispyLogger {
      * @param exception the {@link Exception} to log.
      * @param message   a custom message to log along with the exception.
      */
-    public static void printException(JavaPlugin plugin, Exception exception, String message) {
+    public static void printException(@NotNull JavaPlugin plugin, @NotNull Exception exception, @NotNull String message) {
         plugin.getLogger().log(Level.SEVERE, message);
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);

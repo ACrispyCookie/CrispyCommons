@@ -1,5 +1,7 @@
 package dev.acrispycookie.crispycommons.utility.menu;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Thrown to indicate that a menu configuration is invalid.
  * <p>
@@ -14,7 +16,7 @@ public class InvalidMenuConfiguration extends RuntimeException {
      *
      * @param message the detail message to be reported when the exception is thrown.
      */
-    public InvalidMenuConfiguration(String message) {
+    public InvalidMenuConfiguration(@NotNull String message) {
         super(message);
     }
 }

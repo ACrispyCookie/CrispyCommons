@@ -44,12 +44,15 @@ public abstract class AbstractSection implements Section {
      *
      * @param item the {@link ItemElement} to be updated.
      */
-    protected void updateItem(ItemElement<?> item) {
+    protected void updateItem(@NotNull ItemElement<?> item) {
         Set<InventoryInfo> inventories = dynamicItems.get(item);
 
         inventories.forEach((info) -> {
             info.getInventory().setItem(info.getPasteSlot(), item.getFromContext(OfflinePlayer.class, info.getPlayer()));
-            info.getPlayer().getPlayer().updateInventory();
+
+            Player player = info.getPlayer().getPlayer();
+            if (player != null)
+                player.updateInventory();
         });
     }
 
@@ -113,7 +116,7 @@ public abstract class AbstractSection implements Section {
      * @param pasteSlot    the slot in the inventory where the item will be placed.
      * @param startingIndex the index of the item in the section to render.
      */
-    protected void renderValidItem(Player player, CrispyMenu menu, Inventory toRender, int pasteSlot, int startingIndex) {
+    protected void renderValidItem(@NotNull Player player, @NotNull CrispyMenu menu, @NotNull Inventory toRender, int pasteSlot, int startingIndex) {
         MenuItem item = getItem(startingIndex);
         if (!item.canSee(menu, player)) {
             item.load(() -> renderValidItem(player, menu, toRender, pasteSlot, startingIndex));
@@ -140,7 +143,7 @@ public abstract class AbstractSection implements Section {
      * @param toRender    the inventory where the item will be rendered.
      * @param pasteSlot   the slot in the inventory where the item will be placed.
      */
-    protected void addDynamicItem(MenuItem item, Player player, Inventory toRender, int pasteSlot) {
+    protected void addDynamicItem(@NotNull MenuItem item, @NotNull Player player, @NotNull Inventory toRender, int pasteSlot) {
         boolean started = dynamicItems.containsKey(item.getDisplay());
         Set<InventoryInfo> elements = started ? dynamicItems.get(item.getDisplay()) : new HashSet<>();
         elements.add(new InventoryInfo(player, toRender, pasteSlot));
@@ -186,7 +189,7 @@ public abstract class AbstractSection implements Section {
          * @param inventory the inventory where the dynamic item is displayed.
          * @param pasteSlot the slot in the inventory where the dynamic item is displayed.
          */
-        public InventoryInfo(OfflinePlayer player, Inventory inventory, int pasteSlot) {
+        public InventoryInfo(@NotNull OfflinePlayer player, @NotNull Inventory inventory, int pasteSlot) {
             this.player = player;
             this.inventory = inventory;
             this.pasteSlot = pasteSlot;
@@ -197,7 +200,7 @@ public abstract class AbstractSection implements Section {
          *
          * @return the {@link OfflinePlayer} associated with this info.
          */
-        public OfflinePlayer getPlayer() {
+        public @NotNull OfflinePlayer getPlayer() {
             return player;
         }
 
@@ -206,7 +209,7 @@ public abstract class AbstractSection implements Section {
          *
          * @return the {@link Inventory} where the item is displayed.
          */
-        public Inventory getInventory() {
+        public @NotNull Inventory getInventory() {
             return inventory;
         }
 

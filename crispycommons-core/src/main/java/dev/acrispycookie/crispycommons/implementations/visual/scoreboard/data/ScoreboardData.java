@@ -2,8 +2,9 @@ package dev.acrispycookie.crispycommons.implementations.visual.scoreboard.data;
 
 import dev.acrispycookie.crispycommons.api.visual.abstraction.visual.VisualData;
 import dev.acrispycookie.crispycommons.implementations.element.type.TextElement;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -35,7 +36,7 @@ public class ScoreboardData implements VisualData {
      * @param title the {@link TextElement} to be displayed as the scoreboard title.
      * @param lines the collection of {@link TextElement} objects representing the lines on the scoreboard.
      */
-    public ScoreboardData(TextElement<?> title, Collection<? extends TextElement<?>> lines) {
+    public ScoreboardData(@Nullable TextElement<?> title, @NotNull Collection<? extends TextElement<?>> lines) {
         this.title = title;
         this.lines = new ArrayList<>(lines);
     }
@@ -45,7 +46,7 @@ public class ScoreboardData implements VisualData {
      *
      * @return the {@link TextElement} representing the scoreboard title.
      */
-    public TextElement<?> getTitle() {
+    public @NotNull TextElement<?> getTitle() {
         return title;
     }
 
@@ -54,7 +55,7 @@ public class ScoreboardData implements VisualData {
      *
      * @param title the {@link TextElement} to set as the scoreboard title.
      */
-    public void setTitle(TextElement<?> title) {
+    public void setTitle(@NotNull TextElement<?> title) {
         this.title = title;
     }
 
@@ -63,7 +64,7 @@ public class ScoreboardData implements VisualData {
      *
      * @return the list of {@link TextElement} objects representing the scoreboard lines.
      */
-    public List<TextElement<?>> getLines() {
+    public @NotNull List<TextElement<?>> getLines() {
         return lines;
     }
 
@@ -72,7 +73,7 @@ public class ScoreboardData implements VisualData {
      *
      * @param line the {@link TextElement} to be added.
      */
-    public void addLine(TextElement<?> line) {
+    public void addLine(@NotNull TextElement<?> line) {
         this.lines.add(line);
     }
 
@@ -82,7 +83,7 @@ public class ScoreboardData implements VisualData {
      * @param index the index at which to add the line.
      * @param line  the {@link TextElement} to be added.
      */
-    public void addLine(int index, TextElement<?> line) {
+    public void addLine(int index, @NotNull TextElement<?> line) {
         this.lines.add(index, line);
     }
 
@@ -100,7 +101,7 @@ public class ScoreboardData implements VisualData {
      *
      * @param lines the list of {@link TextElement} objects representing the new scoreboard lines.
      */
-    public void setLines(List<TextElement<?>> lines) {
+    public void setLines(@NotNull List<TextElement<?>> lines) {
         this.lines = lines;
     }
 
@@ -115,8 +116,8 @@ public class ScoreboardData implements VisualData {
      * @throws VisualNotReadyException if the title or lines are not set or cannot be retrieved.
      */
     @Override
-    public void assertReady(Player player) {
-        if (title.getFromContext(OfflinePlayer.class, player) == null) {
+    public void assertReady(@NotNull Player player) {
+        if (title == null) {
             throw new VisualNotReadyException("The scoreboard title was not set!");
         }
         if (lines.isEmpty()) {

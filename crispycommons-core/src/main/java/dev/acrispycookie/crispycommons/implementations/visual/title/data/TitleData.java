@@ -4,8 +4,9 @@ import dev.acrispycookie.crispycommons.api.visual.abstraction.visual.VisualData;
 import dev.acrispycookie.crispycommons.api.element.CrispyElement;
 import dev.acrispycookie.crispycommons.implementations.element.type.GeneralElement;
 import dev.acrispycookie.crispycommons.implementations.element.type.TextElement;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * A data class representing the visual data needed to display a title with a subtitle and fade effects.
@@ -49,7 +50,7 @@ public class TitleData implements VisualData {
      * @param fadeIn the {@link GeneralElement} representing the fade-in time.
      * @param fadeOut the {@link GeneralElement} representing the fade-out time.
      */
-    public TitleData(TextElement<?> title, TextElement<?> subtitle, GeneralElement<Integer, ?> fadeIn, GeneralElement<Integer, ?> fadeOut) {
+    public TitleData(@Nullable TextElement<?> title, @Nullable TextElement<?> subtitle, @Nullable GeneralElement<Integer, ?> fadeIn, @Nullable GeneralElement<Integer, ?> fadeOut) {
         this.title = title;
         this.subtitle = subtitle;
         this.fadeIn = fadeIn;
@@ -61,7 +62,7 @@ public class TitleData implements VisualData {
      *
      * @return the {@link TextElement} representing the title.
      */
-    public TextElement<?> getTitle() {
+    public @NotNull TextElement<?> getTitle() {
         return title;
     }
 
@@ -70,7 +71,7 @@ public class TitleData implements VisualData {
      *
      * @return the {@link TextElement} representing the subtitle.
      */
-    public TextElement<?> getSubtitle() {
+    public @NotNull TextElement<?> getSubtitle() {
         return subtitle;
     }
 
@@ -79,7 +80,7 @@ public class TitleData implements VisualData {
      *
      * @return the {@link GeneralElement} representing the fade-in time.
      */
-    public GeneralElement<Integer, ?> getFadeIn() {
+    public @NotNull GeneralElement<Integer, ?> getFadeIn() {
         return fadeIn;
     }
 
@@ -88,7 +89,7 @@ public class TitleData implements VisualData {
      *
      * @return the {@link GeneralElement} representing the fade-out time.
      */
-    public GeneralElement<Integer, ?> getFadeOut() {
+    public @NotNull GeneralElement<Integer, ?> getFadeOut() {
         return fadeOut;
     }
 
@@ -97,7 +98,7 @@ public class TitleData implements VisualData {
      *
      * @param title the {@link TextElement} to set as the title.
      */
-    public void setTitle(TextElement<?> title) {
+    public void setTitle(@NotNull TextElement<?> title) {
         this.title = title;
         this.smallestPeriod = CrispyElement.getMinimumPeriod(title, subtitle);
     }
@@ -107,7 +108,7 @@ public class TitleData implements VisualData {
      *
      * @param subtitle the {@link TextElement} to set as the subtitle.
      */
-    public void setSubtitle(TextElement<?> subtitle) {
+    public void setSubtitle(@NotNull TextElement<?> subtitle) {
         this.subtitle = subtitle;
         this.smallestPeriod = CrispyElement.getMinimumPeriod(title, subtitle);
     }
@@ -117,7 +118,7 @@ public class TitleData implements VisualData {
      *
      * @param fadeIn the {@link GeneralElement} to set as the fade-in time.
      */
-    public void setFadeIn(GeneralElement<Integer, ?> fadeIn) {
+    public void setFadeIn(@NotNull GeneralElement<Integer, ?> fadeIn) {
         this.fadeIn = fadeIn;
     }
 
@@ -126,7 +127,7 @@ public class TitleData implements VisualData {
      *
      * @param fadeOut the {@link GeneralElement} to set as the fade-out time.
      */
-    public void setFadeOut(GeneralElement<Integer, ?> fadeOut) {
+    public void setFadeOut(@NotNull GeneralElement<Integer, ?> fadeOut) {
         this.fadeOut = fadeOut;
     }
 
@@ -151,18 +152,18 @@ public class TitleData implements VisualData {
      * @throws VisualNotReadyException if any required data is not set or improperly configured.
      */
     @Override
-    public void assertReady(Player player) {
-        if (title.getFromContext(OfflinePlayer.class, player) == null) {
+    public void assertReady(@NotNull Player player) {
+        if (title == null) {
             throw new VisualNotReadyException("The title was not set!");
         }
-        if (subtitle.getFromContext(OfflinePlayer.class, player) == null) {
+        if (subtitle == null) {
             throw new VisualNotReadyException("The subtitle was not set!");
         }
-        if (fadeIn.isDynamic()) {
-            throw new VisualNotReadyException("The fade-in cannot be dynamic!");
+        if (fadeIn == null || fadeIn.isDynamic()) {
+            throw new VisualNotReadyException("The fade-in was not set or is dynamic!");
         }
-        if (fadeOut.isDynamic()) {
-            throw new VisualNotReadyException("The fade-out cannot be dynamic!");
+        if (fadeOut == null || fadeOut.isDynamic()) {
+            throw new VisualNotReadyException("The fade-out was not set or is dynamic!");
         }
         this.smallestPeriod = CrispyElement.getMinimumPeriod(title, subtitle);
     }

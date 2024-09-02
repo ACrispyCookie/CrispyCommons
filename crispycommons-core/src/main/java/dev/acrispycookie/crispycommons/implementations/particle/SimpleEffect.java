@@ -2,6 +2,7 @@ package dev.acrispycookie.crispycommons.implementations.particle;
 
 import dev.acrispycookie.crispycommons.utility.visual.XParticle;
 import org.bukkit.Effect;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Represents a simple implementation of an {@link Effect}, combining an effect and associated data.
@@ -36,7 +37,7 @@ public class SimpleEffect extends AbstractEffect {
      * @param effect the effect to be wrapped by this class.
      * @param data the data value associated with the effect.
      */
-    public SimpleEffect(XParticle effect, int data) {
+    public SimpleEffect(@NotNull XParticle effect, int data) {
         this.effect = effect;
         this.data = data;
     }
@@ -47,7 +48,7 @@ public class SimpleEffect extends AbstractEffect {
      * @param effect the effect to set.
      * @return this {@code SimpleEffect} instance, for method chaining.
      */
-    public SimpleEffect effect(XParticle effect) {
+    public @NotNull SimpleEffect effect(@NotNull XParticle effect) {
         this.effect = effect;
         return this;
     }
@@ -58,7 +59,7 @@ public class SimpleEffect extends AbstractEffect {
      * @param data the data value to set.
      * @return this {@code SimpleEffect} instance, for method chaining.
      */
-    public SimpleEffect data(int data) {
+    public @NotNull SimpleEffect data(int data) {
         this.data = data;
         return this;
     }
@@ -68,7 +69,7 @@ public class SimpleEffect extends AbstractEffect {
      *
      * @return the wrapped effect.
      */
-    public XParticle getEffect() {
+    public @NotNull XParticle getEffect() {
         return effect;
     }
 

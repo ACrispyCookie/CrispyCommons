@@ -15,6 +15,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
 
@@ -37,7 +38,7 @@ public abstract class AbstractBossBar extends AbstractVisual<BossBarData> implem
      * @param timeToLive the time-to-live (TTL) element controlling the lifespan of the boss bar.
      * @param isPublic   whether the boss bar should be visible to all players.
      */
-    AbstractBossBar(BossBarData data, Set<? extends OfflinePlayer> receivers, TimeToLiveElement<?> timeToLive, boolean isPublic) {
+    AbstractBossBar(@NotNull BossBarData data, @NotNull Set<? extends OfflinePlayer> receivers, @NotNull TimeToLiveElement<?> timeToLive, boolean isPublic) {
         super(data, receivers, timeToLive, UpdateMode.PER_PLAYER, isPublic);
     }
 
@@ -111,7 +112,7 @@ public abstract class AbstractBossBar extends AbstractVisual<BossBarData> implem
      * @param text the new {@link TextElement} to set as the boss bar text.
      */
     @Override
-    public void setText(TextElement<?> text) {
+    public void setText(@NotNull TextElement<?> text) {
         data.getText().stop();
         data.setText(text);
         data.getText().setUpdate(this::updateText);
@@ -131,7 +132,7 @@ public abstract class AbstractBossBar extends AbstractVisual<BossBarData> implem
      * @param progress the new {@link GeneralElement} to set as the boss bar progress.
      */
     @Override
-    public void setProgress(GeneralElement<Float, ?> progress) {
+    public void setProgress(@NotNull GeneralElement<Float, ?> progress) {
         data.getProgress().stop();
         data.setProgress(progress);
         data.getProgress().setUpdate(this::updateProgress);
@@ -151,7 +152,7 @@ public abstract class AbstractBossBar extends AbstractVisual<BossBarData> implem
      * @param color the new {@link GeneralElement} to set as the boss bar color.
      */
     @Override
-    public void setColor(GeneralElement<BossBar.Color, ?> color) {
+    public void setColor(@NotNull GeneralElement<BossBar.Color, ?> color) {
         data.getColor().stop();
         data.setColor(color);
         data.getColor().setUpdate(this::updateColor);
@@ -171,7 +172,7 @@ public abstract class AbstractBossBar extends AbstractVisual<BossBarData> implem
      * @param overlay the new {@link GeneralElement} to set as the boss bar overlay.
      */
     @Override
-    public void setOverlay(GeneralElement<BossBar.Overlay, ?> overlay) {
+    public void setOverlay(@NotNull GeneralElement<BossBar.Overlay, ?> overlay) {
         data.getOverlay().stop();
         data.setOverlay(overlay);
         data.getOverlay().setUpdate(this::updateOverlay);
@@ -187,7 +188,7 @@ public abstract class AbstractBossBar extends AbstractVisual<BossBarData> implem
      * @return the {@link TextElement} that represents the boss bar's text.
      */
     @Override
-    public TextElement<?> getText() {
+    public @NotNull TextElement<?> getText() {
         return data.getText();
     }
 
@@ -197,7 +198,7 @@ public abstract class AbstractBossBar extends AbstractVisual<BossBarData> implem
      * @return the {@link GeneralElement} that represents the boss bar's progress.
      */
     @Override
-    public GeneralElement<Float, ?> getProgress() {
+    public @NotNull GeneralElement<Float, ?> getProgress() {
         return data.getProgress();
     }
 
@@ -207,7 +208,7 @@ public abstract class AbstractBossBar extends AbstractVisual<BossBarData> implem
      * @return the {@link GeneralElement} that represents the boss bar's color.
      */
     @Override
-    public GeneralElement<BossBar.Color, ?> getColor() {
+    public @NotNull GeneralElement<BossBar.Color, ?> getColor() {
         return data.getColor();
     }
 
@@ -217,7 +218,7 @@ public abstract class AbstractBossBar extends AbstractVisual<BossBarData> implem
      * @return the {@link GeneralElement} that represents the boss bar's overlay.
      */
     @Override
-    public GeneralElement<BossBar.Overlay, ?> getOverlay() {
+    public @NotNull GeneralElement<BossBar.Overlay, ?> getOverlay() {
         return data.getOverlay();
     }
 }

@@ -1,6 +1,7 @@
 package dev.acrispycookie.crispycommons.api.gui.abstraction.builder;
 
 import dev.acrispycookie.crispycommons.api.gui.abstraction.CrispyGui;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Helper interface for building instances of {@link CrispyGui}.
@@ -14,5 +15,5 @@ public interface GuiBuilder<T extends CrispyGui> {
      *
      * @return a fully constructed {@link CrispyGui} instance.
      */
-    T build();
+    @Nullable T build();
 }

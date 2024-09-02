@@ -5,6 +5,7 @@ import dev.acrispycookie.crispycommons.implementations.visual.abstraction.builde
 import dev.acrispycookie.crispycommons.implementations.visual.scoreboard.SimpleScoreboard;
 import dev.acrispycookie.crispycommons.implementations.visual.scoreboard.data.ScoreboardData;
 import dev.acrispycookie.crispycommons.implementations.element.type.TextElement;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,7 +26,7 @@ public interface CrispyScoreboard extends CrispyVisual {
      *
      * @return a new {@link ScoreboardBuilder} instance.
      */
-    static ScoreboardBuilder builder() {
+    static @NotNull ScoreboardBuilder builder() {
         return new ScoreboardBuilder();
     }
 
@@ -34,14 +35,14 @@ public interface CrispyScoreboard extends CrispyVisual {
      *
      * @param title the {@link TextElement} representing the title of the scoreboard.
      */
-    void setTitle(TextElement<?> title);
+    void setTitle(@NotNull TextElement<?> title);
 
     /**
      * Adds a line of text to the scoreboard.
      *
      * @param line the {@link TextElement} representing the line of text to add.
      */
-    void addLine(TextElement<?> line);
+    void addLine(@NotNull TextElement<?> line);
 
     /**
      * Adds a line of text to the scoreboard at the specified index.
@@ -49,7 +50,7 @@ public interface CrispyScoreboard extends CrispyVisual {
      * @param index the index at which to add the line.
      * @param line the {@link TextElement} representing the line of text to add.
      */
-    void addLine(int index, TextElement<?> line);
+    void addLine(int index, @NotNull TextElement<?> line);
 
     /**
      * Removes the line of text at the specified index from the scoreboard.
@@ -63,21 +64,21 @@ public interface CrispyScoreboard extends CrispyVisual {
      *
      * @param lines a collection of {@link TextElement} instances representing the lines of the scoreboard.
      */
-    void setLines(Collection<? extends TextElement<?>> lines);
+    void setLines(@NotNull Collection<? extends TextElement<?>> lines);
 
     /**
      * Retrieves the title of the scoreboard.
      *
      * @return the {@link TextElement} representing the title of the scoreboard.
      */
-    TextElement<?> getTitle();
+    @NotNull TextElement<?> getTitle();
 
     /**
      * Retrieves the lines of text in the scoreboard.
      *
      * @return a {@link List} of {@link TextElement} instances representing the lines of the scoreboard.
      */
-    List<TextElement<?>> getLines();
+    @NotNull List<TextElement<?>> getLines();
 
     /**
      * Updates the title of the scoreboard.
@@ -104,7 +105,7 @@ public interface CrispyScoreboard extends CrispyVisual {
          * @param title the {@link TextElement} representing the title.
          * @return this {@link ScoreboardBuilder} instance for method chaining.
          */
-        public ScoreboardBuilder setTitle(TextElement<?> title) {
+        public @NotNull ScoreboardBuilder setTitle(@NotNull TextElement<?> title) {
             this.data.setTitle(title);
             title.setUpdate(() -> toBuild.updateTitle());
             return this;
@@ -116,7 +117,7 @@ public interface CrispyScoreboard extends CrispyVisual {
          * @param text the {@link TextElement} representing the line of text.
          * @return this {@link ScoreboardBuilder} instance for method chaining.
          */
-        public ScoreboardBuilder addTextLine(TextElement<?> text) {
+        public @NotNull ScoreboardBuilder addTextLine(@NotNull TextElement<?> text) {
             this.data.addLine(text);
             int index = this.data.getLines().size() - 1;
             text.setUpdate(() -> toBuild.updateLine(index));
@@ -128,7 +129,7 @@ public interface CrispyScoreboard extends CrispyVisual {
          *
          * @return the constructed {@link CrispyScoreboard}.
          */
-        public CrispyScoreboard build() {
+        public @NotNull CrispyScoreboard build() {
             toBuild = SimpleScoreboard.newInstance(data, receivers, timeToLive, isPublic);
             return toBuild;
         }

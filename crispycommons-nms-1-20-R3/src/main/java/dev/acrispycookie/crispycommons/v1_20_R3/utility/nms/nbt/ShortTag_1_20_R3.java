@@ -2,6 +2,7 @@ package dev.acrispycookie.crispycommons.v1_20_R3.utility.nms.nbt;
 
 import dev.acrispycookie.crispycommons.utility.nms.nbt.ShortTag;
 import net.minecraft.nbt.NBTTagShort;
+import org.jetbrains.annotations.NotNull;
 
 public class ShortTag_1_20_R3 extends BaseTag_1_20_R3 implements ShortTag {
 
@@ -11,7 +12,7 @@ public class ShortTag_1_20_R3 extends BaseTag_1_20_R3 implements ShortTag {
         this.tag = NBTTagShort.a(value);
     }
 
-    public NBTTagShort getInternal() {
+    public @NotNull NBTTagShort getInternal() {
         return tag;
     }
 

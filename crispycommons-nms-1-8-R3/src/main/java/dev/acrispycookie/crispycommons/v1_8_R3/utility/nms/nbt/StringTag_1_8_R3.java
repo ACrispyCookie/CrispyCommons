@@ -2,6 +2,7 @@ package dev.acrispycookie.crispycommons.v1_8_R3.utility.nms.nbt;
 
 import dev.acrispycookie.crispycommons.utility.nms.nbt.StringTag;
 import net.minecraft.server.v1_8_R3.NBTTagString;
+import org.jetbrains.annotations.NotNull;
 
 public class StringTag_1_8_R3 extends BaseTag_1_8_R3 implements StringTag {
 
@@ -11,12 +12,12 @@ public class StringTag_1_8_R3 extends BaseTag_1_8_R3 implements StringTag {
         this.tag = new NBTTagString(value);
     }
 
-    public NBTTagString getInternal() {
+    public @NotNull NBTTagString getInternal() {
         return tag;
     }
 
     @Override
-    public String getString() {
+    public @NotNull String getString() {
         return tag.a_();
     }
 }

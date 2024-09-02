@@ -8,32 +8,33 @@ import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 public class VersionItem_1_8_R3 extends VersionEntity_1_8_R3 implements VersionItem {
 
     private final EntityItem item;
 
-    public VersionItem_1_8_R3(Location location) {
+    public VersionItem_1_8_R3(@NotNull Location location) {
         item = new EntityItem(((CraftWorld) location.getWorld()).getHandle(), location.getX(), location.getY(), location.getZ());
     }
 
-    public void spawn(Player player) {
+    public void spawn(@NotNull Player player) {
         PacketPlayOutSpawnEntity spawn = new PacketPlayOutSpawnEntity(item, 2, 1);
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket(spawn);
     }
 
-    public void destroy(Player player) {
+    public void destroy(@NotNull Player player) {
         setDead(true);
         PacketPlayOutEntityDestroy spawn = new PacketPlayOutEntityDestroy(item.getId());
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket(spawn);
     }
 
-    public void updateLocation(Player player) {
+    public void updateLocation(@NotNull Player player) {
         PacketPlayOutEntityTeleport teleport = new PacketPlayOutEntityTeleport(item);
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket(teleport);
     }
 
-    public void updateMeta(Player player) {
+    public void updateMeta(@NotNull Player player) {
         PacketPlayOutEntityMetadata metadata = new PacketPlayOutEntityMetadata(item.getId(), item.getDataWatcher(), true);
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket(metadata);
     }
@@ -47,7 +48,7 @@ public class VersionItem_1_8_R3 extends VersionEntity_1_8_R3 implements VersionI
         item.a(delay);
     }
 
-    public void setItemStack(ItemStack itemStack) {
+    public void setItemStack(@NotNull ItemStack itemStack) {
         item.setItemStack(CraftItemStack.asNMSCopy(itemStack));
     }
 
@@ -56,7 +57,7 @@ public class VersionItem_1_8_R3 extends VersionEntity_1_8_R3 implements VersionI
     }
 
     @Override
-    public void setLocation(Location location) {
+    public void setLocation(@NotNull Location location) {
         World newWorld = ((CraftWorld) location.getWorld()).getHandle();
         if (!item.getWorld().equals(newWorld)) {
             item.spawnIn(newWorld);
@@ -65,7 +66,7 @@ public class VersionItem_1_8_R3 extends VersionEntity_1_8_R3 implements VersionI
     }
 
     @Override
-    public Location getLocation() {
+    public @NotNull Location getLocation() {
         return item.getBukkitEntity().getLocation();
     }
 
@@ -75,7 +76,7 @@ public class VersionItem_1_8_R3 extends VersionEntity_1_8_R3 implements VersionI
     }
 
     @Override
-    public Entity getInternalEntity() {
+    public @NotNull Entity getInternalEntity() {
         return item;
     }
 }

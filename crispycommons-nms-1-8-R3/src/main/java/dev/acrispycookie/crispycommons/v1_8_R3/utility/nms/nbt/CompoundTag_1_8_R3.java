@@ -3,6 +3,8 @@ package dev.acrispycookie.crispycommons.v1_8_R3.utility.nms.nbt;
 import dev.acrispycookie.crispycommons.utility.nms.nbt.BaseTag;
 import dev.acrispycookie.crispycommons.utility.nms.nbt.CompoundTag;
 import net.minecraft.server.v1_8_R3.NBTTagCompound;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class CompoundTag_1_8_R3 extends BaseTag_1_8_R3 implements CompoundTag {
 
@@ -13,125 +15,125 @@ public class CompoundTag_1_8_R3 extends BaseTag_1_8_R3 implements CompoundTag {
         setBase(wrapped);
     }
 
-    public CompoundTag_1_8_R3(NBTTagCompound tag) {
+    public CompoundTag_1_8_R3(@NotNull NBTTagCompound tag) {
         wrapped = tag;
         setBase(wrapped);
     }
 
                                  @Override
-    public void set(String key, BaseTag value) {
+    public void set(@NotNull String key, @NotNull BaseTag value) {
         wrapped.set(key, ((BaseTag_1_8_R3) value).getInternal());
     }
 
     @Override
-    public void setByte(String key, byte value) {
+    public void setByte(@NotNull String key, byte value) {
         wrapped.setByte(key, value);
     }
 
     @Override
-    public void setShort(String key, short value) {
+    public void setShort(@NotNull String key, short value) {
         wrapped.setShort(key, value);
     }
 
     @Override
-    public void setInt(String key, int value) {
+    public void setInt(@NotNull String key, int value) {
         wrapped.setInt(key, value);
     }
 
     @Override
-    public void setLong(String key, long value) {
+    public void setLong(@NotNull String key, long value) {
         wrapped.setLong(key, value);
     }
 
     @Override
-    public void setFloat(String key, float value) {
+    public void setFloat(@NotNull String key, float value) {
         wrapped.setFloat(key, value);
     }
 
     @Override
-    public void setDouble(String key, double value) {
+    public void setDouble(@NotNull String key, double value) {
         wrapped.setDouble(key, value);
     }
 
     @Override
-    public void setString(String key, String value) {
+    public void setString(@NotNull String key, @NotNull String value) {
         wrapped.setString(key, value);
     }
 
     @Override
-    public void setByteArray(String key, byte[] value) {
+    public void setByteArray(@NotNull String key, byte[] value) {
         wrapped.setByteArray(key, value);
     }
 
     @Override
-    public void setIntArray(String key, int[] value) {
+    public void setIntArray(@NotNull String key, int[] value) {
         wrapped.setIntArray(key, value);
     }
 
     @Override
-    public void setBoolean(String key, boolean value) {
+    public void setBoolean(@NotNull String key, boolean value) {
         wrapped.setBoolean(key, value);
     }
 
     @Override
-    public byte getByte(String key) {
+    public byte getByte(@NotNull String key) {
         return wrapped.getByte(key);
     }
 
     @Override
-    public short getShort(String key) {
+    public short getShort(@NotNull String key) {
         return wrapped.getShort(key);
     }
 
     @Override
-    public int getInt(String key) {
+    public int getInt(@NotNull String key) {
         return wrapped.getInt(key);
     }
 
     @Override
-    public long getLong(String key) {
+    public long getLong(@NotNull String key) {
         return wrapped.getLong(key);
     }
 
     @Override
-    public float getFloat(String key) {
+    public float getFloat(@NotNull String key) {
         return wrapped.getFloat(key);
     }
 
     @Override
-    public double getDouble(String key) {
+    public double getDouble(@NotNull String key) {
         return wrapped.getDouble(key);
     }
 
     @Override
-    public String getString(String key) {
+    public @Nullable String getString(@NotNull String key) {
         return wrapped.getString(key);
     }
 
     @Override
-    public byte[] getByteArray(String key) {
+    public byte[] getByteArray(@NotNull String key) {
         return wrapped.getByteArray(key);
     }
 
     @Override
-    public int[] getIntArray(String key) {
+    public int[] getIntArray(@NotNull String key) {
         return wrapped.getIntArray(key);
     }
 
     @Override
-    public boolean getBoolean(String key) {
+    public boolean getBoolean(@NotNull String key) {
         return wrapped.getBoolean(key);
     }
 
     @Override
-    public BaseTag get(String key) {
+    public @NotNull BaseTag get(@NotNull String key) {
         BaseTag_1_8_R3 base = new BaseTag_1_8_R3();
         base.setBase(wrapped.get(key));
         return base;
     }
 
     @Override
-    public boolean hasKey(String key) {
+    public boolean hasKey(@NotNull String key) {
         return wrapped.hasKey(key);
     }
 }

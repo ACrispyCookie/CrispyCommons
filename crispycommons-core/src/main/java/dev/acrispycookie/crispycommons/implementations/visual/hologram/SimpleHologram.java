@@ -2,7 +2,6 @@ package dev.acrispycookie.crispycommons.implementations.visual.hologram;
 
 import dev.acrispycookie.crispycommons.api.element.DynamicElement;
 import dev.acrispycookie.crispycommons.api.entity.Entity;
-import dev.acrispycookie.crispycommons.implementations.entity.TextEntity;
 import dev.acrispycookie.crispycommons.implementations.visual.hologram.data.HologramData;
 import dev.acrispycookie.crispycommons.implementations.element.type.TimeToLiveElement;
 import org.bukkit.Bukkit;
@@ -10,6 +9,7 @@ import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -40,7 +40,7 @@ public class SimpleHologram extends AbstractHologram {
      * @param timeToLive the time-to-live (TTL) element controlling the lifespan of the hologram.
      * @param isPublic   whether the hologram should be visible to all players.
      */
-    public SimpleHologram(HologramData data, Collection<? extends OfflinePlayer> receivers, TimeToLiveElement<?> timeToLive, boolean isPublic) {
+    public SimpleHologram(@NotNull HologramData data, @NotNull Collection<? extends OfflinePlayer> receivers, @NotNull TimeToLiveElement<?> timeToLive, boolean isPublic) {
         super(data, new HashSet<>(receivers), timeToLive, UpdateMode.GLOBAL, isPublic);
     }
 
@@ -53,7 +53,7 @@ public class SimpleHologram extends AbstractHologram {
      * @param player the player to whom the hologram will be shown.
      */
     @Override
-    protected void show(Player player) {
+    protected void show(@NotNull Player player) {
         List<EntityInfo> entities = constructHologram(data.getLines(), player);
         entities.stream().map(EntityInfo::getEntity).forEach((entity) -> entity.spawn(player));
         this.entities.put(player.getUniqueId(), entities);
@@ -65,11 +65,11 @@ public class SimpleHologram extends AbstractHologram {
      * Destroys the hologram entities for the player.
      * </p>
      *
-     * @param p the player from whom the hologram will be hidden.
+     * @param player the player from whom the hologram will be hidden.
      */
     @Override
-    protected void hide(Player p) {
-        entities.get(p.getUniqueId()).forEach((info) -> info.getEntity().destroy(p));
+    protected void hide(@NotNull Player player) {
+        entities.get(player.getUniqueId()).forEach((info) -> info.getEntity().destroy(player));
     }
 
     /**
@@ -78,10 +78,10 @@ public class SimpleHologram extends AbstractHologram {
      * This method updates the positions of the hologram entities for the player.
      * </p>
      *
-     * @param p the player for whom the hologram will be updated.
+     * @param player the player for whom the hologram will be updated.
      */
     @Override
-    protected void perPlayerUpdate(Player p) {
+    protected void perPlayerUpdate(@NotNull Player player) {
         // No per player action needed.
     }
 
@@ -149,7 +149,7 @@ public class SimpleHologram extends AbstractHologram {
                 toRemove.getEntity().destroy(player);
             }
 
-            if (index != infos.size())
+            if (player != null && index != infos.size())
                 offsetLines(index, -toRemove.getEntity().offsetPerLine(), 0, infos, player);
 
         }
@@ -175,6 +175,7 @@ public class SimpleHologram extends AbstractHologram {
         Set<Player> viewers = getCurrentlyViewing();
         for (Player player : viewers) {
             Location location = data.getLocation().getFromContext(OfflinePlayer.class, player);
+            assert location.getWorld() != null : "World is null. Contact developer.";
             if (!updateWorld(location.getWorld(), player))
                 continue;
             for (int i = 0; i < data.getLines().size(); i++) {
@@ -197,7 +198,7 @@ public class SimpleHologram extends AbstractHologram {
         }
     }
 
-    private boolean updateWorld(World newWorld, Player player) {
+    private boolean updateWorld(@NotNull World newWorld, @NotNull Player player) {
         if (!data.getLocation().isDynamic()) {
             if (newWorld.equals(player.getWorld()))
                 return true;
@@ -212,6 +213,7 @@ public class SimpleHologram extends AbstractHologram {
         }
 
         World previousWorld = entities.get(player.getUniqueId()).iterator().next().getEntity().getLocation().getWorld();
+        assert previousWorld != null : "World is null. Contact developer.";
         if (cannotView.contains(player.getUniqueId()) || !previousWorld.equals(newWorld)) {
             show(player);
             cannotView.remove(player.getUniqueId());
@@ -229,7 +231,7 @@ public class SimpleHologram extends AbstractHologram {
      * @param infos the entities to offset
      * @param player the player to render the new locations
      */
-    private void offsetLines(int index, double offsetAmount, int indexOffset, List<EntityInfo> infos, Player player) {
+    private void offsetLines(int index, double offsetAmount, int indexOffset, @NotNull List<EntityInfo> infos, @NotNull Player player) {
         for (int i = index; i < infos.size(); i++) {
             EntityInfo info = infos.get(i);
             Entity entity = info.getEntity();
@@ -239,7 +241,7 @@ public class SimpleHologram extends AbstractHologram {
             int newIndex = i + indexOffset;
             entity.getElement().setUpdate(() -> updateLine(newIndex));
 
-            if (player != null && isWatching(player)) {
+            if (isWatching(player)) {
                 entity.updateLocation(player);
             }
         }
@@ -252,7 +254,7 @@ public class SimpleHologram extends AbstractHologram {
      * @param player   the player viewing the hologram.
      * @return a list of {@link EntityInfo} representing the constructed entities.
      */
-    private List<EntityInfo> constructHologram(List<DynamicElement<?, ?>> elements, Player player) {
+    private @NotNull List<EntityInfo> constructHologram(@NotNull List<DynamicElement<?, ?>> elements, @NotNull Player player) {
         List<EntityInfo> entities = new ArrayList<>();
         Location location = data.getLocation().getFromContext(OfflinePlayer.class, player).clone();
         double offset = 0;
@@ -279,7 +281,7 @@ public class SimpleHologram extends AbstractHologram {
          * @param locationOffset the location offset of the entity within the hologram.
          * @param entity the {@link Entity} representing the hologram line.
          */
-        public EntityInfo(double locationOffset, Entity entity) {
+        public EntityInfo(double locationOffset, @NotNull Entity entity) {
             this.locationOffset = locationOffset;
             this.entity = entity;
         }
@@ -289,7 +291,7 @@ public class SimpleHologram extends AbstractHologram {
          *
          * @return the {@link Entity}.
          */
-        public Entity getEntity() {
+        public @NotNull Entity getEntity() {
             return entity;
         }
 

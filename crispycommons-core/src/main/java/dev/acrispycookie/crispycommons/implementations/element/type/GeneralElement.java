@@ -3,6 +3,7 @@ package dev.acrispycookie.crispycommons.implementations.element.type;
 import dev.acrispycookie.crispycommons.implementations.element.AbstractAnimatedElement;
 import dev.acrispycookie.crispycommons.utility.element.MyElementSupplier;
 import org.bukkit.OfflinePlayer;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 import java.util.function.Function;
@@ -30,7 +31,7 @@ public class GeneralElement<T, K> extends AbstractAnimatedElement<T, K> {
      * @param async whether updates should run asynchronously.
      * @param kClass the class type of the context.
      */
-    protected GeneralElement(Function<K, Collection<? extends T>> supplier, int startingFrame, int delay, int period, boolean async, Class<K> kClass) {
+    protected GeneralElement(@NotNull Function<K, Collection<? extends T>> supplier, int startingFrame, int delay, int period, boolean async, @NotNull Class<K> kClass) {
         super(supplier, startingFrame, delay, period, async, kClass);
     }
 
@@ -43,7 +44,7 @@ public class GeneralElement<T, K> extends AbstractAnimatedElement<T, K> {
      * @param async whether updates should run asynchronously.
      * @param kClass the class type of the context.
      */
-    protected GeneralElement(MyElementSupplier<K, T> supplier, int delay, int period, boolean async, Class<K> kClass) {
+    protected GeneralElement(@NotNull MyElementSupplier<K, T> supplier, int delay, int period, boolean async, @NotNull Class<K> kClass) {
         super(supplier, delay, period, async, kClass);
     }
 
@@ -53,7 +54,7 @@ public class GeneralElement<T, K> extends AbstractAnimatedElement<T, K> {
      * @return a new {@code GeneralElement} instance with the same properties as this one.
      */
     @Override
-    public GeneralElement<T, K> clone() {
+    public @NotNull GeneralElement<T, K> clone() {
         if (isDynamic())
             return new GeneralElement<>(new MyElementSupplier<>(this::getRaw), getDelay(), getPeriod(), isAsync(), getContextClass());
         return new GeneralElement<>(new MyElementSupplier<>(this::getRaw), -1, -1, isAsync(), getContextClass());
@@ -66,7 +67,7 @@ public class GeneralElement<T, K> extends AbstractAnimatedElement<T, K> {
      * @param <T> the type of the element value.
      * @return a new {@code GeneralElement} instance with the specified value.
      */
-    public static <T> GeneralElement<T, Void> simple(T value) {
+    public static <T> @NotNull GeneralElement<T, Void> simple(@NotNull T value) {
         return dynamic(() -> value, -1, -1, false);
     }
 
@@ -80,7 +81,7 @@ public class GeneralElement<T, K> extends AbstractAnimatedElement<T, K> {
      * @param <T> the type of the element value.
      * @return a new {@code GeneralElement} instance with dynamic behavior.
      */
-    public static <T> GeneralElement<T, Void> dynamic(Supplier<? extends T> supplier, int delay, int period, boolean isAsync) {
+    public static <T> @NotNull GeneralElement<T, Void> dynamic(@NotNull Supplier<? extends T> supplier, int delay, int period, boolean isAsync) {
         return new GeneralElement<>(new MyElementSupplier<>((v) -> supplier.get()), delay, period, isAsync, Void.class);
     }
 
@@ -95,7 +96,7 @@ public class GeneralElement<T, K> extends AbstractAnimatedElement<T, K> {
      * @param <T> the type of the element value.
      * @return a new {@code GeneralElement} instance with animated behavior.
      */
-    public static <T> GeneralElement<T, Void> animated(Collection<? extends T> collection, int startingFrame, int delay, int period, boolean isAsync) {
+    public static <T> @NotNull GeneralElement<T, Void> animated(@NotNull Collection<? extends T> collection, int startingFrame, int delay, int period, boolean isAsync) {
         return new GeneralElement<>((v) -> collection, startingFrame, delay, period, isAsync, Void.class);
     }
 
@@ -106,7 +107,7 @@ public class GeneralElement<T, K> extends AbstractAnimatedElement<T, K> {
      * @param <T> the type of the element value.
      * @return a new {@code GeneralElement} instance with the specified personal context.
      */
-    public static <T> GeneralElement<T, OfflinePlayer> simplePersonal(Function<OfflinePlayer, ? extends T> function) {
+    public static <T> @NotNull GeneralElement<T, OfflinePlayer> simplePersonal(@NotNull Function<OfflinePlayer, ? extends T> function) {
         return dynamicPersonal(function, -1, -1, false);
     }
 
@@ -120,7 +121,7 @@ public class GeneralElement<T, K> extends AbstractAnimatedElement<T, K> {
      * @param <T> the type of the element value.
      * @return a new {@code GeneralElement} instance with dynamic behavior and personal context.
      */
-    public static <T> GeneralElement<T, OfflinePlayer> dynamicPersonal(Function<OfflinePlayer, ? extends T> function, int delay, int period, boolean isAsync) {
+    public static <T> @NotNull GeneralElement<T, OfflinePlayer> dynamicPersonal(@NotNull Function<OfflinePlayer, ? extends T> function, int delay, int period, boolean isAsync) {
         return new GeneralElement<>(new MyElementSupplier<>(function), delay, period, isAsync, OfflinePlayer.class);
     }
 
@@ -135,7 +136,7 @@ public class GeneralElement<T, K> extends AbstractAnimatedElement<T, K> {
      * @param <T> the type of the element value.
      * @return a new {@code GeneralElement} instance with animated behavior and personal context.
      */
-    public static <T> GeneralElement<T, OfflinePlayer> animatedPersonal(Function<OfflinePlayer, Collection<? extends T>> function, int startingFrame, int delay, int period, boolean isAsync) {
+    public static <T> @NotNull GeneralElement<T, OfflinePlayer> animatedPersonal(@NotNull Function<OfflinePlayer, Collection<? extends T>> function, int startingFrame, int delay, int period, boolean isAsync) {
         return new GeneralElement<>(function, startingFrame, delay, period, isAsync, OfflinePlayer.class);
     }
 }

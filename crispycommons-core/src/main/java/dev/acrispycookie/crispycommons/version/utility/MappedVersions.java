@@ -1,5 +1,7 @@
 package dev.acrispycookie.crispycommons.version.utility;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.HashMap;
 
 public class MappedVersions {
@@ -10,17 +12,17 @@ public class MappedVersions {
 
     }
 
-    public MappedVersions(VersionPair... pairs) {
+    public MappedVersions(@NotNull VersionPair... pairs) {
         for (VersionPair pair : pairs) {
             mapped.put(pair.getOriginal(), pair.getRemapped());
         }
     }
 
-    public boolean hasVersion(Version original) {
+    public boolean hasVersion(@NotNull Version original) {
         return mapped.containsKey(original);
     }
 
-    public Version getRemapped(Version original) {
+    public @NotNull Version getRemapped(@NotNull Version original) {
         return mapped.get(original);
     }
 }

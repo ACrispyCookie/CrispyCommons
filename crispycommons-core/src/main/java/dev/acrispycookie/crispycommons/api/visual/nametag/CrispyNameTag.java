@@ -6,6 +6,7 @@ import dev.acrispycookie.crispycommons.implementations.visual.nametag.SimpleName
 import dev.acrispycookie.crispycommons.implementations.visual.nametag.data.NameTagData;
 import dev.acrispycookie.crispycommons.implementations.element.type.NameTagElement;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Represents a customizable name tag for players in the game.
@@ -22,7 +23,7 @@ public interface CrispyNameTag extends CrispyVisual {
      *
      * @return a new {@link NameTagBuilder} instance.
      */
-    static NameTagBuilder builder() {
+    static @NotNull NameTagBuilder builder() {
         return new NameTagBuilder();
     }
 
@@ -31,70 +32,70 @@ public interface CrispyNameTag extends CrispyVisual {
      *
      * @param prefix the {@link NameTagElement} representing the prefix.
      */
-    void setPrefix(NameTagElement<String, ?> prefix);
+    void setPrefix(@NotNull NameTagElement<String, ?> prefix);
 
     /**
      * Sets the suffix of the name tag.
      *
      * @param suffix the {@link NameTagElement} representing the suffix.
      */
-    void setSuffix(NameTagElement<String, ?> suffix);
+    void setSuffix(@NotNull NameTagElement<String, ?> suffix);
 
     /**
      * Sets the text below the name in the name tag.
      *
      * @param belowName the {@link NameTagElement} representing the text below the name.
      */
-    void setBelowName(NameTagElement<String, ?> belowName);
+    void setBelowName(@NotNull NameTagElement<String, ?> belowName);
 
     /**
      * Sets the value displayed below the name in the name tag.
      *
      * @param belowNameValue the {@link NameTagElement} representing the value below the name.
      */
-    void setBelowNameValue(NameTagElement<Integer, ?> belowNameValue);
+    void setBelowNameValue(@NotNull NameTagElement<Integer, ?> belowNameValue);
 
     /**
      * Sets the text above the name in the name tag.
      *
      * @param aboveName the {@link NameTagElement} representing the text above the name.
      */
-    void setAboveName(NameTagElement<String, ?> aboveName);
+    void setAboveName(@NotNull NameTagElement<String, ?> aboveName);
 
     /**
      * Retrieves the prefix of the name tag.
      *
      * @return the {@link NameTagElement} representing the prefix.
      */
-    NameTagElement<String, ?> getPrefix();
+    @NotNull NameTagElement<String, ?> getPrefix();
 
     /**
      * Retrieves the suffix of the name tag.
      *
      * @return the {@link NameTagElement} representing the suffix.
      */
-    NameTagElement<String, ?> getSuffix();
+    @NotNull NameTagElement<String, ?> getSuffix();
 
     /**
      * Retrieves the text below the name in the name tag.
      *
      * @return the {@link NameTagElement} representing the text below the name.
      */
-    NameTagElement<String, ?> getBelowName();
+    @NotNull NameTagElement<String, ?> getBelowName();
 
     /**
      * Retrieves the value displayed below the name in the name tag.
      *
      * @return the {@link NameTagElement} representing the value below the name.
      */
-    NameTagElement<Integer, ?> getBelowNameValue();
+    @NotNull NameTagElement<Integer, ?> getBelowNameValue();
 
     /**
      * Retrieves the text above the name in the name tag.
      *
      * @return the {@link NameTagElement} representing the text above the name.
      */
-    NameTagElement<String, ?> getAboveName();
+    @NotNull NameTagElement<String, ?> getAboveName();
 
     /**
      * Updates the prefix of the name tag.
@@ -134,7 +135,7 @@ public interface CrispyNameTag extends CrispyVisual {
          * @param prefix the {@link NameTagElement} representing the prefix.
          * @return this {@link NameTagBuilder} instance for method chaining.
          */
-        public NameTagBuilder setPrefix(NameTagElement<String, ?> prefix) {
+        public @NotNull NameTagBuilder setPrefix(@NotNull NameTagElement<String, ?> prefix) {
             this.data.setPrefix(prefix);
             this.data.getPrefix().setUpdate(() -> toBuild.updatePrefix());
             return this;
@@ -146,7 +147,7 @@ public interface CrispyNameTag extends CrispyVisual {
          * @param suffix the {@link NameTagElement} representing the suffix.
          * @return this {@link NameTagBuilder} instance for method chaining.
          */
-        public NameTagBuilder setSuffix(NameTagElement<String, ?> suffix) {
+        public @NotNull NameTagBuilder setSuffix(@NotNull NameTagElement<String, ?> suffix) {
             this.data.setSuffix(suffix);
             this.data.getSuffix().setUpdate(() -> toBuild.updateSuffix());
             return this;
@@ -158,7 +159,7 @@ public interface CrispyNameTag extends CrispyVisual {
          * @param aboveName the {@link NameTagElement} representing the text above the name.
          * @return this {@link NameTagBuilder} instance for method chaining.
          */
-        public NameTagBuilder setAboveName(NameTagElement<String, ?> aboveName) {
+        public @NotNull NameTagBuilder setAboveName(@NotNull NameTagElement<String, ?> aboveName) {
             this.data.setAboveName(aboveName);
             this.data.getAboveName().setUpdate(() -> toBuild.updateAboveName());
             return this;
@@ -170,7 +171,7 @@ public interface CrispyNameTag extends CrispyVisual {
          * @param belowName the {@link NameTagElement} representing the text below the name.
          * @return this {@link NameTagBuilder} instance for method chaining.
          */
-        public NameTagBuilder setBelowName(NameTagElement<String, ?> belowName) {
+        public @NotNull NameTagBuilder setBelowName(@NotNull NameTagElement<String, ?> belowName) {
             this.data.setBelowName(belowName);
             this.data.getBelowName().setUpdate(() -> toBuild.updateBelowName());
             return this;
@@ -182,7 +183,7 @@ public interface CrispyNameTag extends CrispyVisual {
          * @param belowNameValue the {@link NameTagElement} representing the value below the name.
          * @return this {@link NameTagBuilder} instance for method chaining.
          */
-        public NameTagBuilder setBelowNameValue(NameTagElement<Integer, ?> belowNameValue) {
+        public @NotNull NameTagBuilder setBelowNameValue(@NotNull NameTagElement<Integer, ?> belowNameValue) {
             this.data.setBelowNameValue(belowNameValue);
             this.data.getBelowNameValue().setUpdate(() -> toBuild.updateBelowNameValue());
             return this;
@@ -194,7 +195,7 @@ public interface CrispyNameTag extends CrispyVisual {
          * @param player the {@link Player} whose name tag will be customized.
          * @return this {@link NameTagBuilder} instance for method chaining.
          */
-        public NameTagBuilder setPlayer(Player player) {
+        public @NotNull NameTagBuilder setPlayer(@NotNull Player player) {
             this.data.setPlayer(player);
             return this;
         }
@@ -205,7 +206,7 @@ public interface CrispyNameTag extends CrispyVisual {
          * @return the constructed {@link CrispyNameTag}.
          */
         @Override
-        public CrispyNameTag build() {
+        public @NotNull CrispyNameTag build() {
             toBuild = new SimpleNameTag(data, receivers, timeToLive, isPublic);
 
             return toBuild;

@@ -1,6 +1,7 @@
 package dev.acrispycookie.crispycommons.api.visual.map_image;
 
 import org.bukkit.block.Block;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Represents an image that can be placed on a map in the game world.
@@ -16,6 +17,6 @@ public interface CrispyMapImage {
      *
      * @param start the {@link Block} where the image should be placed.
      */
-    void place(Block start);
+    void place(@NotNull Block start);
 }
 

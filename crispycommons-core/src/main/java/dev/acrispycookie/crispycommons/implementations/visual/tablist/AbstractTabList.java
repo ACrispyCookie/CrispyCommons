@@ -8,6 +8,7 @@ import dev.acrispycookie.crispycommons.implementations.element.AbstractDynamicEl
 import dev.acrispycookie.crispycommons.implementations.element.type.TextElement;
 import dev.acrispycookie.crispycommons.implementations.element.type.TimeToLiveElement;
 import org.bukkit.OfflinePlayer;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -68,7 +69,7 @@ public abstract class AbstractTabList extends AbstractVisual<TabListData> implem
      * @param updateMode the mode in which updates to the tab list are applied (global or per-player).
      * @param isPublic whether the tab list should be visible to all players.
      */
-    AbstractTabList(TabListData data, Set<? extends OfflinePlayer> receivers, TimeToLiveElement<?> timeToLive, UpdateMode updateMode, boolean isPublic) {
+    AbstractTabList(@NotNull TabListData data, @NotNull Set<? extends OfflinePlayer> receivers, @NotNull TimeToLiveElement<?> timeToLive, @NotNull UpdateMode updateMode, boolean isPublic) {
         super(data, receivers, timeToLive, updateMode, isPublic);
     }
 
@@ -106,7 +107,7 @@ public abstract class AbstractTabList extends AbstractVisual<TabListData> implem
      * @param line the text element representing the line.
      */
     @Override
-    public void addHeaderLine(int index, TextElement<?> line) {
+    public void addHeaderLine(int index, @NotNull TextElement<?> line) {
         if (index > data.getHeader().size())
             return;
 
@@ -123,7 +124,7 @@ public abstract class AbstractTabList extends AbstractVisual<TabListData> implem
      * @param line the text element representing the line.
      */
     @Override
-    public void addHeaderLine(TextElement<?> line) {
+    public void addHeaderLine(@NotNull TextElement<?> line) {
         addHeaderLine(data.getHeader().size(), line);
     }
 
@@ -156,7 +157,7 @@ public abstract class AbstractTabList extends AbstractVisual<TabListData> implem
      * @param lines the collection of text elements to set as the header lines.
      */
     @Override
-    public void setHeader(Collection<? extends TextElement<?>> lines) {
+    public void setHeader(@NotNull Collection<? extends TextElement<?>> lines) {
         lines.forEach((l) -> l.setUpdate(this::update));
         if (isAnyoneWatching()) {
             data.getHeader().forEach(DynamicElement::stop);
@@ -176,7 +177,7 @@ public abstract class AbstractTabList extends AbstractVisual<TabListData> implem
      * @param line the text element representing the line.
      */
     @Override
-    public void addFooterLine(int index, TextElement<?> line) {
+    public void addFooterLine(int index, @NotNull TextElement<?> line) {
         if (index > data.getFooter().size())
             return;
 
@@ -193,7 +194,7 @@ public abstract class AbstractTabList extends AbstractVisual<TabListData> implem
      * @param line the text element representing the line.
      */
     @Override
-    public void addFooterLine(TextElement<?> line) {
+    public void addFooterLine(@NotNull TextElement<?> line) {
         addFooterLine(data.getFooter().size(), line);
     }
 
@@ -226,7 +227,7 @@ public abstract class AbstractTabList extends AbstractVisual<TabListData> implem
      * @param lines the collection of text elements to set as the footer lines.
      */
     @Override
-    public void setFooter(Collection<? extends TextElement<?>> lines) {
+    public void setFooter(@NotNull Collection<? extends TextElement<?>> lines) {
         lines.forEach((l) -> l.setUpdate(this::update));
         if (isAnyoneWatching()) {
             data.getFooter().forEach(DynamicElement::stop);
@@ -241,7 +242,7 @@ public abstract class AbstractTabList extends AbstractVisual<TabListData> implem
      *
      * @return a list of {@link TextElement} representing the header lines.
      */
-    public List<TextElement<?>> getHeader() {
+    public @NotNull List<TextElement<?>> getHeader() {
         return this.data.getHeader();
     }
 
@@ -250,7 +251,7 @@ public abstract class AbstractTabList extends AbstractVisual<TabListData> implem
      *
      * @return a list of {@link TextElement} representing the footer lines.
      */
-    public List<TextElement<?>> getFooter() {
+    public @NotNull List<TextElement<?>> getFooter() {
         return this.data.getFooter();
     }
 }

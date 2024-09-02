@@ -2,6 +2,7 @@ package dev.acrispycookie.crispycommons.implementations.gui.abstraction;
 
 import dev.acrispycookie.crispycommons.api.gui.abstraction.GuiData;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -33,7 +34,7 @@ public abstract class AbstractTrackedGui<T extends GuiData> extends AbstractGui<
      *
      * @param data the {@link GuiData} to be associated with this GUI.
      */
-    public AbstractTrackedGui(T data) {
+    public AbstractTrackedGui(@NotNull T data) {
         super(data);
     }
 
@@ -43,7 +44,7 @@ public abstract class AbstractTrackedGui<T extends GuiData> extends AbstractGui<
      * @param player the {@link OfflinePlayer} to check.
      * @return {@code true} if the player is viewing the GUI; {@code false} otherwise.
      */
-    public boolean isPlayerViewing(@NotNull OfflinePlayer player) {
+    public boolean isPlayerViewing(@NotNull Player player) {
         return viewers.getOrDefault(player, false);
     }
 }

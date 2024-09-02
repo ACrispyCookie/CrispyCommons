@@ -1,5 +1,7 @@
 package dev.acrispycookie.crispycommons.utility.menu;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Stack;
 
 /**
@@ -37,7 +39,7 @@ public class SizedStack<T> extends Stack<T> {
      * @return the element that was pushed onto the stack
      */
     @Override
-    public T push(T object) {
+    public @NotNull T push(@NotNull T object) {
         // Remove the oldest elements if the stack has reached its maximum size
         while (this.size() >= maxSize) {
             this.remove(0);

@@ -12,6 +12,7 @@ import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -30,28 +31,28 @@ public class SimpleScoreboard_1_8_R3 extends SimpleScoreboard {
      */
     private final HashMap<OfflinePlayer, HashMap<String, Integer>> timesUsedInEntries = new HashMap<>();
 
-    public SimpleScoreboard_1_8_R3(ScoreboardData data, Collection<? extends OfflinePlayer> receivers, TimeToLiveElement<?> timeToLive, boolean isPublic) {
+    public SimpleScoreboard_1_8_R3(@NotNull ScoreboardData data, @NotNull Collection<? extends OfflinePlayer> receivers, @NotNull TimeToLiveElement<?> timeToLive, boolean isPublic) {
         super(data, receivers, timeToLive, isPublic);
     }
 
     @Override
-    protected void show(Player p) {
-        Component titleText = data.getTitle().getFromContext(OfflinePlayer.class, p);
-        List<Component> lines = data.getLines().stream().map(e -> e.getFromContext(OfflinePlayer.class, p)).collect(Collectors.toList());
+    protected void show(@NotNull Player player) {
+        Component titleText = data.getTitle().getFromContext(OfflinePlayer.class, player);
+        List<Component> lines = data.getLines().stream().map(e -> e.getFromContext(OfflinePlayer.class, player)).collect(Collectors.toList());
 
-        scoreboards.put(p, getNewBoard(p));
-        initTitle(p, titleText);
-        initLines(p, 0, lines);
-        p.setScoreboard(scoreboards.get(p));
+        scoreboards.put(player, getNewBoard(player));
+        initTitle(player, titleText);
+        initLines(player, 0, lines);
+        player.setScoreboard(scoreboards.get(player));
     }
 
     @Override
-    protected void hide(Player p) {
-        p.setScoreboard(removeSidebar(p, data.getLines().size()));
+    protected void hide(@NotNull Player player) {
+        player.setScoreboard(removeSidebar(player, data.getLines().size()));
     }
 
     @Override
-    protected void perPlayerUpdate(Player p) {
+    protected void perPlayerUpdate(@NotNull Player player) {
 
     }
 

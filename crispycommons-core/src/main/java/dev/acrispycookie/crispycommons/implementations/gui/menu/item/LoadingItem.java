@@ -27,7 +27,7 @@ public abstract class LoadingItem extends AbstractMenuItem {
      * @throws NullPointerException if {@code loadingDisplay} is {@code null}.
      */
     public LoadingItem(@NotNull ItemElement<?> loadingDisplay) {
-        super(null, loadingDisplay, null);
+        super(loadingDisplay, loadingDisplay, loadingDisplay);
     }
 
     /**

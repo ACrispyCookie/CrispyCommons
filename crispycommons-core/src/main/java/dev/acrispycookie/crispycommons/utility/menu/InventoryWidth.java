@@ -2,6 +2,7 @@ package dev.acrispycookie.crispycommons.utility.menu;
 
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
+import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 
@@ -60,7 +61,7 @@ public enum InventoryWidth {
      * @return the width of the specified inventory type.
      * @throws IllegalArgumentException if the {@code type} does not correspond to a known {@code InventoryWidth}.
      */
-    public static int getType(InventoryType type) {
+    public static int getType(@NotNull InventoryType type) {
         return InventoryWidth.valueOf(type.name()).getWidth();
     }
 
@@ -74,7 +75,7 @@ public enum InventoryWidth {
      * @param inv   the {@link Inventory} to check against.
      * @return {@code true} if the point is inside the inventory, {@code false} otherwise.
      */
-    public static boolean isPointInsideInventory(Point point, Inventory inv) {
+    public static boolean isPointInsideInventory(@NotNull Point point, @NotNull Inventory inv) {
         return point.x + (point.y * getType(inv.getType())) < inv.getSize();
     }
 }

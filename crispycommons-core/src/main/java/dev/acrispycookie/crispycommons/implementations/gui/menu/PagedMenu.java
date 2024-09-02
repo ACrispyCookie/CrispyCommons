@@ -4,6 +4,7 @@ import dev.acrispycookie.crispycommons.api.gui.menu.MenuPage;
 import dev.acrispycookie.crispycommons.api.gui.menu.section.DynamicSection;
 import dev.acrispycookie.crispycommons.api.gui.menu.section.StaticSection;
 import dev.acrispycookie.crispycommons.implementations.gui.menu.data.PagedMenuData;
+import org.jetbrains.annotations.NotNull;
 
 import java.awt.Point;
 
@@ -24,7 +25,7 @@ public class PagedMenu extends SimpleMenu {
      *
      * @param data the {@link PagedMenuData} containing the menu's configuration.
      */
-    public PagedMenu(PagedMenuData data) {
+    public PagedMenu(@NotNull PagedMenuData data) {
         super(data);
         data.setMenu(this);
 
@@ -53,7 +54,7 @@ public class PagedMenu extends SimpleMenu {
      * @param sectionOffset the offset within the section.
      * @param section the {@link StaticSection} to be added.
      */
-    public void addStaticSection(Point point, int sectionOffset, StaticSection section) {
+    public void addStaticSection(@NotNull Point point, int sectionOffset, @NotNull StaticSection section) {
         if (isValidPoint(point))
             addStaticSection(pointToIndex(point), sectionOffset, section);
     }
@@ -65,7 +66,7 @@ public class PagedMenu extends SimpleMenu {
      * @param sectionOffset the offset within the section.
      * @param section the {@link StaticSection} to be added.
      */
-    public void addStaticSection(int startIndex, int sectionOffset, StaticSection section) {
+    public void addStaticSection(int startIndex, int sectionOffset, @NotNull StaticSection section) {
         if (!isValidSlot(startIndex + sectionOffset) || sectionOffset < 0)
             return;
 
@@ -79,7 +80,7 @@ public class PagedMenu extends SimpleMenu {
      * @param point the point (row and column) to check.
      * @return {@code true} if the point is valid; {@code false} otherwise.
      */
-    private boolean isValidPoint(Point point) {
+    private boolean isValidPoint(@NotNull Point point) {
         int columns = ((PagedMenuData) data).getColumns();
         int rows = ((PagedMenuData) data).getRows();
         return point.x >= 0 && point.y >= 0 && point.x < columns && point.y < rows;
@@ -103,7 +104,7 @@ public class PagedMenu extends SimpleMenu {
      * @param point the point to convert.
      * @return the slot index corresponding to the point.
      */
-    private int pointToIndex(Point point) {
+    private int pointToIndex(@NotNull Point point) {
         int columns = ((PagedMenuData) data).getColumns();
         return point.x + columns * point.y;
     }

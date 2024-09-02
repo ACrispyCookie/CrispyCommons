@@ -5,6 +5,7 @@ import dev.acrispycookie.crispycommons.implementations.element.context.NameTagCo
 import dev.acrispycookie.crispycommons.utility.element.MyElementSupplier;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 import java.util.function.Function;
@@ -31,7 +32,7 @@ public class NameTagElement<T, K> extends AbstractAnimatedElement<T, K> {
      * @param period the period between subsequent updates, in ticks.
      * @param kClass the class type of the context.
      */
-    protected NameTagElement(Function<K, Collection<? extends T>> supplier, int startingFrame, int delay, int period, Class<K> kClass) {
+    protected NameTagElement(@NotNull Function<K, Collection<? extends T>> supplier, int startingFrame, int delay, int period, Class<K> kClass) {
         super(supplier, startingFrame, delay, period, false, kClass);
     }
 
@@ -43,7 +44,7 @@ public class NameTagElement<T, K> extends AbstractAnimatedElement<T, K> {
      * @param period the period between subsequent updates, in ticks.
      * @param kClass the class type of the context.
      */
-    protected NameTagElement(MyElementSupplier<K, T> supplier, int delay, int period, Class<K> kClass) {
+    protected NameTagElement(@NotNull MyElementSupplier<K, T> supplier, int delay, int period, Class<K> kClass) {
         super(supplier, delay, period, false, kClass);
     }
 
@@ -53,7 +54,7 @@ public class NameTagElement<T, K> extends AbstractAnimatedElement<T, K> {
      * @param owner the player owning the name tag element.
      * @return a {@code TextElement} representing the name tag element.
      */
-    public TextElement<?> convertToTextElement(Player owner) {
+    public @NotNull TextElement<?> convertToTextElement(@NotNull Player owner) {
         TextElement<?> textElement;
 
         if (isContext(NameTagElement.class)) {
@@ -77,7 +78,7 @@ public class NameTagElement<T, K> extends AbstractAnimatedElement<T, K> {
      * @return a new {@code NameTagElement} instance with the same properties as this one.
      */
     @Override
-    public NameTagElement<T, K> clone() {
+    public @NotNull NameTagElement<T, K> clone() {
         if (isDynamic())
             return new NameTagElement<>(new MyElementSupplier<>(this::getRaw), getDelay(), getPeriod(), getContextClass());
         return new NameTagElement<>(new MyElementSupplier<>(this::getRaw), -1, -1, getContextClass());
@@ -90,7 +91,7 @@ public class NameTagElement<T, K> extends AbstractAnimatedElement<T, K> {
      * @param <T> the type of the element value.
      * @return a new {@code NameTagElement} instance with the specified personal context.
      */
-    public static <T> NameTagElement<T, OfflinePlayer> simple(Function<OfflinePlayer, ? extends T> function) {
+    public static <T> @NotNull NameTagElement<T, OfflinePlayer> simple(@NotNull Function<OfflinePlayer, ? extends T> function) {
         return dynamic(function, -1, -1);
     }
 
@@ -104,7 +105,7 @@ public class NameTagElement<T, K> extends AbstractAnimatedElement<T, K> {
      * @param <T> the type of the element value.
      * @return a new {@code NameTagElement} instance with dynamic behavior and personal context.
      */
-    public static <T> NameTagElement<T, OfflinePlayer> dynamic(Function<OfflinePlayer, ? extends T> function, int delay, int period) {
+    public static <T> @NotNull NameTagElement<T, OfflinePlayer> dynamic(@NotNull Function<OfflinePlayer, ? extends T> function, int delay, int period) {
         return new NameTagElement<>(new MyElementSupplier<>(function), delay, period, OfflinePlayer.class);
     }
 
@@ -118,7 +119,7 @@ public class NameTagElement<T, K> extends AbstractAnimatedElement<T, K> {
      * @param <T> the type of the element value.
      * @return a new {@code NameTagElement} instance with animated behavior and personal context.
      */
-    public static <T> NameTagElement<T, OfflinePlayer> animated(Function<OfflinePlayer, Collection<? extends T>> function, int startingFrame, int delay, int period) {
+    public static <T> @NotNull NameTagElement<T, OfflinePlayer> animated(@NotNull Function<OfflinePlayer, Collection<? extends T>> function, int startingFrame, int delay, int period) {
         return new NameTagElement<>(function, startingFrame, delay, period, OfflinePlayer.class);
     }
 
@@ -129,7 +130,7 @@ public class NameTagElement<T, K> extends AbstractAnimatedElement<T, K> {
      * @param <T> the type of the element value.
      * @return a new {@code NameTagElement} instance with the specified name tag context.
      */
-    public static <T> NameTagElement<T, NameTagContext> simplePersonal(Function<NameTagContext, ? extends T> function) {
+    public static <T> @NotNull NameTagElement<T, NameTagContext> simplePersonal(@NotNull Function<NameTagContext, ? extends T> function) {
         return dynamicPersonal(function, -1, -1);
     }
 
@@ -143,7 +144,7 @@ public class NameTagElement<T, K> extends AbstractAnimatedElement<T, K> {
      * @param <T> the type of the element value.
      * @return a new {@code NameTagElement} instance with dynamic behavior and name tag context.
      */
-    public static <T> NameTagElement<T, NameTagContext> dynamicPersonal(Function<NameTagContext, ? extends T> function, int delay, int period) {
+    public static <T> @NotNull NameTagElement<T, NameTagContext> dynamicPersonal(@NotNull Function<NameTagContext, ? extends T> function, int delay, int period) {
         return new NameTagElement<>(new MyElementSupplier<>(function), delay, period, NameTagContext.class);
     }
 
@@ -157,7 +158,7 @@ public class NameTagElement<T, K> extends AbstractAnimatedElement<T, K> {
      * @param <T> the type of the element value.
      * @return a new {@code NameTagElement} instance with animated behavior and name tag context.
      */
-    public static <T> NameTagElement<T, NameTagContext> animatedPersonal(Function<NameTagContext, Collection<? extends T>> function, int startingFrame, int delay, int period) {
+    public static <T> @NotNull NameTagElement<T, NameTagContext> animatedPersonal(@NotNull Function<NameTagContext, Collection<? extends T>> function, int startingFrame, int delay, int period) {
         return new NameTagElement<>(function, startingFrame, delay, period, NameTagContext.class);
     }
 }

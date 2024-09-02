@@ -4,6 +4,7 @@ import dev.acrispycookie.crispycommons.api.particle.Effect;
 import dev.acrispycookie.crispycommons.implementations.element.AbstractAnimatedElement;
 import dev.acrispycookie.crispycommons.utility.element.MyElementSupplier;
 import org.bukkit.OfflinePlayer;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 import java.util.function.Function;
@@ -31,7 +32,7 @@ public class ParticleElement<T extends Effect, K> extends AbstractAnimatedElemen
      * @param period the period between subsequent updates, in ticks.
      * @param kClass the class type of the context.
      */
-    protected ParticleElement(Function<K, Collection<? extends T>> supplier, int startingFrame, int delay, int period, Class<K> kClass) {
+    protected ParticleElement(@NotNull Function<K, Collection<? extends T>> supplier, int startingFrame, int delay, int period, @NotNull Class<K> kClass) {
         super(supplier, startingFrame, delay, period, false, kClass);
     }
 
@@ -43,7 +44,7 @@ public class ParticleElement<T extends Effect, K> extends AbstractAnimatedElemen
      * @param period the period between subsequent updates, in ticks.
      * @param kClass the class type of the context.
      */
-    protected ParticleElement(MyElementSupplier<K, T> supplier, int delay, int period, Class<K> kClass) {
+    protected ParticleElement(@NotNull MyElementSupplier<K, T> supplier, int delay, int period, @NotNull Class<K> kClass) {
         super(supplier, delay, period, false, kClass);
     }
 
@@ -53,7 +54,7 @@ public class ParticleElement<T extends Effect, K> extends AbstractAnimatedElemen
      * @return a cloned instance of this {@code ParticleElement}.
      */
     @Override
-    public ParticleElement<T, K> clone() {
+    public @NotNull ParticleElement<T, K> clone() {
         if (isDynamic()) {
             return new ParticleElement<>(new MyElementSupplier<>(this::getRaw), getDelay(), getPeriod(), getContextClass());
         }
@@ -67,7 +68,7 @@ public class ParticleElement<T extends Effect, K> extends AbstractAnimatedElemen
      * @param <T> the type of the particle effect.
      * @return a new {@code ParticleElement} instance with the specified value.
      */
-    public static <T extends Effect> ParticleElement<T, Void> simple(T value) {
+    public static <T extends Effect> @NotNull ParticleElement<T, Void> simple(@NotNull T value) {
         return dynamic(() -> value, -1, -1);
     }
 
@@ -80,7 +81,7 @@ public class ParticleElement<T extends Effect, K> extends AbstractAnimatedElemen
      * @param <T> the type of the particle effect.
      * @return a new {@code ParticleElement} instance with dynamic behavior.
      */
-    public static <T extends Effect> ParticleElement<T, Void> dynamic(Supplier<? extends T> supplier, int delay, int period) {
+    public static <T extends Effect> @NotNull ParticleElement<T, Void> dynamic(@NotNull Supplier<? extends T> supplier, int delay, int period) {
         return new ParticleElement<>(new MyElementSupplier<>((v) -> supplier.get()), delay, period, Void.class);
     }
 
@@ -94,7 +95,7 @@ public class ParticleElement<T extends Effect, K> extends AbstractAnimatedElemen
      * @param <T> the type of the particle effect.
      * @return a new {@code ParticleElement} instance with animated behavior.
      */
-    public static <T extends Effect> ParticleElement<T, Void> animated(Collection<? extends T> collection, int startingFrame, int delay, int period) {
+    public static <T extends Effect> @NotNull ParticleElement<T, Void> animated(@NotNull Collection<? extends T> collection, int startingFrame, int delay, int period) {
         return new ParticleElement<>((v) -> collection, startingFrame, delay, period, Void.class);
     }
 
@@ -105,7 +106,7 @@ public class ParticleElement<T extends Effect, K> extends AbstractAnimatedElemen
      * @param <T> the type of the particle effect.
      * @return a new {@code ParticleElement} instance with the specified personal context.
      */
-    public static <T extends Effect> ParticleElement<T, OfflinePlayer> simplePersonal(Function<OfflinePlayer, ? extends T> function) {
+    public static <T extends Effect> @NotNull ParticleElement<T, OfflinePlayer> simplePersonal(@NotNull Function<OfflinePlayer, ? extends T> function) {
         return dynamicPersonal(function, -1, -1);
     }
 
@@ -119,7 +120,7 @@ public class ParticleElement<T extends Effect, K> extends AbstractAnimatedElemen
      * @param <T> the type of the particle effect.
      * @return a new {@code ParticleElement} instance with dynamic behavior and personal context.
      */
-    public static <T extends Effect> ParticleElement<T, OfflinePlayer> dynamicPersonal(Function<OfflinePlayer, ? extends T> supplier, int delay, int period) {
+    public static <T extends Effect> @NotNull ParticleElement<T, OfflinePlayer> dynamicPersonal(@NotNull Function<OfflinePlayer, ? extends T> supplier, int delay, int period) {
         return new ParticleElement<>(new MyElementSupplier<>(supplier), delay, period, OfflinePlayer.class);
     }
 
@@ -133,7 +134,7 @@ public class ParticleElement<T extends Effect, K> extends AbstractAnimatedElemen
      * @param <T> the type of the particle effect.
      * @return a new {@code ParticleElement} instance with animated behavior and personal context.
      */
-    public static <T extends Effect> ParticleElement<T, OfflinePlayer> animatedPersonal(Function<OfflinePlayer, Collection<? extends T>> supplier, int startingFrame, int delay, int period) {
+    public static <T extends Effect> @NotNull ParticleElement<T, OfflinePlayer> animatedPersonal(@NotNull Function<OfflinePlayer, Collection<? extends T>> supplier, int startingFrame, int delay, int period) {
         return new ParticleElement<>(supplier, startingFrame, delay, period, OfflinePlayer.class);
     }
 }

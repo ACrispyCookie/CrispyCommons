@@ -1,6 +1,7 @@
 package dev.acrispycookie.crispycommons.implementations.element.context;
 
 import org.bukkit.OfflinePlayer;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Represents the context for name tags between players.
@@ -36,7 +37,7 @@ public class NameTagContext {
      *
      * @throws NullPointerException if {@code player} or {@code receiver} is {@code null}.
      */
-    public NameTagContext(OfflinePlayer player, OfflinePlayer receiver) {
+    public NameTagContext(@NotNull OfflinePlayer player, @NotNull OfflinePlayer receiver) {
         this.player = player;
         this.receiver = receiver;
     }
@@ -46,7 +47,7 @@ public class NameTagContext {
      *
      * @return the {@link OfflinePlayer} that owns the name tag.
      */
-    public OfflinePlayer getPlayer() {
+    public @NotNull OfflinePlayer getPlayer() {
         return player;
     }
 
@@ -55,7 +56,7 @@ public class NameTagContext {
      *
      * @return the {@link OfflinePlayer} who is the viewer of the name tag.
      */
-    public OfflinePlayer getReceiver() {
+    public @NotNull OfflinePlayer getReceiver() {
         return receiver;
     }
 }

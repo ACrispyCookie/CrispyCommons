@@ -7,12 +7,13 @@ import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 public class VersionArmorStand_1_8_R3 extends VersionEntity_1_8_R3 implements VersionArmorStand {
 
     private final EntityArmorStand armorStand;
 
-    public VersionArmorStand_1_8_R3(Location location) {
+    public VersionArmorStand_1_8_R3(@NotNull Location location) {
         armorStand = new EntityArmorStand(((CraftWorld) location.getWorld()).getHandle(), location.getX(), location.getY(), location.getZ());
     }
 
@@ -47,33 +48,33 @@ public class VersionArmorStand_1_8_R3 extends VersionEntity_1_8_R3 implements Ve
     }
 
     @Override
-    public void setCustomName(String name) {
+    public void setCustomName(@NotNull String name) {
         armorStand.setCustomName(name);
     }
 
     @Override
-    public void attachEntity(Player player, VersionEntity versionEntity) {
+    public void attachEntity(@NotNull Player player, @NotNull VersionEntity versionEntity) {
         PacketPlayOutAttachEntity attach = new PacketPlayOutAttachEntity(0, ((VersionEntity_1_8_R3) versionEntity).getInternalEntity(), armorStand);
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket(attach);
     }
 
-    public void spawn(Player player) {
+    public void spawn(@NotNull Player player) {
         PacketPlayOutSpawnEntityLiving spawnArmorStand = new PacketPlayOutSpawnEntityLiving(armorStand);
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket(spawnArmorStand);
     }
 
-    public void destroy(Player player) {
+    public void destroy(@NotNull Player player) {
         setDead(true);
         PacketPlayOutEntityDestroy spawn = new PacketPlayOutEntityDestroy(armorStand.getId());
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket(spawn);
     }
 
-    public void updateLocation(Player player) {
+    public void updateLocation(@NotNull Player player) {
         PacketPlayOutEntityTeleport teleport = new PacketPlayOutEntityTeleport(armorStand);
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket(teleport);
     }
 
-    public void updateMeta(Player player) {
+    public void updateMeta(@NotNull Player player) {
         PacketPlayOutEntityMetadata metadata = new PacketPlayOutEntityMetadata(armorStand.getId(), armorStand.getDataWatcher(), true);
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket(metadata);
     }
@@ -82,18 +83,18 @@ public class VersionArmorStand_1_8_R3 extends VersionEntity_1_8_R3 implements Ve
         armorStand.dead = dead;
     }
 
-    public void setLocation(Location location) {
+    public void setLocation(@NotNull Location location) {
         World newWorld = ((CraftWorld) location.getWorld()).getHandle();
         if (!armorStand.getWorld().equals(newWorld))
             armorStand.spawnIn(newWorld);
         armorStand.setLocation(location.getX(), location.getY(), location.getZ(), 0, 0);
     }
 
-    public Location getLocation() {
+    public @NotNull Location getLocation() {
         return armorStand.getBukkitEntity().getLocation();
     }
 
-    public String getCustomName() {
+    public @NotNull String getCustomName() {
         return armorStand.getCustomName();
     }
 
@@ -102,7 +103,7 @@ public class VersionArmorStand_1_8_R3 extends VersionEntity_1_8_R3 implements Ve
     }
 
     @Override
-    public Entity getInternalEntity() {
+    public @NotNull Entity getInternalEntity() {
         return armorStand;
     }
 }

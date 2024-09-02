@@ -5,6 +5,7 @@ import dev.acrispycookie.crispycommons.implementations.element.type.TextElement;
 import dev.acrispycookie.crispycommons.implementations.visual.abstraction.builder.AbstractVisualBuilder;
 import dev.acrispycookie.crispycommons.implementations.visual.tablist.SimpleTabList;
 import dev.acrispycookie.crispycommons.implementations.visual.tablist.data.TabListData;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,7 +26,7 @@ public interface CrispyTabList extends CrispyVisual {
      *
      * @return a new {@link TabListBuilder} instance.
      */
-    static TabListBuilder builder() {
+    static @NotNull TabListBuilder builder() {
         return new TabListBuilder();
     }
 
@@ -34,7 +35,7 @@ public interface CrispyTabList extends CrispyVisual {
      *
      * @param line the {@link TextElement} representing the line of text to add.
      */
-    void addHeaderLine(TextElement<?> line);
+    void addHeaderLine(@NotNull TextElement<?> line);
 
     /**
      * Adds a line of text to the header of the tab list at the specified index.
@@ -42,7 +43,7 @@ public interface CrispyTabList extends CrispyVisual {
      * @param index the index at which to add the line.
      * @param line the {@link TextElement} representing the line of text to add.
      */
-    void addHeaderLine(int index, TextElement<?> line);
+    void addHeaderLine(int index, @NotNull TextElement<?> line);
 
     /**
      * Removes the line of text at the specified index from the header of the tab list.
@@ -56,7 +57,7 @@ public interface CrispyTabList extends CrispyVisual {
      *
      * @param line the {@link TextElement} representing the line of text to add.
      */
-    void addFooterLine(TextElement<?> line);
+    void addFooterLine(@NotNull TextElement<?> line);
 
     /**
      * Adds a line of text to the footer of the tab list at the specified index.
@@ -64,7 +65,7 @@ public interface CrispyTabList extends CrispyVisual {
      * @param index the index at which to add the line.
      * @param line the {@link TextElement} representing the line of text to add.
      */
-    void addFooterLine(int index, TextElement<?> line);
+    void addFooterLine(int index, @NotNull TextElement<?> line);
 
     /**
      * Removes the line of text at the specified index from the footer of the tab list.
@@ -78,28 +79,28 @@ public interface CrispyTabList extends CrispyVisual {
      *
      * @param element a collection of {@link TextElement} instances representing the header lines.
      */
-    void setHeader(Collection<? extends TextElement<?>> element);
+    void setHeader(@NotNull Collection<? extends TextElement<?>> element);
 
     /**
      * Sets the footer lines of the tab list.
      *
      * @param element a collection of {@link TextElement} instances representing the footer lines.
      */
-    void setFooter(Collection<? extends TextElement<?>> element);
+    void setFooter(@NotNull Collection<? extends TextElement<?>> element);
 
     /**
      * Retrieves the header lines of the tab list.
      *
      * @return a {@link List} of {@link TextElement} instances representing the header lines.
      */
-    List<TextElement<?>> getHeader();
+    @NotNull List<TextElement<?>> getHeader();
 
     /**
      * Retrieves the footer lines of the tab list.
      *
      * @return a {@link List} of {@link TextElement} instances representing the footer lines.
      */
-    List<TextElement<?>> getFooter();
+    @NotNull List<TextElement<?>> getFooter();
 
     /**
      * Builder class for constructing {@link CrispyTabList} instances.
@@ -114,7 +115,7 @@ public interface CrispyTabList extends CrispyVisual {
          * @param text the {@link TextElement} representing the line of text.
          * @return this {@link TabListBuilder} instance for method chaining.
          */
-        public TabListBuilder addHeaderLine(TextElement<?> text) {
+        public @NotNull TabListBuilder addHeaderLine(@NotNull TextElement<?> text) {
             text.setUpdate(() -> toBuild.update());
             this.data.addHeaderLine(text);
             return this;
@@ -126,7 +127,7 @@ public interface CrispyTabList extends CrispyVisual {
          * @param text the {@link TextElement} representing the line of text.
          * @return this {@link TabListBuilder} instance for method chaining.
          */
-        public TabListBuilder addFooterLine(TextElement<?> text) {
+        public @NotNull TabListBuilder addFooterLine(@NotNull TextElement<?> text) {
             text.setUpdate(() -> toBuild.update());
             this.data.addFooterLine(text);
             return this;
@@ -138,7 +139,7 @@ public interface CrispyTabList extends CrispyVisual {
          * @return the constructed {@link CrispyTabList}.
          */
         @Override
-        public CrispyTabList build() {
+        public @NotNull CrispyTabList build() {
             toBuild = new SimpleTabList(data, receivers, timeToLive, isPublic);
             return toBuild;
         }

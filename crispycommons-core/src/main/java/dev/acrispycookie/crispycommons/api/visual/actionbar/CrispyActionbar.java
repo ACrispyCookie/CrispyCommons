@@ -5,6 +5,7 @@ import dev.acrispycookie.crispycommons.implementations.visual.abstraction.builde
 import dev.acrispycookie.crispycommons.implementations.visual.actionbar.SimpleActionbar;
 import dev.acrispycookie.crispycommons.implementations.visual.actionbar.data.ActionbarData;
 import dev.acrispycookie.crispycommons.implementations.element.type.TextElement;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Represents an action bar visual element in the game, extending the {@link CrispyVisual} interface.
@@ -21,7 +22,7 @@ public interface CrispyActionbar extends CrispyVisual {
      *
      * @return a new {@link ActionbarBuilder} instance.
      */
-    static ActionbarBuilder builder() {
+    static @NotNull ActionbarBuilder builder() {
         return new ActionbarBuilder();
     }
 
@@ -30,14 +31,14 @@ public interface CrispyActionbar extends CrispyVisual {
      *
      * @param text the {@link TextElement} to display on the action bar.
      */
-    void setText(TextElement<?> text);
+    void setText(@NotNull TextElement<?> text);
 
     /**
      * Retrieves the text element currently displayed on the action bar.
      *
      * @return the {@link TextElement} displayed on the action bar.
      */
-    TextElement<?> getText();
+    @NotNull TextElement<?> getText();
 
     /**
      * A builder class for constructing instances of {@link CrispyActionbar}.
@@ -59,7 +60,7 @@ public interface CrispyActionbar extends CrispyVisual {
          * @param element the {@link TextElement} to display on the action bar.
          * @return this {@code ActionbarBuilder} instance for method chaining.
          */
-        public ActionbarBuilder setText(TextElement<?> element) {
+        public @NotNull ActionbarBuilder setText(@NotNull TextElement<?> element) {
             this.data.setText(element);
             this.data.getText().setUpdate(() -> toBuild.update());
             return this;
@@ -71,7 +72,7 @@ public interface CrispyActionbar extends CrispyVisual {
          * @return the constructed {@link CrispyActionbar} instance.
          */
         @Override
-        public CrispyActionbar build() {
+        public @NotNull CrispyActionbar build() {
             this.toBuild = new SimpleActionbar(data, receivers, timeToLive, isPublic);
             return toBuild;
         }

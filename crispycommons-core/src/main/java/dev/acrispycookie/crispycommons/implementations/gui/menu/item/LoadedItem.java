@@ -23,7 +23,7 @@ public abstract class LoadedItem extends AbstractMenuItem {
      *
      * @throws NullPointerException if {@code display} or {@code alternativeDisplay} is {@code null}.
      */
-    public LoadedItem(ItemElement<?> display, ItemElement<?> alternativeDisplay) {
+    public LoadedItem(@NotNull ItemElement<?> display, @NotNull ItemElement<?> alternativeDisplay) {
         super(display, display, alternativeDisplay);
     }
 

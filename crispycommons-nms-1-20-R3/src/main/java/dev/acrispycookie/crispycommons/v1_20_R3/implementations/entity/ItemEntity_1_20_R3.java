@@ -21,7 +21,7 @@ public class ItemEntity_1_20_R3 extends ItemEntity {
     private final VersionItem item;
 
     public ItemEntity_1_20_R3(@NotNull ItemElement<?> element, @NotNull Location location) {
-        super(element, location);
+        super(element);
         item = VersionItem.newInstance(location);
         item.setDespawnDelay(Integer.MAX_VALUE); // Makes the item entity persistent (doesn't despawn)
         item.setGravity(false);

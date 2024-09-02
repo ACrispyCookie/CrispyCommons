@@ -12,7 +12,6 @@ import dev.acrispycookie.crispycommons.implementations.gui.menu.data.PagedMenuDa
 import dev.acrispycookie.crispycommons.utility.logging.CrispyLogger;
 import dev.acrispycookie.crispycommons.utility.menu.InvalidMenuConfiguration;
 import dev.acrispycookie.crispycommons.utility.menu.PageInfo;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
@@ -93,32 +92,32 @@ public interface CrispyMenu extends TrackedGui, Listener {
     boolean isChangingPage(@NotNull Player player);
 
     /**
-     * Changes the current page for the specified offline player by the given amount.
+     * Changes the current page for the specified player by the given amount.
      *
-     * @param player the offline player.
+     * @param player the player.
      * @param offset the number of pages to offset by, positive or negative.
      * @throws NullPointerException if {@code player} is {@code null}.
      */
-    void offsetPage(@NotNull OfflinePlayer player, int offset);
+    void offsetPage(@NotNull Player player, int offset);
 
     /**
-     * Sets the current page for the specified offline player.
+     * Sets the current page for the specified player.
      *
-     * @param player the offline player.
+     * @param player the player.
      * @param page   the page index to set.
      * @throws NullPointerException if {@code player} is {@code null}.
      * @throws IllegalArgumentException if {@code page} is out of bounds.
      */
-    void setPage(@NotNull OfflinePlayer player, int page);
+    void setPage(@NotNull Player player, int page);
 
     /**
-     * Retrieves the current page number for the specified offline player.
+     * Retrieves the current page number for the specified player.
      *
-     * @param player the offline player.
+     * @param player the player.
      * @return the current page number.
      * @throws NullPointerException if {@code player} is {@code null}.
      */
-    int getPage(@NotNull OfflinePlayer player);
+    int getPage(@NotNull Player player);
 
     /**
      * Retrieves the page at the specified index.
@@ -300,7 +299,7 @@ public interface CrispyMenu extends TrackedGui, Listener {
          * @return the current {@link PagedMenuBuilder} instance.
          * @throws NullPointerException if {@code function} is {@code null}.
          */
-        public PagedMenuBuilder setOnPlayerItemClick(@NotNull BiFunction<Player, CrispyItemStack, Boolean> function) {
+        public @NotNull PagedMenuBuilder setOnPlayerItemClick(@NotNull BiFunction<Player, CrispyItemStack, Boolean> function) {
             pageInfo.setOnPlayerItemClick(function);
             return this;
         }
@@ -311,7 +310,7 @@ public interface CrispyMenu extends TrackedGui, Listener {
          * @param endIndex the end index.
          * @return the current {@link PagedMenuBuilder} instance.
          */
-        public PagedMenuBuilder setEndIndex(int endIndex) {
+        public @NotNull PagedMenuBuilder setEndIndex(int endIndex) {
             pageInfo.setEndIndex(endIndex);
             return this;
         }
@@ -322,7 +321,7 @@ public interface CrispyMenu extends TrackedGui, Listener {
          * @param startIndex the start index.
          * @return the current {@link PagedMenuBuilder} instance.
          */
-        public PagedMenuBuilder setStartIndex(int startIndex) {
+        public @NotNull PagedMenuBuilder setStartIndex(int startIndex) {
             pageInfo.setStartIndex(startIndex);
             return this;
         }
@@ -333,7 +332,7 @@ public interface CrispyMenu extends TrackedGui, Listener {
          * @param rows the number of rows.
          * @return the current {@link PagedMenuBuilder} instance.
          */
-        public PagedMenuBuilder setRows(int rows) {
+        public @NotNull PagedMenuBuilder setRows(int rows) {
             pageInfo.setRows(rows);
             return this;
         }
@@ -344,7 +343,7 @@ public interface CrispyMenu extends TrackedGui, Listener {
          * @param columns the number of columns.
          * @return the current {@link PagedMenuBuilder} instance.
          */
-        public PagedMenuBuilder setColumns(int columns) {
+        public @NotNull PagedMenuBuilder setColumns(int columns) {
             pageInfo.setColumns(columns);
             return this;
         }
@@ -356,7 +355,7 @@ public interface CrispyMenu extends TrackedGui, Listener {
          * @return the current {@link PagedMenuBuilder} instance.
          * @throws NullPointerException if {@code pageTitle} is {@code null}.
          */
-        public PagedMenuBuilder setTitle(@NotNull BiFunction<Integer, Integer, String> pageTitle) {
+        public @NotNull PagedMenuBuilder setTitle(@NotNull BiFunction<Integer, Integer, String> pageTitle) {
             pageInfo.setPageTitle(pageTitle);
             return this;
         }
@@ -368,7 +367,7 @@ public interface CrispyMenu extends TrackedGui, Listener {
          * @return the current {@link PagedMenuBuilder} instance.
          * @throws NullPointerException if {@code section} is {@code null}.
          */
-        public PagedMenuBuilder setSection(@NotNull DynamicSection section) {
+        public @NotNull PagedMenuBuilder setSection(@NotNull DynamicSection section) {
             this.section = section;
             return this;
         }
@@ -380,7 +379,7 @@ public interface CrispyMenu extends TrackedGui, Listener {
          * @return the current {@link PagedMenuBuilder} instance.
          * @throws NullPointerException if {@code property} is {@code null}.
          */
-        public PagedMenuBuilder addProperty(@NotNull MenuProperty property) {
+        public @NotNull PagedMenuBuilder addProperty(@NotNull MenuProperty property) {
             properties.add(property);
             return this;
         }
@@ -392,7 +391,7 @@ public interface CrispyMenu extends TrackedGui, Listener {
          * @return the current {@link PagedMenuBuilder} instance.
          * @throws NullPointerException if {@code property} is {@code null}.
          */
-        public PagedMenuBuilder removeProperty(@NotNull MenuProperty property) {
+        public @NotNull PagedMenuBuilder removeProperty(@NotNull MenuProperty property) {
             properties.remove(property);
             return this;
         }
@@ -404,7 +403,7 @@ public interface CrispyMenu extends TrackedGui, Listener {
          * @return the current {@link PagedMenuBuilder} instance.
          * @throws NullPointerException if {@code newProperties} or any element in it is {@code null}.
          */
-        public PagedMenuBuilder setProperties(@NotNull Collection<MenuProperty> newProperties) {
+        public @NotNull PagedMenuBuilder setProperties(@NotNull Collection<MenuProperty> newProperties) {
             properties.clear();
             properties.addAll(newProperties);
             return this;

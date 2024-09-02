@@ -6,6 +6,7 @@ import dev.acrispycookie.crispycommons.api.gui.menu.MenuPage;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -61,7 +62,7 @@ public class MenuData implements GuiData, Listener {
      * @param pages a collection of {@link MenuPage} instances that make up the menu.
      * @param properties a collection of {@link CrispyMenu.MenuProperty} that define the menu's properties.
      */
-    public MenuData(int startingPage, Collection<? extends MenuPage> pages, Collection<CrispyMenu.MenuProperty> properties) {
+    public MenuData(int startingPage, @NotNull Collection<? extends MenuPage> pages, @NotNull Collection<CrispyMenu.MenuProperty> properties) {
         this.startingPage = startingPage;
         this.pages.addAll(pages);
         this.properties.addAll(properties);
@@ -72,7 +73,7 @@ public class MenuData implements GuiData, Listener {
      *
      * @return a list of {@link MenuPage} instances.
      */
-    public List<MenuPage> getPages() {
+    public @NotNull List<MenuPage> getPages() {
         return pages;
     }
 
@@ -99,7 +100,7 @@ public class MenuData implements GuiData, Listener {
      *
      * @return a set of {@link CrispyMenu.MenuProperty} instances.
      */
-    public Set<CrispyMenu.MenuProperty> getProperties() {
+    public @NotNull Set<CrispyMenu.MenuProperty> getProperties() {
         return properties;
     }
 
@@ -108,7 +109,7 @@ public class MenuData implements GuiData, Listener {
      *
      * @param property the {@link CrispyMenu.MenuProperty} to remove.
      */
-    public void removeProperty(CrispyMenu.MenuProperty property) {
+    public void removeProperty(@NotNull CrispyMenu.MenuProperty property) {
         properties.remove(property);
     }
 
@@ -117,7 +118,7 @@ public class MenuData implements GuiData, Listener {
      *
      * @param property the {@link CrispyMenu.MenuProperty} to add.
      */
-    public void addProperty(CrispyMenu.MenuProperty property) {
+    public void addProperty(@NotNull CrispyMenu.MenuProperty property) {
         properties.add(property);
     }
 
@@ -137,7 +138,7 @@ public class MenuData implements GuiData, Listener {
      * @param player the {@link OfflinePlayer} whose page is being offset.
      * @param offset the amount to offset the page index by.
      */
-    public void offsetPage(OfflinePlayer player, int offset) {
+    public void offsetPage(@NotNull OfflinePlayer player, int offset) {
         if (!currentPages.containsKey(player))
             return;
 
@@ -151,7 +152,7 @@ public class MenuData implements GuiData, Listener {
      * @param player the {@link OfflinePlayer} whose page is being set.
      * @param page the page index to set.
      */
-    public void setPage(OfflinePlayer player, int page) {
+    public void setPage(@NotNull OfflinePlayer player, int page) {
         if (page < 0 || page >= pages.size())
             return;
 
@@ -173,7 +174,7 @@ public class MenuData implements GuiData, Listener {
      * @param player the {@link OfflinePlayer} to check.
      * @return the current page index.
      */
-    public int getPage(OfflinePlayer player) {
+    public int getPage(@NotNull OfflinePlayer player) {
         if (currentPages.containsKey(player))
             return currentPages.get(player);
 
@@ -188,9 +189,9 @@ public class MenuData implements GuiData, Listener {
      * @param index the index of the page to retrieve.
      * @return the {@link MenuPage} at the specified index, or {@code null} if the index is out of bounds.
      */
-    public MenuPage getPage(int index) {
+    public @NotNull MenuPage getPage(int index) {
         if (index < 0 || index >= pages.size())
-            return null;
+            throw new IndexOutOfBoundsException("Menu page index is out of bounds: " + index);
 
         return pages.get(index);
     }
@@ -200,7 +201,7 @@ public class MenuData implements GuiData, Listener {
      *
      * @param p the {@link Player} who closed the page.
      */
-    public void onPageClose(Player p) {
+    public void onPageClose(@NotNull Player p) {
         int index = currentPages.get(p);
         pageUsage.put(index, pageUsage.get(index) - 1);
         currentPages.remove(p);
@@ -214,7 +215,7 @@ public class MenuData implements GuiData, Listener {
      *
      * @param menu the {@link CrispyMenu} to associate.
      */
-    public void setMenu(CrispyMenu menu) {
+    public void setMenu(@NotNull CrispyMenu menu) {
         this.menu = menu;
         this.pages.forEach(p -> p.setMenu(menu));
     }
@@ -225,7 +226,7 @@ public class MenuData implements GuiData, Listener {
      * @param player the {@link Player} to check.
      * @return {@code true} if the player is currently changing pages, otherwise {@code false}.
      */
-    public boolean isChangingPage(Player player) {
+    public boolean isChangingPage(@NotNull Player player) {
         return currentlyChangingPage.contains(player);
     }
 
@@ -234,7 +235,7 @@ public class MenuData implements GuiData, Listener {
      *
      * @return the associated {@link CrispyMenu}.
      */
-    public CrispyMenu getMenu() {
+    public @NotNull CrispyMenu getMenu() {
         return menu;
     }
 

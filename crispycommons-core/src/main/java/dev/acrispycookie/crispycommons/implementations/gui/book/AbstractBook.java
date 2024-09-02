@@ -2,6 +2,7 @@ package dev.acrispycookie.crispycommons.implementations.gui.book;
 
 import dev.acrispycookie.crispycommons.implementations.gui.abstraction.AbstractUntrackedGui;
 import dev.acrispycookie.crispycommons.implementations.gui.book.data.BookData;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * An abstract base class for creating book-based GUIs.
@@ -19,7 +20,7 @@ public abstract class AbstractBook extends AbstractUntrackedGui<BookData> {
      *
      * @param data the {@link BookData} to be associated with this book GUI.
      */
-    public AbstractBook(BookData data) {
+    public AbstractBook(@NotNull BookData data) {
         super(data);
     }
 }

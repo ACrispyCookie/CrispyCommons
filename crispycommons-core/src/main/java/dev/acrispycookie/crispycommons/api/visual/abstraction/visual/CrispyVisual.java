@@ -3,6 +3,7 @@ package dev.acrispycookie.crispycommons.api.visual.abstraction.visual;
 import dev.acrispycookie.crispycommons.implementations.element.type.TimeToLiveElement;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 import java.util.Set;
@@ -41,28 +42,28 @@ public interface CrispyVisual {
      *
      * @param timeToLive the {@link TimeToLiveElement} managing the TTL.
      */
-    void setTimeToLive(TimeToLiveElement<?> timeToLive);
+    void setTimeToLive(@NotNull TimeToLiveElement<?> timeToLive);
 
     /**
      * Adds a player to the list of players who can view this visual element.
      *
      * @param player the {@link OfflinePlayer} to be added.
      */
-    void addPlayer(OfflinePlayer player);
+    void addPlayer(@NotNull OfflinePlayer player);
 
     /**
      * Removes a player from the list of players who can view this visual element.
      *
      * @param player the {@link OfflinePlayer} to be removed.
      */
-    void removePlayer(OfflinePlayer player);
+    void removePlayer(@NotNull OfflinePlayer player);
 
     /**
      * Sets the players who can view this visual element.
      *
      * @param players a collection of {@link OfflinePlayer} instances representing the players.
      */
-    void setPlayers(Collection<? extends OfflinePlayer> players);
+    void setPlayers(@NotNull Collection<? extends OfflinePlayer> players);
 
     /**
      * Resets the expired status of all players, allowing them to view the visual element again if applicable.
@@ -74,28 +75,28 @@ public interface CrispyVisual {
      *
      * @param player the {@link Player} whose expired status should be reset.
      */
-    void resetExpired(Player player);
+    void resetExpired(@NotNull Player player);
 
     /**
      * Retrieves the set of players who can view this visual element.
      *
      * @return a set of {@link OfflinePlayer} instances.
      */
-    Set<OfflinePlayer> getPlayers();
+    @NotNull Set<OfflinePlayer> getPlayers();
 
     /**
      * Retrieves the set of players who are currently viewing this visual element.
      *
      * @return a set of {@link Player} instances.
      */
-    Set<Player> getCurrentlyViewing();
+    @NotNull Set<Player> getCurrentlyViewing();
 
     /**
      * Retrieves the time-to-live (TTL) element associated with this visual.
      *
      * @return the {@link TimeToLiveElement} managing the TTL.
      */
-    TimeToLiveElement<?> getTimeToLive();
+    @NotNull TimeToLiveElement<?> getTimeToLive();
 
     /**
      * Checks if this visual element is public, meaning it is visible to all players.
@@ -131,7 +132,7 @@ public interface CrispyVisual {
      * @param player the {@link Player} to check.
      * @return {@code true} if the player is watching; {@code false} otherwise.
      */
-    boolean isWatching(Player player);
+    boolean isWatching(@NotNull Player player);
 
     /**
      * Checks if the visual element has expired for a specific player.
@@ -139,14 +140,14 @@ public interface CrispyVisual {
      * @param player the {@link OfflinePlayer} to check.
      * @return {@code true} if the visual element has expired for the player; {@code false} otherwise.
      */
-    boolean isExpired(OfflinePlayer player);
+    boolean isExpired(@NotNull OfflinePlayer player);
 
     /**
      * Checks if the visual element's TTL is currently running for a specific player.
      *
-     * @param player the {@link OfflinePlayer} to check.
+     * @param player the {@link Player} to check.
      * @return {@code true} if the TTL is running for the player; {@code false} otherwise.
      */
-    boolean isRunning(OfflinePlayer player);
+    boolean isRunning(@NotNull Player player);
 }
 

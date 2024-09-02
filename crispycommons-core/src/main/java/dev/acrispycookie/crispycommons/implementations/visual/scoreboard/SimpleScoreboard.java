@@ -7,6 +7,7 @@ import dev.acrispycookie.crispycommons.version.Versioned;
 import dev.acrispycookie.crispycommons.version.utility.ArgPair;
 import dev.acrispycookie.crispycommons.version.utility.MappedVersions;
 import org.bukkit.OfflinePlayer;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -29,11 +30,11 @@ public abstract class SimpleScoreboard extends AbstractScoreboard implements Ver
      * @param timeToLive the time-to-live (TTL) element controlling the lifespan of the scoreboard.
      * @param isPublic whether the scoreboard should be visible to all players.
      */
-    public SimpleScoreboard(ScoreboardData data, Collection<? extends OfflinePlayer> receivers, TimeToLiveElement<?> timeToLive, boolean isPublic) {
+    public SimpleScoreboard(@NotNull ScoreboardData data, @NotNull Collection<? extends OfflinePlayer> receivers, @NotNull TimeToLiveElement<?> timeToLive, boolean isPublic) {
         super(data, new HashSet<>(receivers), timeToLive, UpdateMode.GLOBAL, isPublic);
     }
 
-    public static SimpleScoreboard newInstance(ScoreboardData data, Collection<? extends OfflinePlayer> receivers, TimeToLiveElement<?> timeToLive, boolean isPublic) {
+    public static @NotNull SimpleScoreboard newInstance(@NotNull ScoreboardData data, @NotNull Collection<? extends OfflinePlayer> receivers, @NotNull TimeToLiveElement<?> timeToLive, boolean isPublic) {
         return VersionManager.createInstance(SimpleScoreboard.class, getRemapped(),
                 new ArgPair<>(ScoreboardData.class, data),
                 new ArgPair<>(Collection.class, receivers),
@@ -41,7 +42,7 @@ public abstract class SimpleScoreboard extends AbstractScoreboard implements Ver
                 new ArgPair<>(boolean.class, isPublic));
     }
 
-    public static MappedVersions getRemapped() {
+    public static @NotNull MappedVersions getRemapped() {
         return new MappedVersions();
     }
 }

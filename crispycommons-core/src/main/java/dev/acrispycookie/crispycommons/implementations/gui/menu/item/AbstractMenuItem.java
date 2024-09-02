@@ -74,7 +74,7 @@ public abstract class AbstractMenuItem implements MenuItem {
      *
      * @throws NullPointerException if any of the display elements are {@code null}.
      */
-    AbstractMenuItem(ItemElement<?> display, ItemElement<?> unloadedDisplay, ItemElement<?> alternativeDisplay) {
+    AbstractMenuItem(@NotNull ItemElement<?> display, @NotNull ItemElement<?> unloadedDisplay, @NotNull ItemElement<?> alternativeDisplay) {
         this.display = display;
         this.loadingDisplay = unloadedDisplay;
         this.alternativeDisplay = alternativeDisplay;

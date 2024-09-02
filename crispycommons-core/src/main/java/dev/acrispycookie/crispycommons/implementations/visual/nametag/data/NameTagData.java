@@ -3,6 +3,8 @@ package dev.acrispycookie.crispycommons.implementations.visual.nametag.data;
 import dev.acrispycookie.crispycommons.api.visual.abstraction.visual.VisualData;
 import dev.acrispycookie.crispycommons.implementations.element.type.NameTagElement;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * A data class representing the visual data required to display a name tag.
@@ -54,9 +56,9 @@ public class NameTagData implements VisualData {
      * @param belowName the text to be displayed below the player's name.
      * @param aboveName the text to be displayed above the player's name.
      */
-    public NameTagData(Player player, NameTagElement<String, ?> prefix, NameTagElement<String, ?> suffix,
-                       NameTagElement<Integer, ?> belowNameValue, NameTagElement<String, ?> belowName,
-                       NameTagElement<String, ?> aboveName) {
+    public NameTagData(@Nullable Player player, @Nullable NameTagElement<String, ?> prefix, @Nullable NameTagElement<String, ?> suffix,
+                       @Nullable NameTagElement<Integer, ?> belowNameValue, @Nullable NameTagElement<String, ?> belowName,
+                       @Nullable NameTagElement<String, ?> aboveName) {
         this.player = player;
         this.prefix = prefix;
         this.suffix = suffix;
@@ -70,7 +72,7 @@ public class NameTagData implements VisualData {
      *
      * @return the player associated with this name tag.
      */
-    public Player getPlayer() {
+    public @Nullable Player getPlayer() {
         return player;
     }
 
@@ -79,7 +81,7 @@ public class NameTagData implements VisualData {
      *
      * @param player the player to associate with this name tag.
      */
-    public void setPlayer(Player player) {
+    public void setPlayer(@Nullable Player player) {
         this.player = player;
     }
 
@@ -88,7 +90,7 @@ public class NameTagData implements VisualData {
      *
      * @return the prefix element of the name tag.
      */
-    public NameTagElement<String, ?> getPrefix() {
+    public @Nullable NameTagElement<String, ?> getPrefix() {
         return prefix;
     }
 
@@ -97,7 +99,7 @@ public class NameTagData implements VisualData {
      *
      * @param prefix the prefix element to set.
      */
-    public void setPrefix(NameTagElement<String, ?> prefix) {
+    public void setPrefix(@Nullable NameTagElement<String, ?> prefix) {
         this.prefix = prefix;
     }
 
@@ -106,7 +108,7 @@ public class NameTagData implements VisualData {
      *
      * @return the suffix element of the name tag.
      */
-    public NameTagElement<String, ?> getSuffix() {
+    public @Nullable NameTagElement<String, ?> getSuffix() {
         return suffix;
     }
 
@@ -115,7 +117,7 @@ public class NameTagData implements VisualData {
      *
      * @param suffix the suffix element to set.
      */
-    public void setSuffix(NameTagElement<String, ?> suffix) {
+    public void setSuffix(@Nullable NameTagElement<String, ?> suffix) {
         this.suffix = suffix;
     }
 
@@ -124,7 +126,7 @@ public class NameTagData implements VisualData {
      *
      * @return the below-name text element.
      */
-    public NameTagElement<String, ?> getBelowName() {
+    public @Nullable NameTagElement<String, ?> getBelowName() {
         return belowName;
     }
 
@@ -133,7 +135,7 @@ public class NameTagData implements VisualData {
      *
      * @param belowName the below-name text element to set.
      */
-    public void setBelowName(NameTagElement<String, ?> belowName) {
+    public void setBelowName(@Nullable NameTagElement<String, ?> belowName) {
         this.belowName = belowName;
     }
 
@@ -142,7 +144,7 @@ public class NameTagData implements VisualData {
      *
      * @return the below-name value element.
      */
-    public NameTagElement<Integer, ?> getBelowNameValue() {
+    public @Nullable NameTagElement<Integer, ?> getBelowNameValue() {
         return belowNameValue;
     }
 
@@ -151,7 +153,7 @@ public class NameTagData implements VisualData {
      *
      * @param belowNameValue the below-name value element to set.
      */
-    public void setBelowNameValue(NameTagElement<Integer, ?> belowNameValue) {
+    public void setBelowNameValue(@Nullable NameTagElement<Integer, ?> belowNameValue) {
         this.belowNameValue = belowNameValue;
     }
 
@@ -160,7 +162,7 @@ public class NameTagData implements VisualData {
      *
      * @return the above-name text element.
      */
-    public NameTagElement<String, ?> getAboveName() {
+    public @Nullable NameTagElement<String, ?> getAboveName() {
         return aboveName;
     }
 
@@ -169,7 +171,7 @@ public class NameTagData implements VisualData {
      *
      * @param aboveName the above-name text element to set.
      */
-    public void setAboveName(NameTagElement<String, ?> aboveName) {
+    public void setAboveName(@Nullable NameTagElement<String, ?> aboveName) {
         this.aboveName = aboveName;
     }
 
@@ -184,7 +186,7 @@ public class NameTagData implements VisualData {
      * @throws VisualNotReadyException if any required element is not set or improperly configured.
      */
     @Override
-    public void assertReady(Player player) {
+    public void assertReady(@NotNull Player player) {
         if (this.player == null) {
             throw new VisualNotReadyException("The name tag's player was not set!");
         }

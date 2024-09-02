@@ -30,7 +30,7 @@ public abstract class CrispyHeadItem extends CrispyItemStack {
      *
      * @return the updated {@code CrispyHeadItem} instance.
      */
-    public abstract CrispyHeadItem update();
+    public abstract @NotNull CrispyHeadItem update();
 
     /**
      * Constructs a {@code CrispyHeadItem} from an existing {@link ItemStack}.
