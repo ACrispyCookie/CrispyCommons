@@ -1,5 +1,6 @@
 package dev.acrispycookie.crispycommons.v1_8_R3.utility.nms;
 
+import dev.acrispycookie.crispycommons.utility.logging.CrispyLogger;
 import dev.acrispycookie.crispycommons.utility.nms.CommandRegister;
 import org.bukkit.command.Command;
 import org.bukkit.command.SimpleCommandMap;
@@ -30,7 +31,7 @@ public class CommandRegister_1_8_R3 extends CommandRegister {
         try {
             knownCommandsField.set(map, knownCommands);
         } catch (IllegalAccessException e) {
-            System.out.println("Failed to unregister command " + label + " from plugin " + plugin.getName());
+            CrispyLogger.printException(plugin, e, "Failed to unregister command " + label + " from plugin " + plugin.getName());
         }
         return map;
     }
