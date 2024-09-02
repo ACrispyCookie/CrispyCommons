@@ -88,18 +88,6 @@ public class TextElement<K> extends AbstractAnimatedElement<Component, K> {
     }
 
     /**
-     * Creates a deep copy of this {@code TextElement}.
-     *
-     * @return a cloned instance of this {@code TextElement}.
-     */
-    @Override
-    public @NotNull TextElement<K> clone() {
-        if (isDynamic())
-            return new TextElement<>(new MyElementSupplier<>(this::getRaw), getDelay(), getPeriod(), getContextClass());
-        return new TextElement<>(new MyElementSupplier<>(this::getRaw), -1, -1, getContextClass());
-    }
-
-    /**
      * Creates a simple, static {@code TextElement} with a fixed string value.
      *
      * @param value the fixed string value.

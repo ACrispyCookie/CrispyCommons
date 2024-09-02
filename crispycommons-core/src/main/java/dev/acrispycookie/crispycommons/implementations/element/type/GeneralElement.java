@@ -49,18 +49,6 @@ public class GeneralElement<T, K> extends AbstractAnimatedElement<T, K> {
     }
 
     /**
-     * Creates a copy of this {@code GeneralElement}.
-     *
-     * @return a new {@code GeneralElement} instance with the same properties as this one.
-     */
-    @Override
-    public @NotNull GeneralElement<T, K> clone() {
-        if (isDynamic())
-            return new GeneralElement<>(new MyElementSupplier<>(this::getRaw), getDelay(), getPeriod(), isAsync(), getContextClass());
-        return new GeneralElement<>(new MyElementSupplier<>(this::getRaw), -1, -1, isAsync(), getContextClass());
-    }
-
-    /**
      * Creates a simple, static {@code GeneralElement} with a fixed value.
      *
      * @param value the fixed value of the element.

@@ -61,16 +61,6 @@ public class TimeToLiveElement<K> extends AbstractAnimatedElement<Long, K> {
     }
 
     /**
-     * Creates a deep copy of this {@code TimeToLiveElement}.
-     *
-     * @return a cloned instance of this {@code TimeToLiveElement}.
-     */
-    @Override
-    public @NotNull TimeToLiveElement<K> clone() {
-        return new TimeToLiveElement<>(new MyElementSupplier<>(this::getRaw), getContextClass(), getStartMode());
-    }
-
-    /**
      * Creates a simple, static {@code TimeToLiveElement} with a fixed TTL value and start mode.
      *
      * @param value the fixed TTL value in milliseconds.

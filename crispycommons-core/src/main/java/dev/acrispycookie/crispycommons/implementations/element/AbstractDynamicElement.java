@@ -38,7 +38,7 @@ public abstract class AbstractDynamicElement<T, K> extends AbstractElement<T, K>
      * the interval between updates, while a value of -1 indicates that the element does not update periodically.
      * </p>
      */
-    private final int period;
+    private int period;
 
     /**
      * The initial delay before the first update in ticks.
@@ -46,7 +46,7 @@ public abstract class AbstractDynamicElement<T, K> extends AbstractElement<T, K>
      * This value specifies how long to wait before starting the first update after the element is initialized.
      * </p>
      */
-    private final int delay;
+    private int delay;
 
     /**
      * Indicates whether the updates are run asynchronously.
@@ -169,6 +169,22 @@ public abstract class AbstractDynamicElement<T, K> extends AbstractElement<T, K>
     }
 
     /**
+     * Sets the period of the dynamic element.
+     * <p>
+     * This method sets the interval at which the dynamic element updates.
+     * </p>
+     *
+     * @param period the period of the dynamic element, typically in ticks.
+     */
+    public void setPeriod(int period) {
+        this.period = period;
+        if (isRunning()) {
+            stop();
+            start();
+        }
+    }
+
+    /**
      * Returns the initial delay before the first update, in ticks.
      *
      * @return the delay before the first update.
@@ -178,12 +194,36 @@ public abstract class AbstractDynamicElement<T, K> extends AbstractElement<T, K>
     }
 
     /**
+     * Sets the initial delay of the dynamic element.
+     * <p>
+     * This method sets the initial delay for the first update.
+     * </p>
+     *
+     * @param delay the delay of the dynamic element, typically in ticks.
+     */
+    public void setDelay(int delay) {
+        this.delay = delay;
+    }
+
+    /**
      * Checks if the updates are run asynchronously.
      *
      * @return {@code true} if updates are run asynchronously, otherwise {@code false}.
      */
     public boolean isAsync() {
         return async;
+    }
+
+    /**
+     * Retrieves the status of the dynamic element.
+     * <p>
+     * This method returns the status of the dynamic element.
+     * </p>
+     *
+     * @return {@code true} if the dynamic element is currently running or else {@code false}.
+     */
+    public boolean isRunning() {
+        return bukkitTask != null;
     }
 
     /**

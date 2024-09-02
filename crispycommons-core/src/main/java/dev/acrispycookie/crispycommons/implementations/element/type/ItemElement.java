@@ -47,18 +47,6 @@ public class ItemElement<K> extends AbstractAnimatedElement<CrispyItemStack, K> 
     }
 
     /**
-     * Creates a copy of this {@code ItemElement}.
-     *
-     * @return a new {@code ItemElement} instance with the same properties as this one.
-     */
-    @Override
-    public @NotNull ItemElement<K> clone() {
-        if (isDynamic())
-            return new ItemElement<>(new MyElementSupplier<>(this::getRaw), getDelay(), getPeriod(), getContextClass());
-        return new ItemElement<>(new MyElementSupplier<>(this::getRaw), -1, -1, getContextClass());
-    }
-
-    /**
      * Creates a simple, static {@code ItemElement} with a fixed value.
      *
      * @param value the fixed item stack value.

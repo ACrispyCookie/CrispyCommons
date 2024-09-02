@@ -71,19 +71,6 @@ public class NameTagElement<T, K> extends AbstractAnimatedElement<T, K> {
 
         return textElement;
     }
-
-    /**
-     * Creates a copy of this {@code NameTagElement}.
-     *
-     * @return a new {@code NameTagElement} instance with the same properties as this one.
-     */
-    @Override
-    public @NotNull NameTagElement<T, K> clone() {
-        if (isDynamic())
-            return new NameTagElement<>(new MyElementSupplier<>(this::getRaw), getDelay(), getPeriod(), getContextClass());
-        return new NameTagElement<>(new MyElementSupplier<>(this::getRaw), -1, -1, getContextClass());
-    }
-
     /**
      * Creates a simple, static {@code NameTagElement} with a personal context for each {@link OfflinePlayer}.
      *

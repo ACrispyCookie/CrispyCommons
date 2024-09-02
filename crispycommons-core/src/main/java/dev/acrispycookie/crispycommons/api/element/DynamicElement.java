@@ -37,9 +37,29 @@ public interface DynamicElement<T, K> extends CrispyElement<T, K> {
      * This method returns the interval at which the dynamic element updates.
      * </p>
      *
-     * @return the period of the dynamic element, typically in milliseconds.
+     * @return the period of the dynamic element, typically in ticks.
      */
     int getPeriod();
+
+    /**
+     * Sets the period of the dynamic element.
+     * <p>
+     * This method sets the interval at which the dynamic element updates.
+     * </p>
+     *
+     * @param period the period of the dynamic element, typically in ticks.
+     */
+    void setPeriod(int period);
+
+    /**
+     * Retrieves the status of the dynamic element.
+     * <p>
+     * This method returns the status of the dynamic element.
+     * </p>
+     *
+     * @return {@code true} if the dynamic element is currently running or else {@code false}.
+     */
+    boolean isRunning();
 
     /**
      * Sets the update action to be performed periodically.

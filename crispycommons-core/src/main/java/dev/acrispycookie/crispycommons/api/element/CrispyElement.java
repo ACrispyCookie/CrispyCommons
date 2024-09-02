@@ -16,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
  * @param <T> the type of the data or result this element provides.
  * @param <K> the type of the context used to retrieve or interact with the element.
  */
-public interface CrispyElement<T, K> extends Cloneable {
+public interface CrispyElement<T, K> {
 
     /**
      * Retrieves the raw data of the element based on the provided context.

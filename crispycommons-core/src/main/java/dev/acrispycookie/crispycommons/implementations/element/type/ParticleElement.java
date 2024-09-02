@@ -47,20 +47,6 @@ public class ParticleElement<T extends Effect, K> extends AbstractAnimatedElemen
     protected ParticleElement(@NotNull MyElementSupplier<K, T> supplier, int delay, int period, @NotNull Class<K> kClass) {
         super(supplier, delay, period, false, kClass);
     }
-
-    /**
-     * Creates a deep copy of this {@code ParticleElement}.
-     *
-     * @return a cloned instance of this {@code ParticleElement}.
-     */
-    @Override
-    public @NotNull ParticleElement<T, K> clone() {
-        if (isDynamic()) {
-            return new ParticleElement<>(new MyElementSupplier<>(this::getRaw), getDelay(), getPeriod(), getContextClass());
-        }
-        return new ParticleElement<>(new MyElementSupplier<>(this::getRaw), -1, -1, getContextClass());
-    }
-
     /**
      * Creates a simple, static {@code ParticleElement} with a fixed particle effect value.
      *
