@@ -6,11 +6,13 @@ import dev.acrispycookie.crispycommons.implementations.visual.abstraction.visual
 import dev.acrispycookie.crispycommons.implementations.visual.nametag.data.NameTagData;
 import dev.acrispycookie.crispycommons.implementations.element.type.NameTagElement;
 import dev.acrispycookie.crispycommons.implementations.element.type.TimeToLiveElement;
+import dev.acrispycookie.crispycommons.utility.visual.FieldUpdaterHelper;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
 
@@ -129,13 +131,7 @@ public abstract class AbstractNameTag extends AbstractVisual<NameTagData> implem
      */
     @Override
     public void setPrefix(@NotNull NameTagElement<String, ?> prefix) {
-        data.getPrefix().destroy();
-        data.setPrefix(prefix);
-        data.getPrefix().setUpdate(this::updatePrefix);
-        if (isAnyoneWatching()) {
-            data.getPrefix().start();
-            updatePrefix();
-        }
+        FieldUpdaterHelper.setNormalField(prefix, data::getPrefix, data::setPrefix, isAnyoneWatching(), this::updatePrefix);
     }
 
     /**
@@ -149,13 +145,7 @@ public abstract class AbstractNameTag extends AbstractVisual<NameTagData> implem
      */
     @Override
     public void setSuffix(@NotNull NameTagElement<String, ?> suffix) {
-        data.getSuffix().destroy();
-        data.setSuffix(suffix);
-        data.getSuffix().setUpdate(this::updateSuffix);
-        if (isAnyoneWatching()) {
-            data.getSuffix().start();
-            updateSuffix();
-        }
+        FieldUpdaterHelper.setNormalField(suffix, data::getSuffix, data::setSuffix, isAnyoneWatching(), this::updateSuffix);
     }
 
     /**
@@ -169,13 +159,7 @@ public abstract class AbstractNameTag extends AbstractVisual<NameTagData> implem
      */
     @Override
     public void setBelowName(@NotNull NameTagElement<String, ?> belowName) {
-        data.getBelowName().destroy();
-        data.setBelowName(belowName);
-        data.getBelowName().setUpdate(this::updateBelowName);
-        if (isAnyoneWatching()) {
-            data.getBelowName().start();
-            updateBelowName();
-        }
+        FieldUpdaterHelper.setNormalField(belowName, data::getBelowName, data::setBelowName, isAnyoneWatching(), this::updateBelowName);
     }
 
     /**
@@ -189,13 +173,7 @@ public abstract class AbstractNameTag extends AbstractVisual<NameTagData> implem
      */
     @Override
     public void setBelowNameValue(@NotNull NameTagElement<Integer, ?> belowNameValue) {
-        data.getBelowNameValue().destroy();
-        data.setBelowNameValue(belowNameValue);
-        data.getBelowNameValue().setUpdate(this::updateBelowNameValue);
-        if (isAnyoneWatching()) {
-            data.getBelowNameValue().start();
-            updateBelowNameValue();
-        }
+        FieldUpdaterHelper.setNormalField(belowNameValue, data::getBelowNameValue, data::setBelowNameValue, isAnyoneWatching(), this::updateBelowNameValue);
     }
 
     /**
@@ -209,13 +187,7 @@ public abstract class AbstractNameTag extends AbstractVisual<NameTagData> implem
      */
     @Override
     public void setAboveName(@NotNull NameTagElement<String, ?> aboveName) {
-        data.getAboveName().destroy();
-        data.setAboveName(aboveName);
-        data.getAboveName().setUpdate(this::updateAboveName);
-        if (isAnyoneWatching()) {
-            data.getAboveName().start();
-            updateAboveName();
-        }
+        FieldUpdaterHelper.setNormalField(aboveName, data::getAboveName, data::setAboveName, isAnyoneWatching(), this::updateAboveName);
     }
 
     /**
@@ -224,8 +196,8 @@ public abstract class AbstractNameTag extends AbstractVisual<NameTagData> implem
      * @return the prefix {@link NameTagElement}.
      */
     @Override
-    public @NotNull NameTagElement<String, ?> getPrefix() {
-        return data.getPrefix().getElement();
+    public @Nullable NameTagElement<String, ?> getPrefix() {
+        return data.getPrefix() != null ? data.getPrefix().getElement() : null;
     }
 
     /**
@@ -234,8 +206,8 @@ public abstract class AbstractNameTag extends AbstractVisual<NameTagData> implem
      * @return the suffix {@link NameTagElement}.
      */
     @Override
-    public @NotNull NameTagElement<String, ?> getSuffix() {
-        return data.getSuffix().getElement();
+    public @Nullable NameTagElement<String, ?> getSuffix() {
+        return data.getSuffix() != null ? data.getSuffix().getElement() : null;
     }
 
     /**
@@ -244,8 +216,8 @@ public abstract class AbstractNameTag extends AbstractVisual<NameTagData> implem
      * @return the below-name {@link NameTagElement}.
      */
     @Override
-    public @NotNull NameTagElement<String, ?> getBelowName() {
-        return data.getBelowName().getElement();
+    public @Nullable NameTagElement<String, ?> getBelowName() {
+        return data.getBelowName() != null ? data.getBelowName().getElement() : null;
     }
 
     /**
@@ -254,8 +226,8 @@ public abstract class AbstractNameTag extends AbstractVisual<NameTagData> implem
      * @return the below-name value {@link NameTagElement}.
      */
     @Override
-    public @NotNull NameTagElement<Integer, ?> getBelowNameValue() {
-        return data.getBelowNameValue().getElement();
+    public @Nullable NameTagElement<Integer, ?> getBelowNameValue() {
+        return data.getBelowNameValue() != null ? data.getBelowNameValue().getElement() : null;
     }
 
     /**
@@ -264,8 +236,8 @@ public abstract class AbstractNameTag extends AbstractVisual<NameTagData> implem
      * @return the above-name {@link NameTagElement}.
      */
     @Override
-    public @NotNull NameTagElement<String, ?> getAboveName() {
-        return data.getAboveName().getElement();
+    public @Nullable NameTagElement<String, ?> getAboveName() {
+        return data.getAboveName() != null ? data.getAboveName().getElement() : null;
     }
 }
 

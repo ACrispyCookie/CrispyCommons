@@ -29,7 +29,7 @@ public class ScoreboardData implements VisualData {
     /**
      * The list of line elements to be displayed on the scoreboard.
      */
-    private List<OwnedElement<TextElement<?>>> lines;
+    private final List<OwnedElement<TextElement<?>>> lines;
 
     /**
      * Constructs a new {@code ScoreboardData} instance with the specified title and lines.
@@ -40,7 +40,7 @@ public class ScoreboardData implements VisualData {
     public ScoreboardData(@Nullable TextElement<?> title, @NotNull Collection<? extends TextElement<?>> lines) {
         this.lines = new ArrayList<>();
         lines.forEach(line -> this.lines.add(new OwnedElement<>(line, this, this.lines.size())));
-        this.title = new OwnedElement<>(title, this, "title");
+        this.title = title != null ? new OwnedElement<>(title, this, "title") : null;
     }
 
     /**
@@ -57,7 +57,7 @@ public class ScoreboardData implements VisualData {
      *
      * @return the {@link TextElement} representing the scoreboard title.
      */
-    public @NotNull OwnedElement<TextElement<?>> getTitle() {
+    public @Nullable OwnedElement<TextElement<?>> getTitle() {
         return title;
     }
 
@@ -120,11 +120,9 @@ public class ScoreboardData implements VisualData {
      */
     @Override
     public void assertReady(@NotNull Player player) {
-        if (title == null) {
+        if (title == null)
             throw new VisualNotReadyException("The scoreboard title was not set!");
-        }
-        if (lines.isEmpty()) {
+        if (lines.isEmpty())
             throw new VisualNotReadyException("The scoreboard lines were not set!");
-        }
     }
 }

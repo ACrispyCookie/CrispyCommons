@@ -23,12 +23,12 @@ public class TabListData implements VisualData {
     /**
      * The list of {@link TextElement} representing the header lines of the tab list.
      */
-    private List<OwnedElement<TextElement<?>>> header;
+    private final List<OwnedElement<TextElement<?>>> header;
 
     /**
      * The list of {@link TextElement} representing the footer lines of the tab list.
      */
-    private List<OwnedElement<TextElement<?>>> footer;
+    private final List<OwnedElement<TextElement<?>>> footer;
 
     /**
      * Constructs a new {@code TabListData} instance with the specified header and footer elements.
@@ -149,12 +149,7 @@ public class TabListData implements VisualData {
      */
     @Override
     public void assertReady(@NotNull Player player) {
-        if (header.isEmpty()) {
-            throw new VisualNotReadyException("The tab list header was not set!");
-        }
-        if (footer.isEmpty()) {
-            throw new VisualNotReadyException("The tab list footer was not set!");
-        }
+
     }
 }
 

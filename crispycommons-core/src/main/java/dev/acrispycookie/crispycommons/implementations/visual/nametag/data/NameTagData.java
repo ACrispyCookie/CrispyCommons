@@ -61,11 +61,11 @@ public class NameTagData implements VisualData {
                        @Nullable NameTagElement<Integer, ?> belowNameValue, @Nullable NameTagElement<String, ?> belowName,
                        @Nullable NameTagElement<String, ?> aboveName) {
         this.player = player;
-        this.prefix = new OwnedElement<>(prefix, this);
-        this.suffix = new OwnedElement<>(suffix, this);
-        this.belowNameValue = new OwnedElement<>(belowNameValue, this);
-        this.belowName = new OwnedElement<>(belowName, true);
-        this.aboveName = new OwnedElement<>(aboveName, true);
+        this.prefix = prefix != null ? new OwnedElement<>(prefix, this) : null;
+        this.suffix = suffix != null ? new OwnedElement<>(suffix, this) : null;
+        this.belowNameValue = belowNameValue != null ? new OwnedElement<>(belowNameValue, this) : null;
+        this.belowName = belowName != null ? new OwnedElement<>(belowName, true) : null;
+        this.aboveName = aboveName != null ? new OwnedElement<>(aboveName, true) : null;
     }
 
     /**
@@ -127,7 +127,7 @@ public class NameTagData implements VisualData {
      *
      * @param player the player to associate with this name tag.
      */
-    public void setPlayer(@Nullable Player player) {
+    public void setPlayer(@NotNull Player player) {
         this.player = player;
     }
 
@@ -136,7 +136,7 @@ public class NameTagData implements VisualData {
      *
      * @param prefix the prefix element to set.
      */
-    public void setPrefix(@Nullable NameTagElement<String, ?> prefix) {
+    public void setPrefix(@NotNull NameTagElement<String, ?> prefix) {
         this.prefix = new OwnedElement<>(prefix, this, "prefix");
     }
 
@@ -145,7 +145,7 @@ public class NameTagData implements VisualData {
      *
      * @param suffix the suffix element to set.
      */
-    public void setSuffix(@Nullable NameTagElement<String, ?> suffix) {
+    public void setSuffix(@NotNull NameTagElement<String, ?> suffix) {
         this.suffix = new OwnedElement<>(suffix, this, "suffix");
     }
 
@@ -154,7 +154,7 @@ public class NameTagData implements VisualData {
      *
      * @param belowName the below-name text element to set.
      */
-    public void setBelowName(@Nullable NameTagElement<String, ?> belowName) {
+    public void setBelowName(@NotNull NameTagElement<String, ?> belowName) {
         this.belowName = new OwnedElement<>(belowName, this, "below-name");
     }
 
@@ -163,7 +163,7 @@ public class NameTagData implements VisualData {
      *
      * @param belowNameValue the below-name value element to set.
      */
-    public void setBelowNameValue(@Nullable NameTagElement<Integer, ?> belowNameValue) {
+    public void setBelowNameValue(@NotNull NameTagElement<Integer, ?> belowNameValue) {
         this.belowNameValue = new OwnedElement<>(belowNameValue, this, "below-name-value");
     }
 
@@ -172,7 +172,7 @@ public class NameTagData implements VisualData {
      *
      * @param aboveName the above-name text element to set.
      */
-    public void setAboveName(@Nullable NameTagElement<String, ?> aboveName) {
+    public void setAboveName(@NotNull NameTagElement<String, ?> aboveName) {
         this.aboveName = new OwnedElement<>(aboveName, this, "above-name");
     }
 
@@ -188,21 +188,16 @@ public class NameTagData implements VisualData {
      */
     @Override
     public void assertReady(@NotNull Player player) {
-        if (this.player == null) {
+        if (this.player == null)
             throw new VisualNotReadyException("The name tag's player was not set!");
-        }
-        if (prefix == null) {
+        if (prefix == null)
             throw new VisualNotReadyException("The name tag's prefix was not set!");
-        }
-        if (suffix == null) {
+        if (suffix == null)
             throw new VisualNotReadyException("The name tag's suffix was not set!");
-        }
-        if (belowNameValue != null && belowName == null) {
+        if (belowNameValue != null && belowName == null)
             throw new VisualNotReadyException("The below name value was set while below name display wasn't set!");
-        }
-        if (belowName != null && belowNameValue == null) {
+        if (belowName != null && belowNameValue == null)
             throw new VisualNotReadyException("The below name display was set while below name value wasn't set!");
-        }
     }
 }
 

@@ -49,11 +49,11 @@ public class BossBarData implements VisualData {
      * @param overlay the {@link GeneralElement} representing the overlay style of the boss bar.
      * @param text the {@link TextElement} representing the title of the boss bar.
      */
-    public BossBarData(@NotNull GeneralElement<Float, ?> progress, @Nullable GeneralElement<BossBar.Color, ?> color, @Nullable GeneralElement<BossBar.Overlay, ?> overlay, @Nullable TextElement<?> text) {
-        this.progress = new OwnedElement<>(progress, this);
-        this.color = new OwnedElement<>(color, this);
-        this.overlay = new OwnedElement<>(overlay, this);
-        this.text = new OwnedElement<>(text, this);
+    public BossBarData(@Nullable GeneralElement<Float, ?> progress, @Nullable GeneralElement<BossBar.Color, ?> color, @Nullable GeneralElement<BossBar.Overlay, ?> overlay, @Nullable TextElement<?> text) {
+        this.progress = progress != null ? new OwnedElement<>(progress, this) : new OwnedElement<>(GeneralElement.simple(1f), this);
+        this.color = color != null ? new OwnedElement<>(color, this) : new OwnedElement<>(GeneralElement.simple(BossBar.Color.PURPLE), this);
+        this.overlay = overlay != null ?new OwnedElement<>(overlay, this) : new OwnedElement<>(GeneralElement.simple(BossBar.Overlay.PROGRESS), this);
+        this.text = text != null ? new OwnedElement<>(text, this) : null;
     }
 
     /**
@@ -88,7 +88,7 @@ public class BossBarData implements VisualData {
      *
      * @return the {@link TextElement} representing the text.
      */
-    public @NotNull OwnedElement<TextElement<?>> getText() {
+    public @Nullable OwnedElement<TextElement<?>> getText() {
         return text;
     }
 
@@ -140,18 +140,8 @@ public class BossBarData implements VisualData {
      */
     @Override
     public void assertReady(@NotNull Player player) {
-        if (text == null) {
+        if (text == null)
             throw new VisualNotReadyException("The boss bar text was not set!");
-        }
-        if (color == null) {
-            throw new VisualNotReadyException("The boss bar color was not set!");
-        }
-        if (overlay == null) {
-            throw new VisualNotReadyException("The boss bar overlay was not set!");
-        }
-        if (progress == null) {
-            throw new VisualNotReadyException("The boss bar progress was not set!");
-        }
     }
 }
 

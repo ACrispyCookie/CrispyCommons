@@ -1,14 +1,11 @@
 package dev.acrispycookie.crispycommons.implementations.visual.tablist;
 
 import dev.acrispycookie.crispycommons.api.visual.tablist.CrispyTabList;
-import dev.acrispycookie.crispycommons.api.element.DynamicElement;
 import dev.acrispycookie.crispycommons.implementations.element.OwnedElement;
 import dev.acrispycookie.crispycommons.implementations.visual.abstraction.visual.AbstractVisual;
 import dev.acrispycookie.crispycommons.implementations.visual.tablist.data.TabListData;
-import dev.acrispycookie.crispycommons.implementations.element.AbstractDynamicElement;
 import dev.acrispycookie.crispycommons.implementations.element.type.TextElement;
 import dev.acrispycookie.crispycommons.implementations.element.type.TimeToLiveElement;
-import dev.acrispycookie.crispycommons.utility.visual.LineHelper;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,7 +14,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 /**
  * An abstract base class for managing and displaying a tab list with header and footer lines.

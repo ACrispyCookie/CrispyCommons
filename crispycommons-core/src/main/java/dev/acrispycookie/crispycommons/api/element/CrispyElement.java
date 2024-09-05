@@ -86,7 +86,7 @@ public interface CrispyElement<T, K> {
      * @param elements the array of {@link DynamicElement} instances to check.
      * @return the minimum period of the provided dynamic elements, or {@code -1} if none are dynamic.
      */
-    static int getMinimumPeriod(DynamicElement<?, ?>... elements) {
+    static int getMinimumPeriod(@NotNull DynamicElement<?, ?>... elements) {
         int period = -1;
         for (DynamicElement<?, ?> element : elements) {
             if (element == null || !element.isDynamic())

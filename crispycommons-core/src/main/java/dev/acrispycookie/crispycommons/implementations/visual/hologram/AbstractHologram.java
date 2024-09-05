@@ -8,7 +8,7 @@ import dev.acrispycookie.crispycommons.implementations.visual.abstraction.visual
 import dev.acrispycookie.crispycommons.implementations.visual.hologram.data.HologramData;
 import dev.acrispycookie.crispycommons.implementations.element.type.GeneralElement;
 import dev.acrispycookie.crispycommons.implementations.element.type.TimeToLiveElement;
-import dev.acrispycookie.crispycommons.utility.visual.LineHelper;
+import dev.acrispycookie.crispycommons.utility.visual.FieldUpdaterHelper;
 import dev.acrispycookie.crispycommons.version.VersionManager;
 import dev.acrispycookie.crispycommons.version.utility.Version;
 import org.bukkit.Bukkit;
@@ -20,6 +20,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -130,7 +131,7 @@ public abstract class AbstractHologram extends AbstractVisual<HologramData> impl
     public void onWorldChange(PlayerChangedWorldEvent event) {
         Player player = event.getPlayer();
         GeneralElement<Location, ?> locationGeneralElement = getLocation();
-        if (locationGeneralElement.isDynamic())
+        if (locationGeneralElement == null || locationGeneralElement.isDynamic())
             return;
 
         Location location = locationGeneralElement.getFromContext(OfflinePlayer.class, player);
@@ -185,7 +186,7 @@ public abstract class AbstractHologram extends AbstractVisual<HologramData> impl
         data.addLine(index, line);
         data.getLines().get(index).setUpdate(() -> updateLine(index));
         addLineInternal(index);
-        LineHelper.offsetAfterAdd(index, data.getLines(), isAnyoneWatching(), this::updateLine);
+        FieldUpdaterHelper.offsetAfterAdd(index, data.getLines(), isAnyoneWatching(), this::updateLine);
     }
 
     /**
@@ -217,7 +218,7 @@ public abstract class AbstractHologram extends AbstractVisual<HologramData> impl
 
         data.removeLine(index).destroy();
         removeLineInternal(index);
-        LineHelper.offsetAfterRemove(index, data.getLines(), isAnyoneWatching(), this::updateLine);
+        FieldUpdaterHelper.offsetAfterRemove(index, data.getLines(), isAnyoneWatching(), this::updateLine);
     }
 
     /**
@@ -234,7 +235,7 @@ public abstract class AbstractHologram extends AbstractVisual<HologramData> impl
         List<OwnedElement<DynamicElement<?, ?>>> oldLines = new ArrayList<>(data.getLines());
         data.setLines(new ArrayList<>(lines));
         resetLines();
-        LineHelper.resetLines(oldLines, data.getLines(), isAnyoneWatching(), this::updateLine);
+        FieldUpdaterHelper.resetLines(oldLines, data.getLines(), isAnyoneWatching(), this::updateLine);
     }
 
     /**
@@ -244,13 +245,7 @@ public abstract class AbstractHologram extends AbstractVisual<HologramData> impl
      */
     @Override
     public void setLocation(@NotNull GeneralElement<Location, ?> location) {
-        data.getLocation().destroy();
-        data.setLocation(location);
-        data.getLocation().setUpdate(this::updateLocation);
-        if (isAnyoneWatching()) {
-            data.getLocation().start();
-            updateLocation();
-        }
+        FieldUpdaterHelper.setNormalField(location, data::getLocation, data::setLocation, isAnyoneWatching(), this::updateLocation);
     }
 
     /**
@@ -259,8 +254,8 @@ public abstract class AbstractHologram extends AbstractVisual<HologramData> impl
      * @return the {@link GeneralElement} representing the location.
      */
     @Override
-    public @NotNull GeneralElement<Location, ?> getLocation() {
-        return data.getLocation().getElement();
+    public @Nullable GeneralElement<Location, ?> getLocation() {
+        return data.getLocation() != null ? data.getLocation().getElement() : null;
     }
 
     /**

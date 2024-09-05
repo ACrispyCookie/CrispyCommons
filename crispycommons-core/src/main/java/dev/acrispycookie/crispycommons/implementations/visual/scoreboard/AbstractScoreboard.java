@@ -1,18 +1,15 @@
 package dev.acrispycookie.crispycommons.implementations.visual.scoreboard;
 
-import dev.acrispycookie.crispycommons.api.element.DynamicElement;
 import dev.acrispycookie.crispycommons.api.visual.scoreboard.CrispyScoreboard;
-import dev.acrispycookie.crispycommons.implementations.element.AbstractAnimatedElement;
 import dev.acrispycookie.crispycommons.implementations.element.OwnedElement;
 import dev.acrispycookie.crispycommons.implementations.visual.abstraction.visual.AbstractVisual;
 import dev.acrispycookie.crispycommons.implementations.visual.scoreboard.data.ScoreboardData;
 import dev.acrispycookie.crispycommons.implementations.element.type.TextElement;
 import dev.acrispycookie.crispycommons.implementations.element.type.TimeToLiveElement;
-import dev.acrispycookie.crispycommons.utility.visual.LineHelper;
-import net.kyori.adventure.text.Component;
+import dev.acrispycookie.crispycommons.utility.visual.FieldUpdaterHelper;
 import org.bukkit.OfflinePlayer;
-import org.checkerframework.checker.units.qual.K;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -80,7 +77,7 @@ public abstract class AbstractScoreboard extends AbstractVisual<ScoreboardData> 
         data.addLine(index, line);
         data.getLines().get(index).setUpdate(() -> updateLine(index));
         addLineInternal(index);
-        LineHelper.offsetAfterAddText(index, data.getLines(), isAnyoneWatching(), this::updateLine);
+        FieldUpdaterHelper.offsetAfterAddText(index, data.getLines(), isAnyoneWatching(), this::updateLine);
     }
 
     /**
@@ -109,7 +106,7 @@ public abstract class AbstractScoreboard extends AbstractVisual<ScoreboardData> 
 
         data.removeLine(index).destroy();
         removeLineInternal(index);
-        LineHelper.offsetAfterRemoveText(index, data.getLines(), isAnyoneWatching(), this::updateLine);
+        FieldUpdaterHelper.offsetAfterRemoveText(index, data.getLines(), isAnyoneWatching(), this::updateLine);
     }
 
     /**
@@ -125,7 +122,7 @@ public abstract class AbstractScoreboard extends AbstractVisual<ScoreboardData> 
         List<OwnedElement<TextElement<?>>> oldLines = new ArrayList<>(data.getLines());
         data.setLines(new ArrayList<>(lines));
         updateLines(oldLines.size());
-        LineHelper.resetLinesText(oldLines, data.getLines(), isAnyoneWatching(), this::updateLine);
+        FieldUpdaterHelper.resetLinesText(oldLines, data.getLines(), isAnyoneWatching(), this::updateLine);
     }
 
     /**
@@ -148,13 +145,7 @@ public abstract class AbstractScoreboard extends AbstractVisual<ScoreboardData> 
      */
     @Override
     public void setTitle(@NotNull TextElement<?> title) {
-        data.getTitle().destroy();
-        data.setTitle(title);
-        data.getTitle().setUpdate(this::update);
-        if (isAnyoneWatching()) {
-            data.getTitle().start();
-            updateTitle();
-        }
+        FieldUpdaterHelper.setNormalField(title, data::getTitle, data::setTitle, isAnyoneWatching(), this::updateTitle);
     }
 
     /**
@@ -163,8 +154,8 @@ public abstract class AbstractScoreboard extends AbstractVisual<ScoreboardData> 
      * @return the {@link TextElement} representing the title of the scoreboard.
      */
     @Override
-    public @NotNull TextElement<?> getTitle() {
-        return data.getTitle().getElement();
+    public @Nullable TextElement<?> getTitle() {
+        return data.getTitle() != null ? data.getTitle().getElement() : null;
     }
 
     /**

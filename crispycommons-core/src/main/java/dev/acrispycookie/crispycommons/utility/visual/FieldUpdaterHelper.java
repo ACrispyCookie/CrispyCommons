@@ -3,12 +3,29 @@ package dev.acrispycookie.crispycommons.utility.visual;
 import dev.acrispycookie.crispycommons.api.element.DynamicElement;
 import dev.acrispycookie.crispycommons.implementations.element.OwnedElement;
 import dev.acrispycookie.crispycommons.implementations.element.type.TextElement;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 import java.util.stream.IntStream;
 
-public class LineHelper {
+public class FieldUpdaterHelper {
+
+    public static <T extends DynamicElement<?, ?>> void setNormalField(@NotNull T newElement,
+                                                                       @NotNull Supplier<OwnedElement<T>> getter,
+                                                                       @NotNull Consumer<T> setter,
+                                                                       boolean shouldStart,
+                                                                       @NotNull Runnable updateRunnable) {
+        if (getter.get() != null)
+            getter.get().destroy();
+        setter.accept(newElement);
+        getter.get().setUpdate(updateRunnable);
+        if (shouldStart) {
+            getter.get().start();
+            updateRunnable.run();
+        }
+    }
 
     public static void offsetAfterAdd(int index, List<OwnedElement<DynamicElement<?, ?>>> lines, boolean shouldStart, Consumer<Integer> updateAction) {
         IntStream.range(index + 1, lines.size()).forEach((idx) -> {

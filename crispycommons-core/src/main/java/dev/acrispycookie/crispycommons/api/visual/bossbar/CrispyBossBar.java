@@ -8,6 +8,7 @@ import dev.acrispycookie.crispycommons.implementations.element.type.GeneralEleme
 import dev.acrispycookie.crispycommons.implementations.element.type.TextElement;
 import net.kyori.adventure.bossbar.BossBar;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Represents a boss bar visual element in the game, extending the {@link CrispyVisual} interface.
@@ -61,7 +62,7 @@ public interface CrispyBossBar extends CrispyVisual {
      *
      * @return the {@link TextElement} displayed on the boss bar.
      */
-    @NotNull TextElement<?> getText();
+    @Nullable TextElement<?> getText();
 
     /**
      * Retrieves the progress of the boss bar.
@@ -113,7 +114,7 @@ public interface CrispyBossBar extends CrispyVisual {
      */
     class BossBarBuilder extends AbstractVisualBuilder<CrispyBossBar> {
 
-        private final BossBarData data = new BossBarData(GeneralElement.simple((float) -1), null, null, null);
+        private final BossBarData data = new BossBarData(null, null, null, null);
 
         /**
          * Sets the text element to be displayed on the boss bar.

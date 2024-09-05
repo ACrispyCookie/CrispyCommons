@@ -38,8 +38,8 @@ public class ParticleData<T extends Effect> implements VisualData {
      * @param location the {@link GeneralElement} representing the location of the particle effect.
      */
     public ParticleData(@Nullable ParticleElement<T, ?> element, @Nullable GeneralElement<Location, ?> location) {
-        this.element = new OwnedElement<>(element, this);
-        this.location = new OwnedElement<>(location, this);
+        this.element = element != null ? new OwnedElement<>(element, this) : null;
+        this.location = location != null ? new OwnedElement<>(location, this) : null;
     }
 
     /**
@@ -47,7 +47,7 @@ public class ParticleData<T extends Effect> implements VisualData {
      *
      * @return the {@link ParticleElement} associated with this data.
      */
-    public @NotNull OwnedElement<ParticleElement<T, ?>> getElement() {
+    public @Nullable OwnedElement<ParticleElement<T, ?>> getElement() {
         return element;
     }
 
@@ -56,7 +56,7 @@ public class ParticleData<T extends Effect> implements VisualData {
      *
      * @return the {@link GeneralElement} representing the location of the particle effect.
      */
-    public @NotNull OwnedElement<GeneralElement<Location, ?>> getLocation() {
+    public @Nullable OwnedElement<GeneralElement<Location, ?>> getLocation() {
         return location;
     }
 
@@ -91,12 +91,10 @@ public class ParticleData<T extends Effect> implements VisualData {
      */
     @Override
     public void assertReady(@NotNull Player player) {
-        if (element == null) {
+        if (element == null)
             throw new VisualNotReadyException("The particle element was not set!");
-        }
-        if (location == null) {
+        if (location == null)
             throw new VisualNotReadyException("The particle location was not set!");
-        }
     }
 }
 

@@ -28,7 +28,7 @@ public class ActionbarData implements VisualData {
      * @param text the {@link TextElement} to be displayed in the action bar.
      */
     public ActionbarData(@Nullable TextElement<?> text) {
-        this.text = new OwnedElement<>(text, this);
+        this.text = text != null ? new OwnedElement<>(text, this) : null;
     }
 
     /**
@@ -36,7 +36,7 @@ public class ActionbarData implements VisualData {
      *
      * @return the {@link TextElement} to be displayed.
      */
-    public @NotNull OwnedElement<TextElement<?>> getText() {
+    public @Nullable OwnedElement<TextElement<?>> getText() {
         return text;
     }
 
@@ -62,9 +62,8 @@ public class ActionbarData implements VisualData {
      */
     @Override
     public void assertReady(@NotNull Player p) {
-        if (text == null) {
+        if (text == null)
             throw new VisualNotReadyException("The actionbar text was not set!");
-        }
     }
 }
 

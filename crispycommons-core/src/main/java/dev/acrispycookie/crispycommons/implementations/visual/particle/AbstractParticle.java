@@ -7,9 +7,11 @@ import dev.acrispycookie.crispycommons.implementations.visual.particle.data.Part
 import dev.acrispycookie.crispycommons.implementations.element.type.GeneralElement;
 import dev.acrispycookie.crispycommons.implementations.element.type.ParticleElement;
 import dev.acrispycookie.crispycommons.implementations.element.type.TimeToLiveElement;
+import dev.acrispycookie.crispycommons.utility.visual.FieldUpdaterHelper;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
 
@@ -70,8 +72,8 @@ public abstract class AbstractParticle<T extends Effect> extends AbstractVisual<
      * @return the {@link ParticleElement} representing the particle effect.
      */
     @Override
-    public @NotNull ParticleElement<T, ?> getElement() {
-        return data.getElement().getElement();
+    public @Nullable ParticleElement<T, ?> getElement() {
+        return data.getElement() != null ? data.getElement().getElement() : null;
     }
 
     /**
@@ -80,8 +82,8 @@ public abstract class AbstractParticle<T extends Effect> extends AbstractVisual<
      * @return the {@link GeneralElement} representing the location of the particle effect.
      */
     @Override
-    public @NotNull GeneralElement<Location, ?> getLocation() {
-        return data.getLocation().getElement();
+    public @Nullable GeneralElement<Location, ?> getLocation() {
+        return data.getLocation() != null ? data.getLocation().getElement() : null;
     }
 
     /**
@@ -95,13 +97,7 @@ public abstract class AbstractParticle<T extends Effect> extends AbstractVisual<
      */
     @Override
     public void setElement(@NotNull ParticleElement<T, ?> element) {
-        data.getElement().destroy();
-        data.setElement(element);
-        data.getElement().setUpdate(this::update);
-        if (isAnyoneWatching()) {
-            data.getElement().start();
-            update();
-        }
+        FieldUpdaterHelper.setNormalField(element, data::getElement, data::setElement, isAnyoneWatching(), this::update);
     }
 
     /**
@@ -115,13 +111,7 @@ public abstract class AbstractParticle<T extends Effect> extends AbstractVisual<
      */
     @Override
     public void setLocation(@NotNull GeneralElement<Location, ?> location) {
-        data.getLocation().destroy();
-        data.setLocation(location);
-        data.getLocation().setUpdate(this::update);
-        if (isAnyoneWatching()) {
-            data.getLocation().start();
-            update();
-        }
+        FieldUpdaterHelper.setNormalField(location, data::getLocation, data::setLocation, isAnyoneWatching(), this::update);
     }
 }
 

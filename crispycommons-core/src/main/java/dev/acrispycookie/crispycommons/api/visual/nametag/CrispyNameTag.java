@@ -7,6 +7,7 @@ import dev.acrispycookie.crispycommons.implementations.visual.nametag.data.NameT
 import dev.acrispycookie.crispycommons.implementations.element.type.NameTagElement;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Represents a customizable name tag for players in the game.
@@ -67,35 +68,35 @@ public interface CrispyNameTag extends CrispyVisual {
      *
      * @return the {@link NameTagElement} representing the prefix.
      */
-    @NotNull NameTagElement<String, ?> getPrefix();
+    @Nullable NameTagElement<String, ?> getPrefix();
 
     /**
      * Retrieves the suffix of the name tag.
      *
      * @return the {@link NameTagElement} representing the suffix.
      */
-    @NotNull NameTagElement<String, ?> getSuffix();
+    @Nullable NameTagElement<String, ?> getSuffix();
 
     /**
      * Retrieves the text below the name in the name tag.
      *
      * @return the {@link NameTagElement} representing the text below the name.
      */
-    @NotNull NameTagElement<String, ?> getBelowName();
+    @Nullable NameTagElement<String, ?> getBelowName();
 
     /**
      * Retrieves the value displayed below the name in the name tag.
      *
      * @return the {@link NameTagElement} representing the value below the name.
      */
-    @NotNull NameTagElement<Integer, ?> getBelowNameValue();
+    @Nullable NameTagElement<Integer, ?> getBelowNameValue();
 
     /**
      * Retrieves the text above the name in the name tag.
      *
      * @return the {@link NameTagElement} representing the text above the name.
      */
-    @NotNull NameTagElement<String, ?> getAboveName();
+    @Nullable NameTagElement<String, ?> getAboveName();
 
     /**
      * Updates the prefix of the name tag.

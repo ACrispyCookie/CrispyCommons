@@ -12,7 +12,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * A data class representing the visual data required to display a hologram.
@@ -43,7 +42,7 @@ public class HologramData implements VisualData {
     public HologramData(@NotNull Collection<? extends DynamicElement<?, ?>> lines, @Nullable GeneralElement<Location, ?> location) {
         this.lines = new ArrayList<>();
         lines.forEach(line -> this.lines.add(new OwnedElement<>(line, this, this.lines.size())));
-        this.location = new OwnedElement<>(location, this);
+        this.location = location != null ? new OwnedElement<>(location, this) : null;
     }
 
     /**
@@ -60,7 +59,7 @@ public class HologramData implements VisualData {
      *
      * @return the {@link GeneralElement} representing the location of the hologram.
      */
-    public @NotNull OwnedElement<GeneralElement<Location, ?>> getLocation() {
+    public @Nullable OwnedElement<GeneralElement<Location, ?>> getLocation() {
         return location;
     }
 
@@ -127,12 +126,10 @@ public class HologramData implements VisualData {
      */
     @Override
     public void assertReady(@NotNull Player player) {
-        if (lines.isEmpty()) {
+        if (lines.isEmpty())
             throw new VisualNotReadyException("The hologram's lines were not set!");
-        }
-        if (location == null) {
+        if (location == null)
             throw new VisualNotReadyException("The hologram's location was not set!");
-        }
     }
 }
 

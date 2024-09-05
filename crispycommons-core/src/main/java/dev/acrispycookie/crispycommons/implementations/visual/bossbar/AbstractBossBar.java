@@ -7,6 +7,7 @@ import dev.acrispycookie.crispycommons.implementations.visual.bossbar.data.BossB
 import dev.acrispycookie.crispycommons.implementations.element.type.GeneralElement;
 import dev.acrispycookie.crispycommons.implementations.element.type.TextElement;
 import dev.acrispycookie.crispycommons.implementations.element.type.TimeToLiveElement;
+import dev.acrispycookie.crispycommons.utility.visual.FieldUpdaterHelper;
 import dev.acrispycookie.crispycommons.version.VersionManager;
 import dev.acrispycookie.crispycommons.version.utility.Version;
 import net.kyori.adventure.bossbar.BossBar;
@@ -16,6 +17,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
 
@@ -114,8 +116,8 @@ public abstract class AbstractBossBar extends AbstractVisual<BossBarData> implem
      * @return the {@link TextElement} that represents the boss bar's text.
      */
     @Override
-    public @NotNull TextElement<?> getText() {
-        return data.getText().getElement();
+    public @Nullable TextElement<?> getText() {
+        return data.getText() != null ? data.getText().getElement() : null;
     }
 
     /**
@@ -159,13 +161,7 @@ public abstract class AbstractBossBar extends AbstractVisual<BossBarData> implem
      */
     @Override
     public void setText(@NotNull TextElement<?> text) {
-        data.getText().destroy();
-        data.setText(text);
-        data.getText().setUpdate(this::updateText);
-        if (isAnyoneWatching()) {
-            data.getText().start();
-            updateText();
-        }
+        FieldUpdaterHelper.setNormalField(text, data::getText, data::setText, isAnyoneWatching(), this::updateText);
     }
 
     /**
@@ -179,13 +175,7 @@ public abstract class AbstractBossBar extends AbstractVisual<BossBarData> implem
      */
     @Override
     public void setProgress(@NotNull GeneralElement<Float, ?> progress) {
-        data.getProgress().destroy();
-        data.setProgress(progress);
-        data.getProgress().setUpdate(this::updateProgress);
-        if (isAnyoneWatching()) {
-            data.getProgress().start();
-            updateProgress();
-        }
+        FieldUpdaterHelper.setNormalField(progress, data::getProgress, data::setProgress, isAnyoneWatching(), this::updateProgress);
     }
 
     /**
@@ -199,13 +189,7 @@ public abstract class AbstractBossBar extends AbstractVisual<BossBarData> implem
      */
     @Override
     public void setColor(@NotNull GeneralElement<BossBar.Color, ?> color) {
-        data.getColor().destroy();
-        data.setColor(color);
-        data.getColor().setUpdate(this::updateColor);
-        if (isAnyoneWatching()) {
-            data.getColor().start();
-            updateColor();
-        }
+        FieldUpdaterHelper.setNormalField(color, data::getColor, data::setColor, isAnyoneWatching(), this::updateColor);
     }
 
     /**
@@ -219,13 +203,7 @@ public abstract class AbstractBossBar extends AbstractVisual<BossBarData> implem
      */
     @Override
     public void setOverlay(@NotNull GeneralElement<BossBar.Overlay, ?> overlay) {
-        data.getOverlay().destroy();
-        data.setOverlay(overlay);
-        data.getOverlay().setUpdate(this::updateOverlay);
-        if (isAnyoneWatching()) {
-            data.getOverlay().start();
-            updateOverlay();
-        }
+        FieldUpdaterHelper.setNormalField(overlay, data::getOverlay, data::setOverlay, isAnyoneWatching(), this::updateOverlay);
     }
 }
 

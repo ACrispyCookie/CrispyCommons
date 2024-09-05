@@ -6,6 +6,7 @@ import dev.acrispycookie.crispycommons.implementations.visual.actionbar.SimpleAc
 import dev.acrispycookie.crispycommons.implementations.visual.actionbar.data.ActionbarData;
 import dev.acrispycookie.crispycommons.implementations.element.type.TextElement;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Represents an action bar visual element in the game, extending the {@link CrispyVisual} interface.
@@ -38,7 +39,7 @@ public interface CrispyActionbar extends CrispyVisual {
      *
      * @return the {@link TextElement} displayed on the action bar.
      */
-    @NotNull TextElement<?> getText();
+    @Nullable TextElement<?> getText();
 
     /**
      * A builder class for constructing instances of {@link CrispyActionbar}.

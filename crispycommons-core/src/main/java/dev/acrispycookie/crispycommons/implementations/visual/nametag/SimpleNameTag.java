@@ -90,6 +90,8 @@ public class SimpleNameTag extends AbstractNameTag {
 
     @Override
     public void updatePrefix() {
+        if (getPrefix() == null)
+            return;
         Set<Player> viewers = getCurrentlyViewing();
         for (Player player : viewers) {
             String prefix = getElement(getPrefix(), data.getPlayer(), player);
@@ -100,6 +102,8 @@ public class SimpleNameTag extends AbstractNameTag {
 
     @Override
     public void updateSuffix() {
+        if (getSuffix() == null)
+            return;
         Set<Player> viewers = getCurrentlyViewing();
         for (Player player : viewers) {
             String suffix = getElement(getSuffix(), data.getPlayer(), player);
@@ -121,7 +125,7 @@ public class SimpleNameTag extends AbstractNameTag {
 
     @Override
     public void updateBelowNameValue() {
-        if (getBelowName() == null)
+        if (getBelowNameValue() == null)
             return;
 
         Set<Player> viewers = getCurrentlyViewing();
@@ -191,8 +195,8 @@ public class SimpleNameTag extends AbstractNameTag {
      * @param p the player to whom the name tag will be shown.
      */
     private void showNameTag(Player p) {
-        String prefix = getElement(getPrefix(), data.getPlayer(), p);
-        String suffix = getElement(getSuffix(), data.getPlayer(), p);
+        String prefix = getPrefix() != null ? getElement(getPrefix(), data.getPlayer(), p) : "";
+        String suffix = getSuffix() != null ? getElement(getSuffix(), data.getPlayer(), p) : "";
 
         setVanillaNameTag(p, prefix, suffix);
     }

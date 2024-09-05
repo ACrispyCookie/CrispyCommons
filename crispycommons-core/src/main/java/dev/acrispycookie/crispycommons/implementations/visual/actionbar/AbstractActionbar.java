@@ -5,8 +5,10 @@ import dev.acrispycookie.crispycommons.implementations.visual.abstraction.visual
 import dev.acrispycookie.crispycommons.implementations.visual.actionbar.data.ActionbarData;
 import dev.acrispycookie.crispycommons.implementations.element.type.TextElement;
 import dev.acrispycookie.crispycommons.implementations.element.type.TimeToLiveElement;
+import dev.acrispycookie.crispycommons.utility.visual.FieldUpdaterHelper;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
 
@@ -55,8 +57,8 @@ public abstract class AbstractActionbar extends AbstractVisual<ActionbarData> im
      * @return the {@link TextElement} representing the action bar's text.
      */
     @Override
-    public @NotNull TextElement<?> getText() {
-        return data.getText().getElement();
+    public @Nullable TextElement<?> getText() {
+        return data.getText() != null ? data.getText().getElement() : null;
     }
 
     /**
@@ -70,13 +72,7 @@ public abstract class AbstractActionbar extends AbstractVisual<ActionbarData> im
      */
     @Override
     public void setText(@NotNull TextElement<?> text) {
-        data.getText().destroy();
-        data.setText(text);
-        data.getText().setUpdate(this::update);
-        if (isAnyoneWatching()) {
-            data.getText().start();
-            update();
-        }
+        FieldUpdaterHelper.setNormalField(text, data::getText, data::setText, isAnyoneWatching(), this::update);
     }
 }
 

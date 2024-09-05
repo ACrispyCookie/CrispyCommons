@@ -14,6 +14,7 @@ import dev.acrispycookie.crispycommons.implementations.particle.RenderedEffect;
 import dev.acrispycookie.crispycommons.implementations.particle.SimpleEffect;
 import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Represents a customizable particle effect in the game.
@@ -66,7 +67,7 @@ public interface CrispyParticle<T extends Effect> extends CrispyVisual {
      *
      * @return the {@link ParticleElement} representing the particle effect.
      */
-    @NotNull ParticleElement<T, ?> getElement();
+    @Nullable ParticleElement<T, ?> getElement();
 
     /**
      * Sets the location of the particle effect.
@@ -80,7 +81,7 @@ public interface CrispyParticle<T extends Effect> extends CrispyVisual {
      *
      * @return the {@link GeneralElement} representing the location of the particle effect.
      */
-    @NotNull GeneralElement<Location, ?> getLocation();
+    @Nullable GeneralElement<Location, ?> getLocation();
 
     /**
      * Abstract builder class for constructing instances of {@link CrispyParticle}.

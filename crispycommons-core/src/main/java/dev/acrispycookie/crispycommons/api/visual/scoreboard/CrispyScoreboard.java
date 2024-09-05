@@ -6,6 +6,7 @@ import dev.acrispycookie.crispycommons.implementations.visual.scoreboard.SimpleS
 import dev.acrispycookie.crispycommons.implementations.visual.scoreboard.data.ScoreboardData;
 import dev.acrispycookie.crispycommons.implementations.element.type.TextElement;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -71,7 +72,7 @@ public interface CrispyScoreboard extends CrispyVisual {
      *
      * @return the {@link TextElement} representing the title of the scoreboard.
      */
-    @NotNull TextElement<?> getTitle();
+    @Nullable TextElement<?> getTitle();
 
     /**
      * Retrieves the lines of text in the scoreboard.

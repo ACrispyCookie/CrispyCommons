@@ -8,6 +8,7 @@ import dev.acrispycookie.crispycommons.implementations.visual.title.data.TitleDa
 import dev.acrispycookie.crispycommons.implementations.element.type.GeneralElement;
 import dev.acrispycookie.crispycommons.implementations.element.type.TextElement;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Represents a title display in the game, including title text, subtitle text, and fade-in/out times.
@@ -70,14 +71,14 @@ public interface CrispyTitle extends CrispyVisual {
      *
      * @return the {@link TextElement} representing the title text.
      */
-    @NotNull TextElement<?> getTitle();
+    @Nullable TextElement<?> getTitle();
 
     /**
      * Retrieves the subtitle text.
      *
      * @return the {@link TextElement} representing the subtitle text.
      */
-    @NotNull TextElement<?> getSubtitle();
+    @Nullable TextElement<?> getSubtitle();
 
     /**
      * Retrieves the fade-in time for the title display.
@@ -101,7 +102,7 @@ public interface CrispyTitle extends CrispyVisual {
         /**
          * The data object to be used to build the title instance.
          */
-        protected final TitleData data = new TitleData(null, null, GeneralElement.simple(0), GeneralElement.simple(0));
+        protected final TitleData data = new TitleData(null, null, null, null);
 
         /**
          * Sets the title text for the title being built.

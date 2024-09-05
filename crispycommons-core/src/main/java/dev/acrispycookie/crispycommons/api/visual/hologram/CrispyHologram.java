@@ -8,6 +8,7 @@ import dev.acrispycookie.crispycommons.implementations.visual.hologram.data.Holo
 import dev.acrispycookie.crispycommons.implementations.element.type.GeneralElement;
 import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -80,7 +81,7 @@ public interface CrispyHologram extends CrispyVisual {
      *
      * @return the {@link GeneralElement} representing the hologram's location.
      */
-    @NotNull GeneralElement<Location, ?> getLocation();
+    @Nullable GeneralElement<Location, ?> getLocation();
 
     /**
      * Updates the location of the hologram.

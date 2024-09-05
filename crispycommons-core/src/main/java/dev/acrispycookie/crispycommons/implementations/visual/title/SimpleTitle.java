@@ -5,6 +5,7 @@ import dev.acrispycookie.crispycommons.implementations.visual.title.data.TitleDa
 import dev.acrispycookie.crispycommons.implementations.element.type.TimeToLiveElement;
 import net.kyori.adventure.Adventure;
 import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -48,8 +49,8 @@ public class SimpleTitle extends AbstractTitle {
     protected void show(@NotNull Player player) {
         Audience audience = CrispyCommons.getBukkitAudiences().player(player);
         Title toSend = Title.title(
-                getTitle().getFromContext(OfflinePlayer.class, player),
-                getSubtitle().getFromContext(OfflinePlayer.class, player),
+                getTitle() != null ? getTitle().getFromContext(OfflinePlayer.class, player) : Component.empty(),
+                getSubtitle() != null ? getSubtitle().getFromContext(OfflinePlayer.class, player) : Component.empty(),
                 Title.Times.times(
                         Duration.ofMillis(getFadeIn().getFromContext(OfflinePlayer.class, player) * 50L),
                         Duration.ofMillis(timeToLive.getElement().getFromContext(OfflinePlayer.class, player) * 50L),

@@ -6,8 +6,10 @@ import dev.acrispycookie.crispycommons.implementations.visual.title.data.TitleDa
 import dev.acrispycookie.crispycommons.implementations.element.type.GeneralElement;
 import dev.acrispycookie.crispycommons.implementations.element.type.TextElement;
 import dev.acrispycookie.crispycommons.implementations.element.type.TimeToLiveElement;
+import dev.acrispycookie.crispycommons.utility.visual.FieldUpdaterHelper;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
 
@@ -66,13 +68,7 @@ public abstract class AbstractTitle extends AbstractVisual<TitleData> implements
      */
     @Override
     public void setTitle(@NotNull TextElement<?> text) {
-        data.getTitle().destroy();
-        data.setTitle(text);
-        data.getTitle().setUpdate(this::update);
-        if (isAnyoneWatching()) {
-            data.getTitle().start();
-            update();
-        }
+        FieldUpdaterHelper.setNormalField(text, data::getTitle, data::setTitle, isAnyoneWatching(), this::update);
     }
 
     /**
@@ -86,13 +82,7 @@ public abstract class AbstractTitle extends AbstractVisual<TitleData> implements
      */
     @Override
     public void setSubtitle(@NotNull TextElement<?> text) {
-        data.getSubtitle().destroy();
-        data.setSubtitle(text);
-        data.getSubtitle().setUpdate(this::update);
-        if (isAnyoneWatching()) {
-            data.getSubtitle().start();
-            update();
-        }
+        FieldUpdaterHelper.setNormalField(text, data::getSubtitle, data::setSubtitle, isAnyoneWatching(), this::update);
     }
 
     /**
@@ -121,8 +111,8 @@ public abstract class AbstractTitle extends AbstractVisual<TitleData> implements
      * @return the {@link TextElement} representing the main title text.
      */
     @Override
-    public @NotNull TextElement<?> getTitle() {
-        return this.data.getTitle().getElement();
+    public @Nullable TextElement<?> getTitle() {
+        return data.getTitle() != null ? data.getTitle().getElement() : null;
     }
 
     /**
@@ -131,8 +121,8 @@ public abstract class AbstractTitle extends AbstractVisual<TitleData> implements
      * @return the {@link TextElement} representing the subtitle text.
      */
     @Override
-    public @NotNull TextElement<?> getSubtitle() {
-        return this.data.getSubtitle().getElement();
+    public @Nullable TextElement<?> getSubtitle() {
+        return data.getSubtitle() != null ? data.getSubtitle().getElement() : null;
     }
 
     /**
