@@ -2,16 +2,15 @@ package dev.acrispycookie.crispycommons.implementations.element;
 
 import dev.acrispycookie.crispycommons.CrispyCommons;
 import dev.acrispycookie.crispycommons.api.element.DynamicElement;
-import dev.acrispycookie.crispycommons.utility.logging.CrispyLogger;
+import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
-import java.util.logging.Level;
+import java.util.function.Supplier;
 
 /**
  * Base class for dynamic elements that update at regular intervals.
@@ -61,13 +60,13 @@ public abstract class AbstractDynamicElement<T, K> extends AbstractElement<T, K>
     private final boolean async;
 
     /**
-     * The task responsible for scheduling and executing periodic updates.
+     * The state of the dynamic element.
      * <p>
-     * This task is managed by the Bukkit scheduler and is initialized when updates are started. It is {@code null}
-     * until updates are scheduled.
+     * If {@code true}, the element is currently updating its content.
+     * If {@code false}, the element has stopped updated.
      * </p>
      */
-    private BukkitTask bukkitTask;
+    private boolean isRunning;
 
     /**
      * The runnable that is executed on each update.
@@ -95,6 +94,7 @@ public abstract class AbstractDynamicElement<T, K> extends AbstractElement<T, K>
         this.period = period;
         this.delay = delay;
         this.async = async;
+        this.isRunning = false;
     }
 
     /**
@@ -159,7 +159,7 @@ public abstract class AbstractDynamicElement<T, K> extends AbstractElement<T, K>
         UpdateAction action = update.get(owner + extraId);
         if (action != null) {
             action.setEnabled(true);
-            if (bukkitTask == null)
+            if (!isRunning)
                 start();
         }
     }
@@ -170,7 +170,7 @@ public abstract class AbstractDynamicElement<T, K> extends AbstractElement<T, K>
         UpdateAction action = update.get(owner + extraId);
         if (action != null) {
             action.setEnabled(false);
-            if (bukkitTask != null)
+            if (isRunning)
                 stop();
         }
     }
@@ -248,7 +248,7 @@ public abstract class AbstractDynamicElement<T, K> extends AbstractElement<T, K>
      * @return {@code true} if the dynamic element is currently running or else {@code false}.
      */
     public boolean isRunning() {
-        return bukkitTask != null;
+        return isRunning;
     }
 
     /**
@@ -258,27 +258,10 @@ public abstract class AbstractDynamicElement<T, K> extends AbstractElement<T, K>
      * </p>
      */
     private void start() {
-        if(period == -1 || update.isEmpty() || bukkitTask != null)
+        if(period == -1 || update.isEmpty() || isRunning)
             return;
-
-        if (async) {
-            bukkitTask = new BukkitRunnable() {
-                @Override
-                public void run() {
-                    elements.forEach((p, element) -> elements.put(p, supplier.apply(p)));
-                    update.values().stream().filter(UpdateAction::isEnabled).map(UpdateAction::getRunnable).forEach(Runnable::run);
-                }
-            }.runTaskTimerAsynchronously(CrispyCommons.getPlugin(), delay, period);
-            return;
-        }
-
-        bukkitTask = new BukkitRunnable() {
-            @Override
-            public void run() {
-            elements.forEach((k, element) -> elements.put(k, supplier.apply(k)));
-            update.values().stream().filter(UpdateAction::isEnabled).map(UpdateAction::getRunnable).forEach(Runnable::run);
-            }
-        }.runTaskTimer(CrispyCommons.getPlugin(), delay, period);
+        isRunning = true;
+        ElementTaskHandler.addElement(this);
     }
 
     /**
@@ -288,10 +271,15 @@ public abstract class AbstractDynamicElement<T, K> extends AbstractElement<T, K>
      * </p>
      */
     private void stop() {
-        if (bukkitTask == null)
+        if (!isRunning)
             return;
-        bukkitTask.cancel();
-        bukkitTask = null;
+        isRunning = false;
+        ElementTaskHandler.removeElement(this);
+    }
+
+    private void runUpdate() {
+        elements.forEach((k, element) -> elements.put(k, supplier.apply(k)));
+        update.values().stream().filter(UpdateAction::isEnabled).map(UpdateAction::getRunnable).forEach(Runnable::run);
     }
 
     private Map<String, UpdateAction> getEnabledActions() {
@@ -319,6 +307,42 @@ public abstract class AbstractDynamicElement<T, K> extends AbstractElement<T, K>
 
         public void setEnabled(boolean enabled) {
             this.enabled = enabled;
+        }
+    }
+
+    private static class ElementTaskHandler {
+        private static final Map<Integer, BukkitTask> tasks = new HashMap<>();
+        private static final Map<Integer, Set<AbstractDynamicElement<?, ?>>> elements = new HashMap<>();
+
+        private static void addElement(AbstractDynamicElement<?, ?> element) {
+            Bukkit.getScheduler().runTaskLater(CrispyCommons.getPlugin(), () -> {
+                Set<AbstractDynamicElement<?, ?>> current = elements.getOrDefault(element.getPeriod(), new HashSet<>());
+                current.add(element);
+                elements.put(element.getPeriod(), current);
+                checkForTask(element.getPeriod());
+            }, element.getDelay());
+        }
+
+        private static void removeElement(AbstractDynamicElement<?, ?> element) {
+            if (!elements.containsKey(element.getPeriod()) || !elements.get(element.getPeriod()).contains(element))
+                return;
+
+            Set<AbstractDynamicElement<?, ?>> current = elements.get(element.getPeriod());
+            current.remove(element);
+            elements.put(element.getPeriod(), current);
+            checkForTask(element.getPeriod());
+        }
+
+        private static void checkForTask(int period) {
+            boolean shouldRun = elements.containsKey(period) && !elements.get(period).isEmpty();
+            if (shouldRun && !tasks.containsKey(period))
+                startNewTask(period);
+            else if (!shouldRun && tasks.containsKey(period))
+                tasks.remove(period).cancel();
+        }
+
+        private static void startNewTask(int period) {
+            tasks.put(period, Bukkit.getScheduler().runTaskTimer(CrispyCommons.getPlugin(), () -> elements.get(period).forEach(AbstractDynamicElement::runUpdate), 0, period));
         }
     }
 }
