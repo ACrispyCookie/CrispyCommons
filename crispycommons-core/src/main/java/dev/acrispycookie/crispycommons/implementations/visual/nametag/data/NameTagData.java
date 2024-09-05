@@ -1,6 +1,7 @@
 package dev.acrispycookie.crispycommons.implementations.visual.nametag.data;
 
 import dev.acrispycookie.crispycommons.api.visual.abstraction.visual.VisualData;
+import dev.acrispycookie.crispycommons.implementations.element.OwnedElement;
 import dev.acrispycookie.crispycommons.implementations.element.type.NameTagElement;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -24,27 +25,27 @@ public class NameTagData implements VisualData {
     /**
      * The prefix element of the name tag.
      */
-    private NameTagElement<String, ?> prefix;
+    private OwnedElement<NameTagElement<String, ?>> prefix;
 
     /**
      * The suffix element of the name tag.
      */
-    private NameTagElement<String, ?> suffix;
+    private OwnedElement<NameTagElement<String, ?>> suffix;
 
     /**
      * The value to be displayed below the player's name.
      */
-    private NameTagElement<Integer, ?> belowNameValue;
+    private OwnedElement<NameTagElement<Integer, ?>> belowNameValue;
 
     /**
      * The text to be displayed below the player's name.
      */
-    private NameTagElement<String, ?> belowName;
+    private OwnedElement<NameTagElement<String, ?>> belowName;
 
     /**
      * The text to be displayed above the player's name.
      */
-    private NameTagElement<String, ?> aboveName;
+    private OwnedElement<NameTagElement<String, ?>> aboveName;
 
     /**
      * Constructs a new {@code NameTagData} instance with the specified elements.
@@ -60,11 +61,11 @@ public class NameTagData implements VisualData {
                        @Nullable NameTagElement<Integer, ?> belowNameValue, @Nullable NameTagElement<String, ?> belowName,
                        @Nullable NameTagElement<String, ?> aboveName) {
         this.player = player;
-        this.prefix = prefix;
-        this.suffix = suffix;
-        this.belowNameValue = belowNameValue;
-        this.belowName = belowName;
-        this.aboveName = aboveName;
+        this.prefix = new OwnedElement<>(prefix, this);
+        this.suffix = new OwnedElement<>(suffix, this);
+        this.belowNameValue = new OwnedElement<>(belowNameValue, this);
+        this.belowName = new OwnedElement<>(belowName, true);
+        this.aboveName = new OwnedElement<>(aboveName, true);
     }
 
     /**
@@ -77,6 +78,51 @@ public class NameTagData implements VisualData {
     }
 
     /**
+     * Retrieves the prefix element of the name tag.
+     *
+     * @return the prefix element of the name tag.
+     */
+    public @Nullable OwnedElement<NameTagElement<String, ?>> getPrefix() {
+        return prefix;
+    }
+
+    /**
+     * Retrieves the suffix element of the name tag.
+     *
+     * @return the suffix element of the name tag.
+     */
+    public @Nullable OwnedElement<NameTagElement<String, ?>> getSuffix() {
+        return suffix;
+    }
+
+    /**
+     * Retrieves the text to be displayed below the player's name.
+     *
+     * @return the below-name text element.
+     */
+    public @Nullable OwnedElement<NameTagElement<String, ?>> getBelowName() {
+        return belowName;
+    }
+
+    /**
+     * Retrieves the value to be displayed below the player's name.
+     *
+     * @return the below-name value element.
+     */
+    public @Nullable OwnedElement<NameTagElement<Integer, ?>> getBelowNameValue() {
+        return belowNameValue;
+    }
+
+    /**
+     * Retrieves the text to be displayed above the player's name.
+     *
+     * @return the above-name text element.
+     */
+    public @Nullable OwnedElement<NameTagElement<String, ?>> getAboveName() {
+        return aboveName;
+    }
+
+    /**
      * Sets the player associated with this name tag.
      *
      * @param player the player to associate with this name tag.
@@ -86,30 +132,12 @@ public class NameTagData implements VisualData {
     }
 
     /**
-     * Retrieves the prefix element of the name tag.
-     *
-     * @return the prefix element of the name tag.
-     */
-    public @Nullable NameTagElement<String, ?> getPrefix() {
-        return prefix;
-    }
-
-    /**
      * Sets the prefix element of the name tag.
      *
      * @param prefix the prefix element to set.
      */
     public void setPrefix(@Nullable NameTagElement<String, ?> prefix) {
-        this.prefix = prefix;
-    }
-
-    /**
-     * Retrieves the suffix element of the name tag.
-     *
-     * @return the suffix element of the name tag.
-     */
-    public @Nullable NameTagElement<String, ?> getSuffix() {
-        return suffix;
+        this.prefix = new OwnedElement<>(prefix, this, "prefix");
     }
 
     /**
@@ -118,16 +146,7 @@ public class NameTagData implements VisualData {
      * @param suffix the suffix element to set.
      */
     public void setSuffix(@Nullable NameTagElement<String, ?> suffix) {
-        this.suffix = suffix;
-    }
-
-    /**
-     * Retrieves the text to be displayed below the player's name.
-     *
-     * @return the below-name text element.
-     */
-    public @Nullable NameTagElement<String, ?> getBelowName() {
-        return belowName;
+        this.suffix = new OwnedElement<>(suffix, this, "suffix");
     }
 
     /**
@@ -136,16 +155,7 @@ public class NameTagData implements VisualData {
      * @param belowName the below-name text element to set.
      */
     public void setBelowName(@Nullable NameTagElement<String, ?> belowName) {
-        this.belowName = belowName;
-    }
-
-    /**
-     * Retrieves the value to be displayed below the player's name.
-     *
-     * @return the below-name value element.
-     */
-    public @Nullable NameTagElement<Integer, ?> getBelowNameValue() {
-        return belowNameValue;
+        this.belowName = new OwnedElement<>(belowName, this, "below-name");
     }
 
     /**
@@ -154,16 +164,7 @@ public class NameTagData implements VisualData {
      * @param belowNameValue the below-name value element to set.
      */
     public void setBelowNameValue(@Nullable NameTagElement<Integer, ?> belowNameValue) {
-        this.belowNameValue = belowNameValue;
-    }
-
-    /**
-     * Retrieves the text to be displayed above the player's name.
-     *
-     * @return the above-name text element.
-     */
-    public @Nullable NameTagElement<String, ?> getAboveName() {
-        return aboveName;
+        this.belowNameValue = new OwnedElement<>(belowNameValue, this, "below-name-value");
     }
 
     /**
@@ -172,7 +173,7 @@ public class NameTagData implements VisualData {
      * @param aboveName the above-name text element to set.
      */
     public void setAboveName(@Nullable NameTagElement<String, ?> aboveName) {
-        this.aboveName = aboveName;
+        this.aboveName = new OwnedElement<>(aboveName, this, "above-name");
     }
 
     /**

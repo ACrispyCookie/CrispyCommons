@@ -2,13 +2,16 @@ package dev.acrispycookie.crispycommons.implementations.element;
 
 import dev.acrispycookie.crispycommons.CrispyCommons;
 import dev.acrispycookie.crispycommons.api.element.DynamicElement;
+import dev.acrispycookie.crispycommons.utility.logging.CrispyLogger;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Function;
+import java.util.logging.Level;
 
 /**
  * Base class for dynamic elements that update at regular intervals.
@@ -55,7 +58,7 @@ public abstract class AbstractDynamicElement<T, K> extends AbstractElement<T, K>
      * require careful handling of thread safety. If {@code false}, updates run on the main thread.
      * </p>
      */
-    protected final boolean async;
+    private final boolean async;
 
     /**
      * The task responsible for scheduling and executing periodic updates.
@@ -73,7 +76,7 @@ public abstract class AbstractDynamicElement<T, K> extends AbstractElement<T, K>
      * changed after being set.
      * </p>
      */
-    protected Runnable update;
+    private final Map<String, UpdateAction> update = new HashMap<>();
 
     /**
      * Constructs an {@code AbstractDynamicElement} with the given supplier and update parameters.
@@ -95,36 +98,6 @@ public abstract class AbstractDynamicElement<T, K> extends AbstractElement<T, K>
     }
 
     /**
-     * Starts periodic updates of element values using the supplier function.
-     * <p>
-     * Runs the updates asynchronously if {@code async} is {@code true}; otherwise, runs them synchronously.
-     * </p>
-     */
-    public void start() {
-        if(period == -1 || update == null || bukkitTask != null)
-            return;
-
-        if (async) {
-            bukkitTask = new BukkitRunnable() {
-                @Override
-                public void run() {
-                    elements.forEach((p, element) -> elements.put(p, supplier.apply(p)));
-                    update.run();
-                }
-            }.runTaskTimerAsynchronously(CrispyCommons.getPlugin(), delay, period);
-            return;
-        }
-
-        bukkitTask = new BukkitRunnable() {
-            @Override
-            public void run() {
-                elements.forEach((k, element) -> elements.put(k, supplier.apply(k)));
-                update.run();
-            }
-        }.runTaskTimer(CrispyCommons.getPlugin(), delay, period);
-    }
-
-    /**
      * Retrieves the raw element value for the specified context, updating it if necessary.
      *
      * @param context the context used to retrieve the element.
@@ -137,17 +110,69 @@ public abstract class AbstractDynamicElement<T, K> extends AbstractElement<T, K>
         return elements.get(context);
     }
 
-    /**
-     * Stops the periodic updates.
-     * <p>
-     * Cancels any ongoing update task.
-     * </p>
-     */
-    public void stop() {
-        if (bukkitTask == null)
+    public void addUpdateAction(@NotNull Object owner, @NotNull Runnable update) {
+        addUpdateAction(owner, "", update);
+    }
+
+    public void removeUpdateAction(@NotNull Object owner) {
+    }
+
+    public @Nullable Runnable getUpdateAction(@NotNull Object owner) {
+        return getUpdateAction(owner, "");
+    }
+
+    public void startUpdateAction(@NotNull Object owner) {
+        startUpdateAction(owner, "");
+    }
+
+    public void stopUpdateAction(@NotNull Object owner) {
+        stopUpdateAction(owner, "");
+    }
+
+    public void addUpdateAction(@NotNull Object owner, @NotNull String extraId, @NotNull Runnable update) {
+        if (!isDynamic())
             return;
-        bukkitTask.cancel();
-        bukkitTask = null;
+        this.update.put(owner + extraId, new UpdateAction(update, false));
+    }
+
+    public void removeUpdateAction(@NotNull Object owner, @NotNull String extraId) {
+        if (!isDynamic())
+            return;
+
+        this.update.remove(owner + extraId);
+        if (getEnabledActions().isEmpty()) {
+            stop();
+        }
+    }
+
+    public @Nullable Runnable getUpdateAction(@NotNull Object owner, @NotNull String extraId) {
+        return update.get(owner + extraId).getRunnable();
+    }
+
+    public boolean isActionEnabled(@NotNull Object owner, @NotNull String extraId) {
+        return update.get(owner + extraId) != null && update.get(owner + extraId).isEnabled();
+    }
+
+    public void startUpdateAction(@NotNull Object owner, @NotNull String extraId) {
+        if (!isDynamic())
+            return;
+        UpdateAction action = update.get(owner + extraId);
+        if (action != null) {
+            action.setEnabled(true);
+            if (bukkitTask == null)
+                start();
+        }
+    }
+
+    public void stopUpdateAction(@NotNull Object owner, @NotNull String extraId) {
+        if (!isDynamic())
+            return;
+        UpdateAction action = update.get(owner + extraId);
+        if (action != null) {
+            action.setEnabled(false);
+            if (bukkitTask != null)
+                stop();
+        }
     }
 
     /**
@@ -227,16 +252,74 @@ public abstract class AbstractDynamicElement<T, K> extends AbstractElement<T, K>
     }
 
     /**
-     * Sets the runnable to be executed on each update.
-     *
-     * @param update the runnable to execute on updates.
-     *
-     * @throws IllegalStateException if the update runnable is already set.
+     * Starts periodic updates of element values using the supplier function.
+     * <p>
+     * Runs the updates asynchronously if {@code async} is {@code true}; otherwise, runs them synchronously.
+     * </p>
      */
-    public void setUpdate(@NotNull Runnable update) {
-        if (!isDynamic())
+    private void start() {
+        if(period == -1 || update.isEmpty() || bukkitTask != null)
             return;
-        this.update = update;
+
+        if (async) {
+            bukkitTask = new BukkitRunnable() {
+                @Override
+                public void run() {
+                    elements.forEach((p, element) -> elements.put(p, supplier.apply(p)));
+                    update.values().stream().filter(UpdateAction::isEnabled).map(UpdateAction::getRunnable).forEach(Runnable::run);
+                }
+            }.runTaskTimerAsynchronously(CrispyCommons.getPlugin(), delay, period);
+            return;
+        }
+
+        bukkitTask = new BukkitRunnable() {
+            @Override
+            public void run() {
+            elements.forEach((k, element) -> elements.put(k, supplier.apply(k)));
+            update.values().stream().filter(UpdateAction::isEnabled).map(UpdateAction::getRunnable).forEach(Runnable::run);
+            }
+        }.runTaskTimer(CrispyCommons.getPlugin(), delay, period);
+    }
+
+    /**
+     * Stops the periodic updates.
+     * <p>
+     * Cancels any ongoing update task.
+     * </p>
+     */
+    private void stop() {
+        if (bukkitTask == null)
+            return;
+        bukkitTask.cancel();
+        bukkitTask = null;
+    }
+
+    private Map<String, UpdateAction> getEnabledActions() {
+        Map<String, UpdateAction> actionMap = new HashMap<>();
+        update.keySet().stream().filter(key -> update.get(key).isEnabled()).forEach(key -> actionMap.put(key, update.get(key)));
+        return actionMap;
+    }
+
+    private static class UpdateAction {
+        private boolean enabled;
+        private final Runnable runnable;
+
+        public UpdateAction(Runnable runnable, boolean enabled) {
+            this.runnable = runnable;
+            this.enabled = enabled;
+        }
+
+        public boolean isEnabled() {
+            return enabled;
+        }
+
+        public Runnable getRunnable() {
+            return runnable;
+        }
+
+        public void setEnabled(boolean enabled) {
+            this.enabled = enabled;
+        }
     }
 }
 

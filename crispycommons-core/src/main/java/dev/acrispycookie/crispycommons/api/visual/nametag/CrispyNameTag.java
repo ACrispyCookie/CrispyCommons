@@ -208,7 +208,6 @@ public interface CrispyNameTag extends CrispyVisual {
         @Override
         public @NotNull CrispyNameTag build() {
             toBuild = new SimpleNameTag(data, receivers, timeToLive, isPublic);
-
             return toBuild;
         }
     }

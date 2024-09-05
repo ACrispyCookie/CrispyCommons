@@ -92,7 +92,7 @@ public class SimpleNameTag extends AbstractNameTag {
     public void updatePrefix() {
         Set<Player> viewers = getCurrentlyViewing();
         for (Player player : viewers) {
-            String prefix = getElement(data.getPrefix(), data.getPlayer(), player);
+            String prefix = getElement(getPrefix(), data.getPlayer(), player);
             updateVanillaNameTagPrefix(player, prefix);
         }
 
@@ -102,31 +102,31 @@ public class SimpleNameTag extends AbstractNameTag {
     public void updateSuffix() {
         Set<Player> viewers = getCurrentlyViewing();
         for (Player player : viewers) {
-            String suffix = getElement(data.getSuffix(), data.getPlayer(), player);
+            String suffix = getElement(getSuffix(), data.getPlayer(), player);
             updateVanillaNameTagSuffix(player, suffix);
         }
     }
 
     @Override
     public void updateBelowName() {
-        if (data.getBelowName() == null)
+        if (getBelowName() == null)
             return;
 
         Set<Player> viewers = getCurrentlyViewing();
         for (Player player : viewers) {
-            String below = getElement(data.getBelowName(), data.getPlayer(), player);
+            String below = getElement(getBelowName(), data.getPlayer(), player);
             updateVanillaBelowName(player, below);
         }
     }
 
     @Override
     public void updateBelowNameValue() {
-        if (data.getBelowName() == null)
+        if (getBelowName() == null)
             return;
 
         Set<Player> viewers = getCurrentlyViewing();
         for (Player player : viewers) {
-            int value = getElement(data.getBelowNameValue(), data.getPlayer(), player);
+            int value = getElement(getBelowNameValue(), data.getPlayer(), player);
             updateVanillaBelowNameValue(player, value);
         }
     }
@@ -149,7 +149,7 @@ public class SimpleNameTag extends AbstractNameTag {
      * @param p the player to whom the above-name hologram will be shown.
      */
     private void showAboveName(Player p) {
-        if (data.getAboveName() == null)
+        if (getAboveName() == null)
             return;
         if (aboveNameHologram == null) {
             aboveNameHologram = getAboveNameHologram();
@@ -164,11 +164,11 @@ public class SimpleNameTag extends AbstractNameTag {
      * @param p the player to whom the below-name text will be shown.
      */
     private void showBelowName(Player p) {
-        if (data.getBelowName() == null || data.getBelowNameValue() == null)
+        if (getBelowName() == null || getBelowNameValue() == null)
             return;
 
-        String below = getElement(data.getBelowName(), data.getPlayer(), p);
-        int value = getElement(data.getBelowNameValue(), data.getPlayer(), p);
+        String below = getElement(getBelowName(), data.getPlayer(), p);
+        int value = getElement(getBelowNameValue(), data.getPlayer(), p);
 
         setVanillaBelowName(p, below, value);
     }
@@ -179,7 +179,7 @@ public class SimpleNameTag extends AbstractNameTag {
      * @param p the player from whom the below-name text will be hidden.
      */
     private void hideBelowName(Player p) {
-        if (data.getBelowName() == null || data.getBelowNameValue() == null)
+        if (getBelowName() == null || getBelowNameValue() == null)
             return;
 
         removeVanillaBelowName(p);
@@ -191,8 +191,8 @@ public class SimpleNameTag extends AbstractNameTag {
      * @param p the player to whom the name tag will be shown.
      */
     private void showNameTag(Player p) {
-        String prefix = getElement(data.getPrefix(), data.getPlayer(), p);
-        String suffix = getElement(data.getSuffix(), data.getPlayer(), p);
+        String prefix = getElement(getPrefix(), data.getPlayer(), p);
+        String suffix = getElement(getSuffix(), data.getPlayer(), p);
 
         setVanillaNameTag(p, prefix, suffix);
     }
@@ -203,7 +203,7 @@ public class SimpleNameTag extends AbstractNameTag {
      * @param p the player from whom the name tag will be hidden.
      */
     private void hideNameTag(Player p) {
-        if (data.getPrefix() == null && data.getSuffix() == null)
+        if (getPrefix() == null && getSuffix() == null)
             return;
         removeVanillaNameTag(p);
     }
@@ -339,7 +339,7 @@ public class SimpleNameTag extends AbstractNameTag {
      * @return the constructed {@link CrispyHologram}.
      */
     private CrispyHologram getAboveNameHologram() {
-        TextElement<?> line = data.getAboveName().convertToTextElement(data.getPlayer());
+        TextElement<?> line = getAboveName().convertToTextElement(data.getPlayer());
 
         return CrispyHologram.builder()
                 .addLine(line)

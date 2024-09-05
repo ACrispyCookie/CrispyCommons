@@ -3,10 +3,12 @@ package dev.acrispycookie.crispycommons.implementations.visual.hologram;
 import dev.acrispycookie.crispycommons.CrispyCommons;
 import dev.acrispycookie.crispycommons.api.visual.hologram.CrispyHologram;
 import dev.acrispycookie.crispycommons.api.element.DynamicElement;
+import dev.acrispycookie.crispycommons.implementations.element.OwnedElement;
 import dev.acrispycookie.crispycommons.implementations.visual.abstraction.visual.AbstractVisual;
 import dev.acrispycookie.crispycommons.implementations.visual.hologram.data.HologramData;
 import dev.acrispycookie.crispycommons.implementations.element.type.GeneralElement;
 import dev.acrispycookie.crispycommons.implementations.element.type.TimeToLiveElement;
+import dev.acrispycookie.crispycommons.utility.visual.LineHelper;
 import dev.acrispycookie.crispycommons.version.VersionManager;
 import dev.acrispycookie.crispycommons.version.utility.Version;
 import org.bukkit.Bukkit;
@@ -23,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * An abstract class that represents a hologram in the CrispyCommons framework.
@@ -148,7 +151,7 @@ public abstract class AbstractHologram extends AbstractVisual<HologramData> impl
      */
     @Override
     protected void prepareShow() {
-        data.getLines().forEach(DynamicElement::start);
+        data.getLines().forEach(OwnedElement::start);
         data.getLocation().start();
     }
 
@@ -160,7 +163,7 @@ public abstract class AbstractHologram extends AbstractVisual<HologramData> impl
      */
     @Override
     protected void prepareHide() {
-        data.getLines().forEach(DynamicElement::stop);
+        data.getLines().forEach(OwnedElement::stop);
         data.getLocation().stop();
     }
 
@@ -179,12 +182,10 @@ public abstract class AbstractHologram extends AbstractVisual<HologramData> impl
             return;
         }
 
-        line.setUpdate(() -> updateLine(index));
-        if (isAnyoneWatching()) {
-            line.start();
-        }
         data.addLine(index, line);
+        data.getLines().get(index).setUpdate(() -> updateLine(index));
         addLineInternal(index);
+        LineHelper.offsetAfterAdd(index, data.getLines(), isAnyoneWatching(), this::updateLine);
     }
 
     /**
@@ -214,11 +215,9 @@ public abstract class AbstractHologram extends AbstractVisual<HologramData> impl
             return;
         }
 
-        if (isAnyoneWatching()) {
-            data.getLines().get(index).stop();
-        }
-        data.removeLine(index);
+        data.removeLine(index).destroy();
         removeLineInternal(index);
+        LineHelper.offsetAfterRemove(index, data.getLines(), isAnyoneWatching(), this::updateLine);
     }
 
     /**
@@ -232,18 +231,10 @@ public abstract class AbstractHologram extends AbstractVisual<HologramData> impl
      */
     @Override
     public void setLines(@NotNull Collection<? extends DynamicElement<?, ?>> lines) {
-        List<DynamicElement<?, ?>> lineList = new ArrayList<>(lines);
-        for (int i = 0; i < lineList.size(); i++) {
-            int index = i;
-            DynamicElement<?, ?> line = lineList.get(index);
-            line.setUpdate(() -> updateLine(index));
-        }
-        if (isAnyoneWatching()) {
-            data.getLines().forEach(DynamicElement::stop);
-            lines.forEach(DynamicElement::start);
-        }
+        List<OwnedElement<DynamicElement<?, ?>>> oldLines = new ArrayList<>(data.getLines());
         data.setLines(new ArrayList<>(lines));
         resetLines();
+        LineHelper.resetLines(oldLines, data.getLines(), isAnyoneWatching(), this::updateLine);
     }
 
     /**
@@ -253,11 +244,13 @@ public abstract class AbstractHologram extends AbstractVisual<HologramData> impl
      */
     @Override
     public void setLocation(@NotNull GeneralElement<Location, ?> location) {
-        data.getLocation().stop();
-        location.setUpdate(this::updateLocation);
-        location.start();
+        data.getLocation().destroy();
         data.setLocation(location);
-        updateLocation();
+        data.getLocation().setUpdate(this::updateLocation);
+        if (isAnyoneWatching()) {
+            data.getLocation().start();
+            updateLocation();
+        }
     }
 
     /**
@@ -267,7 +260,7 @@ public abstract class AbstractHologram extends AbstractVisual<HologramData> impl
      */
     @Override
     public @NotNull GeneralElement<Location, ?> getLocation() {
-        return data.getLocation();
+        return data.getLocation().getElement();
     }
 
     /**
@@ -277,7 +270,7 @@ public abstract class AbstractHologram extends AbstractVisual<HologramData> impl
      */
     @Override
     public @NotNull List<DynamicElement<?, ?>> getLines() {
-        return data.getLines();
+        return data.getLines().stream().map(OwnedElement::getElement).collect(Collectors.toList());
     }
 }
 

@@ -2,6 +2,7 @@ package dev.acrispycookie.crispycommons.implementations.visual.particle.data;
 
 import dev.acrispycookie.crispycommons.api.visual.abstraction.visual.VisualData;
 import dev.acrispycookie.crispycommons.api.particle.Effect;
+import dev.acrispycookie.crispycommons.implementations.element.OwnedElement;
 import dev.acrispycookie.crispycommons.implementations.element.type.GeneralElement;
 import dev.acrispycookie.crispycommons.implementations.element.type.ParticleElement;
 import org.bukkit.Location;
@@ -23,12 +24,12 @@ public class ParticleData<T extends Effect> implements VisualData {
     /**
      * The particle element that defines the type and behavior of the particle effect.
      */
-    private ParticleElement<T, ?> element;
+    private OwnedElement<ParticleElement<T, ?>> element;
 
     /**
      * The location element that specifies where the particle effect will be displayed.
      */
-    private GeneralElement<Location, ?> location;
+    private OwnedElement<GeneralElement<Location, ?>> location;
 
     /**
      * Constructs a new {@code ParticleData} instance with the specified particle element and location.
@@ -37,8 +38,8 @@ public class ParticleData<T extends Effect> implements VisualData {
      * @param location the {@link GeneralElement} representing the location of the particle effect.
      */
     public ParticleData(@Nullable ParticleElement<T, ?> element, @Nullable GeneralElement<Location, ?> location) {
-        this.element = element;
-        this.location = location;
+        this.element = new OwnedElement<>(element, this);
+        this.location = new OwnedElement<>(location, this);
     }
 
     /**
@@ -46,7 +47,7 @@ public class ParticleData<T extends Effect> implements VisualData {
      *
      * @return the {@link ParticleElement} associated with this data.
      */
-    public @NotNull ParticleElement<T, ?> getElement() {
+    public @NotNull OwnedElement<ParticleElement<T, ?>> getElement() {
         return element;
     }
 
@@ -55,7 +56,7 @@ public class ParticleData<T extends Effect> implements VisualData {
      *
      * @return the {@link GeneralElement} representing the location of the particle effect.
      */
-    public @NotNull GeneralElement<Location, ?> getLocation() {
+    public @NotNull OwnedElement<GeneralElement<Location, ?>> getLocation() {
         return location;
     }
 
@@ -65,7 +66,7 @@ public class ParticleData<T extends Effect> implements VisualData {
      * @param element the new {@link ParticleElement} to set.
      */
     public void setElement(@NotNull ParticleElement<T, ?> element) {
-        this.element = element;
+        this.element = new OwnedElement<>(element, this);
     }
 
     /**
@@ -74,7 +75,7 @@ public class ParticleData<T extends Effect> implements VisualData {
      * @param location the new {@link GeneralElement} representing the location of the particle effect.
      */
     public void setLocation(@NotNull GeneralElement<Location, ?> location) {
-        this.location = location;
+        this.location = new OwnedElement<>(location, this);
     }
 
     /**

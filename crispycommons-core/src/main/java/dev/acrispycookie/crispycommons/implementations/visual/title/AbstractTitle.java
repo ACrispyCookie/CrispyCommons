@@ -66,7 +66,7 @@ public abstract class AbstractTitle extends AbstractVisual<TitleData> implements
      */
     @Override
     public void setTitle(@NotNull TextElement<?> text) {
-        data.getTitle().stop();
+        data.getTitle().destroy();
         data.setTitle(text);
         data.getTitle().setUpdate(this::update);
         if (isAnyoneWatching()) {
@@ -86,7 +86,7 @@ public abstract class AbstractTitle extends AbstractVisual<TitleData> implements
      */
     @Override
     public void setSubtitle(@NotNull TextElement<?> text) {
-        data.getSubtitle().stop();
+        data.getSubtitle().destroy();
         data.setSubtitle(text);
         data.getSubtitle().setUpdate(this::update);
         if (isAnyoneWatching()) {
@@ -122,7 +122,7 @@ public abstract class AbstractTitle extends AbstractVisual<TitleData> implements
      */
     @Override
     public @NotNull TextElement<?> getTitle() {
-        return this.data.getTitle();
+        return this.data.getTitle().getElement();
     }
 
     /**
@@ -132,7 +132,7 @@ public abstract class AbstractTitle extends AbstractVisual<TitleData> implements
      */
     @Override
     public @NotNull TextElement<?> getSubtitle() {
-        return this.data.getSubtitle();
+        return this.data.getSubtitle().getElement();
     }
 
     /**
@@ -142,7 +142,7 @@ public abstract class AbstractTitle extends AbstractVisual<TitleData> implements
      */
     @Override
     public @NotNull GeneralElement<Integer, ?> getFadeIn() {
-        return this.data.getFadeIn();
+        return this.data.getFadeIn().getElement();
     }
 
     /**
@@ -152,7 +152,7 @@ public abstract class AbstractTitle extends AbstractVisual<TitleData> implements
      */
     @Override
     public @NotNull GeneralElement<Integer, ?> getFadeOut() {
-        return this.data.getFadeOut();
+        return this.data.getFadeOut().getElement();
     }
 }
 

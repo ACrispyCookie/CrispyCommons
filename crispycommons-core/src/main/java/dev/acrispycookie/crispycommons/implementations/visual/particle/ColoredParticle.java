@@ -43,8 +43,8 @@ public class ColoredParticle extends AbstractParticle<ColoredEffect> {
      */
     @Override
     protected void show(@NotNull Player player) {
-        ColoredEffect effect = data.getElement().getFromContext(OfflinePlayer.class, player);
-        Location location = data.getLocation().getFromContext(OfflinePlayer.class, player);
+        ColoredEffect effect = getElement().getFromContext(OfflinePlayer.class, player);
+        Location location = getLocation().getFromContext(OfflinePlayer.class, player);
         ParticleSpawner.newInstance().spawnColored(player, effect.getEffect(), location, effect.getNormalisedRed(), effect.getNormalisedGreen(), effect.getNormalisedBlue());
     }
 

@@ -2,11 +2,13 @@ package dev.acrispycookie.crispycommons.implementations.visual.tablist;
 
 import dev.acrispycookie.crispycommons.api.visual.tablist.CrispyTabList;
 import dev.acrispycookie.crispycommons.api.element.DynamicElement;
+import dev.acrispycookie.crispycommons.implementations.element.OwnedElement;
 import dev.acrispycookie.crispycommons.implementations.visual.abstraction.visual.AbstractVisual;
 import dev.acrispycookie.crispycommons.implementations.visual.tablist.data.TabListData;
 import dev.acrispycookie.crispycommons.implementations.element.AbstractDynamicElement;
 import dev.acrispycookie.crispycommons.implementations.element.type.TextElement;
 import dev.acrispycookie.crispycommons.implementations.element.type.TimeToLiveElement;
+import dev.acrispycookie.crispycommons.utility.visual.LineHelper;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
 
@@ -14,6 +16,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * An abstract base class for managing and displaying a tab list with header and footer lines.
@@ -81,8 +85,8 @@ public abstract class AbstractTabList extends AbstractVisual<TabListData> implem
      */
     @Override
     protected void prepareShow() {
-        data.getHeader().forEach(TextElement::start);
-        data.getFooter().forEach(TextElement::start);
+        data.getHeader().forEach(OwnedElement::start);
+        data.getFooter().forEach(OwnedElement::start);
     }
 
     /**
@@ -93,8 +97,8 @@ public abstract class AbstractTabList extends AbstractVisual<TabListData> implem
      */
     @Override
     protected void prepareHide() {
-        data.getHeader().forEach(TextElement::stop);
-        data.getFooter().forEach(TextElement::stop);
+        data.getHeader().forEach(OwnedElement::stop);
+        data.getFooter().forEach(OwnedElement::stop);
     }
 
     /**
@@ -111,11 +115,12 @@ public abstract class AbstractTabList extends AbstractVisual<TabListData> implem
         if (index > data.getHeader().size())
             return;
 
-        line.setUpdate(this::update);
-        if (isAnyoneWatching())
-            line.start();
         data.addHeaderLine(index, line);
-        addLineInternal(index, true);
+        data.getHeader().get(index).setUpdate(this::update);
+        if (isAnyoneWatching()) {
+            data.getHeader().get(index).start();
+            addLineInternal(index, true);
+        }
     }
 
     /**
@@ -141,9 +146,7 @@ public abstract class AbstractTabList extends AbstractVisual<TabListData> implem
         if (index >= data.getHeader().size())
             return;
 
-        if (isAnyoneWatching())
-            data.getHeader().get(index).stop();
-        data.removeHeaderLine(index);
+        data.removeHeaderLine(index).destroy();
         removeLineInternal(index, true);
     }
 
@@ -158,13 +161,13 @@ public abstract class AbstractTabList extends AbstractVisual<TabListData> implem
      */
     @Override
     public void setHeader(@NotNull Collection<? extends TextElement<?>> lines) {
-        lines.forEach((l) -> l.setUpdate(this::update));
-        if (isAnyoneWatching()) {
-            data.getHeader().forEach(DynamicElement::stop);
-            lines.forEach(AbstractDynamicElement::start);
-        }
+        data.getHeader().forEach(OwnedElement::destroy);
         data.setHeader(new ArrayList<>(lines));
-        updateLines(true);
+        data.getHeader().forEach((l) -> l.setUpdate(this::update));
+        if (isAnyoneWatching()) {
+            data.getHeader().forEach(OwnedElement::start);
+            updateLines(true);
+        }
     }
 
     /**
@@ -181,11 +184,12 @@ public abstract class AbstractTabList extends AbstractVisual<TabListData> implem
         if (index > data.getFooter().size())
             return;
 
-        line.setUpdate(this::update);
-        if (isAnyoneWatching())
-            line.start();
         data.addFooterLine(index, line);
-        addLineInternal(index, false);
+        data.getFooter().get(index).setUpdate(this::update);
+        if (isAnyoneWatching()) {
+            data.getFooter().get(index).start();
+            addLineInternal(index, false);
+        }
     }
 
     /**
@@ -211,9 +215,7 @@ public abstract class AbstractTabList extends AbstractVisual<TabListData> implem
         if (index >= data.getFooter().size())
             return;
 
-        if (isAnyoneWatching())
-            data.getFooter().get(index).stop();
-        data.removeFooterLine(index);
+        data.removeFooterLine(index).destroy();
         removeLineInternal(index, false);
     }
 
@@ -228,13 +230,13 @@ public abstract class AbstractTabList extends AbstractVisual<TabListData> implem
      */
     @Override
     public void setFooter(@NotNull Collection<? extends TextElement<?>> lines) {
-        lines.forEach((l) -> l.setUpdate(this::update));
-        if (isAnyoneWatching()) {
-            data.getFooter().forEach(DynamicElement::stop);
-            lines.forEach(AbstractDynamicElement::start);
-        }
+        data.getFooter().forEach(OwnedElement::destroy);
         data.setFooter(new ArrayList<>(lines));
-        updateLines(false);
+        data.getFooter().forEach((l) -> l.setUpdate(this::update));
+        if (isAnyoneWatching()) {
+            data.getFooter().forEach(OwnedElement::start);
+            updateLines(false);
+        }
     }
 
     /**
@@ -243,7 +245,7 @@ public abstract class AbstractTabList extends AbstractVisual<TabListData> implem
      * @return a list of {@link TextElement} representing the header lines.
      */
     public @NotNull List<TextElement<?>> getHeader() {
-        return this.data.getHeader();
+        return this.data.getHeader().stream().map(OwnedElement::getElement).collect(Collectors.toList());
     }
 
     /**
@@ -252,7 +254,7 @@ public abstract class AbstractTabList extends AbstractVisual<TabListData> implem
      * @return a list of {@link TextElement} representing the footer lines.
      */
     public @NotNull List<TextElement<?>> getFooter() {
-        return this.data.getFooter();
+        return this.data.getFooter().stream().map(OwnedElement::getElement).collect(Collectors.toList());
     }
 }
 

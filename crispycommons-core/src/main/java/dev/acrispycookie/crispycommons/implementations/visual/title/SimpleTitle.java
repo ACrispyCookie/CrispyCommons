@@ -48,12 +48,12 @@ public class SimpleTitle extends AbstractTitle {
     protected void show(@NotNull Player player) {
         Audience audience = CrispyCommons.getBukkitAudiences().player(player);
         Title toSend = Title.title(
-                data.getTitle().getFromContext(OfflinePlayer.class, player),
-                data.getSubtitle().getFromContext(OfflinePlayer.class, player),
+                getTitle().getFromContext(OfflinePlayer.class, player),
+                getSubtitle().getFromContext(OfflinePlayer.class, player),
                 Title.Times.times(
-                        Duration.ofMillis(data.getFadeIn().getFromContext(OfflinePlayer.class, player) * 50L),
+                        Duration.ofMillis(getFadeIn().getFromContext(OfflinePlayer.class, player) * 50L),
                         Duration.ofMillis(timeToLive.getElement().getFromContext(OfflinePlayer.class, player) * 50L),
-                        Duration.ofMillis(data.getFadeOut().getFromContext(OfflinePlayer.class, player) * 50L)
+                        Duration.ofMillis(getFadeOut().getFromContext(OfflinePlayer.class, player) * 50L)
                 )
         );
         audience.showTitle(toSend);

@@ -107,7 +107,7 @@ public interface CrispyScoreboard extends CrispyVisual {
          */
         public @NotNull ScoreboardBuilder setTitle(@NotNull TextElement<?> title) {
             this.data.setTitle(title);
-            title.setUpdate(() -> toBuild.updateTitle());
+            this.data.getTitle().setUpdate(() -> toBuild.updateTitle());
             return this;
         }
 
@@ -120,7 +120,7 @@ public interface CrispyScoreboard extends CrispyVisual {
         public @NotNull ScoreboardBuilder addTextLine(@NotNull TextElement<?> text) {
             this.data.addLine(text);
             int index = this.data.getLines().size() - 1;
-            text.setUpdate(() -> toBuild.updateLine(index));
+            this.data.getLines().get(index).setUpdate(() -> toBuild.updateLine(index));
             return this;
         }
 

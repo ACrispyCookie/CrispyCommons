@@ -37,8 +37,8 @@ public class SimpleScoreboard_1_8_R3 extends SimpleScoreboard {
 
     @Override
     protected void show(@NotNull Player player) {
-        Component titleText = data.getTitle().getFromContext(OfflinePlayer.class, player);
-        List<Component> lines = data.getLines().stream().map(e -> e.getFromContext(OfflinePlayer.class, player)).collect(Collectors.toList());
+        Component titleText = getTitle().getFromContext(OfflinePlayer.class, player);
+        List<Component> lines = getLines().stream().map(e -> e.getFromContext(OfflinePlayer.class, player)).collect(Collectors.toList());
 
         scoreboards.put(player, getNewBoard(player));
         initTitle(player, titleText);
@@ -48,7 +48,7 @@ public class SimpleScoreboard_1_8_R3 extends SimpleScoreboard {
 
     @Override
     protected void hide(@NotNull Player player) {
-        player.setScoreboard(removeSidebar(player, data.getLines().size()));
+        player.setScoreboard(removeSidebar(player, getLines().size()));
     }
 
     @Override
@@ -67,23 +67,23 @@ public class SimpleScoreboard_1_8_R3 extends SimpleScoreboard {
     @Override
     protected void addLineInternal(int index) {
         for (Player p : getCurrentlyViewing()) {
-            List<Component> lines = data.getLines().stream().map(e -> e.getFromContext(OfflinePlayer.class, p)).collect(Collectors.toList());
-            resetScoreboard(p, data.getLines().size() - 1, lines);
+            List<Component> lines = getLines().stream().map(e -> e.getFromContext(OfflinePlayer.class, p)).collect(Collectors.toList());
+            resetScoreboard(p, getLines().size() - 1, lines);
         }
     }
 
     @Override
     protected void removeLineInternal(int index) {
         for (Player p : getCurrentlyViewing()) {
-            List<Component> lines = data.getLines().stream().map(e -> e.getFromContext(OfflinePlayer.class, p)).collect(Collectors.toList());
-            resetScoreboard(p, data.getLines().size() + 1, lines);
+            List<Component> lines = getLines().stream().map(e -> e.getFromContext(OfflinePlayer.class, p)).collect(Collectors.toList());
+            resetScoreboard(p, getLines().size() + 1, lines);
         }
     }
 
     @Override
     public void updateTitle() {
         for (Player p : getCurrentlyViewing()) {
-            Component titleText = data.getTitle().getFromContext(OfflinePlayer.class, p);
+            Component titleText = getTitle().getFromContext(OfflinePlayer.class, p);
             initTitle(p, titleText);
         }
     }
@@ -91,7 +91,7 @@ public class SimpleScoreboard_1_8_R3 extends SimpleScoreboard {
     @Override
     public void updateLine(int index) {
         for (Player p : getCurrentlyViewing()) {
-            List<Component> lines = data.getLines().stream().map(e -> e.getFromContext(OfflinePlayer.class, p)).collect(Collectors.toList());
+            List<Component> lines = getLines().stream().map(e -> e.getFromContext(OfflinePlayer.class, p)).collect(Collectors.toList());
             updateLine(p, index, lines.get(index));
         }
     }
@@ -99,7 +99,7 @@ public class SimpleScoreboard_1_8_R3 extends SimpleScoreboard {
     @Override
     protected void updateLines(int oldSize) {
         for (Player p : getCurrentlyViewing()) {
-            List<Component> lines = data.getLines().stream().map(e -> e.getFromContext(OfflinePlayer.class, p)).collect(Collectors.toList());
+            List<Component> lines = getLines().stream().map(e -> e.getFromContext(OfflinePlayer.class, p)).collect(Collectors.toList());
             resetScoreboard(p, oldSize, lines);
         }
     }

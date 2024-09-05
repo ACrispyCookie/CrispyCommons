@@ -129,7 +129,7 @@ public abstract class AbstractNameTag extends AbstractVisual<NameTagData> implem
      */
     @Override
     public void setPrefix(@NotNull NameTagElement<String, ?> prefix) {
-        data.getPrefix().stop();
+        data.getPrefix().destroy();
         data.setPrefix(prefix);
         data.getPrefix().setUpdate(this::updatePrefix);
         if (isAnyoneWatching()) {
@@ -149,7 +149,7 @@ public abstract class AbstractNameTag extends AbstractVisual<NameTagData> implem
      */
     @Override
     public void setSuffix(@NotNull NameTagElement<String, ?> suffix) {
-        data.getSuffix().stop();
+        data.getSuffix().destroy();
         data.setSuffix(suffix);
         data.getSuffix().setUpdate(this::updateSuffix);
         if (isAnyoneWatching()) {
@@ -169,7 +169,7 @@ public abstract class AbstractNameTag extends AbstractVisual<NameTagData> implem
      */
     @Override
     public void setBelowName(@NotNull NameTagElement<String, ?> belowName) {
-        data.getBelowName().stop();
+        data.getBelowName().destroy();
         data.setBelowName(belowName);
         data.getBelowName().setUpdate(this::updateBelowName);
         if (isAnyoneWatching()) {
@@ -189,7 +189,7 @@ public abstract class AbstractNameTag extends AbstractVisual<NameTagData> implem
      */
     @Override
     public void setBelowNameValue(@NotNull NameTagElement<Integer, ?> belowNameValue) {
-        data.getBelowNameValue().stop();
+        data.getBelowNameValue().destroy();
         data.setBelowNameValue(belowNameValue);
         data.getBelowNameValue().setUpdate(this::updateBelowNameValue);
         if (isAnyoneWatching()) {
@@ -209,7 +209,7 @@ public abstract class AbstractNameTag extends AbstractVisual<NameTagData> implem
      */
     @Override
     public void setAboveName(@NotNull NameTagElement<String, ?> aboveName) {
-        data.getAboveName().stop();
+        data.getAboveName().destroy();
         data.setAboveName(aboveName);
         data.getAboveName().setUpdate(this::updateAboveName);
         if (isAnyoneWatching()) {
@@ -225,7 +225,7 @@ public abstract class AbstractNameTag extends AbstractVisual<NameTagData> implem
      */
     @Override
     public @NotNull NameTagElement<String, ?> getPrefix() {
-        return data.getPrefix();
+        return data.getPrefix().getElement();
     }
 
     /**
@@ -235,7 +235,7 @@ public abstract class AbstractNameTag extends AbstractVisual<NameTagData> implem
      */
     @Override
     public @NotNull NameTagElement<String, ?> getSuffix() {
-        return data.getSuffix();
+        return data.getSuffix().getElement();
     }
 
     /**
@@ -245,7 +245,7 @@ public abstract class AbstractNameTag extends AbstractVisual<NameTagData> implem
      */
     @Override
     public @NotNull NameTagElement<String, ?> getBelowName() {
-        return data.getBelowName();
+        return data.getBelowName().getElement();
     }
 
     /**
@@ -255,7 +255,7 @@ public abstract class AbstractNameTag extends AbstractVisual<NameTagData> implem
      */
     @Override
     public @NotNull NameTagElement<Integer, ?> getBelowNameValue() {
-        return data.getBelowNameValue();
+        return data.getBelowNameValue().getElement();
     }
 
     /**
@@ -265,7 +265,7 @@ public abstract class AbstractNameTag extends AbstractVisual<NameTagData> implem
      */
     @Override
     public @NotNull NameTagElement<String, ?> getAboveName() {
-        return data.getAboveName();
+        return data.getAboveName().getElement();
     }
 }
 

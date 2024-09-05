@@ -50,6 +50,16 @@ public abstract class AbstractActionbar extends AbstractVisual<ActionbarData> im
     }
 
     /**
+     * Retrieves the current text of the action bar.
+     *
+     * @return the {@link TextElement} representing the action bar's text.
+     */
+    @Override
+    public @NotNull TextElement<?> getText() {
+        return data.getText().getElement();
+    }
+
+    /**
      * Sets the text of the action bar and updates its display.
      * <p>
      * If the action bar is currently being displayed, the new text element will start
@@ -60,23 +70,13 @@ public abstract class AbstractActionbar extends AbstractVisual<ActionbarData> im
      */
     @Override
     public void setText(@NotNull TextElement<?> text) {
-        data.getText().stop();
+        data.getText().destroy();
         data.setText(text);
         data.getText().setUpdate(this::update);
         if (isAnyoneWatching()) {
             data.getText().start();
             update();
         }
-    }
-
-    /**
-     * Retrieves the current text of the action bar.
-     *
-     * @return the {@link TextElement} representing the action bar's text.
-     */
-    @Override
-    public @NotNull TextElement<?> getText() {
-        return data.getText();
     }
 }
 

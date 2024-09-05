@@ -54,7 +54,7 @@ public class SimpleHologram extends AbstractHologram {
      */
     @Override
     protected void show(@NotNull Player player) {
-        List<EntityInfo> entities = constructHologram(data.getLines(), player);
+        List<EntityInfo> entities = constructHologram(getLines(), player);
         entities.stream().map(EntityInfo::getEntity).forEach((entity) -> entity.spawn(player));
         this.entities.put(player.getUniqueId(), entities);
     }
@@ -116,7 +116,7 @@ public class SimpleHologram extends AbstractHologram {
 
             double offset = index == 0 ? 0 : infos.get(index - 1).getLocationOffset() + infos.get(index - 1).getEntity().offsetPerLine();
             Location location = infos.get(0).getEntity().getLocation().clone();
-            Entity newLine = Entity.of(data.getLines().get(index), location.add(0, offset, 0));
+            Entity newLine = Entity.of(getLines().get(index), location.add(0, offset, 0));
             infos.add(index, new EntityInfo(offset, newLine));
             entities.put(e.getKey(), infos);
 
@@ -124,7 +124,7 @@ public class SimpleHologram extends AbstractHologram {
                 newLine.spawn((Player) player);
 
             if (index != infos.size() - 1)
-                offsetLines(index + 1, newLine.offsetPerLine(), 0, infos, player.getPlayer());
+                offsetLines(index + 1, newLine.offsetPerLine(), infos, player.getPlayer());
         }
     }
 
@@ -145,12 +145,11 @@ public class SimpleHologram extends AbstractHologram {
             infos.remove(toRemove);
             entities.put(e.getKey(), infos);
 
-            if (player != null && isWatching(player)) {
+            if (player != null && isWatching(player))
                 toRemove.getEntity().destroy(player);
-            }
 
             if (player != null && index != infos.size())
-                offsetLines(index, -toRemove.getEntity().offsetPerLine(), 0, infos, player);
+                offsetLines(index, -toRemove.getEntity().offsetPerLine(), infos, player);
 
         }
     }
@@ -174,7 +173,7 @@ public class SimpleHologram extends AbstractHologram {
     public void updateLocation() {
         Set<Player> viewers = getCurrentlyViewing();
         for (Player player : viewers) {
-            Location location = data.getLocation().getFromContext(OfflinePlayer.class, player);
+            Location location = getLocation().getFromContext(OfflinePlayer.class, player);
             assert location.getWorld() != null : "World is null. Contact developer.";
             if (!updateWorld(location.getWorld(), player))
                 continue;
@@ -199,7 +198,7 @@ public class SimpleHologram extends AbstractHologram {
     }
 
     private boolean updateWorld(@NotNull World newWorld, @NotNull Player player) {
-        if (!data.getLocation().isDynamic()) {
+        if (!getLocation().isDynamic()) {
             if (newWorld.equals(player.getWorld()))
                 return true;
             hideInternal(player);
@@ -227,19 +226,15 @@ public class SimpleHologram extends AbstractHologram {
      *
      * @param index the index to start from.
      * @param offsetAmount the amount to offset each line.
-     * @param indexOffset the amount to offset each line index.
      * @param infos the entities to offset
      * @param player the player to render the new locations
      */
-    private void offsetLines(int index, double offsetAmount, int indexOffset, @NotNull List<EntityInfo> infos, @NotNull Player player) {
+    private void offsetLines(int index, double offsetAmount, @NotNull List<EntityInfo> infos, @NotNull Player player) {
         for (int i = index; i < infos.size(); i++) {
             EntityInfo info = infos.get(i);
             Entity entity = info.getEntity();
             info.addOffset(offsetAmount);
             entity.setLocation(entity.getLocation().add(0, offsetAmount, 0));
-
-            int newIndex = i + indexOffset;
-            entity.getElement().setUpdate(() -> updateLine(newIndex));
 
             if (isWatching(player)) {
                 entity.updateLocation(player);
@@ -256,7 +251,7 @@ public class SimpleHologram extends AbstractHologram {
      */
     private @NotNull List<EntityInfo> constructHologram(@NotNull List<DynamicElement<?, ?>> elements, @NotNull Player player) {
         List<EntityInfo> entities = new ArrayList<>();
-        Location location = data.getLocation().getFromContext(OfflinePlayer.class, player).clone();
+        Location location = getLocation().getFromContext(OfflinePlayer.class, player).clone();
         double offset = 0;
 
         for (DynamicElement<?, ?> t : elements) {

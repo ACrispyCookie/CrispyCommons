@@ -102,7 +102,7 @@ public interface CrispyParticle<T extends Effect> extends CrispyVisual {
          */
         public @NotNull ParticleBuilder<T> setParticle(@NotNull ParticleElement<T, ?> element) {
             data.setElement(element);
-            this.data.getElement().setUpdate(() -> toBuild.update());
+            data.getElement().setUpdate(() -> toBuild.update());
             return this;
         }
 
@@ -114,7 +114,7 @@ public interface CrispyParticle<T extends Effect> extends CrispyVisual {
          */
         public @NotNull ParticleBuilder<T> setLocation(@NotNull GeneralElement<Location, ?> location) {
             data.setLocation(location);
-            this.data.getLocation().setUpdate(() -> toBuild.update());
+            data.getLocation().setUpdate(() -> toBuild.update());
             return this;
         }
     }

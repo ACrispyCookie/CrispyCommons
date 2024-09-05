@@ -84,6 +84,9 @@ public abstract class AbstractBossBar extends AbstractVisual<BossBarData> implem
     @Override
     protected void prepareShow() {
         data.getText().start();
+        data.getProgress().start();
+        data.getColor().start();
+        data.getOverlay().start();
     }
 
     /**
@@ -92,6 +95,9 @@ public abstract class AbstractBossBar extends AbstractVisual<BossBarData> implem
     @Override
     protected void prepareHide() {
         data.getText().stop();
+        data.getProgress().stop();
+        data.getColor().stop();
+        data.getOverlay().stop();
     }
 
     /**
@@ -100,6 +106,46 @@ public abstract class AbstractBossBar extends AbstractVisual<BossBarData> implem
     @Override
     protected void globalUpdate() {
         // No global update action needed.
+    }
+
+    /**
+     * Retrieves the text element of the boss bar.
+     *
+     * @return the {@link TextElement} that represents the boss bar's text.
+     */
+    @Override
+    public @NotNull TextElement<?> getText() {
+        return data.getText().getElement();
+    }
+
+    /**
+     * Retrieves the progress element of the boss bar.
+     *
+     * @return the {@link GeneralElement} that represents the boss bar's progress.
+     */
+    @Override
+    public @NotNull GeneralElement<Float, ?> getProgress() {
+        return data.getProgress().getElement();
+    }
+
+    /**
+     * Retrieves the color element of the boss bar.
+     *
+     * @return the {@link GeneralElement} that represents the boss bar's color.
+     */
+    @Override
+    public @NotNull GeneralElement<BossBar.Color, ?> getColor() {
+        return data.getColor().getElement();
+    }
+
+    /**
+     * Retrieves the overlay element of the boss bar.
+     *
+     * @return the {@link GeneralElement} that represents the boss bar's overlay.
+     */
+    @Override
+    public @NotNull GeneralElement<BossBar.Overlay, ?> getOverlay() {
+        return data.getOverlay().getElement();
     }
 
     /**
@@ -113,7 +159,7 @@ public abstract class AbstractBossBar extends AbstractVisual<BossBarData> implem
      */
     @Override
     public void setText(@NotNull TextElement<?> text) {
-        data.getText().stop();
+        data.getText().destroy();
         data.setText(text);
         data.getText().setUpdate(this::updateText);
         if (isAnyoneWatching()) {
@@ -133,7 +179,7 @@ public abstract class AbstractBossBar extends AbstractVisual<BossBarData> implem
      */
     @Override
     public void setProgress(@NotNull GeneralElement<Float, ?> progress) {
-        data.getProgress().stop();
+        data.getProgress().destroy();
         data.setProgress(progress);
         data.getProgress().setUpdate(this::updateProgress);
         if (isAnyoneWatching()) {
@@ -153,7 +199,7 @@ public abstract class AbstractBossBar extends AbstractVisual<BossBarData> implem
      */
     @Override
     public void setColor(@NotNull GeneralElement<BossBar.Color, ?> color) {
-        data.getColor().stop();
+        data.getColor().destroy();
         data.setColor(color);
         data.getColor().setUpdate(this::updateColor);
         if (isAnyoneWatching()) {
@@ -173,53 +219,13 @@ public abstract class AbstractBossBar extends AbstractVisual<BossBarData> implem
      */
     @Override
     public void setOverlay(@NotNull GeneralElement<BossBar.Overlay, ?> overlay) {
-        data.getOverlay().stop();
+        data.getOverlay().destroy();
         data.setOverlay(overlay);
         data.getOverlay().setUpdate(this::updateOverlay);
         if (isAnyoneWatching()) {
             data.getOverlay().start();
             updateOverlay();
         }
-    }
-
-    /**
-     * Retrieves the text element of the boss bar.
-     *
-     * @return the {@link TextElement} that represents the boss bar's text.
-     */
-    @Override
-    public @NotNull TextElement<?> getText() {
-        return data.getText();
-    }
-
-    /**
-     * Retrieves the progress element of the boss bar.
-     *
-     * @return the {@link GeneralElement} that represents the boss bar's progress.
-     */
-    @Override
-    public @NotNull GeneralElement<Float, ?> getProgress() {
-        return data.getProgress();
-    }
-
-    /**
-     * Retrieves the color element of the boss bar.
-     *
-     * @return the {@link GeneralElement} that represents the boss bar's color.
-     */
-    @Override
-    public @NotNull GeneralElement<BossBar.Color, ?> getColor() {
-        return data.getColor();
-    }
-
-    /**
-     * Retrieves the overlay element of the boss bar.
-     *
-     * @return the {@link GeneralElement} that represents the boss bar's overlay.
-     */
-    @Override
-    public @NotNull GeneralElement<BossBar.Overlay, ?> getOverlay() {
-        return data.getOverlay();
     }
 }
 

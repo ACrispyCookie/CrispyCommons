@@ -105,9 +105,7 @@ public class SimpleTabList extends AbstractTabList {
      */
     @Override
     protected void addLineInternal(int index, boolean header) {
-        if (isAnyoneWatching()) {
-            update();
-        }
+        update();
     }
 
     /**
@@ -121,9 +119,7 @@ public class SimpleTabList extends AbstractTabList {
      */
     @Override
     protected void removeLineInternal(int index, boolean header) {
-        if (isAnyoneWatching()) {
-            update();
-        }
+        update();
     }
 
     /**
@@ -136,9 +132,7 @@ public class SimpleTabList extends AbstractTabList {
      */
     @Override
     protected void updateLines(boolean header) {
-        if (isAnyoneWatching()) {
-            update();
-        }
+        update();
     }
 
     /**

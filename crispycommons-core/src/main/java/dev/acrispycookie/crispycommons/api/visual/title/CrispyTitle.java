@@ -110,8 +110,8 @@ public interface CrispyTitle extends CrispyVisual {
          * @return this {@link TitleBuilder} instance for method chaining.
          */
         public @NotNull TitleBuilder setTitle(@NotNull TextElement<?> text) {
-            text.setUpdate(() -> toBuild.update());
             this.data.setTitle(text);
+            this.data.getTitle().setUpdate(() -> toBuild.update());
             return this;
         }
 
@@ -122,8 +122,8 @@ public interface CrispyTitle extends CrispyVisual {
          * @return this {@link TitleBuilder} instance for method chaining.
          */
         public @NotNull TitleBuilder setSubtitle(@NotNull TextElement<?> text) {
-            text.setUpdate(() -> toBuild.update());
             this.data.setSubtitle(text);
+            this.data.getSubtitle().setUpdate(() -> toBuild.update());
             return this;
         }
 

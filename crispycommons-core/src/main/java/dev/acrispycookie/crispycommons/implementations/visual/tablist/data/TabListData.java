@@ -1,10 +1,13 @@
 package dev.acrispycookie.crispycommons.implementations.visual.tablist.data;
 
+import dev.acrispycookie.crispycommons.api.element.DynamicElement;
 import dev.acrispycookie.crispycommons.api.visual.abstraction.visual.VisualData;
+import dev.acrispycookie.crispycommons.implementations.element.OwnedElement;
 import dev.acrispycookie.crispycommons.implementations.element.type.TextElement;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,12 +23,12 @@ public class TabListData implements VisualData {
     /**
      * The list of {@link TextElement} representing the header lines of the tab list.
      */
-    private List<TextElement<?>> header;
+    private List<OwnedElement<TextElement<?>>> header;
 
     /**
      * The list of {@link TextElement} representing the footer lines of the tab list.
      */
-    private List<TextElement<?>> footer;
+    private List<OwnedElement<TextElement<?>>> footer;
 
     /**
      * Constructs a new {@code TabListData} instance with the specified header and footer elements.
@@ -34,8 +37,10 @@ public class TabListData implements VisualData {
      * @param footer the list of {@link TextElement} representing the footer lines.
      */
     public TabListData(@NotNull List<TextElement<?>> header, @NotNull List<TextElement<?>> footer) {
-        this.header = header;
-        this.footer = footer;
+        this.header = new ArrayList<>();
+        header.forEach(line -> this.header.add(new OwnedElement<>(line, this)));
+        this.footer = new ArrayList<>();
+        footer.forEach(line -> this.footer.add(new OwnedElement<>(line, this)));
     }
 
     /**
@@ -43,7 +48,7 @@ public class TabListData implements VisualData {
      *
      * @return a list of {@link TextElement} representing the header lines.
      */
-    public @NotNull List<TextElement<?>> getHeader() {
+    public @NotNull List<OwnedElement<TextElement<?>>> getHeader() {
         return header;
     }
 
@@ -52,7 +57,7 @@ public class TabListData implements VisualData {
      *
      * @return a list of {@link TextElement} representing the footer lines.
      */
-    public @NotNull List<TextElement<?>> getFooter() {
+    public @NotNull List<OwnedElement<TextElement<?>>> getFooter() {
         return footer;
     }
 
@@ -62,7 +67,8 @@ public class TabListData implements VisualData {
      * @param header a list of {@link TextElement} representing the new header lines.
      */
     public void setHeader(@NotNull List<TextElement<?>> header) {
-        this.header = header;
+        this.header.clear();
+        header.forEach(line -> this.header.add(new OwnedElement<>(line, this)));
     }
 
     /**
@@ -71,7 +77,7 @@ public class TabListData implements VisualData {
      * @param text the {@link TextElement} to add to the header.
      */
     public void addHeaderLine(@NotNull TextElement<?> text) {
-        this.header.add(text);
+        addHeaderLine(this.header.size(), text);
     }
 
     /**
@@ -81,7 +87,7 @@ public class TabListData implements VisualData {
      * @param text the {@link TextElement} to add to the header.
      */
     public void addHeaderLine(int index, @NotNull TextElement<?> text) {
-        this.header.add(index, text);
+        this.header.add(index, new OwnedElement<>(text, this));
     }
 
     /**
@@ -89,8 +95,8 @@ public class TabListData implements VisualData {
      *
      * @param index the index of the header line to remove.
      */
-    public void removeHeaderLine(int index) {
-        this.header.remove(index);
+    public OwnedElement<TextElement<?>> removeHeaderLine(int index) {
+        return this.header.remove(index);
     }
 
     /**
@@ -99,7 +105,8 @@ public class TabListData implements VisualData {
      * @param footer a list of {@link TextElement} representing the new footer lines.
      */
     public void setFooter(@NotNull List<TextElement<?>> footer) {
-        this.footer = footer;
+        this.footer.clear();
+        footer.forEach(line -> this.footer.add(new OwnedElement<>(line, this)));
     }
 
     /**
@@ -108,7 +115,7 @@ public class TabListData implements VisualData {
      * @param text the {@link TextElement} to add to the footer.
      */
     public void addFooterLine(@NotNull TextElement<?> text) {
-        this.footer.add(text);
+        addFooterLine(this.footer.size(), text);
     }
 
     /**
@@ -118,7 +125,7 @@ public class TabListData implements VisualData {
      * @param text the {@link TextElement} to add to the footer.
      */
     public void addFooterLine(int index, TextElement<?> text) {
-        this.footer.add(index, text);
+        this.footer.add(index, new OwnedElement<>(text, this));
     }
 
     /**
@@ -126,8 +133,8 @@ public class TabListData implements VisualData {
      *
      * @param index the index of the footer line to remove.
      */
-    public void removeFooterLine(int index) {
-        this.footer.remove(index);
+    public OwnedElement<TextElement<?>> removeFooterLine(int index) {
+        return this.footer.remove(index);
     }
 
     /**

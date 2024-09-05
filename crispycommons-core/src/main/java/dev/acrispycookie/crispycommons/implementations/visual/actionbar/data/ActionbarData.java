@@ -1,6 +1,7 @@
 package dev.acrispycookie.crispycommons.implementations.visual.actionbar.data;
 
 import dev.acrispycookie.crispycommons.api.visual.abstraction.visual.VisualData;
+import dev.acrispycookie.crispycommons.implementations.element.OwnedElement;
 import dev.acrispycookie.crispycommons.implementations.element.type.TextElement;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -19,7 +20,7 @@ public class ActionbarData implements VisualData {
     /**
      * The text element to be displayed in the action bar.
      */
-    private TextElement<?> text;
+    private OwnedElement<TextElement<?>> text;
 
     /**
      * Constructs a new {@code ActionbarData} instance with the specified text element.
@@ -27,7 +28,7 @@ public class ActionbarData implements VisualData {
      * @param text the {@link TextElement} to be displayed in the action bar.
      */
     public ActionbarData(@Nullable TextElement<?> text) {
-        this.text = text;
+        this.text = new OwnedElement<>(text, this);
     }
 
     /**
@@ -35,7 +36,7 @@ public class ActionbarData implements VisualData {
      *
      * @return the {@link TextElement} to be displayed.
      */
-    public @NotNull TextElement<?> getText() {
+    public @NotNull OwnedElement<TextElement<?>> getText() {
         return text;
     }
 
@@ -45,7 +46,7 @@ public class ActionbarData implements VisualData {
      * @param text the {@link TextElement} to set.
      */
     public void setText(@NotNull TextElement<?> text) {
-        this.text = text;
+        this.text = new OwnedElement<>(text, this);
     }
 
     /**

@@ -71,7 +71,17 @@ public abstract class AbstractParticle<T extends Effect> extends AbstractVisual<
      */
     @Override
     public @NotNull ParticleElement<T, ?> getElement() {
-        return data.getElement();
+        return data.getElement().getElement();
+    }
+
+    /**
+     * Retrieves the location element associated with this particle effect.
+     *
+     * @return the {@link GeneralElement} representing the location of the particle effect.
+     */
+    @Override
+    public @NotNull GeneralElement<Location, ?> getLocation() {
+        return data.getLocation().getElement();
     }
 
     /**
@@ -85,23 +95,13 @@ public abstract class AbstractParticle<T extends Effect> extends AbstractVisual<
      */
     @Override
     public void setElement(@NotNull ParticleElement<T, ?> element) {
-        data.getElement().stop();
+        data.getElement().destroy();
         data.setElement(element);
         data.getElement().setUpdate(this::update);
         if (isAnyoneWatching()) {
             data.getElement().start();
             update();
         }
-    }
-
-    /**
-     * Retrieves the location element associated with this particle effect.
-     *
-     * @return the {@link GeneralElement} representing the location of the particle effect.
-     */
-    @Override
-    public @NotNull GeneralElement<Location, ?> getLocation() {
-        return data.getLocation();
     }
 
     /**
@@ -115,7 +115,7 @@ public abstract class AbstractParticle<T extends Effect> extends AbstractVisual<
      */
     @Override
     public void setLocation(@NotNull GeneralElement<Location, ?> location) {
-        data.getLocation().stop();
+        data.getLocation().destroy();
         data.setLocation(location);
         data.getLocation().setUpdate(this::update);
         if (isAnyoneWatching()) {

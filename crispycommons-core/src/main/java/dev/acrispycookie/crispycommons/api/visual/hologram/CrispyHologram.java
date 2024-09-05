@@ -117,7 +117,7 @@ public interface CrispyHologram extends CrispyVisual {
          */
         public @NotNull HologramBuilder setLocation(@NotNull GeneralElement<Location, ?> location) {
             this.data.setLocation(location);
-            location.setUpdate(() -> toBuild.updateLocation());
+            this.data.getLocation().setUpdate(() -> toBuild.updateLocation());
             return this;
         }
 
@@ -131,9 +131,9 @@ public interface CrispyHologram extends CrispyVisual {
          * @return this {@code HologramBuilder} instance for method chaining.
          */
         public @NotNull HologramBuilder addLine(@NotNull DynamicElement<?, ?> element) {
-            this.data.getLines().add(element);
+            this.data.addLine(element);
             int index = data.getLines().size() - 1;
-            element.setUpdate(() -> toBuild.updateLine(index));
+            this.data.getLines().get(index).setUpdate(() -> toBuild.updateLine(index));
             return this;
         }
 

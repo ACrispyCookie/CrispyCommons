@@ -95,9 +95,9 @@ public abstract class AbstractSection implements Section {
                     .filter((i) -> !i.getInventory().equals(inventory))
                     .collect(Collectors.toSet());
             dynamicItems.put(item, inventories);
+            inventories.forEach((i) -> item.removeUpdateAction(i.getInventory(), i.getPlayer().getUniqueId().toString() + i.getPasteSlot()));
 
             if (inventories.isEmpty()) {
-                item.stop();
                 dynamicItems.remove(item);
             }
         });
@@ -154,8 +154,8 @@ public abstract class AbstractSection implements Section {
         dynamicItemInventories.put(toRender, items);
 
         if (!started) {
-            item.getDisplay().setUpdate(() -> updateItem(item.getDisplay()));
-            item.getDisplay().start();
+            item.getDisplay().addUpdateAction(toRender, player.getUniqueId() + String.valueOf(pasteSlot), () -> updateItem(item.getDisplay()));
+            item.getDisplay().startUpdateAction(toRender, player.getUniqueId() + String.valueOf(pasteSlot));
         }
     }
 

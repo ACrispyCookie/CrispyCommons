@@ -116,8 +116,8 @@ public interface CrispyTabList extends CrispyVisual {
          * @return this {@link TabListBuilder} instance for method chaining.
          */
         public @NotNull TabListBuilder addHeaderLine(@NotNull TextElement<?> text) {
-            text.setUpdate(() -> toBuild.update());
             this.data.addHeaderLine(text);
+            this.data.getHeader().get(this.data.getHeader().size() - 1).setUpdate(() -> toBuild.update());
             return this;
         }
 
@@ -128,8 +128,8 @@ public interface CrispyTabList extends CrispyVisual {
          * @return this {@link TabListBuilder} instance for method chaining.
          */
         public @NotNull TabListBuilder addFooterLine(@NotNull TextElement<?> text) {
-            text.setUpdate(() -> toBuild.update());
             this.data.addFooterLine(text);
+            this.data.getFooter().get(this.data.getFooter().size() - 1).setUpdate(() -> toBuild.update());
             return this;
         }
 

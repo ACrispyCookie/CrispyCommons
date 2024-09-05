@@ -44,7 +44,7 @@ public class UpdatingTitle extends AbstractTitle {
      */
     @Override
     protected void show(@NotNull Player player) {
-        showTitle(player, data.getFadeIn().getFromContext(OfflinePlayer.class, player) * 50L, data.getSmallestPeriod() * 150L, 0);
+        showTitle(player, getFadeIn().getFromContext(OfflinePlayer.class, player) * 50L, data.getSmallestPeriod() * 150L, 0);
     }
 
     /**
@@ -57,7 +57,7 @@ public class UpdatingTitle extends AbstractTitle {
      */
     @Override
     public void hide(@NotNull Player player) {
-        showTitle(player, 0, 1, data.getFadeOut().getFromContext(OfflinePlayer.class, player) * 50L);
+        showTitle(player, 0, 1, getFadeOut().getFromContext(OfflinePlayer.class, player) * 50L);
     }
 
     /**
@@ -99,8 +99,8 @@ public class UpdatingTitle extends AbstractTitle {
     private void showTitle(@NotNull Player p, long fadeIn, long duration, long fadeOut) {
         Audience audience = CrispyCommons.getBukkitAudiences().player(p);
         Title toSend = Title.title(
-                data.getTitle().getFromContext(OfflinePlayer.class, p),
-                data.getSubtitle().getFromContext(OfflinePlayer.class, p),
+                getTitle().getFromContext(OfflinePlayer.class, p),
+                getSubtitle().getFromContext(OfflinePlayer.class, p),
                 Title.Times.times(
                         Duration.ofMillis(fadeIn),
                         Duration.ofMillis(duration),

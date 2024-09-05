@@ -1,6 +1,7 @@
 package dev.acrispycookie.crispycommons.utility.visual;
 
 import dev.acrispycookie.crispycommons.CrispyCommons;
+import dev.acrispycookie.crispycommons.implementations.element.OwnedElement;
 import dev.acrispycookie.crispycommons.implementations.element.type.TimeToLiveElement;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;

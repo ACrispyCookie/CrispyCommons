@@ -44,7 +44,7 @@ public class SimpleActionbar extends AbstractActionbar {
      */
     @Override
     protected void show(@NotNull Player player) {
-        Component text = data.getText().getFromContext(OfflinePlayer.class, player);
+        Component text = getText().getFromContext(OfflinePlayer.class, player);
         Audience audience = CrispyCommons.getBukkitAudiences().player(player);
         audience.sendActionBar(text);
     }

@@ -1,6 +1,7 @@
 package dev.acrispycookie.crispycommons.api.element;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Represents a dynamic element that is updated every some period of time.
@@ -16,20 +17,121 @@ import org.jetbrains.annotations.NotNull;
 public interface DynamicElement<T, K> extends CrispyElement<T, K> {
 
     /**
-     * Starts the dynamic element, initiating any necessary processes or behaviors.
+     * Adds an update action that is performed periodically.
      * <p>
-     * This method is typically called to begin periodic updates of the element.
+     * This method allows specifying a {@link Runnable} to be added to the update actions at
+     * each update interval defined by the period of the dynamic element.
      * </p>
+     *
+     * @param owner the owner of the action.
+     * @param runnable the {@link Runnable} to add to the action.
+     * @throws NullPointerException if {@code runnable} is {@code null}.
      */
-    void start();
+    void addUpdateAction(@NotNull Object owner, @NotNull Runnable runnable);
 
     /**
-     * Stops the dynamic element, halting any ongoing updating.
+     * Removes an update action that is performed periodically.
      * <p>
-     * This method is called to stop the periodic updates of the element.
+     * This method allows to remove an already defined action on this dynamic element.
      * </p>
+     *
+     * @param owner the owner of the action.
+     * @throws NullPointerException if {@code runnable} is {@code null}.
      */
-    void stop();
+    void removeUpdateAction(@NotNull Object owner);
+
+    /**
+     * Retrieves the update action with the given owner that is performed periodically.
+     * <p>
+     * This method returns the {@link Runnable} that is executed at each update interval defined by the
+     * period of the dynamic element.
+     * </p>
+     *
+     * @param owner the owner of the action.
+     * @return the {@link Runnable} to execute periodically.
+     */
+    @Nullable Runnable getUpdateAction(@NotNull Object owner);
+
+    /**
+     * Starts a specific update action if it exists.
+     *
+     * @param owner the owner of the action.
+     */
+    void startUpdateAction(@NotNull Object owner);
+
+    /**
+     * Stops a specific update action if it exists.
+     *
+     * @param owner the owner of the action.
+     */
+    void stopUpdateAction(@NotNull Object owner);
+
+    /**
+     * Adds an update action that is performed periodically.
+     * <p>
+     * This method allows specifying a {@link Runnable} to be added to the update actions at
+     * each update interval defined by the period of the dynamic element.
+     * </p>
+     *
+     * @param owner the owner of the action.
+     * @param extraId the extraId of the action.
+     * @param runnable the {@link Runnable} to add to the action.
+     * @throws NullPointerException if {@code runnable} is {@code null}.
+     */
+    void addUpdateAction(@NotNull Object owner, @NotNull String extraId, @NotNull Runnable runnable);
+
+    /**
+     * Removes an update action that is performed periodically.
+     * <p>
+     * This method allows to remove an already defined action on this dynamic element.
+     * </p>
+     *
+     * @param owner the owner of the action.
+     * @param extraId the extraId of the action.
+     * @throws NullPointerException if {@code runnable} is {@code null}.
+     */
+    void removeUpdateAction(@NotNull Object owner, @NotNull String extraId);
+
+    /**
+     * Retrieves the update action with the given extraId that is performed periodically.
+     * <p>
+     * This method returns the {@link Runnable} that is executed at each update interval defined by the
+     * period of the dynamic element.
+     * </p>
+     *
+     * @param owner the owner of the action.
+     * @param extraId the extraId of the action.
+     * @return the {@link Runnable} to execute periodically.
+     */
+    @Nullable Runnable getUpdateAction(@NotNull Object owner, @NotNull String extraId);
+
+    /**
+     * Retrieves the state of update action with the given extraId that is performed periodically.
+     * <p>
+     * This method returns either true or false based on the state of the update action.
+     * </p>
+     *
+     * @param owner the owner of the action.
+     * @param extraId the extraId of the action.
+     * @return the state of the action.
+     */
+    boolean isActionEnabled(@NotNull Object owner, @NotNull String extraId);
+
+    /**
+     * Starts a specific update action if it exists.
+     *
+     * @param owner the owner of the action.
+     * @param extraId the extraId of the action.
+     */
+    void startUpdateAction(@NotNull Object owner, @NotNull String extraId);
+
+    /**
+     * Stops a specific update action if it exists.
+     *
+     * @param owner the owner of the action.
+     * @param extraId the extraId of the action.
+     */
+    void stopUpdateAction(@NotNull Object owner, @NotNull String extraId);
 
     /**
      * Retrieves the period of the dynamic element.
@@ -60,16 +162,4 @@ public interface DynamicElement<T, K> extends CrispyElement<T, K> {
      * @return {@code true} if the dynamic element is currently running or else {@code false}.
      */
     boolean isRunning();
-
-    /**
-     * Sets the update action to be performed periodically.
-     * <p>
-     * This method allows specifying a {@link Runnable} to be executed at each update interval defined by the
-     * period of the dynamic element.
-     * </p>
-     *
-     * @param runnable the {@link Runnable} to execute periodically.
-     * @throws NullPointerException if {@code runnable} is {@code null}.
-     */
-    void setUpdate(@NotNull Runnable runnable);
 }

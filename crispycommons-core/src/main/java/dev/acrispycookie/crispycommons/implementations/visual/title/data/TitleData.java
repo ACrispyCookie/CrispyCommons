@@ -2,6 +2,7 @@ package dev.acrispycookie.crispycommons.implementations.visual.title.data;
 
 import dev.acrispycookie.crispycommons.api.visual.abstraction.visual.VisualData;
 import dev.acrispycookie.crispycommons.api.element.CrispyElement;
+import dev.acrispycookie.crispycommons.implementations.element.OwnedElement;
 import dev.acrispycookie.crispycommons.implementations.element.type.GeneralElement;
 import dev.acrispycookie.crispycommons.implementations.element.type.TextElement;
 import org.bukkit.entity.Player;
@@ -20,22 +21,22 @@ public class TitleData implements VisualData {
     /**
      * The text element representing the main title.
      */
-    private TextElement<?> title;
+    private OwnedElement<TextElement<?>> title;
 
     /**
      * The text element representing the subtitle.
      */
-    private TextElement<?> subtitle;
+    private OwnedElement<TextElement<?>> subtitle;
 
     /**
      * The element representing the fade-in time (in ticks) for the title.
      */
-    private GeneralElement<Integer, ?> fadeIn;
+    private OwnedElement<GeneralElement<Integer, ?>> fadeIn;
 
     /**
      * The element representing the fade-out time (in ticks) for the title.
      */
-    private GeneralElement<Integer, ?> fadeOut;
+    private OwnedElement<GeneralElement<Integer, ?>> fadeOut;
 
     /**
      * The smallest update period between the title and subtitle elements.
@@ -51,10 +52,10 @@ public class TitleData implements VisualData {
      * @param fadeOut the {@link GeneralElement} representing the fade-out time.
      */
     public TitleData(@Nullable TextElement<?> title, @Nullable TextElement<?> subtitle, @Nullable GeneralElement<Integer, ?> fadeIn, @Nullable GeneralElement<Integer, ?> fadeOut) {
-        this.title = title;
-        this.subtitle = subtitle;
-        this.fadeIn = fadeIn;
-        this.fadeOut = fadeOut;
+        this.title = new OwnedElement<>(title, this, "title");
+        this.subtitle = new OwnedElement<>(subtitle, this, "subtitle");
+        this.fadeIn = new OwnedElement<>(fadeIn, this, "fade-in");
+        this.fadeOut = new OwnedElement<>(fadeOut, this, "fade-out");
     }
 
     /**
@@ -62,7 +63,7 @@ public class TitleData implements VisualData {
      *
      * @return the {@link TextElement} representing the title.
      */
-    public @NotNull TextElement<?> getTitle() {
+    public @NotNull OwnedElement<TextElement<?>> getTitle() {
         return title;
     }
 
@@ -71,7 +72,7 @@ public class TitleData implements VisualData {
      *
      * @return the {@link TextElement} representing the subtitle.
      */
-    public @NotNull TextElement<?> getSubtitle() {
+    public @NotNull OwnedElement<TextElement<?>> getSubtitle() {
         return subtitle;
     }
 
@@ -80,7 +81,7 @@ public class TitleData implements VisualData {
      *
      * @return the {@link GeneralElement} representing the fade-in time.
      */
-    public @NotNull GeneralElement<Integer, ?> getFadeIn() {
+    public @NotNull OwnedElement<GeneralElement<Integer, ?>> getFadeIn() {
         return fadeIn;
     }
 
@@ -89,7 +90,7 @@ public class TitleData implements VisualData {
      *
      * @return the {@link GeneralElement} representing the fade-out time.
      */
-    public @NotNull GeneralElement<Integer, ?> getFadeOut() {
+    public @NotNull OwnedElement<GeneralElement<Integer, ?>> getFadeOut() {
         return fadeOut;
     }
 
@@ -99,8 +100,8 @@ public class TitleData implements VisualData {
      * @param title the {@link TextElement} to set as the title.
      */
     public void setTitle(@NotNull TextElement<?> title) {
-        this.title = title;
-        this.smallestPeriod = CrispyElement.getMinimumPeriod(title, subtitle);
+        this.title = new OwnedElement<>(title, this, "title");
+        this.smallestPeriod = CrispyElement.getMinimumPeriod(title, subtitle.getElement());
     }
 
     /**
@@ -109,8 +110,8 @@ public class TitleData implements VisualData {
      * @param subtitle the {@link TextElement} to set as the subtitle.
      */
     public void setSubtitle(@NotNull TextElement<?> subtitle) {
-        this.subtitle = subtitle;
-        this.smallestPeriod = CrispyElement.getMinimumPeriod(title, subtitle);
+        this.subtitle = new OwnedElement<>(subtitle, this, "subtitle");
+        this.smallestPeriod = CrispyElement.getMinimumPeriod(title.getElement(), subtitle);
     }
 
     /**
@@ -119,7 +120,7 @@ public class TitleData implements VisualData {
      * @param fadeIn the {@link GeneralElement} to set as the fade-in time.
      */
     public void setFadeIn(@NotNull GeneralElement<Integer, ?> fadeIn) {
-        this.fadeIn = fadeIn;
+        this.fadeIn = new OwnedElement<>(fadeIn, this, "fade-in");
     }
 
     /**
@@ -128,7 +129,7 @@ public class TitleData implements VisualData {
      * @param fadeOut the {@link GeneralElement} to set as the fade-out time.
      */
     public void setFadeOut(@NotNull GeneralElement<Integer, ?> fadeOut) {
-        this.fadeOut = fadeOut;
+        this.fadeOut = new OwnedElement<>(fadeOut, this, "fade-out");
     }
 
     /**
@@ -159,13 +160,13 @@ public class TitleData implements VisualData {
         if (subtitle == null) {
             throw new VisualNotReadyException("The subtitle was not set!");
         }
-        if (fadeIn == null || fadeIn.isDynamic()) {
+        if (fadeIn == null || fadeIn.getElement().isDynamic()) {
             throw new VisualNotReadyException("The fade-in was not set or is dynamic!");
         }
-        if (fadeOut == null || fadeOut.isDynamic()) {
+        if (fadeOut == null || fadeOut.getElement().isDynamic()) {
             throw new VisualNotReadyException("The fade-out was not set or is dynamic!");
         }
-        this.smallestPeriod = CrispyElement.getMinimumPeriod(title, subtitle);
+        this.smallestPeriod = CrispyElement.getMinimumPeriod(title.getElement(), subtitle.getElement());
     }
 }
 

@@ -43,8 +43,8 @@ public class SimpleParticle extends AbstractParticle<SimpleEffect> {
      */
     @Override
     protected void show(@NotNull Player player) {
-        SimpleEffect effect = data.getElement().getFromContext(OfflinePlayer.class, player);
-        Location location = data.getLocation().getFromContext(OfflinePlayer.class, player);
+        SimpleEffect effect = getElement().getFromContext(OfflinePlayer.class, player);
+        Location location = getLocation().getFromContext(OfflinePlayer.class, player);
         ParticleSpawner.newInstance().spawnNormal(player, effect.getEffect(), location, effect.getData());
     }
 

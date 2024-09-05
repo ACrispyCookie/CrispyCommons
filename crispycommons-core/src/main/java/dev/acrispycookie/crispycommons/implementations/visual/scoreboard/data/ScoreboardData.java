@@ -1,6 +1,7 @@
 package dev.acrispycookie.crispycommons.implementations.visual.scoreboard.data;
 
 import dev.acrispycookie.crispycommons.api.visual.abstraction.visual.VisualData;
+import dev.acrispycookie.crispycommons.implementations.element.OwnedElement;
 import dev.acrispycookie.crispycommons.implementations.element.type.TextElement;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -23,12 +24,12 @@ public class ScoreboardData implements VisualData {
     /**
      * The title element to be displayed on the scoreboard.
      */
-    private TextElement<?> title;
+    private OwnedElement<TextElement<?>> title;
 
     /**
      * The list of line elements to be displayed on the scoreboard.
      */
-    private List<TextElement<?>> lines;
+    private List<OwnedElement<TextElement<?>>> lines;
 
     /**
      * Constructs a new {@code ScoreboardData} instance with the specified title and lines.
@@ -37,26 +38,9 @@ public class ScoreboardData implements VisualData {
      * @param lines the collection of {@link TextElement} objects representing the lines on the scoreboard.
      */
     public ScoreboardData(@Nullable TextElement<?> title, @NotNull Collection<? extends TextElement<?>> lines) {
-        this.title = title;
-        this.lines = new ArrayList<>(lines);
-    }
-
-    /**
-     * Retrieves the title element that will be displayed on the scoreboard.
-     *
-     * @return the {@link TextElement} representing the scoreboard title.
-     */
-    public @NotNull TextElement<?> getTitle() {
-        return title;
-    }
-
-    /**
-     * Sets the title element to be displayed on the scoreboard.
-     *
-     * @param title the {@link TextElement} to set as the scoreboard title.
-     */
-    public void setTitle(@NotNull TextElement<?> title) {
-        this.title = title;
+        this.lines = new ArrayList<>();
+        lines.forEach(line -> this.lines.add(new OwnedElement<>(line, this, this.lines.size())));
+        this.title = new OwnedElement<>(title, this, "title");
     }
 
     /**
@@ -64,8 +48,17 @@ public class ScoreboardData implements VisualData {
      *
      * @return the list of {@link TextElement} objects representing the scoreboard lines.
      */
-    public @NotNull List<TextElement<?>> getLines() {
+    public @NotNull List<OwnedElement<TextElement<?>>> getLines() {
         return lines;
+    }
+
+    /**
+     * Retrieves the title element that will be displayed on the scoreboard.
+     *
+     * @return the {@link TextElement} representing the scoreboard title.
+     */
+    public @NotNull OwnedElement<TextElement<?>> getTitle() {
+        return title;
     }
 
     /**
@@ -74,7 +67,7 @@ public class ScoreboardData implements VisualData {
      * @param line the {@link TextElement} to be added.
      */
     public void addLine(@NotNull TextElement<?> line) {
-        this.lines.add(line);
+        addLine(this.lines.size(), line);
     }
 
     /**
@@ -84,7 +77,7 @@ public class ScoreboardData implements VisualData {
      * @param line  the {@link TextElement} to be added.
      */
     public void addLine(int index, @NotNull TextElement<?> line) {
-        this.lines.add(index, line);
+        this.lines.add(index, new OwnedElement<>(line, this, index));
     }
 
     /**
@@ -92,8 +85,8 @@ public class ScoreboardData implements VisualData {
      *
      * @param index the index of the line to be removed.
      */
-    public void removeLine(int index) {
-        this.lines.remove(index);
+    public OwnedElement<TextElement<?>> removeLine(int index) {
+        return this.lines.remove(index);
     }
 
     /**
@@ -102,7 +95,17 @@ public class ScoreboardData implements VisualData {
      * @param lines the list of {@link TextElement} objects representing the new scoreboard lines.
      */
     public void setLines(@NotNull List<TextElement<?>> lines) {
-        this.lines = lines;
+        this.lines.clear();
+        lines.forEach(line -> this.lines.add(new OwnedElement<>(line, this, this.lines.size())));
+    }
+
+    /**
+     * Sets the title element to be displayed on the scoreboard.
+     *
+     * @param title the {@link TextElement} to set as the scoreboard title.
+     */
+    public void setTitle(@NotNull TextElement<?> title) {
+        this.title = new OwnedElement<>(title, this, "title");
     }
 
     /**
