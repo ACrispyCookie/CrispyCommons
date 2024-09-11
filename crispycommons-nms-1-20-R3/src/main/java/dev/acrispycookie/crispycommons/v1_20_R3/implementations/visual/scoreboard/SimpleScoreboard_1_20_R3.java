@@ -1,10 +1,10 @@
 package dev.acrispycookie.crispycommons.v1_20_R3.implementations.visual.scoreboard;
 
-import dev.acrispycookie.crispycommons.CrispyCommons;
+import dev.acrispycookie.crispycommons.SpigotCrispyCommons;
 import dev.acrispycookie.crispycommons.implementations.element.type.TimeToLiveElement;
 import dev.acrispycookie.crispycommons.implementations.visual.scoreboard.SimpleScoreboard;
 import dev.acrispycookie.crispycommons.implementations.visual.scoreboard.data.ScoreboardData;
-import dev.acrispycookie.crispycommons.utility.logging.CrispyLogger;
+import dev.acrispycookie.crispycommons.logging.CrispyLogger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.minecraft.EnumChatFormat;
@@ -163,7 +163,7 @@ public class SimpleScoreboard_1_20_R3 extends SimpleScoreboard {
             ((CraftPlayer) p).getHandle().c.b(createTeam);
         } catch (InstantiationException | NoSuchFieldException | IllegalAccessException | InvocationTargetException |
                  NoSuchMethodException e) {
-            CrispyLogger.printException(CrispyCommons.getPlugin(), e, "Couldn't init scoreboard lines. Something went wrong!");
+            CrispyLogger.printException(SpigotCrispyCommons.getInstance().getPlugin(), e, "Couldn't init scoreboard lines. Something went wrong!");
         }
     }
 

@@ -1,6 +1,6 @@
 package dev.acrispycookie.crispycommons.v1_8_R3.utility.menu;
 
-import dev.acrispycookie.crispycommons.CrispyCommons;
+import dev.acrispycookie.crispycommons.SpigotCrispyCommons;
 import dev.acrispycookie.crispycommons.api.gui.menu.CrispyMenu;
 import dev.acrispycookie.crispycommons.api.gui.menu.MenuItem;
 import dev.acrispycookie.crispycommons.api.gui.menu.MenuPage;
@@ -65,7 +65,7 @@ public class MenuListener_1_8_R3 extends MenuListener {
         if (page.getMenu().isChangingPage(player))
             return;
         if(page.getMenu().hasProperty(CrispyMenu.MenuProperty.PREVENT_CLOSING) && page.getMenu().isPlayerViewing(player)) {
-            Bukkit.getScheduler().runTaskLater(CrispyCommons.getPlugin(), () -> event.getPlayer().openInventory(event.getInventory()), 1);
+            Bukkit.getScheduler().runTaskLater(SpigotCrispyCommons.getInstance().getBukkitPlugin(), () -> event.getPlayer().openInventory(event.getInventory()), 1);
             return;
         }
 

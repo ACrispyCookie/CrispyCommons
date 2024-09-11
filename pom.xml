@@ -11,10 +11,11 @@
   <name>CrispyCommons</name>
 
   <modules>
-    <module>crispycommons-core</module>
+    <module>crispycommons-core-spigot</module>
       <module>crispycommons-nms-1-8-R3</module>
       <module>crispycommons-spigot</module>
       <module>crispycommons-nms-1-20-R3</module>
+      <module>crispycommons-core</module>
   </modules>
 
   <properties>
@@ -33,9 +34,14 @@
   <dependencies>
       <dependency>
           <groupId>net.kyori</groupId>
-          <artifactId>adventure-platform-bukkit</artifactId>
-          <version>4.3.2</version>
+          <artifactId>adventure-api</artifactId>
+          <version>4.17.0</version>
           <scope>compile</scope>
+      </dependency>
+      <dependency>
+          <groupId>net.kyori</groupId>
+          <artifactId>adventure-platform-api</artifactId>
+          <version>4.3.4</version>
       </dependency>
       <dependency>
           <groupId>org.jetbrains</groupId>

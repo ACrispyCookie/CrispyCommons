@@ -1,11 +1,12 @@
 package dev.acrispycookie.crispycommons.v1_8_R3.utility.nms;
 
-import dev.acrispycookie.crispycommons.utility.logging.CrispyLogger;
+import dev.acrispycookie.crispycommons.logging.CrispyLogger;
+import dev.acrispycookie.crispycommons.platform.SpigotCrispyPlugin;
 import dev.acrispycookie.crispycommons.utility.nms.CommandRegister;
 import org.bukkit.command.Command;
+import org.bukkit.command.CommandMap;
 import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.craftbukkit.v1_8_R3.CraftServer;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -15,13 +16,13 @@ import java.util.Map;
 public class CommandRegister_1_8_R3 extends CommandRegister {
 
     @Override
-    public boolean register(@NotNull JavaPlugin plugin, @NotNull String fallbackPrefix, @NotNull Command command) {
-        return ((CraftServer) plugin.getServer()).getCommandMap().register(fallbackPrefix, command);
+    public boolean register(@NotNull SpigotCrispyPlugin plugin, @NotNull String fallbackPrefix, @NotNull Command command) {
+        return ((CraftServer) plugin.getPlugin().getServer()).getCommandMap().register(fallbackPrefix, command);
     }
 
     @Override
-    public @NotNull SimpleCommandMap unregister(@NotNull JavaPlugin plugin, @NotNull String label) {
-        SimpleCommandMap map = ((CraftServer) plugin.getServer()).getCommandMap();
+    public @NotNull CommandMap unregister(@NotNull SpigotCrispyPlugin plugin, @NotNull String label) {
+        SimpleCommandMap map = ((CraftServer) plugin.getPlugin().getServer()).getCommandMap();
         Field knownCommandsField = getField(SimpleCommandMap.class, "knownCommands");
         assert knownCommandsField != null : "Known commands field was null. Contact developer.";
         Map<String, Command> knownCommands = getCommandMap(knownCommandsField, map);

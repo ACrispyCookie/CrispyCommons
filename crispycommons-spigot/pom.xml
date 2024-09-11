@@ -13,7 +13,7 @@
 
     <build>
         <directory>../target</directory>
-        <finalName>CrispyCommons-${project.version}</finalName>
+        <finalName>CrispyCommons-${project.version}-spigot</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -34,7 +34,7 @@
     <dependencies>
         <dependency>
             <groupId>dev.acrispycookie</groupId>
-            <artifactId>crispycommons-core</artifactId>
+            <artifactId>crispycommons-core-spigot</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>

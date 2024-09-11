@@ -22,6 +22,12 @@
         <dependency>
             <groupId>dev.acrispycookie</groupId>
             <artifactId>crispycommons-core</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>dev.acrispycookie</groupId>
+            <artifactId>crispycommons-core-spigot</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
