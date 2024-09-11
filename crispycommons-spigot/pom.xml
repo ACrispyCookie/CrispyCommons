@@ -9,7 +9,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>crispycommons-dist</artifactId>
+    <artifactId>crispycommons-spigot</artifactId>
 
     <build>
         <directory>../target</directory>
