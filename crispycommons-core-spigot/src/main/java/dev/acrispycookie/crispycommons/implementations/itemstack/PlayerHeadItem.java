@@ -13,6 +13,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -121,7 +124,35 @@ public class PlayerHeadItem extends CrispyHeadItem {
         } catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException e) {
             throw new RuntimeException(e);
         }
+    }
 
+    @SuppressWarnings("unchecked")
+    public static PlayerHeadItem deserialize(final Map<String, Object> mappedObject) {
+        PlayerHeadItem itemStackBuilder = new PlayerHeadItem(UUID.fromString((String) mappedObject.get("owner")));
+        if (mappedObject.containsKey("amount"))
+            itemStackBuilder.amount((int) mappedObject.get("amount"));
+        String name = (String) mappedObject.get("name");
+        if (name != null)
+            itemStackBuilder.name(name);
+        List<String> lines = (List<String>) mappedObject.get("lore");
+        StringBuilder lore = new StringBuilder();
+        for(String line : lines){
+            lore.append(line).append("\n");
+        }
+        itemStackBuilder.lore(lore.substring(0, Math.max(lore.toString().length() - 1, 0)));
+        return itemStackBuilder;
+    }
+
+    @Override
+    public Map<String, Object> serialize() {
+        final Map<String, Object> mappedObject = new LinkedHashMap<>();
+        mappedObject.put("owner", getUuid());
+        mappedObject.put("amount", getAmount());
+        if (getItemMeta() != null) {
+            mappedObject.put("name", getItemMeta().getDisplayName());
+            mappedObject.put("lore", getItemMeta().getLore());
+        }
+        return mappedObject;
     }
 }
 

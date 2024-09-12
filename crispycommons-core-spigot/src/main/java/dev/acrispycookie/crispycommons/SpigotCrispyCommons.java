@@ -1,5 +1,8 @@
 package dev.acrispycookie.crispycommons;
 
+import dev.acrispycookie.crispycommons.api.itemstack.CrispyItemStack;
+import dev.acrispycookie.crispycommons.implementations.itemstack.PlayerHeadItem;
+import dev.acrispycookie.crispycommons.implementations.itemstack.UrlHeadItem;
 import dev.acrispycookie.crispycommons.platform.CrispyPlugin;
 import dev.acrispycookie.crispycommons.platform.commands.PlatformCommand;
 import dev.acrispycookie.crispycommons.implementations.gui.book.action.BookActionCommand;
@@ -16,6 +19,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
+import org.simpleyaml.configuration.serialization.ConfigurationSerializable;
+import org.simpleyaml.configuration.serialization.ConfigurationSerialization;
 
 /**
  * The main class for initializing and managing the core features of the CrispyCommons plugin.
@@ -46,6 +51,9 @@ public class SpigotCrispyCommons extends CrispyCommons implements Listener {
     public SpigotCrispyCommons(@NotNull CrispyPlugin instance, @NotNull AudienceProvider audienceProvider, @NotNull CommonsSettings settings) {
         super(instance, audienceProvider, settings);
         SpigotCrispyCommons.instance = this;
+        ConfigurationSerialization.registerClass(CrispyItemStack.class);
+        ConfigurationSerialization.registerClass(PlayerHeadItem.class);
+        ConfigurationSerialization.registerClass(UrlHeadItem.class);
     }
 
     public static SpigotCrispyCommons getInstance() {

@@ -1,5 +1,6 @@
 package dev.acrispycookie.crispycommons;
 
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

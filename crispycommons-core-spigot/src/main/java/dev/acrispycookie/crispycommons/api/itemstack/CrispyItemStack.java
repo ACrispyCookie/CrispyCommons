@@ -14,8 +14,13 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.simpleyaml.configuration.serialization.ConfigurationSerializable;
+import org.simpleyaml.configuration.serialization.SerializableAs;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * A specialized {@link ItemStack} implementation that allows for fluent and extended customization
@@ -26,7 +31,8 @@ import java.util.ArrayList;
  * enchantments, item flags, and custom NBT tags.
  * </p>
  */
-public class CrispyItemStack extends ItemStack implements CrispyItem {
+@SerializableAs("CrispyItemStack")
+public class CrispyItemStack extends ItemStack implements CrispyItem, ConfigurationSerializable {
 
     /**
      * Constructs a {@code CrispyItemStack} from an existing {@link ItemStack}.
@@ -329,5 +335,47 @@ public class CrispyItemStack extends ItemStack implements CrispyItem {
      */
     public boolean hasTag(@NotNull String identifier) {
         return ItemStackNBT.newInstance().hasTag(this, identifier);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static CrispyItemStack deserialize(final Map<String, Object> mappedObject) {
+        CrispyItemStack itemStackBuilder = new CrispyItemStack(XMaterial.AIR);
+        if (mappedObject.containsKey("material"))
+            itemStackBuilder = new CrispyItemStack(XMaterial.valueOf((String) mappedObject.get("material")));
+        if (mappedObject.containsKey("data"))
+            itemStackBuilder.durability((short) mappedObject.get("data"));
+        if (mappedObject.containsKey("amount"))
+            itemStackBuilder.amount((int) mappedObject.get("amount"));
+        if (mappedObject.containsKey("enchanted"))
+            itemStackBuilder.glint((boolean) mappedObject.get("enchanted"));
+
+        String name = (String) mappedObject.get("name");
+        if (name != null)
+            itemStackBuilder.name(name);
+        if (mappedObject.containsKey("hide_attributes"))
+            itemStackBuilder.hideAttributes((boolean) mappedObject.get("hide_attributes"));
+
+        List<String> lines = (List<String>) mappedObject.get("lore");
+        StringBuilder lore = new StringBuilder();
+        for(String line : lines){
+            lore.append(line).append("\n");
+        }
+        itemStackBuilder.lore(lore.substring(0, Math.max(lore.toString().length() - 1, 0)));
+        return itemStackBuilder;
+    }
+
+    @Override
+    public Map<String, Object> serialize() {
+        final Map<String, Object> mappedObject = new LinkedHashMap<>();
+        mappedObject.put("material", XMaterial.matchXMaterial(getType()));
+        mappedObject.put("amount", getAmount());
+        mappedObject.put("data", getData());
+        mappedObject.put("enchanted", !getEnchantments().isEmpty());
+        if (getItemMeta() != null) {
+            mappedObject.put("name", getItemMeta().getDisplayName());
+            mappedObject.put("lore", getItemMeta().getLore());
+            mappedObject.put("hide_attributes", getItemMeta().getItemFlags().contains(ItemFlag.HIDE_ATTRIBUTES));
+        }
+        return mappedObject;
     }
 }
