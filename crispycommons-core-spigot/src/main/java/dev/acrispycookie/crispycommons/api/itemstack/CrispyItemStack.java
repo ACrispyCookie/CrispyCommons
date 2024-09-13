@@ -17,10 +17,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * A specialized {@link ItemStack} implementation that allows for fluent and extended customization
@@ -31,7 +28,7 @@ import java.util.Map;
  * enchantments, item flags, and custom NBT tags.
  * </p>
  */
-public class CrispyItemStack extends ItemStack implements Serializable<CrispyItemStack>, CrispyItem {
+public class CrispyItemStack extends ItemStack implements Serializable, CrispyItem {
 
     /**
      * Constructs a {@code CrispyItemStack} from an existing {@link ItemStack}.
@@ -336,44 +333,49 @@ public class CrispyItemStack extends ItemStack implements Serializable<CrispyIte
         return ItemStackNBT.newInstance().hasTag(this, identifier);
     }
 
-    public CrispyItemStack deserialize(@NotNull Map<Object, Object> mappedObject, boolean doesntMatter) {
-        CrispyItemStack itemStackBuilder = new CrispyItemStack(XMaterial.AIR);
-        if (mappedObject.containsKey("material"))
-            itemStackBuilder = new CrispyItemStack(XMaterial.valueOf((String) mappedObject.get("material")));
-        if (mappedObject.containsKey("data"))
-            itemStackBuilder.durability((short) mappedObject.get("data"));
-        if (mappedObject.containsKey("amount"))
-            itemStackBuilder.amount((int) mappedObject.get("amount"));
-        if (mappedObject.containsKey("enchanted"))
-            itemStackBuilder.glint((boolean) mappedObject.get("enchanted"));
+    public static TypeAdapter<CrispyItemStack> getItemAdapter() {
+        return new TypeAdapter<CrispyItemStack>() {
+            @Override
+            public @NotNull Map<Object, Object> serialize(CrispyItemStack item) {
+                Map<Object, Object> mappedObject = new LinkedHashMap<>();
+                mappedObject.put("material", XMaterial.matchXMaterial(item.getType()));
+                mappedObject.put("amount", item.getAmount());
+                mappedObject.put("data", item.getData());
+                mappedObject.put("enchanted", !item.getEnchantments().isEmpty());
+                if (item.getItemMeta() != null) {
+                    mappedObject.put("name", item.getItemMeta().getDisplayName());
+                    mappedObject.put("lore", item.getItemMeta().getLore());
+                    mappedObject.put("hide_attributes", item.getItemMeta().getItemFlags().contains(ItemFlag.HIDE_ATTRIBUTES));
+                }
+                return mappedObject;
+            }
 
-        String name = (String) mappedObject.get("name");
-        if (name != null)
-            itemStackBuilder.name(name);
-        if (mappedObject.containsKey("hide_attributes"))
-            itemStackBuilder.hideAttributes((boolean) mappedObject.get("hide_attributes"));
+            @Override
+            public @NotNull CrispyItemStack deserialize(Map<Object, Object> mappedObject) {
+                CrispyItemStack itemStackBuilder = new CrispyItemStack(XMaterial.AIR);
+                if (mappedObject.containsKey("material"))
+                    itemStackBuilder = new CrispyItemStack(XMaterial.valueOf((String) mappedObject.get("material")));
+                if (mappedObject.containsKey("data"))
+                    itemStackBuilder.durability((short) ((int) mappedObject.get("data")));
+                if (mappedObject.containsKey("amount"))
+                    itemStackBuilder.amount((int) mappedObject.get("amount"));
+                if (mappedObject.containsKey("enchanted"))
+                    itemStackBuilder.glint((boolean) mappedObject.get("enchanted"));
 
-        List<String> lines = (List<String>) mappedObject.get("lore");
-        StringBuilder lore = new StringBuilder();
-        for(String line : lines){
-            lore.append(line).append("\n");
-        }
-        itemStackBuilder.lore(lore.substring(0, Math.max(lore.toString().length() - 1, 0)));
-        return itemStackBuilder;
-    }
+                String name = (String) mappedObject.get("name");
+                if (name != null)
+                    itemStackBuilder.name(name);
+                if (mappedObject.containsKey("hide_attributes"))
+                    itemStackBuilder.hideAttributes((boolean) mappedObject.get("hide_attributes"));
 
-    @Override
-    public @NotNull Map<Object, Object> serialize(@NotNull CrispyItemStack item) {
-        Map<Object, Object> mappedObject = new LinkedHashMap<>();
-        mappedObject.put("material", XMaterial.matchXMaterial(item.getType()));
-        mappedObject.put("amount", item.getAmount());
-        mappedObject.put("data", item.getData());
-        mappedObject.put("enchanted", !item.getEnchantments().isEmpty());
-        if (item.getItemMeta() != null) {
-            mappedObject.put("name", item.getItemMeta().getDisplayName());
-            mappedObject.put("lore", item.getItemMeta().getLore());
-            mappedObject.put("hide_attributes", item.getItemMeta().getItemFlags().contains(ItemFlag.HIDE_ATTRIBUTES));
-        }
-        return mappedObject;
+                List<String> lines = (List<String>) mappedObject.get("lore");
+                StringBuilder lore = new StringBuilder();
+                for(String line : lines){
+                    lore.append(line).append("\n");
+                }
+                itemStackBuilder.lore(lore.substring(0, Math.max(lore.toString().length() - 1, 0)));
+                return itemStackBuilder;
+            }
+        };
     }
 }

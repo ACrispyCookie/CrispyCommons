@@ -1,5 +1,8 @@
 package dev.acrispycookie.crispycommons;
 
+import dev.acrispycookie.crispycommons.api.itemstack.CrispyItemStack;
+import dev.acrispycookie.crispycommons.implementations.itemstack.PlayerHeadItem;
+import dev.acrispycookie.crispycommons.implementations.itemstack.UrlHeadItem;
 import dev.acrispycookie.crispycommons.platform.CrispyPlugin;
 import dev.acrispycookie.crispycommons.platform.commands.PlatformCommand;
 import dev.acrispycookie.crispycommons.implementations.gui.book.action.BookActionCommand;
@@ -7,6 +10,7 @@ import dev.acrispycookie.crispycommons.utility.nms.CommandRegister;
 import dev.acrispycookie.crispycommons.platform.SpigotCrispyPlugin;
 import dev.acrispycookie.crispycommons.utility.menu.MenuListener;
 import dev.acrispycookie.crispycommons.platform.commands.SpigotCommand;
+import dev.dejvokep.boostedyaml.serialization.standard.StandardSerializer;
 import net.kyori.adventure.platform.AudienceProvider;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.Bukkit;
@@ -47,10 +51,9 @@ public class SpigotCrispyCommons extends CrispyCommons implements Listener {
     public SpigotCrispyCommons(@NotNull JavaPlugin instance, @NotNull BukkitAudiences audienceProvider, @NotNull SpigotCommonsSettings settings) {
         super((SpigotCrispyPlugin) () -> instance, audienceProvider, settings);
         SpigotCrispyCommons.instance = this;
-//        ConfigurationSerialization
-//        CrispySerializer.getInstance().register(CrispyItemStack.class);
-//        StandardSerializer.getDefault().register(PlayerHeadItem.class, PlayerHeadItem.getHeadAdapter());
-//        StandardSerializer.getDefault().register(UrlHeadItem.class, UrlHeadItem.getHeadAdapter());
+        StandardSerializer.getDefault().register(CrispyItemStack.class, CrispyItemStack.getItemAdapter());
+        StandardSerializer.getDefault().register(PlayerHeadItem.class, PlayerHeadItem.getHeadAdapter());
+        StandardSerializer.getDefault().register(UrlHeadItem.class, UrlHeadItem.getHeadAdapter());
     }
 
     public static SpigotCrispyCommons getInstance() {
