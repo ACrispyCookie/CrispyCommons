@@ -49,10 +49,10 @@ public class SimpleMenu extends AbstractTrackedGui<MenuData> implements CrispyMe
         if (isPlayerViewing(p))
             return;
 
+        viewers.put(p, true);
         openMenus.put(p, this);
         MenuPage page = data.getPage(data.getPage(p));
         p.openInventory(page.render(p));
-        viewers.put(p, true);
     }
 
     /**
@@ -68,13 +68,13 @@ public class SimpleMenu extends AbstractTrackedGui<MenuData> implements CrispyMe
         if (isPlayerViewing(p))
             return;
 
+        viewers.put(p, true);
+        openMenus.put(p, this);
         Stack<CrispyMenu> stack = history.getOrDefault(p, new SizedStack<>(SpigotCrispyCommons.getInstance().getSettings().getMaximumMenuHistory()));
         stack.push(this);
         history.put(p, stack);
         MenuPage page = data.getPage(data.getPage(p));
         p.openInventory(page.render(p));
-        openMenus.put(p, this);
-        viewers.put(p, true);
     }
 
     /**

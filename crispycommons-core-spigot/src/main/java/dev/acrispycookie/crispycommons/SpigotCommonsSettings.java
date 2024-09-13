@@ -1,6 +1,5 @@
 package dev.acrispycookie.crispycommons;
 
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -74,9 +73,9 @@ public class SpigotCommonsSettings extends CommonsSettings {
      * </p>
      *
      * @param bookCommand the command associated with the book action.
-     * @return this {@link CommonsSettings} instance for method chaining.
+     * @return this {@link SpigotCommonsSettings} instance for method chaining.
      */
-    public @NotNull CommonsSettings bookAction(@Nullable String bookCommand) {
+    public @NotNull SpigotCommonsSettings bookAction(@Nullable String bookCommand) {
         this.bookActionEnabled = bookCommand != null;
         this.bookCommand = bookCommand;
         return this;
@@ -86,9 +85,9 @@ public class SpigotCommonsSettings extends CommonsSettings {
      * Enables or disables the menu management feature.
      *
      * @param enabled {@code true} to enable the menu management feature, {@code false} to disable it.
-     * @return this {@link CommonsSettings} instance for method chaining.
+     * @return this {@link SpigotCommonsSettings} instance for method chaining.
      */
-    public @NotNull CommonsSettings setMenus(boolean enabled) {
+    public @NotNull SpigotCommonsSettings setMenus(boolean enabled) {
         this.menusEnabled = enabled;
         return this;
     }
@@ -97,9 +96,9 @@ public class SpigotCommonsSettings extends CommonsSettings {
      * Sets the maximum number of menus that can be stored in the menu history for each player.
      *
      * @param maximumMenuHistory the maximum number of menus.
-     * @return this {@link CommonsSettings} instance for method chaining.
+     * @return this {@link SpigotCommonsSettings} instance for method chaining.
      */
-    public @NotNull CommonsSettings setMaximumMenuHistory(int maximumMenuHistory) {
+    public @NotNull SpigotCommonsSettings setMaximumMenuHistory(int maximumMenuHistory) {
         this.maximumMenuHistory = maximumMenuHistory;
         return this;
     }

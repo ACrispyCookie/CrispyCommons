@@ -104,6 +104,6 @@ public abstract class CrispyCommons {
     /**
      * Unregisters a command for the provided {@link CrispyPlugin}.
      */
-    public abstract boolean unregisterCommand(@NotNull CrispyPlugin plugin, @NotNull String label);
+    public abstract void unregisterCommand(@NotNull CrispyPlugin plugin, @NotNull PlatformCommand command);
 
 }

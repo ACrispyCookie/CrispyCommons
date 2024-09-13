@@ -4,8 +4,10 @@ import com.cryptomorin.xseries.XEnchantment;
 import com.cryptomorin.xseries.XMaterial;
 import dev.acrispycookie.crispycommons.utility.nms.ItemMetaEditor;
 import dev.acrispycookie.crispycommons.utility.nms.nbt.*;
+import dev.acrispycookie.crispycommons.utility.serialization.Serializable;
 import dev.acrispycookie.crispycommons.version.VersionManager;
 import dev.acrispycookie.crispycommons.version.utility.Version;
+import dev.dejvokep.boostedyaml.serialization.standard.TypeAdapter;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -14,8 +16,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.simpleyaml.configuration.serialization.ConfigurationSerializable;
-import org.simpleyaml.configuration.serialization.SerializableAs;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -31,8 +31,7 @@ import java.util.Map;
  * enchantments, item flags, and custom NBT tags.
  * </p>
  */
-@SerializableAs("CrispyItemStack")
-public class CrispyItemStack extends ItemStack implements CrispyItem, ConfigurationSerializable {
+public class CrispyItemStack extends ItemStack implements Serializable<CrispyItemStack>, CrispyItem {
 
     /**
      * Constructs a {@code CrispyItemStack} from an existing {@link ItemStack}.
@@ -337,8 +336,7 @@ public class CrispyItemStack extends ItemStack implements CrispyItem, Configurat
         return ItemStackNBT.newInstance().hasTag(this, identifier);
     }
 
-    @SuppressWarnings("unchecked")
-    public static CrispyItemStack deserialize(final Map<String, Object> mappedObject) {
+    public CrispyItemStack deserialize(@NotNull Map<Object, Object> mappedObject, boolean doesntMatter) {
         CrispyItemStack itemStackBuilder = new CrispyItemStack(XMaterial.AIR);
         if (mappedObject.containsKey("material"))
             itemStackBuilder = new CrispyItemStack(XMaterial.valueOf((String) mappedObject.get("material")));
@@ -365,16 +363,16 @@ public class CrispyItemStack extends ItemStack implements CrispyItem, Configurat
     }
 
     @Override
-    public Map<String, Object> serialize() {
-        final Map<String, Object> mappedObject = new LinkedHashMap<>();
-        mappedObject.put("material", XMaterial.matchXMaterial(getType()));
-        mappedObject.put("amount", getAmount());
-        mappedObject.put("data", getData());
-        mappedObject.put("enchanted", !getEnchantments().isEmpty());
-        if (getItemMeta() != null) {
-            mappedObject.put("name", getItemMeta().getDisplayName());
-            mappedObject.put("lore", getItemMeta().getLore());
-            mappedObject.put("hide_attributes", getItemMeta().getItemFlags().contains(ItemFlag.HIDE_ATTRIBUTES));
+    public @NotNull Map<Object, Object> serialize(@NotNull CrispyItemStack item) {
+        Map<Object, Object> mappedObject = new LinkedHashMap<>();
+        mappedObject.put("material", XMaterial.matchXMaterial(item.getType()));
+        mappedObject.put("amount", item.getAmount());
+        mappedObject.put("data", item.getData());
+        mappedObject.put("enchanted", !item.getEnchantments().isEmpty());
+        if (item.getItemMeta() != null) {
+            mappedObject.put("name", item.getItemMeta().getDisplayName());
+            mappedObject.put("lore", item.getItemMeta().getLore());
+            mappedObject.put("hide_attributes", item.getItemMeta().getItemFlags().contains(ItemFlag.HIDE_ATTRIBUTES));
         }
         return mappedObject;
     }

@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import dev.acrispycookie.crispycommons.api.itemstack.CrispyHeadItem;
+import dev.dejvokep.boostedyaml.serialization.standard.TypeAdapter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -126,33 +127,37 @@ public class PlayerHeadItem extends CrispyHeadItem {
         }
     }
 
-    @SuppressWarnings("unchecked")
-    public static PlayerHeadItem deserialize(final Map<String, Object> mappedObject) {
-        PlayerHeadItem itemStackBuilder = new PlayerHeadItem(UUID.fromString((String) mappedObject.get("owner")));
-        if (mappedObject.containsKey("amount"))
-            itemStackBuilder.amount((int) mappedObject.get("amount"));
-        String name = (String) mappedObject.get("name");
-        if (name != null)
-            itemStackBuilder.name(name);
-        List<String> lines = (List<String>) mappedObject.get("lore");
-        StringBuilder lore = new StringBuilder();
-        for(String line : lines){
-            lore.append(line).append("\n");
-        }
-        itemStackBuilder.lore(lore.substring(0, Math.max(lore.toString().length() - 1, 0)));
-        return itemStackBuilder;
-    }
+    public static TypeAdapter<PlayerHeadItem> getHeadAdapter() {
+        return new TypeAdapter<PlayerHeadItem>() {
+            @Override
+            public @NotNull Map<Object, Object> serialize(PlayerHeadItem item) {
+                final Map<Object, Object> mappedObject = new LinkedHashMap<>();
+                mappedObject.put("owner", item.getUuid());
+                mappedObject.put("amount", item.getAmount());
+                if (item.getItemMeta() != null) {
+                    mappedObject.put("name", item.getItemMeta().getDisplayName());
+                    mappedObject.put("lore", item.getItemMeta().getLore());
+                }
+                return mappedObject;
+            }
 
-    @Override
-    public Map<String, Object> serialize() {
-        final Map<String, Object> mappedObject = new LinkedHashMap<>();
-        mappedObject.put("owner", getUuid());
-        mappedObject.put("amount", getAmount());
-        if (getItemMeta() != null) {
-            mappedObject.put("name", getItemMeta().getDisplayName());
-            mappedObject.put("lore", getItemMeta().getLore());
-        }
-        return mappedObject;
+            @Override
+            public @NotNull PlayerHeadItem deserialize(Map<Object, Object> mappedObject) {
+                PlayerHeadItem itemStackBuilder = new PlayerHeadItem(UUID.fromString((String) mappedObject.get("owner")));
+                if (mappedObject.containsKey("amount"))
+                    itemStackBuilder.amount((int) mappedObject.get("amount"));
+                String name = (String) mappedObject.get("name");
+                if (name != null)
+                    itemStackBuilder.name(name);
+                List<String> lines = (List<String>) mappedObject.get("lore");
+                StringBuilder lore = new StringBuilder();
+                for(String line : lines){
+                    lore.append(line).append("\n");
+                }
+                itemStackBuilder.lore(lore.substring(0, Math.max(lore.toString().length() - 1, 0)));
+                return itemStackBuilder;
+            }
+        };
     }
 }
 

@@ -1,22 +1,22 @@
 package dev.acrispycookie.crispycommons.platform.player;
 
-import dev.acrispycookie.crispycommons.platform.player.PlatformCommandSender;
+import dev.acrispycookie.crispycommons.SpigotCrispyCommons;
+import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.text.Component;
 import org.bukkit.command.CommandSender;
 
-public class SpigotCommandSender implements PlatformCommandSender {
+public interface SpigotCommandSender extends PlatformCommandSender {
 
-    private final CommandSender sender;
+    CommandSender getSpigot();
 
-    public SpigotCommandSender(CommandSender sender) {
-        this.sender = sender;
-    }
-
-    public CommandSender getSender() {
-        return sender;
+    @Override
+    default boolean hasPermission(String permission) {
+        return getSpigot().hasPermission(permission);
     }
 
     @Override
-    public boolean hasPermission(String permission) {
-        return sender.hasPermission(permission);
+    default void sendMessage(Component text) {
+        Audience audience = SpigotCrispyCommons.getInstance().getBukkitAudiences().sender(getSpigot());
+        audience.sendMessage(text);
     }
 }

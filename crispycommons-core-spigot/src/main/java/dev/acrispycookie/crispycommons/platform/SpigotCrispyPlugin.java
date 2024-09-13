@@ -7,35 +7,27 @@ import java.io.File;
 import java.io.InputStream;
 import java.util.logging.Logger;
 
-public class SpigotCrispyPlugin implements CrispyPlugin {
+public interface SpigotCrispyPlugin extends CrispyPlugin {
 
-    private final JavaPlugin plugin;
+    JavaPlugin getSpigot();
 
-    public SpigotCrispyPlugin(JavaPlugin plugin) {
-        this.plugin = plugin;
-    }
-
-    public JavaPlugin getPlugin() {
-        return plugin;
+    @Override
+    default File getDataFolder() {
+        return getSpigot().getDataFolder();
     }
 
     @Override
-    public File getDataFolder() {
-        return plugin.getDataFolder();
+    default InputStream getResource(String resourceName) {
+        return getSpigot().getResource(resourceName);
     }
 
     @Override
-    public InputStream getResource(String resourceName) {
-        return plugin.getResource(resourceName);
+    default Logger getLogger() {
+        return getSpigot().getLogger();
     }
 
     @Override
-    public Logger getLogger() {
-        return plugin.getLogger();
-    }
-
-    @Override
-    public String getName() {
-        return plugin.getName();
+    default String getName() {
+        return getSpigot().getName();
     }
 }

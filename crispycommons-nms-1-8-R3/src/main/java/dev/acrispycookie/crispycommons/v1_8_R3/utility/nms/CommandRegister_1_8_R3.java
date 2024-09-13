@@ -17,12 +17,12 @@ public class CommandRegister_1_8_R3 extends CommandRegister {
 
     @Override
     public boolean register(@NotNull SpigotCrispyPlugin plugin, @NotNull String fallbackPrefix, @NotNull Command command) {
-        return ((CraftServer) plugin.getPlugin().getServer()).getCommandMap().register(fallbackPrefix, command);
+        return ((CraftServer) plugin.getSpigot().getServer()).getCommandMap().register(fallbackPrefix, command);
     }
 
     @Override
     public @NotNull CommandMap unregister(@NotNull SpigotCrispyPlugin plugin, @NotNull String label) {
-        SimpleCommandMap map = ((CraftServer) plugin.getPlugin().getServer()).getCommandMap();
+        SimpleCommandMap map = ((CraftServer) plugin.getSpigot().getServer()).getCommandMap();
         Field knownCommandsField = getField(SimpleCommandMap.class, "knownCommands");
         assert knownCommandsField != null : "Known commands field was null. Contact developer.";
         Map<String, Command> knownCommands = getCommandMap(knownCommandsField, map);

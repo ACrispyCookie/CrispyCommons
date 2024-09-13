@@ -92,10 +92,12 @@ public abstract class AbstractSection implements Section {
 
         dynamicItemInventories.get(inventory).forEach(item -> {
             Set<InventoryInfo> inventories = dynamicItems.get(item).stream()
-                    .filter((i) -> !i.getInventory().equals(inventory))
+                    .filter((i) -> i.getInventory().equals(inventory))
                     .collect(Collectors.toSet());
-            dynamicItems.put(item, inventories);
-            inventories.forEach((i) -> item.removeUpdateAction(i.getInventory(), i.getPlayer().getUniqueId().toString() + i.getPasteSlot()));
+            inventories.forEach((i) -> item.removeUpdateAction(i.getInventory(), i.getPlayer().getUniqueId() + String.valueOf(i.getPasteSlot())));
+            Set<InventoryInfo> changed = dynamicItems.getOrDefault(item, new HashSet<>());
+            changed.removeAll(inventories);
+            dynamicItems.put(item, changed);
 
             if (inventories.isEmpty()) {
                 dynamicItems.remove(item);
@@ -117,6 +119,8 @@ public abstract class AbstractSection implements Section {
      * @param startingIndex the index of the item in the section to render.
      */
     protected void renderValidItem(@NotNull Player player, @NotNull CrispyMenu menu, @NotNull Inventory toRender, int pasteSlot, int startingIndex) {
+        if (!menu.isPlayerViewing(player))
+            return;
         MenuItem item = getItem(startingIndex);
         if (!item.canSee(menu, player)) {
             item.load(() -> renderValidItem(player, menu, toRender, pasteSlot, startingIndex));
@@ -153,10 +157,8 @@ public abstract class AbstractSection implements Section {
         items.add(item.getDisplay());
         dynamicItemInventories.put(toRender, items);
 
-        if (!started) {
-            item.getDisplay().addUpdateAction(toRender, player.getUniqueId() + String.valueOf(pasteSlot), () -> updateItem(item.getDisplay()));
-            item.getDisplay().startUpdateAction(toRender, player.getUniqueId() + String.valueOf(pasteSlot));
-        }
+        item.getDisplay().addUpdateAction(toRender, player.getUniqueId() + String.valueOf(pasteSlot), () -> updateItem(item.getDisplay()));
+        item.getDisplay().startUpdateAction(toRender, player.getUniqueId() + String.valueOf(pasteSlot));
     }
 
     /**

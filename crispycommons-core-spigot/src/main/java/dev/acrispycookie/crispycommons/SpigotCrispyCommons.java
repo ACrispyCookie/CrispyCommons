@@ -1,8 +1,5 @@
 package dev.acrispycookie.crispycommons;
 
-import dev.acrispycookie.crispycommons.api.itemstack.CrispyItemStack;
-import dev.acrispycookie.crispycommons.implementations.itemstack.PlayerHeadItem;
-import dev.acrispycookie.crispycommons.implementations.itemstack.UrlHeadItem;
 import dev.acrispycookie.crispycommons.platform.CrispyPlugin;
 import dev.acrispycookie.crispycommons.platform.commands.PlatformCommand;
 import dev.acrispycookie.crispycommons.implementations.gui.book.action.BookActionCommand;
@@ -13,14 +10,13 @@ import dev.acrispycookie.crispycommons.platform.commands.SpigotCommand;
 import net.kyori.adventure.platform.AudienceProvider;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.Bukkit;
+import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
-import org.simpleyaml.configuration.serialization.ConfigurationSerializable;
-import org.simpleyaml.configuration.serialization.ConfigurationSerialization;
 
 /**
  * The main class for initializing and managing the core features of the CrispyCommons plugin.
@@ -48,12 +44,13 @@ public class SpigotCrispyCommons extends CrispyCommons implements Listener {
      * @param audienceProvider the {@link AudienceProvider} instance associated with this plugin.
      * @param settings         the {@link CommonsSettings} containing configuration options for the plugin.
      */
-    public SpigotCrispyCommons(@NotNull CrispyPlugin instance, @NotNull AudienceProvider audienceProvider, @NotNull CommonsSettings settings) {
-        super(instance, audienceProvider, settings);
+    public SpigotCrispyCommons(@NotNull JavaPlugin instance, @NotNull BukkitAudiences audienceProvider, @NotNull SpigotCommonsSettings settings) {
+        super((SpigotCrispyPlugin) () -> instance, audienceProvider, settings);
         SpigotCrispyCommons.instance = this;
-        ConfigurationSerialization.registerClass(CrispyItemStack.class);
-        ConfigurationSerialization.registerClass(PlayerHeadItem.class);
-        ConfigurationSerialization.registerClass(UrlHeadItem.class);
+//        ConfigurationSerialization
+//        CrispySerializer.getInstance().register(CrispyItemStack.class);
+//        StandardSerializer.getDefault().register(PlayerHeadItem.class, PlayerHeadItem.getHeadAdapter());
+//        StandardSerializer.getDefault().register(UrlHeadItem.class, UrlHeadItem.getHeadAdapter());
     }
 
     public static SpigotCrispyCommons getInstance() {
@@ -66,7 +63,7 @@ public class SpigotCrispyCommons extends CrispyCommons implements Listener {
      * @return the {@link JavaPlugin} instance.
      */
     public @NotNull JavaPlugin getBukkitPlugin() {
-        return ((SpigotCrispyPlugin) plugin).getPlugin();
+        return ((SpigotCrispyPlugin) plugin).getSpigot();
     }
 
     /**
@@ -105,12 +102,13 @@ public class SpigotCrispyCommons extends CrispyCommons implements Listener {
 
     @Override
     public boolean registerCommand(@NotNull CrispyPlugin plugin, @NotNull String fallbackPrefix, @NotNull PlatformCommand command) {
-        return CommandRegister.newInstance().register(((SpigotCrispyPlugin) plugin), fallbackPrefix, ((SpigotCommand) command).getCommand());
+        return CommandRegister.newInstance().register(((SpigotCrispyPlugin) plugin), fallbackPrefix, ((SpigotCommand) command).getSpigot());
     }
 
     @Override
-    public boolean unregisterCommand(@NotNull CrispyPlugin plugin, @NotNull String label) {
-        return false;
+    public void unregisterCommand(@NotNull CrispyPlugin plugin, @NotNull PlatformCommand command) {
+        SimpleCommandMap map = (SimpleCommandMap) CommandRegister.newInstance().unregister((SpigotCrispyPlugin) plugin, ((SpigotCommand) command).getSpigot().getLabel());
+        ((SpigotCommand) command).getSpigot().unregister(map);
     }
 
     /**

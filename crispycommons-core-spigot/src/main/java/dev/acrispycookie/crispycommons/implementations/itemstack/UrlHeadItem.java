@@ -3,6 +3,7 @@ package dev.acrispycookie.crispycommons.implementations.itemstack;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import dev.acrispycookie.crispycommons.api.itemstack.CrispyHeadItem;
+import dev.dejvokep.boostedyaml.serialization.standard.TypeAdapter;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
@@ -92,33 +93,37 @@ public class UrlHeadItem extends CrispyHeadItem {
         }
     }
 
-    @SuppressWarnings("unchecked")
-    public static UrlHeadItem deserialize(final Map<String, Object> mappedObject) {
-        UrlHeadItem itemStackBuilder = new UrlHeadItem((String) mappedObject.get("url"));
-        if (mappedObject.containsKey("amount"))
-            itemStackBuilder.amount((int) mappedObject.get("amount"));
-        String name = (String) mappedObject.get("name");
-        if (name != null)
-            itemStackBuilder.name(name);
-        List<String> lines = (List<String>) mappedObject.get("lore");
-        StringBuilder lore = new StringBuilder();
-        for(String line : lines){
-            lore.append(line).append("\n");
-        }
-        itemStackBuilder.lore(lore.substring(0, Math.max(lore.toString().length() - 1, 0)));
-        return itemStackBuilder;
-    }
+    public static TypeAdapter<UrlHeadItem> getHeadAdapter() {
+        return new TypeAdapter<UrlHeadItem>() {
+            @Override
+            public @NotNull Map<Object, Object> serialize(UrlHeadItem item) {
+                final Map<Object, Object> mappedObject = new LinkedHashMap<>();
+                mappedObject.put("url", item.getUrl());
+                mappedObject.put("amount", item.getAmount());
+                if (item.getItemMeta() != null) {
+                    mappedObject.put("name", item.getItemMeta().getDisplayName());
+                    mappedObject.put("lore", item.getItemMeta().getLore());
+                }
+                return mappedObject;
+            }
 
-    @Override
-    public Map<String, Object> serialize() {
-        final Map<String, Object> mappedObject = new LinkedHashMap<>();
-        mappedObject.put("url", getUrl());
-        mappedObject.put("amount", getAmount());
-        if (getItemMeta() != null) {
-            mappedObject.put("name", getItemMeta().getDisplayName());
-            mappedObject.put("lore", getItemMeta().getLore());
-        }
-        return mappedObject;
+            @Override
+            public @NotNull UrlHeadItem deserialize(Map<Object, Object> mappedObject) {
+                UrlHeadItem itemStackBuilder = new UrlHeadItem((String) mappedObject.get("url"));
+                if (mappedObject.containsKey("amount"))
+                    itemStackBuilder.amount((int) mappedObject.get("amount"));
+                String name = (String) mappedObject.get("name");
+                if (name != null)
+                    itemStackBuilder.name(name);
+                List<String> lines = (List<String>) mappedObject.get("lore");
+                StringBuilder lore = new StringBuilder();
+                for(String line : lines){
+                    lore.append(line).append("\n");
+                }
+                itemStackBuilder.lore(lore.substring(0, Math.max(lore.toString().length() - 1, 0)));
+                return itemStackBuilder;
+            }
+        };
     }
 }
 

@@ -1,17 +1,23 @@
 package dev.acrispycookie.crispycommons.platform.commands;
 
-import dev.acrispycookie.crispycommons.platform.commands.PlatformCommand;
+import dev.acrispycookie.crispycommons.platform.player.PlatformCommandSender;
+import dev.acrispycookie.crispycommons.platform.player.SpigotCommandSender;
 import org.bukkit.command.Command;
+import org.jetbrains.annotations.NotNull;
 
-public abstract class SpigotCommand implements PlatformCommand {
+import java.util.List;
 
-    private final Command command;
+public interface SpigotCommand extends PlatformCommand {
 
-    public SpigotCommand(Command command) {
-        this.command = command;
+    Command getSpigot();
+
+    @Override
+    default boolean execute(@NotNull PlatformCommandSender sender, @NotNull String usage, String[] args) {
+        return getSpigot().execute(((SpigotCommandSender) sender).getSpigot(), usage, args);
     }
 
-    public Command getCommand() {
-        return command;
+    @Override
+    default @NotNull List<String> tabComplete(@NotNull PlatformCommandSender sender, @NotNull String alias, String[] args) {
+        return getSpigot().tabComplete(((SpigotCommandSender) sender).getSpigot(), alias, args);
     }
 }
