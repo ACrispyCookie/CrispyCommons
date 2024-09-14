@@ -2,6 +2,7 @@ package dev.acrispycookie.crispycommons.api.itemstack;
 
 import com.cryptomorin.xseries.XEnchantment;
 import com.cryptomorin.xseries.XMaterial;
+import dev.acrispycookie.crispycommons.utility.TextColor;
 import dev.acrispycookie.crispycommons.utility.nms.ItemMetaEditor;
 import dev.acrispycookie.crispycommons.utility.nms.nbt.*;
 import dev.acrispycookie.crispycommons.utility.serialization.Serializable;
@@ -18,6 +19,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * A specialized {@link ItemStack} implementation that allows for fluent and extended customization
@@ -28,7 +30,7 @@ import java.util.*;
  * enchantments, item flags, and custom NBT tags.
  * </p>
  */
-public class CrispyItemStack extends ItemStack implements Serializable, CrispyItem {
+public class CrispyItemStack extends ItemStack implements CrispyItem, Serializable {
 
     /**
      * Constructs a {@code CrispyItemStack} from an existing {@link ItemStack}.
@@ -338,13 +340,13 @@ public class CrispyItemStack extends ItemStack implements Serializable, CrispyIt
             @Override
             public @NotNull Map<Object, Object> serialize(CrispyItemStack item) {
                 Map<Object, Object> mappedObject = new LinkedHashMap<>();
-                mappedObject.put("material", XMaterial.matchXMaterial(item.getType()));
+                mappedObject.put("material", XMaterial.matchXMaterial(item.getType()).name());
                 mappedObject.put("amount", item.getAmount());
-                mappedObject.put("data", item.getData());
+                mappedObject.put("data", item.getDurability());
                 mappedObject.put("enchanted", !item.getEnchantments().isEmpty());
                 if (item.getItemMeta() != null) {
-                    mappedObject.put("name", item.getItemMeta().getDisplayName());
-                    mappedObject.put("lore", item.getItemMeta().getLore());
+                    mappedObject.put("name", TextColor.removeColor(item.getItemMeta().getDisplayName()));
+                    mappedObject.put("lore", item.getItemMeta().getLore().stream().map(TextColor::removeColor).collect(Collectors.toList()));
                     mappedObject.put("hide_attributes", item.getItemMeta().getItemFlags().contains(ItemFlag.HIDE_ATTRIBUTES));
                 }
                 return mappedObject;
@@ -364,14 +366,14 @@ public class CrispyItemStack extends ItemStack implements Serializable, CrispyIt
 
                 String name = (String) mappedObject.get("name");
                 if (name != null)
-                    itemStackBuilder.name(name);
+                    itemStackBuilder.name(TextColor.translateChar(name));
                 if (mappedObject.containsKey("hide_attributes"))
                     itemStackBuilder.hideAttributes((boolean) mappedObject.get("hide_attributes"));
 
                 List<String> lines = (List<String>) mappedObject.get("lore");
                 StringBuilder lore = new StringBuilder();
                 for(String line : lines){
-                    lore.append(line).append("\n");
+                    lore.append(TextColor.translateChar(line)).append("\n");
                 }
                 itemStackBuilder.lore(lore.substring(0, Math.max(lore.toString().length() - 1, 0)));
                 return itemStackBuilder;
