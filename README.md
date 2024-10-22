@@ -126,7 +126,7 @@ menu.open(Bukkit.getPlayerExact("ACrispyCookie"));
 ```
 
 ## Documentation
-You can view the Javadoc for this project [here](https://acrispycookie.dev/projects/CrispyCommons/javadoc)
+You can view the Javadoc for this project [here](https://acrispycookie.dev/projects/crispycommons/javadoc)
 
 More documentation and tutorials coming soon!
 
