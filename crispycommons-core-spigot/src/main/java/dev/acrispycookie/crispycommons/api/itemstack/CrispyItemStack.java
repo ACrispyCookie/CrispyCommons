@@ -5,7 +5,6 @@ import com.cryptomorin.xseries.XMaterial;
 import dev.acrispycookie.crispycommons.utility.TextColor;
 import dev.acrispycookie.crispycommons.utility.nms.ItemMetaEditor;
 import dev.acrispycookie.crispycommons.utility.nms.nbt.*;
-import dev.acrispycookie.crispycommons.utility.serialization.Serializable;
 import dev.acrispycookie.crispycommons.version.VersionManager;
 import dev.acrispycookie.crispycommons.version.utility.Version;
 import dev.dejvokep.boostedyaml.serialization.standard.TypeAdapter;
@@ -30,7 +29,7 @@ import java.util.stream.Collectors;
  * enchantments, item flags, and custom NBT tags.
  * </p>
  */
-public class CrispyItemStack extends ItemStack implements CrispyItem, Serializable {
+public class CrispyItemStack extends ItemStack implements CrispyItem {
 
     /**
      * Constructs a {@code CrispyItemStack} from an existing {@link ItemStack}.
