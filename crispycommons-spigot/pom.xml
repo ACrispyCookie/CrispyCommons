@@ -15,12 +15,12 @@
         <dependency>
             <groupId>dev.acrispycookie</groupId>
             <artifactId>crispycommons-nms-1-8-R3</artifactId>
-            <version>${project.version}</version>
+            <version>${revision}</version>
         </dependency>
         <dependency>
             <groupId>dev.acrispycookie</groupId>
             <artifactId>crispycommons-nms-1-20-R3</artifactId>
-            <version>${project.version}</version>
+            <version>${revision}</version>
         </dependency>
     </dependencies>
 

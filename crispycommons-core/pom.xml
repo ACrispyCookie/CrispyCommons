@@ -11,11 +11,15 @@
 
     <artifactId>crispycommons-core</artifactId>
 
+    <properties>
+        <adventureApiVersion>4.3.4</adventureApiVersion>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>net.kyori</groupId>
             <artifactId>adventure-platform-api</artifactId>
-            <version>4.3.4</version>
+            <version>${adventureApiVersion}</version>
         </dependency>
     </dependencies>
 
