@@ -6,7 +6,7 @@
     <parent>
         <groupId>dev.acrispycookie</groupId>
         <artifactId>CrispyCommons</artifactId>
-        <version>1.0.0</version>
+        <version>${revision}</version>
     </parent>
 
     <artifactId>crispycommons-nms-1-8-R3</artifactId>

@@ -6,7 +6,7 @@
     <parent>
         <groupId>dev.acrispycookie</groupId>
         <artifactId>CrispyCommons</artifactId>
-        <version>1.0.0</version>
+        <version>${revision}</version>
     </parent>
 
     <artifactId>crispycommons-core-spigot</artifactId>
@@ -27,7 +27,7 @@
         <dependency>
             <groupId>dev.acrispycookie</groupId>
             <artifactId>crispycommons-core</artifactId>
-            <version>1.0.0</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.spigotmc</groupId>
