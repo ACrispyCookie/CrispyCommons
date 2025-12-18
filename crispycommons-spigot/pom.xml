@@ -6,7 +6,7 @@
     <parent>
         <groupId>dev.acrispycookie</groupId>
         <artifactId>CrispyCommons</artifactId>
-        <version>${revision}</version>
+        <version>1.0.0</version>
     </parent>
 
     <artifactId>crispycommons-spigot</artifactId>
@@ -15,12 +15,12 @@
         <dependency>
             <groupId>dev.acrispycookie</groupId>
             <artifactId>crispycommons-nms-1-8-R3</artifactId>
-            <version>${revision}</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>dev.acrispycookie</groupId>
             <artifactId>crispycommons-nms-1-20-R3</artifactId>
-            <version>${revision}</version>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 
