@@ -8,12 +8,10 @@
 
 # IntelliJ
 out/
+run/
 
 # Compiled class file
 *.class
-
-# Javadoc directory
-javadoc/
 
 # Log file
 *.log
@@ -101,8 +99,7 @@ $RECYCLE.BIN/
 
 target/
 build/
-gradlew
-gradlew.bat
+javadoc/
 
 pom.xml.tag
 pom.xml.releaseBackup
