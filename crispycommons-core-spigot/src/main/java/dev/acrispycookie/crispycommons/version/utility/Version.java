@@ -3,8 +3,8 @@ package dev.acrispycookie.crispycommons.version.utility;
 import org.jetbrains.annotations.NotNull;
 
 public enum Version {
-    v1_20_R3,
-    v1_8_R3;
+    v1_20_R3, // 1.20.2
+    v1_8_R3; // 1.8.8
 
     public boolean isHigherOrEqual(@NotNull Version compare) {
         return this.ordinal() >= compare.ordinal();
