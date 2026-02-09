@@ -45,7 +45,7 @@ public class TextEntity_1_8_R3 extends TextEntity {
     }
 
     @Override
-    public @NotNull String getName() {
+    public @NotNull String getContent() {
         return armorStand.getCustomName();
     }
 

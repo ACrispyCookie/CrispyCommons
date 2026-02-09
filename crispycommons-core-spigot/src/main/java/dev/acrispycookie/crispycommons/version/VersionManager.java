@@ -32,8 +32,9 @@ public class VersionManager {
             }
             Constructor<?> constructor = versionSpecific.getDeclaredConstructor(parameters);
             return (T) constructor.newInstance(objectArgs);
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | ClassNotFoundException |
-                 NoSuchMethodException e) {
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException("Version-specific implementation of the class " + clazz.getCanonicalName() + " was not found! Contact developer.");
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
