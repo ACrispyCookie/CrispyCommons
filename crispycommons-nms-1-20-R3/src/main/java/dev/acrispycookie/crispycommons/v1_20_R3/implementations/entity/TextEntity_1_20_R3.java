@@ -1,16 +1,21 @@
 package dev.acrispycookie.crispycommons.v1_20_R3.implementations.entity;
 
+import dev.acrispycookie.crispycommons.SpigotCrispyCommons;
 import dev.acrispycookie.crispycommons.implementations.element.type.TextElement;
 import dev.acrispycookie.crispycommons.implementations.entity.TextEntity;
-import dev.acrispycookie.crispycommons.utility.nms.entity.VersionTextDisplay;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Display;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.TextDisplay;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
 
 public class TextEntity_1_20_R3 extends TextEntity {
 
@@ -21,11 +26,13 @@ public class TextEntity_1_20_R3 extends TextEntity {
      * the different implementations based on different versions of Minecraft.
      * </p>
      */
-    private final VersionTextDisplay textDisplay;
+    private final TextDisplay textDisplay;
 
     public TextEntity_1_20_R3(@NotNull TextElement<?> element, @NotNull Location location) {
         super(element);
-        textDisplay = VersionTextDisplay.newInstance(location);
+        textDisplay = (TextDisplay) location.getWorld().spawnEntity(location, EntityType.TEXT_DISPLAY);
+        textDisplay.setVisibleByDefault(false);
+        textDisplay.setBillboard(Display.Billboard.CENTER);
         textDisplay.setGravity(false);
     }
 
@@ -36,12 +43,12 @@ public class TextEntity_1_20_R3 extends TextEntity {
 
     @Override
     public boolean isDead() {
-        return textDisplay.isDestroyed();
+        return textDisplay.isDead();
     }
 
     @Override
     public @NotNull String getContent() {
-        return textDisplay.getContent();
+        return Objects.requireNonNull(textDisplay.getText());
     }
 
     @Override
@@ -50,18 +57,15 @@ public class TextEntity_1_20_R3 extends TextEntity {
         String name = convertToName(elementValue);
 
         if (name.equals(" ")) {
-            textDisplay.destroy(player);
             return;
         }
         textDisplay.setText(name);
-        textDisplay.spawn(player);
-        textDisplay.updateLocation(player);
-        textDisplay.updateMeta(player);
+        player.showEntity(SpigotCrispyCommons.getInstance().getBukkitPlugin(), textDisplay);
     }
 
     @Override
     public void destroy(@NotNull Player player) {
-        textDisplay.destroy(player);
+        player.hideEntity(SpigotCrispyCommons.getInstance().getBukkitPlugin(), textDisplay);
     }
 
     @Override
@@ -69,20 +73,19 @@ public class TextEntity_1_20_R3 extends TextEntity {
         Component text = element.getFromContext(OfflinePlayer.class, player);
         String name = convertToName(text);
 
-        if (name.equals(" ") && !textDisplay.isDestroyed()) {
-            textDisplay.destroy(player);
+        if (name.equals(" ") && !textDisplay.isDead()) {
+            player.hideEntity(SpigotCrispyCommons.getInstance().getBukkitPlugin(), textDisplay);
             return;
-        } else if (!name.equals(" ") && textDisplay.isDestroyed()) {
-            textDisplay.spawn(player);
+        } else if (!name.equals(" ") && textDisplay.isDead()) {
+            player.showEntity(SpigotCrispyCommons.getInstance().getBukkitPlugin(), textDisplay);
         }
 
         textDisplay.setText(name);
-        textDisplay.updateMeta(player);
     }
 
     @Override
     public void updateLocation(@NotNull Player player) {
-        textDisplay.updateLocation(player);
+
     }
 
     @Override
@@ -92,7 +95,7 @@ public class TextEntity_1_20_R3 extends TextEntity {
 
     @Override
     public void setLocation(@NotNull Location location) {
-        textDisplay.setLocation(location);
+        textDisplay.teleport(location);
     }
 
     private String convertToName(Component component) {

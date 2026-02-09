@@ -10,7 +10,6 @@ public interface VersionEntity {
     void updateLocation(@NotNull Player player);
     void updateMeta(@NotNull Player player);
     void setGravity(boolean gravity);
-    void setDead(boolean dead);
     void setLocation(@NotNull Location location);
     @NotNull Location getLocation();
     boolean isDestroyed();
