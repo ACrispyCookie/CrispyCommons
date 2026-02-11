@@ -11,6 +11,9 @@ allprojects {
         mavenCentral()
         maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
         mavenLocal() // Important for finding the legacy Spigot jars
+
+        gradlePluginPortal()
+        maven("https://repo.papermc.io/repository/maven-public/")
     }
 }
 

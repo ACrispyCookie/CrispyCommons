@@ -3,6 +3,8 @@ package dev.acrispycookie.crispycommons.version.utility;
 import org.jetbrains.annotations.NotNull;
 
 public enum Version {
+    PAPER, // 1.20.5 and later
+    v1_21_R4, // 1.21.5
     v1_20_R3, // 1.20.4
     v1_8_R3; // 1.8.8
 

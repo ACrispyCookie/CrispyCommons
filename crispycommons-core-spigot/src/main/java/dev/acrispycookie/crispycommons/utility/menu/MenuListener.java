@@ -42,6 +42,6 @@ public abstract class MenuListener implements Listener, Versioned {
     }
 
     public static @NotNull MappedVersions getRemapped() {
-        return new MappedVersions(new VersionPair(Version.v1_20_R3, Version.v1_8_R3));
+        return new MappedVersions(new VersionPair(Version.v1_20_R3, Version.v1_8_R3), new VersionPair(Version.PAPER, Version.v1_8_R3));
     }
 }
